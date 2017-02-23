@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/settings_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end" >
+
+            <!-- Infos Tablette -->
+            <TextView
+            android:id="@+id/settings_tablette_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_device_tv"
+            android:textSize="@dimen/general_txt_size"
+            android:textColor="@color/blue"
+            android:layout_margin="@dimen/settings_txtview_margin"/>
+
+            <TextView
+                android:id="@+id/settings_tablette_infos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/general_txt_size"
+                android:textColor="@color/bluedeep"
+                android:layout_marginLeft="@dimen/settings_txtview_margin"
+                android:layout_marginStart="@dimen/settings_txtview_margin"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/settings_hash_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_hash_tv"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/blue"
+                    android:layout_margin="@dimen/settings_txtview_margin"/>
+
+                <TextView
+                    android:id="@+id/settings_hash_infos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/bluedeep"
+                    android:layout_marginLeft="@dimen/settings_txtview_margin"
+                    android:layout_marginStart="@dimen/settings_txtview_margin"/>
+
+            </LinearLayout>
+
+            <!-- Version -->
+            <LinearLayout
+                android:id="@+id/settings_version_layout"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/settings_version_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/settings_version_tv"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/blue"
+                    android:layout_margin="@dimen/settings_txtview_margin"/>
+
+                <TextView
+                    android:id="@+id/settings_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/bluedeep"/>
+
+                <Button
+                    style="@style/TkActionButton"
+                    android:id="@+id/settings_version_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/settings_version_device_btn"
+                    android:textSize="@dimen/tablette_edittxt_size"
+                    android:layout_marginLeft="@dimen/settings_layout_margin_left"
+                    android:layout_marginStart="@dimen/settings_layout_margin_left"
+                    android:padding="@dimen/settings_layout_padding_maj"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- Connexion réseau -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/settings_reseau_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_reseau_tv"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/blue"
+                    android:layout_margin="@dimen/settings_txtview_margin"/>
+
+                <TextView
+                    android:id="@+id/settings_reseau"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/bluedeep"/>
+
+            </LinearLayout>
+
+            <!-- Date de dernière synchronisation -->
+
+            <TextView
+                android:id="@+id/settings_synchro_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_synchro_tv"
+                android:textSize="@dimen/general_txt_size"
+                android:textColor="@color/blue"
+                android:layout_margin="@dimen/settings_txtview_margin"/>
+
+            <TextView
+                android:id="@+id/settings_synchro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/general_txt_size"
+                android:textColor="@color/bluedeep"
+                android:layout_marginLeft="@dimen/settings_txtview_margin"
+                android:layout_marginStart="@dimen/settings_txtview_margin"/>
+
+
+            <!-- Récupération des ws -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/settings_layout_margin_left"
+                android:layout_marginStart="@dimen/settings_layout_margin_left"
+                android:layout_marginBottom="@dimen/settings_layout_margin_bottom">
+
+                <Button
+                    style="@style/TkActionButton"
+                    android:id="@+id/settings_maj_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_maj_btn"
+                    android:textSize="@dimen/general_txt_size"
+                    android:layout_marginLeft="@dimen/settings_layout_margin_left"
+                    android:layout_marginStart="@dimen/settings_layout_margin_left"
+                    android:padding="@dimen/settings_btn_padding"/>
+
+            </LinearLayout>
+
+            <!-- WS Infos -->
+            <LinearLayout
+                android:id="@+id/settings_ws_infos"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/settings_layout_margin_left"
+                android:layout_marginStart="@dimen/settings_layout_margin_left">
+
+                <TextView
+                    android:id="@+id/settings_ws_infos_tv"
+                    android:layout_width="@dimen/settings_colg_ws_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ws_infos_tv"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/blue"
+                    android:layout_marginTop="@dimen/settings_txtview_margin"
+                    android:layout_marginLeft="@dimen/settings_txtview_margin"
+                    android:layout_marginStart="@dimen/settings_txtview_margin"/>
+
+                <FrameLayout
+                    android:layout_width="@dimen/settings_frame_size"
+                    android:layout_height="@dimen/settings_frame_size">
+
+                    <ImageView
+                        android:id="@+id/settings_ws_infos_check_img"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:src="@drawable/check_mark_8_32"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/settings_ws_infos_error_img"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:src="@drawable/x_mark_4_32"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/settings_ws_infos_progressbar"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:padding="@dimen/settings_ws_progressbar_padding"
+                        style="@android:style/Widget.ProgressBar.Small.Inverse"
+                        android:visibility="visible" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/settings_ws_infos_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ws_error"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/redsoft"
+                    android:textStyle="italic"
+                    android:layout_marginTop="@dimen/settings_txtview_margin"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <!-- WS Liste des Utilisateurs -->
+            <LinearLayout
+                android:id="@+id/settings_ws_users"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/settings_layout_margin_left"
+                android:layout_marginStart="@dimen/settings_layout_margin_left">
+
+                <TextView
+                    android:id="@+id/settings_ws_users_tv"
+                    android:layout_width="@dimen/settings_colg_ws_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ws_users_tv"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/blue"
+                    android:layout_marginTop="@dimen/settings_txtview_margin"
+                    android:layout_marginLeft="@dimen/settings_txtview_margin"
+                    android:layout_marginStart="@dimen/settings_txtview_margin"/>
+
+                <FrameLayout
+                    android:layout_width="@dimen/settings_frame_size"
+                    android:layout_height="@dimen/settings_frame_size">
+
+                    <ImageView
+                        android:id="@+id/settings_ws_users_check_img"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:src="@drawable/check_mark_8_32"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/settings_ws_users_error_img"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:src="@drawable/x_mark_4_32"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/settings_ws_users_progressbar"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:padding="@dimen/settings_ws_progressbar_padding"
+                        style="@android:style/Widget.ProgressBar.Small.Inverse"
+                        android:visibility="visible" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/settings_ws_users_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ws_error"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/redsoft"
+                    android:textStyle="italic"
+                    android:layout_marginTop="@dimen/settings_txtview_margin"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <!-- WS Liste des Modules -->
+            <LinearLayout
+                android:id="@+id/settings_ws_modules"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/settings_layout_margin_left"
+                android:layout_marginStart="@dimen/settings_layout_margin_left">
+
+                <TextView
+                    android:id="@+id/settings_ws_modules_tv"
+                    android:layout_width="@dimen/settings_colg_ws_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ws_modules_tv"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/blue"
+                    android:layout_marginTop="@dimen/settings_txtview_margin"
+                    android:layout_marginLeft="@dimen/settings_txtview_margin"
+                    android:layout_marginStart="@dimen/settings_txtview_margin"/>
+
+                <FrameLayout
+                    android:layout_width="@dimen/settings_frame_size"
+                    android:layout_height="@dimen/settings_frame_size">
+
+                    <ImageView
+                        android:id="@+id/settings_ws_modules_check_img"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:src="@drawable/check_mark_8_32"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/settings_ws_modules_error_img"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:src="@drawable/x_mark_4_32"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/settings_ws_modules_progressbar"
+                        android:layout_width="@dimen/settings_ws_img_size"
+                        android:layout_height="@dimen/settings_ws_img_size"
+                        android:padding="@dimen/settings_ws_progressbar_padding"
+                        style="@android:style/Widget.ProgressBar.Small.Inverse"
+                        android:visibility="visible" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/settings_ws_modules_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_ws_error"
+                    android:textSize="@dimen/general_txt_size"
+                    android:textColor="@color/redsoft"
+                    android:layout_marginTop="@dimen/settings_txtview_margin"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

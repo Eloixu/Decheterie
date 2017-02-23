@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Paramètre isProd: true si on est en Prod, false si on est en Dev -->
+    <bool name="is_prod">true</bool>
+    <string name="ws_version_directory">v3</string>
+    <string name="login">op_demo</string>
+    <string name="mdp">opdemo</string>
+
+    <!-- Paramètres base de données interne -->
+    <string name="database_name">formulaires.db</string>
+    <integer name="database_version">1</integer>
+
+    <!-- Valeurs appli -->
+    <integer name="query_carac_max">7780</integer>
+    <integer name="query_carac_max_test">1780</integer>
+
+    <!--Modules-->
+    <integer name="module_intervention_bac">1</integer>
+    <integer name="module_intervention_pav">2</integer>
+    <integer name="module_formulaires_perso">3</integer>
+
+    <!--Modules-->
+    <integer name="formulaire_parent_menu_generate_id">986400</integer>
+    <integer name="formulaire_menu_generate_id">986800</integer>
+
+    <!--Statur releve-->
+    <integer name="statut_en_cours_edition">1</integer>
+    <integer name="statut_en_attente_envoi">2</integer>
+    <integer name="statut_envoi_ok">3</integer>
+    <integer name="statut_envoi_ko">4</integer>
+
+    <!--Formulaire-->
+    <integer name="formulaire_max_length">1000</integer>
+
+</resources>

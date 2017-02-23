@@ -1,0 +1,79 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+    </style>
+
+    <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/bluedeep</item>
+        <item name="android:height">@dimen/actionbar_height</item>
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+    </style>
+
+    <style name="TkEditText" parent="@android:style/Widget.EditText">
+        <item name="android:textColorHighlight">@color/orange</item>
+        <item name="android:textColorHint">@color/blue</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/selector_editbox</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:height">45dp</item>
+    </style>
+
+    <style name="TkActionButton" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:textSize">@dimen/buttonTextSize</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/trackoe_btn_background_drawable_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TkActionButtonOrange" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:textSize">@dimen/buttonTextSize</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/trackoe_btn_background_drawable_orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TkActionButtonOrangeCreerFormulaire" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:textSize">@dimen/buttonTextSize</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/rmf_style_btn_padding</item>
+        <item name="android:background">@drawable/trackoe_btn_background_drawable_orange</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TkActionButtonBlueListeReleve" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:textSize">@dimen/buttonTextSize</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/rmf_style_btn_padding</item>
+        <item name="android:background">@drawable/trackoe_btn_background_drawable_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TkActionButton_grey" parent="@android:style/Widget.Holo.Light.Button">
+        <item name="android:textSize">@dimen/buttonTextSize</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/trackoe_btn_background_drawable</item>
+        <item name="android:textColor">@color/bluedeep</item>
+    </style>
+
+    <style name="TkRadioButtonStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/trackoe_custom_btn_radio</item>
+    </style>
+
+    <style name="TkCheckboxStyle" parent="@android:style/Theme">
+        <item name="colorAccent">@android:color/holo_green_dark</item>
+    </style>
+
+</resources>

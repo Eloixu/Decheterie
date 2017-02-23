@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/interGrey" >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+            style="@style/TkActionButtonOrangeCreerFormulaire"
+            android:id="@+id/mrf_creer_releve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mrf_creer_releve"
+            android:textSize="@dimen/mrf_titre_txt_size"
+            android:drawableStart="@drawable/add_releve"
+            android:drawablePadding="@dimen/mrf_btn_creer_drawable_padding"
+            android:paddingStart="@dimen/mrf_btn_creer_padding"
+            android:paddingEnd="@dimen/mrf_btn_creer_padding"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/mrf_btn_creer_padding"/>
+
+        <Button
+            style="@style/TkActionButtonBlueListeReleve"
+            android:id="@+id/mrf_liste_releves"
+            android:layout_below="@id/mrf_creer_releve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mrf_liste_releve"
+            android:textSize="@dimen/mrf_titre_txt_size"
+            android:drawableTop="@drawable/folder_releve"
+            android:drawablePadding="@dimen/mrf_btn_creer_drawable_padding"
+            android:paddingStart="@dimen/mrf_btn_creer_padding"
+            android:paddingEnd="@dimen/mrf_btn_creer_padding"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/mrf_btn_creer_padding"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/mrf_layout_en_cours_margin"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/mrf_title_releve_en_cours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bluedeep"
+            android:text="@string/mrf_releve_en_cours"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/mrf_titre_txt_size"
+            android:padding="@dimen/mrf_itle_en_cours_padding" />
+
+        <ListView
+            android:id="@+id/mrf_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mrf_title_releve_en_cours"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/mrf_formulaire_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mrf_title_releve_en_cours"
+            android:text="@string/mrf_aucun"
+            android:gravity="center"
+            android:padding="@dimen/mrf_layout_en_cours_margin"
+            android:textSize="@dimen/general_txt_size"
+            android:textColor="@color/bluedeep"
+            android:background="@drawable/border_shadow"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

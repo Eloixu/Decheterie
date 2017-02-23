@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actionbarHome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bluedeep" >
+    
+    <TextView 
+        android:id="@+id/actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textStyle="bold"
+        android:textSize="@dimen/actionbar_txt_size"
+        android:layout_margin="@dimen/actionbar_margin_item"/>
+    
+    <LinearLayout 
+        android:id="@+id/actionbar_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="@dimen/actionbar_margin_title"
+        android:layout_marginStart="@dimen/actionbar_margin_title"
+        android:layout_toLeftOf="@id/actionbar_title"
+        android:layout_toStartOf="@id/actionbar_title"
+        android:gravity="start|center_vertical">
+           
+        <ImageView 
+	        android:id="@+id/actionbar_left_arrow"
+	        android:layout_width="@dimen/actionbar_img_size"
+	        android:layout_height="@dimen/actionbar_img_size"
+	        android:adjustViewBounds="true"
+	        android:src="@drawable/little_arrow"
+	        android:tint="@color/white"
+	        android:layout_gravity="center_vertical"
+	        android:visibility="gone"/>
+        
+        <TextView 
+		      android:id="@+id/actionbar_left_txt"
+		      android:layout_width="wrap_content"
+		      android:layout_height="wrap_content"
+		      android:textColor="@color/white"
+		      android:textStyle="bold"
+		      android:textSize="@dimen/actionbar_txt_size"
+		      android:layout_marginLeft="@dimen/actionbar_margin_item"
+		      android:layout_marginStart="@dimen/actionbar_margin_item"
+		      android:singleLine="true"
+		      android:ellipsize="end"/>
+           
+       </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/actionbar_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/actionbar_margin_item"
+        android:layout_marginEnd="@dimen/actionbar_margin_item"
+        android:layout_toRightOf="@id/actionbar_title"
+        android:layout_toEndOf="@id/actionbar_title"
+        android:gravity="end|center_vertical">
+
+        <TextView
+            android:id="@+id/actionbar_right_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="@dimen/actionbar_txt_size"/>
+
+        <ImageView
+            android:id="@+id/actionbar_right_toolbox"
+            android:layout_width="@dimen/actionbar_img_size"
+            android:layout_height="@dimen/actionbar_img_size"
+            android:adjustViewBounds="true"
+            android:src="@drawable/toolbox"
+            android:tint="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/actionbar_margin_item"
+            android:layout_marginStart="@dimen/actionbar_margin_item"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/actionbar_right_camera"
+            android:layout_width="@dimen/actionbar_img_size"
+            android:layout_height="@dimen/actionbar_img_size"
+            android:adjustViewBounds="true"
+            android:src="@drawable/camera"
+            android:tint="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/actionbar_margin_item"
+            android:layout_marginStart="@dimen/actionbar_margin_item"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+    
+</RelativeLayout>

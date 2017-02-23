@@ -1,0 +1,202 @@
+<resources>
+
+    <!--Application-->
+    <string name="app_name">Trackoe Déchèterie</string>
+    <string name="action_settings">Settings</string>
+    <string name="settings_date_format">cccc dd MMMM yyyy à HH:mm</string>
+    <string name="intervention_date_format_out">cccc dd MMMM yyyy</string>
+    <string name="intervention_date_format_in">yyyy-MM-dd</string>
+    <string name="email_date_format">dd/MM/yyyy</string>
+    <string name="db_date_format">yyMMddHHmmss</string>
+    <string name="intervention_reparation">Réparation de BAC</string>
+    <string name="intervention_reparation_pav">Réparation de Colonne</string>
+    <string name="intervention_reparation_title">BAC à Réparer</string>
+    <string name="intervention_reparation_pav_title">Colonne à Réparer</string>
+    <string name="intervention_changement">Changement de BAC</string>
+    <string name="intervention_changement_pav">Changement de Colonne</string>
+    <string name="intervention_distribution">Distribution de BAC</string>
+    <string name="intervention_distribution_pav">Pose de Colonne</string>
+    <string name="intervention_distribution_title">BAC à Distribuer</string>
+    <string name="intervention_distribution_pav_title">Colonne à Distribuer</string>
+    <string name="intervention_enlevement">Enlèvement de BAC</string>
+    <string name="intervention_enlevement_title">BAC à Retirer</string>
+    <string name="intervention_enlevement_pav">Enlèvement de Colonne</string>
+    <string name="intervention_enlevement_pav_title">Colonne à Retirer</string>
+    <string name="intervention_maintenance_pav">Maintenance de Colonne</string>
+    <string name="intervention_maintenance_pav_title">Colonne à Maintenir</string>
+    <string name="intervention_lavage_pav">Lavage de Colonne</string>
+    <string name="intervention_lavage_pav_title">Colonne à Laver</string>
+    <string name="dialog_recapitulatif_title">Récapitulatif</string>
+    <string name="dialog_changement_title">Changement de Bac</string>
+    <string name="dialog_changement_text">Êtes vous sûr de vouloir changer ce bac ?</string>
+    <string name="dialog_maj_title">Installation</string>
+    <string name="dialog_maj_dispo_title">Mise à jour de l\'application</string>
+    <string name="dialog_maj_dispo_mess">Une nouvelle version de l\'application a été téléchargée.\nVoulez vous l\'installer maintenant ?</string>
+    <string name="dialog_maj_dispo_desc">\n\n Nouvelles fonctionnalités : \n %1$s</string>
+    <string name="dialog_maj_dispo_ko">Pas maintenant</string>
+    <string name="dialog_maj_dispo_ok">Installer</string>
+    <string name="dialog_maj_mess">Il reste des relevés non synchronisé avec le serveur sur votre tablette.\n Veuillez effectuer cette synchronisation via l\'écran des paramètres avant de pouvoir mettre à jour l\'application</string>
+
+    <!--  Error message -->
+    <string name="error_btn_ok">OK</string>
+    <string name="error_btn_annuler">Annuler</string>
+    <string name="error_btn_mail">Envoyer un e-mail à Trackoe</string>
+    <string name="error_title_information">Information</string>
+    <string name="error_identifiant">Identifiant incorrect\n\n Si l\'erreur persiste veuillez synchroniser les données avec le serveur</string>
+    <string name="error_mdp">Mot de passe incorrect</string>
+    <string name="error_no_internet">Veuillez vous connectez à internet</string>
+    <string name="error_num_tablette_empty">Numéro de tablette vide</string>
+    <string name="error_num_tablette_too_long">Le numéro de tablette est trop long (45 caractères max)</string>
+    <string name="error_gms">Une erreur est survenue lors du chargement de google maps</string>
+    <string name="error_intervention">Intervention: %1$s \n• ID: %2$s\n• Complément: %3$s \n• Date traitement: %4$s \n• Message d\'erreur: %5$s \n\n</string>
+    <string name="error_puce_too_long">Le numéro de puce est trop long (45 caractères max)</string>
+    <string name="error_cuve_too_long">Le numéro de cuve est trop long (45 caractères max)</string>
+    <string name="error_couleur_flux_empty">Le champ "couleur flux" doit être renseigné</string>
+    <string name="error_couleur_flux_too_long">Le champ "couleur de flux" est trop long (45 caractères max)</string>
+    <string name="error_identifiant_too_long">Le champ "identifiant" est trop long (45 caractères max)</string>
+    <string name="error_code_barre_too_long">Le code barre est trop long (45 caractères max)</string>
+    <string name="error_commentaires_too_long">Le commentaire est trop long (255 caractères max)</string>
+    <string name="error_no_intervention">Aucune intervention à afficher</string>
+    <string name="error_formulaire_incorrect">Une erreur est survenue lors du chargement du Formulaire</string>
+    <string name="error_quit_application">Êtes vous sur de vouloir quitter l\'application?</string>
+
+
+    <!--Action Bar-->
+    <string name="ac_suivant">Suivant</string>
+    <string name="ac_retour">Retour</string>
+    <string name="ac_ok">Ok</string>
+    <string name="ac_parametres">Paramètres</string>
+    <string name="ac_photos">Photos</string>
+    <string name="ac_connexion">Connexion</string>
+    <string name="ac_connexion_title">Trackoe : Connexion</string>
+    <string name="ac_connexion_title_5p">Connexion</string>
+    <string name="ac_deconnexion">Déconnexion</string>
+    <string name="ac_modules">Trackoe : Modules</string>
+    <string name="ac_modules_5p">Modules</string>
+    <string name="ac_formulaires">Trackoe : Formulaires</string>
+    <string name="ac_formulaires_5p">Formulaires</string>
+    <string name="ac_liste_inter_a_traiter">Trackoe : Liste des interventions à réaliser</string>
+    <string name="ac_liste_inter_realises">Trackoe : Liste des interventions réalisées</string>
+    <string name="ac_liste_inter_detail">Trackoe : Détail de l\'intervention</string>
+    <string name="ac_liste_inter_choix_pieces">Trackoe : Choix des pieces</string>
+    <string name="ac_liste_inter_synthese">Trackoe : Synthèse de l\'intervention</string>
+    <string name="ac_liste_inter_caractéristiques">Trackoe : Liste des Caractéristiques</string>
+    <string name="ac_liste_inter_detail_recap_bac">Trackoe : Informations sur le bac</string>
+    <string name="ac_liste_inter_detail_recap_col">Trackoe : Information sur la colonne</string>
+    <string name="ac_liste_inter_enlevement">Trackoe : Enlèvement de bac</string>
+    <string name="ac_liste_inter_enlevement_pav">Trackoe : Enlèvement de Colonne</string>
+    <string name="ac_liste_inter_distribution">Trackoe : Distribution de bac</string>
+    <string name="ac_liste_inter_distribution_pav">Trackoe : Pose de colonne</string>
+    <string name="ac_liste_inter_pav_lavage">Trackoe : Lavage de Colonne</string>
+    <string name="ac_liste_pav_maintenance">Trackoe : Maintenance de Colonne</string>
+
+    <!--Ecran Tablette-->
+    <string name="tablette_desc">Veuillez entrer le numéro de la tablette</string>
+    <string name="tablette_device_desc">Veuillez entrer le numéro du device</string>
+    <string name="tablette_hint">Numéro</string>
+    <string name="tablette_btn">OK</string>
+
+    <!--Ecran Tablette-->
+    <string name="login_identifiant">Identifiant</string>
+    <string name="login_password">Mot de passe</string>
+    <string name="login_btn">Valider</string>
+
+    <!--Ecran Settings-->
+    <string name="settings_env_txt">Environnement WS :</string>
+    <string name="settings_env_prod">Prod :</string>
+    <string name="settings_tablette_tv">Tablette :</string>
+    <string name="settings_hash_tv">Code THD :</string>
+    <string name="settings_device_tv">Téléphone :</string>
+    <string name="settings_tablette_format"> %1$s / %2$s - %3$s</string>
+    <string name="settings_version_tv">Version application :</string>
+    <string name="settings_reseau_tv">Connexion réseau :</string>
+    <string name="settings_synchro_tv">Dernière synchronisation :</string>
+    <string name="settings_recup_tv">Récupérations des données du serveur :</string>
+    <string name="settings_ws_infos_tv">• Infos tablette :</string>
+    <string name="settings_ws_users_tv">• Liste des utilisateurs :</string>
+    <string name="settings_ws_modules_tv">• Modules :</string>
+    <string name="settings_ws_form_tv">• Informations BACs :</string>
+    <string name="settings_ws_form_pav_tv">• Informations PAVs :</string>
+    <string name="settings_ws_interventions_tv">• Réception interventions:</string>
+    <string name="settings_ws_inter_send_tv">• Envoi des interventions :</string>
+    <string name="settings_ws_error"><u>Détails</u></string>
+    <string name="settings_version_btn">Installer la dernière version de l\'application</string>
+    <string name="settings_version_device_btn">Installer la dernière version</string>
+    <string name="settings_maj_btn">Forcer la synchronisation serveur</string>
+    <string name="settings_reseau_ok">OK</string>
+    <string name="settings_reseau_nok">Aucune connexion réseau</string>
+
+    <!--Ecran Tablette-->
+    <string name="modules_inter_bac">Intervention BAC</string>
+    <string name="modules_inter_pav">Intervention PAV</string>
+    <string name="modules_aucun">Aucun module n\'a été chargé pour cette tablette</string>
+    <string name="formulaires_aucun">Aucun formulaire n\'a été chargé pour cette tablette</string>
+
+    <!--Ecran menu interventions-->
+    <string name="inter_m_btn_todo">Interventions à réaliser (%1$s)</string>
+    <string name="inter_m_btn_done">Interventions réalisées (%1$s)</string>
+
+    <!--Ecran liste des interventions-->
+    <string name="inter_btn_navigation">Itinéraire</string>
+    <string name="inter_btn_detail">Détail de l\'intervention</string>
+    <string name="inter_type">Type :</string>
+    <string name="inter_complement">Complément :</string>
+    <string name="inter_client">Client :</string>
+    <string name="inter_titre_infos">Information sur l\'intervention :</string>
+    <string name="inter_titre_proprietaire">Information sur le propriétaire du bac :</string>
+    <string name="inter_habitat_nom">Habitat : %1$s</string>
+    <string name="inter_contact">Contact :</string>
+    <string name="inter_adresse">Adresse :</string>
+    <string name="inter_id">ID : %1$s</string>
+    <string name="inter_detail_raison">Raison :</string>
+    <string name="inter_detail_observations">Observations :</string>
+    <string name="inter_detail_id_pav">ID PAV :</string>
+    <string name="inter_detail_type_cuve">Type de cuve :</string>
+    <string name="inter_detail_type_bac">Type de bac :</string>
+    <string name="inter_detail_caracteristiques">Caractéristiques :</string>
+    <string name="inter_detail_type_colonne">Type de Colonne :</string>
+    <string name="inter_detail_flux">Flux :</string>
+    <string name="inter_detail_couleur_flux">Couleur Flux :</string>
+    <string name="inter_detail_delimiteur">•</string>
+    <string name="inter_detail_volume">• Volume :</string>
+    <string name="inter_detail_marque">• Marque :</string>
+    <string name="inter_detail_identifiants">Identifiants \u0020\u0020:\u0020</string>
+    <string name="inter_detail_cuve">• Cuve :</string>
+    <string name="inter_detail_code_barre">• Code Barre :</string>
+    <string name="inter_detail_puce">• Puce :</string>
+    <string name="inter_detail_traiter_intervention">Traiter l\'intervention</string>
+    <string name="inter_detail_changement_bac">Changement de bac</string>
+    <string name="inter_detail_invalider_intervention">Stopper l\'intervention</string>
+    <string name="inter_detail_modifier_bac">Modifier les informations du bac</string>
+    <string name="inter_detail_modifier_colonne">Modifier les informations de la colonne</string>
+    <string name="inter_detail_intervention_realisee">Intervention réalisée</string>
+    <string name="inter_detail_id_colonne">\u0020\u0020\u0020-\u0020\u0020 ID Colonne : %1$s</string>
+    <string name="inter_detail_bac">BAC</string>
+    <string name="inter_pav_nom">• Nom :</string>
+    <string name="inter_pav_caracteristique">• Caractéristique :</string>
+    <string name="inter_pav_marque">• Marque :</string>
+    <string name="inter_pav_reference">• Référence :</string>
+    <string name="inter_pav_flux">• Flux :</string>
+    <string name="inter_pav_carac">• Caractéristiques :</string>
+    <string name="inter_pav_couleur_flux">• Couleur Flux :</string>
+    <string name="inter_pav_volume">• Volume :</string>
+    <string name="inter_pav_prehention">• Préhention :</string>
+    <string name="inter_pav_complement">• Complément :</string>
+
+    <string name="inter_liste_date_programmation">Date de programmation :\u0020</string>
+    <string name="inter_liste_date_realisation">Date de réalisation :\u0020</string>
+
+    <string name="inter_commentaires">Commentaires</string>
+    <string name="inter_commentaires_ajout">Cliquez ici pour ajouter un commentaire</string>
+    <string name="inter_commentaires_ajout_go">Ajouter</string>
+
+    <string name="inter_stopper_title">Arrêter l\'intervention</string>
+    <string name="inter_stopper_desc">Êtes vous sur de vouloir arrêter l\'intervention ? \nCette action sera définitive, et l\'intervention ne sera pas considérée comme étant réalisée.</string>
+    <string name="inter_stopper_comm">Ajouter un commentaire</string>
+    <string name="inter_stopper_photos">Ajouter une / des photo(s)</string>
+    <string name="inter_stopper_valider">Valider</string>
+    <string name="inter_stopper_annuler">Annuler</string>
+
+
+
+</resources>

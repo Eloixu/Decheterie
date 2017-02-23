@@ -1,0 +1,222 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!--General-->
+    <dimen name="general_txt_size">20sp</dimen>
+    <dimen name="formulaire_pav_txt_size">18sp</dimen>
+
+    <!-- ActionBar -->
+    <dimen name="actionbar_txt_size">16sp</dimen>
+    <dimen name="actionbar_margin_item">4dp</dimen>
+    <dimen name="actionbar_img_size">20dp</dimen>
+    <dimen name="actionbar_margin_title">5dp</dimen>
+    <dimen name="actionbar_height">44dp</dimen>
+
+    <!-- Alert Dialog -->
+    <dimen name="error_width">340dp</dimen>
+
+    <!-- Trackoe -->
+    <dimen name="textViewFontSize">22.0sp</dimen>
+    <dimen name="buttonTextSize">19.0sp</dimen>
+    <dimen name="dropdownListPreferredItemHeight">55dp</dimen>
+
+    <!--Ecran Tablette-->
+    <dimen name="tablette_edittxt_size">20sp</dimen>
+    <dimen name="tablette_edittxt_margin">20dp</dimen>
+    <dimen name="tablette_txtview_margin">8dp</dimen>
+    <dimen name="tablette_edittxt_width">140dp</dimen>
+    <dimen name="tablette_progressbar_size">20dp</dimen>
+    <dimen name="tablette_progressbar_margin">20dp</dimen>
+    <dimen name="tablette_btn_width">90dp</dimen>
+    <dimen name="tablette_btn_height">64dp</dimen>
+    <dimen name="tablette_img_width">200dp</dimen>
+    <dimen name="tablette_img_margin">76dp</dimen>
+    <dimen name="tablette_form_marginTop">80dp</dimen>
+    <dimen name="tablette_form_margin">32dp</dimen>
+    <dimen name="tablette_form_margin_server">4dp</dimen>
+
+    <!--Ecran Settings-->
+    <dimen name="settings_colg_width">270dp</dimen>
+    <dimen name="settings_colg_ws_width">250dp</dimen>
+    <dimen name="settings_txtview_margin">10dp</dimen>
+    <dimen name="settings_txtview_margin_env">20dp</dimen>
+    <dimen name="settings_layout_margin_left">4dp</dimen>
+    <dimen name="settings_layout_padding_maj">16dp</dimen>
+    <dimen name="settings_maj_height">70dp</dimen>
+    <dimen name="settings_layout_margin_bottom">8dp</dimen>
+    <dimen name="settings_frame_size">50dp</dimen>
+    <dimen name="settings_ws_img_size">40dp</dimen>
+    <dimen name="settings_ws_progressbar_padding">4dp</dimen>
+    <dimen name="settings_btn_padding">30dp</dimen>
+
+    <!--Ecran Login-->
+    <dimen name="login_tv_size">160dp</dimen>
+    <dimen name="login_edittxt_size">230dp</dimen>
+    <dimen name="login_txtview_margin">10dp</dimen>
+    <dimen name="login_edittxt_margin">16dp</dimen>
+    <dimen name="login_btn_width">130dp</dimen>
+    <dimen name="login_btn_height">68dp</dimen>
+    <dimen name="login_form_marginTop">80dp</dimen>
+    <dimen name="login_txt_size">18sp</dimen>
+
+    <!--Ecran Modules-->
+    <dimen name="modules_title_margin">20dp</dimen>
+    <dimen name="modules_header_height">70dp</dimen>
+    <dimen name="modules_body_height">100dp</dimen>
+    <dimen name="modules_body_width">180dp</dimen>
+    <dimen name="modules_elem_margin">15dp</dimen>
+    <dimen name="modules_img_neg_margin">-8dp</dimen>
+    <dimen name="modules_img_left_margin">4dp</dimen>
+    <dimen name="modules_txt_size">18sp</dimen>
+    <dimen name="formulaire_txt_size">18sp</dimen>
+    <dimen name="formulaire_arrow_size">48dp</dimen>
+    <dimen name="formulaire_arrow_margin">10dp</dimen>
+    <dimen name="modules_image_size">40dp</dimen>
+    <dimen name="modules_image_bac_size">52dp</dimen>
+
+    <!--Ecran Menu interventions-->
+    <dimen name="inter_m_btn_width">380dp</dimen>
+    <dimen name="inter_m_btn_height">80dp</dimen>
+    <dimen name="inter_m_mayout_padding">40dp</dimen>
+
+    <!--Ecran Liste interventions-->
+    <dimen name="inter_colg_width">250dp</dimen>
+    <dimen name="inter_cold_width">320dp</dimen>
+    <dimen name="inter_btn_width">120dp</dimen>
+    <dimen name="inter_btn_height">64dp</dimen>
+    <dimen name="inter_tv_margin">10dp</dimen>
+    <dimen name="inter_txt_size">17.0sp</dimen>
+    <dimen name="inter_date_size">20.0sp</dimen>
+    <dimen name="inter_img_margin">20dp</dimen>
+    <dimen name="inter_distrib_margin">44dp</dimen>
+    <dimen name="inter_distrib_margin_changement">20dp</dimen>
+    <dimen name="inter_pav_lay_width">600dp</dimen>
+    <dimen name="inter_pav_lay_width_mid">290dp</dimen>
+
+    <!--Ecran Détail intervention-->
+    <dimen name="inter_detail_btn_width">350dp</dimen>
+    <dimen name="inter_detail_btn_changement_width">250dp</dimen>
+    <dimen name="inter_detail_btn_height">80dp</dimen>
+    <dimen name="inter_detail_btn_changement_height">74dp</dimen>
+    <dimen name="inter_detail_reparation_tv_size">110dp</dimen>
+    <dimen name="inter_detail_type_bar_height">40dp</dimen>
+    <dimen name="inter_detail_reparation_right_margin">140dp</dimen>
+    <dimen name="inter_detail_reparation_margin20">20dp</dimen>
+    <dimen name="inter_detail_type_lay_height">100dp</dimen>
+    <dimen name="inter_lay_identifiants">160dp</dimen>
+
+    <!--Ecran Choix pieces-->
+    <dimen name="piece_tv_margin">6dp</dimen>
+    <dimen name="reparation_btn_width">380dp</dimen>
+    <dimen name="reparation_btn_height">80dp</dimen>
+    <dimen name="reparation_spinner_padding">10dp</dimen>
+    <dimen name="reparation_spinner_size">170dp</dimen>
+    <dimen name="piece_pm_img_size">24dp</dimen>
+
+    <!--Ecran Choix Nbpieces-->
+    <dimen name="nbpiece_title_padding">20dp</dimen>
+    <dimen name="nbpiece_btn_width">350dp</dimen>
+    <dimen name="nbpiece_btn_height">80dp</dimen>
+    <dimen name="nb_pieces_desc_txt_size">18.0sp</dimen>
+
+    <!--Ecran Recapitulatif d'une intervention-->
+    <dimen name="recap_list_margin_sides">160dp</dimen>
+    <dimen name="recap_title_margin">20dp</dimen>
+    <dimen name="recap_title_txt_size">28.0sp</dimen>
+
+    <!--Ecran intervention Enlèvement-->
+    <dimen name="enlevement_radio_margin">20dp</dimen>
+    <dimen name="enlevement_radio_padding">20dp</dimen>
+    <dimen name="enlevement_title_size">26.0sp</dimen>
+    <dimen name="enlevement_title_margin">30dp</dimen>
+    <dimen name="enlevement_radio_size">20dp</dimen>
+
+    <!--Ecran intervention Distribution-->
+    <dimen name="distrib_spinner_size">250dp</dimen>
+    <dimen name="distrib_elem_margin">10dp</dimen>
+    <dimen name="distrib_elem_margin_top">30dp</dimen>
+    <dimen name="distrib_txt_size">20sp</dimen>
+    <dimen name="distrib_tv_size">120dp</dimen>
+    <dimen name="distrib_edittxt_size">200dp</dimen>
+    <dimen name="distrib_btn_width">380dp</dimen>
+    <dimen name="distrib_btn_height">80dp</dimen>
+    <dimen name="distrib_pav_edittxt_size">500dp</dimen>
+    <dimen name="distrib_pav_edittxt_height">50dp</dimen>
+    <dimen name="distrib_elem_pav_margin_top">50dp</dimen>
+    <dimen name="distrib_elem_margin_top_pav">30dp</dimen>
+
+    <!--Ecran intervention Lavage - Maintenance-->
+    <dimen name="lav_title_size">26sp</dimen>
+    <dimen name="lav_elem_margin">80dp</dimen>
+
+    <dimen name="commentaires_clic_width">280dp</dimen>
+    <dimen name="commentaires_clic_paddingTop">18dp</dimen>
+
+    <dimen name="commentaires_width">400dp</dimen>
+    <dimen name="commentaires_height">90dp</dimen>
+    <dimen name="commentaires_margin">20dp</dimen>
+
+
+    <dimen name="commentaires_lay_margin">16dp</dimen>
+    <dimen name="commentaires_lay_margin_changement">20dp</dimen>
+
+    <!--Formulaires-->
+    <dimen name="form_titre1_textSize">24sp</dimen>
+    <dimen name="form_titre2_textSize">20sp</dimen>
+    <dimen name="form_titre_desc_textSize">18sp</dimen>
+    <dimen name="form_texte_textSize">20sp</dimen>
+    <dimen name="form_elem_margin">20dp</dimen>
+    <dimen name="form_boucle_margin">10dp</dimen>
+    <dimen name="form_elem_marginTop">10dp</dimen>
+    <dimen name="form_code_postal_size">80dp</dimen>
+    <dimen name="form_ville_size">240dp</dimen>
+    <dimen name="form_edit_text_size_mid">640dp</dimen>
+    <dimen name="form_label_width">230dp</dimen>
+    <dimen name="form_edittext_width">380dp</dimen>
+    <dimen name="form_edittext_textarea_width">380dp</dimen>
+
+    <dimen name="form_select_autre_width">260dp</dimen>
+    <dimen name="form_seekbar_margin">60dp</dimen>
+
+    <dimen name="form_gps_width">250dp</dimen>
+    <dimen name="form_gps_height">60dp</dimen>
+    <dimen name="form_boucle_titre">20sp</dimen>
+    <dimen name="form_boucle_chiffre">35sp</dimen>
+
+    <dimen name="form_radio_margin">6dp</dimen>
+    <dimen name="form_first_page_desc">300dp</dimen>
+    <dimen name="form_label_filtre">300dp</dimen>
+    <dimen name="form_filtre_edittxt_size">200dp</dimen>
+    <dimen name="form_no_pav_margin">30dp</dimen>
+
+    <dimen name="form_radio_text_size">8sp</dimen>
+    <dimen name="form_radio_autre_text_size">17sp</dimen>
+
+    <dimen name="form_button_margin">6dp</dimen>
+    <dimen name="form_dialog_lay_size">800dp</dimen>
+
+    <dimen name="photo_edittxt_size">340dp</dimen>
+    <dimen name="photo_delete_margin_left">8dp</dimen>
+
+    <dimen name="releve_list_elem_margin">4dp</dimen>
+
+    <dimen name="form_gps_image_size">40dp</dimen>
+
+    <dimen name="form_adresse_label_size">100dp</dimen>
+
+    <!--Formulaires reprise-->
+    <dimen name="mrf_titre_txt_size">20sp</dimen>
+    <dimen name="mrf_btn_creer_drawable_padding">16dp</dimen>
+    <dimen name="mrf_btn_creer_padding">40dp</dimen>
+    <dimen name="mrf_layout_en_cours_margin">16dp</dimen>
+    <dimen name="mrf_itle_en_cours_padding">8dp</dimen>
+    <dimen name="mrf_txt_size_en_cours">16sp</dimen>
+    <dimen name="mrf_margin_listview">12dp</dimen>
+    <dimen name="rmf_style_btn_padding">20dp</dimen>
+    <dimen name="mrf_title2_size">16sp</dimen>
+
+
+</resources>

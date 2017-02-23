@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Général-->
+    <color name="grey">#BCBCBC</color>
+    <color name="greydark">#585858</color>
+
+    <!-- Trackoe -->
+    <color name="blue">#ff0099cc</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="list_header_text">#ff86c442</color>
+    <color name="orange">#fffba01c</color>
+    <color name="pressed_tk">#cc0099cc</color>
+    <color name="actionBarUnderline">#ffb7d5ef</color>
+    <color name="actionBar">#ff0099cc</color>
+    <color name="red">#ffff0000</color>
+    <color name="redsoft">#ff5757</color>
+    <color name="redphoto">#ff8787</color>
+    <color name="bluedeep">#ff17457a</color>
+    <color name="ac_orange">#FF9F40</color>
+
+    <!--Ecran tablette-->
+    <color name="tablette_hint">#9A9A9A</color>
+
+    <!--Ecran liste des interventions-->
+    <color name="interGrey">#F5F5F5</color>
+
+</resources>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tablette_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_fond" >
+
+    <LinearLayout
+        android:id="@+id/tablette_form_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/tablette_form_marginTop"
+        android:background="@drawable/bbox">
+
+        <TextView
+            android:id="@+id/tablette_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tablette_desc"
+            android:textSize="@dimen/general_txt_size"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/tablette_txtview_margin" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/tablette_edittxt_margin">
+
+            <EditText
+                style="@style/TkEditText"
+                android:id="@+id/tablette_edittxt"
+                android:layout_width="@dimen/tablette_edittxt_width"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/tablette_edittxt_margin"
+                android:layout_marginRight="@dimen/tablette_edittxt_margin"
+                android:singleLine="true"
+                android:hint="@string/tablette_hint" />
+
+            <Button
+                style="@style/TkActionButton"
+                android:id="@+id/tablette_btn"
+                android:layout_width="@dimen/tablette_btn_width"
+                android:layout_height="@dimen/tablette_btn_height"
+                android:text="@string/tablette_btn"
+                android:textSize="@dimen/tablette_edittxt_size"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/tablette_progressbar"
+        android:layout_width="@dimen/tablette_progressbar_size"
+        android:layout_height="@dimen/tablette_progressbar_size"
+        android:layout_below="@+id/tablette_form_layout"
+        style="@android:style/Widget.ProgressBar.Small.Inverse"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/tablette_progressbar_margin"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="@dimen/tablette_img_width"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_trackoe"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="@dimen/tablette_img_margin"
+        android:layout_marginEnd="@dimen/tablette_img_margin"
+        android:layout_marginBottom="@dimen/tablette_img_margin" />
+
+    <!-- Infos Environnement WS -->
+    <LinearLayout
+        android:id="@+id/settings_env_layout"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/settings_layout_margin_left"
+        android:layout_marginStart="@dimen/settings_layout_margin_left"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+
+        <Switch
+            android:id="@+id/settings_env_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_env_prod"
+            android:textSize="@dimen/general_txt_size"
+            android:textColor="@color/bluedeep"/>
+
+        <TextView
+            android:id="@+id/settings_env_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/general_txt_size"
+            android:textColor="@color/bluedeep"
+            android:layout_marginLeft="@dimen/settings_txtview_margin_env"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

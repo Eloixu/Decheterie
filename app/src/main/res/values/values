@@ -1,0 +1,11 @@
+<resources>
+
+    <!--Animation-->
+    <integer name="fragment_slide_duration">300</integer>
+
+    <!--     Control des champs  -->
+    <integer name="num_size_45">45</integer>
+    <integer name="num_size_255">255</integer>
+
+
+</resources>

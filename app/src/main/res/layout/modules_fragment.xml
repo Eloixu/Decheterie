@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_fond_5p" >
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
+
+<RelativeLayout
+    android:id="@+id/module_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <!--Intervention Bac-->
+        <LinearLayout
+            android:id="@+id/modules_bac_layout"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="@dimen/modules_elem_margin"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/modules_bac_header"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/modules_header_height"
+                android:background="@drawable/header_module">
+
+                <TextView
+                    android:id="@+id/modules_bac_title"
+                    android:layout_width="@dimen/modules_body_width"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/modules_txt_size"
+                    android:textColor="@color/white"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/modules_bac_body"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/modules_body_height"
+                android:background="@drawable/bottom_module" >
+
+                <ImageView
+                    android:id="@+id/modules_bac_img"
+                    android:layout_width="@dimen/modules_image_bac_size"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bac_logo"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/modules_img_neg_margin"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <!--Intervention Pav-->
+        <LinearLayout
+            android:id="@+id/modules_pav_layout"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="@dimen/modules_elem_margin"
+            android:visibility="gone" >
+
+            <RelativeLayout
+                android:id="@+id/modules_pav_header"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/modules_header_height"
+                android:background="@drawable/header_module">
+
+                <TextView
+                    android:id="@+id/modules_pav_title"
+                    android:layout_width="@dimen/modules_body_width"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/modules_txt_size"
+                    android:textColor="@color/white"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/modules_pav_body"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/modules_body_height"
+                android:background="@drawable/bottom_module">
+
+                <ImageView
+                    android:id="@+id/modules_pav_img"
+                    android:layout_width="@dimen/modules_image_size"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pav_logo"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:layout_marginBottom="-10dp"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <!--Modules Personnalisé-->
+        <LinearLayout
+            android:id="@+id/modules_form_perso_layout"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="@dimen/modules_elem_margin"
+            android:visibility="gone" >
+
+            <RelativeLayout
+                android:id="@+id/modules_form_perso_header"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/modules_header_height"
+                android:background="@drawable/header_module">
+
+                <TextView
+                    android:id="@+id/modules_form_perso_title"
+                    android:layout_width="@dimen/modules_body_width"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/modules_txt_size"
+                    android:textColor="@color/white"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/modules_form_perso_body"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/modules_body_height"
+                android:background="@drawable/bottom_module">
+
+                <ImageView
+                    android:id="@+id/modules_form_perso_img"
+                    android:layout_width="@dimen/modules_image_size"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/form_icon"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:layout_marginBottom="-10dp"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/modules_no_content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:background="@drawable/bbox"
+        android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/modules_aucun"
+                android:textSize="@dimen/general_txt_size"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/modules_title_margin"
+                android:gravity="center"/>
+
+    </FrameLayout>
+
+</RelativeLayout>
+</ScrollView>
+
+</RelativeLayout>

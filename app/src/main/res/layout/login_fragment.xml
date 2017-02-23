@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_fond_5p" >
+
+    <LinearLayout
+        android:id="@+id/login_form_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="@drawable/bbox"
+        android:layout_marginLeft="@dimen/tablette_form_margin"
+        android:layout_marginStart="@dimen/tablette_form_margin"
+        android:layout_marginRight="@dimen/tablette_form_margin"
+        android:layout_marginEnd="@dimen/tablette_form_margin"
+        android:layout_marginTop="@dimen/tablette_form_marginTop">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="@dimen/login_tv_size"
+                android:layout_height="wrap_content"
+                android:text="@string/login_identifiant"
+                android:textSize="@dimen/login_txt_size"
+                android:textColor="@color/white"
+                android:textAllCaps="true"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/login_edittxt_margin"
+                android:layout_marginStart="@dimen/login_edittxt_margin"
+                android:layout_marginTop="@dimen/login_edittxt_margin"
+                />
+
+            <!--TODO Remove text-->
+            <EditText
+                style="@style/TkEditText"
+                android:id="@+id/login_edittxt_identifiant"
+                android:layout_width="@dimen/login_edittxt_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/login_edittxt_margin"
+                android:layout_marginRight="@dimen/login_edittxt_margin"
+                android:layout_marginEnd="@dimen/login_edittxt_margin"
+                android:layout_marginLeft="@dimen/login_edittxt_margin"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="@dimen/login_tv_size"
+                android:layout_height="wrap_content"
+                android:text="@string/login_password"
+                android:textSize="@dimen/login_txt_size"
+                android:textColor="@color/white"
+                android:textAllCaps="true"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/login_edittxt_margin"
+                android:layout_marginStart="@dimen/login_edittxt_margin"
+                android:layout_marginTop="@dimen/login_edittxt_margin"/>
+
+            <!--TODO remove text-->
+            <EditText
+                style="@style/TkEditText"
+                android:id="@+id/login_edittxt_password"
+                android:layout_width="@dimen/login_edittxt_size"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/login_edittxt_margin"
+                android:layout_marginRight="@dimen/login_edittxt_margin"
+                android:layout_marginEnd="@dimen/login_edittxt_margin"
+                android:layout_marginLeft="@dimen/login_edittxt_margin"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"/>
+
+        </LinearLayout>
+
+        <Button
+            style="@style/TkActionButton"
+            android:id="@+id/login_btn"
+            android:layout_width="@dimen/login_btn_width"
+            android:layout_height="@dimen/login_btn_height"
+            android:text="@string/login_btn"
+            android:textSize="@dimen/general_txt_size"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/login_edittxt_margin"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/tablette_img_width"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_trackoe"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
