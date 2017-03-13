@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="77dp">
+    <TextView
+        android:id="@+id/textView"
+        android:text="Déchèterie actuelle :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/general_txt_size"
+        android:textStyle="bold"
+        android:layout_weight="0.11" />
+
+    <TextView
+        android:id="@+id/textView_nom_decheterie"
+        android:text="NOM Déchetrie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/general_txt_size"
+        android:textStyle="bold"
+        android:textColor="@color/bluedeep"
+        android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="268dp"
+        android:gravity="center_horizontal"
+        android:weightSum="1">
+
+
+        <Button
+            android:id="@+id/btn_identification"
+            android:text="Identification d'une carte"
+            android:layout_width="392dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/bluedeep"
+            android:layout_weight="0.11" />
+        <Button
+            android:id="@+id/btn_recherche"
+            android:text="Rechercher d'un usager sans carte"
+            android:layout_width="393dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/bluedeep" />
+        <Button
+            android:id="@+id/btn_changer"
+            android:text="Changer déchètrie"
+            android:layout_width="392dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/bluedeep"
+            />
+        <Button
+            android:id="@+id/btn_liste"
+            android:text="Liste des apports effectués"
+            android:layout_width="206dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

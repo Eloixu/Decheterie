@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Paramètre isProd: true si on est en Prod, false si on est en Dev -->
-    <bool name="is_prod">true</bool>
+    <bool name="is_prod">false</bool>
     <string name="ws_version_directory">v3</string>
     <string name="login">op_demo</string>
     <string name="mdp">opdemo</string>
