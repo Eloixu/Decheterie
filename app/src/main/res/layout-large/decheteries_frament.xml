@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView_filtre"
+            android:text="Filtre :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.32"
+            android:gravity="right"
+            android:layout_margin="20dp"
+            android:textSize="@dimen/general_txt_size"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/mail_autre_edittext"
+            style="@style/TkEditText"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:singleLine="true"
+            android:maxLength="80"
+            android:gravity="top"
+            android:layout_marginEnd="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.08" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/listView"
+        />
+</LinearLayout>

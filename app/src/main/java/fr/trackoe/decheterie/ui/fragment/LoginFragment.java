@@ -15,12 +15,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
 import fr.trackoe.decheterie.Logger;
-import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.UsersDB;
 import fr.trackoe.decheterie.model.bean.global.User;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
+
+import fr.trackoe.decheterie.R;
 
 public class LoginFragment extends Fragment {
 
@@ -103,7 +104,7 @@ public class LoginFragment extends Fragment {
                 Configuration.saveIdUser(Integer.parseInt(user.getIdUser()));
                 Configuration.saveNameUser(identifiantEditText.getText().toString());
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new ModulesFragment(), true);
+                        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
                 }
             } else {
                 showSimpleAlertDialog(getString(R.string.error_mdp));

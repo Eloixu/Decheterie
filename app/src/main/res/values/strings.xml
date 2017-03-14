@@ -132,6 +132,12 @@
     <string name="modules_aucun">Aucun module n\'a été chargé pour cette tablette</string>
     <string name="formulaires_aucun">Aucun formulaire n\'a été chargé pour cette tablette</string>
 
+    <string name="accueil_fragment_textView_text">Déchèterie actuelle :</string>
+    <string name="accueil_fragment_btn_changer_text">Changer déchèterie</string>
+    <string name="accueil_fragment_btn_identification_text">Identification d\'une carte</string>
+    <string name="accueil_fragment_btn_recherche_text">Rechercher d\'un usager sans carte</string>
+    <string name="accueil_fragment_btn_liste_text">Liste des apports effectués</string>
+
     <!--Ecran menu interventions-->
     <string name="inter_m_btn_todo">Interventions à réaliser (%1$s)</string>
     <string name="inter_m_btn_done">Interventions réalisées (%1$s)</string>

@@ -10,12 +10,12 @@ import fr.trackoe.decheterie.R;
 /**
  * Created by Remi on 02/12/2015.
  */
-public class FormulairesDatabase extends SQLiteOpenHelper {
+public class DecheterieDatabase extends SQLiteOpenHelper {
     private Context ctx;
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
-//    private static final String NUMERIC_TYPE = " NUMERIC";
+    private static final String FLOAT_TYPE = " FLOAT";
     private static final String NOT_NULL = " NOT_NULL";
     private static final String COMMA_SEP = ", ";
 
@@ -34,6 +34,33 @@ public class FormulairesDatabase extends SQLiteOpenHelper {
     }
 
     /* Declaration des tables */
+
+//    Table decheteries
+    public static abstract class TableDecheterie implements BaseColumns {
+        public static final String TABLE_DECHETERIE = "decheterie";
+        public static final String ID_ACCOUNT = "id_account";
+        public static final int NUM_ID_ACCOUNT = 0;
+        public static final String NAME = "name";
+        public static final int NUM_NAME = 1;
+        public static final String CONSIGNE_COMPTAGE = "consigne_comptage";
+        public static final int NUM_CONSIGNE_COMPTAGE = 2;
+        public static final String CONSIGNE_SIGNATURE = "consigne_signature";
+        public static final int NUM_CONSIGNE_SIGNATURE = 3;
+        public static final String APPORT = "apport";
+        public static final int NUM_APPORT = 4;
+        public static final String UNITE_TOTAL = "unite_total";
+        public static final int NUM_UNITE_TOTAL = 5;
+    }
+
+    public static final String CREATE_TABLE_DECHETERIE = "CREATE TABLE IF NOT EXISTS " + TableDecheterie.TABLE_DECHETERIE + " ("
+            + TableDecheterie.ID_ACCOUNT + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDecheterie.NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP
+            + TableDecheterie.CONSIGNE_COMPTAGE + TEXT_TYPE  + COMMA_SEP
+            + TableDecheterie.CONSIGNE_SIGNATURE + TEXT_TYPE + COMMA_SEP
+            + TableDecheterie.APPORT + INTEGER_TYPE + COMMA_SEP
+            + TableDecheterie.UNITE_TOTAL + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DECHETERIE = "DROP TABLE IF EXISTS " + TableDecheterie.TABLE_DECHETERIE;
 
 //    Table users
     public static abstract class TableUsers implements BaseColumns {
@@ -296,7 +323,7 @@ public class FormulairesDatabase extends SQLiteOpenHelper {
 
     public static final String DELETE_TABLE_PHOTO = "DROP TABLE IF EXISTS " + TableReponse.TABLE_NAME;
 
-    public FormulairesDatabase(Context context) {
+    public DecheterieDatabase(Context context) {
         super(context, context.getString(R.string.database_name), null, context.getResources().getInteger(R.integer.database_version));
         this.ctx = context;
     }
@@ -312,6 +339,7 @@ public class FormulairesDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PHOTO);
         db.execSQL(CREATE_TABLE_REPONSE);
         db.execSQL(CREATE_TABLE_INFO_BOUCLE);
+        db.execSQL(CREATE_TABLE_DECHETERIE);
     }
 
     @Override
@@ -325,6 +353,7 @@ public class FormulairesDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_INFO_BOUCLE);
         db.execSQL(CREATE_TABLE_PHOTO);
         db.execSQL(DELETE_TABLE_REPONSE);
+        db.execSQL(DELETE_TABLE_DECHETERIE);
         onCreate(db);
     }
 

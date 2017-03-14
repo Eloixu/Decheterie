@@ -54,6 +54,7 @@ import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
+import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
@@ -104,9 +105,11 @@ public class ContainerActivity extends FragmentActivity {
 
         // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
-            changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
+            //changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
         } else {
-            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
         }
 
         // Installation d'une nouvelle version de l'application

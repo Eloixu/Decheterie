@@ -14,7 +14,7 @@ import fr.trackoe.decheterie.model.bean.global.Rue;
 public class RuesDB extends MyDb {
 
     public RuesDB(Context ctx) {
-        mydb = new FormulairesDatabase(ctx);
+        mydb = new DecheterieDatabase(ctx);
     }
 
     /*
@@ -23,11 +23,11 @@ public class RuesDB extends MyDb {
     public long insertRue(Rue rue) {
         ContentValues values = new ContentValues();
 
-        values.put(FormulairesDatabase.TableRue.ID, rue.getIdRue());
-        values.put(FormulairesDatabase.TableRue.NOM, rue.getNom());
-        values.put(FormulairesDatabase.TableRue.ID_VILLE, rue.getIdVille());
+        values.put(DecheterieDatabase.TableRue.ID, rue.getIdRue());
+        values.put(DecheterieDatabase.TableRue.NOM, rue.getNom());
+        values.put(DecheterieDatabase.TableRue.ID_VILLE, rue.getIdVille());
 
-        return db.insertOrThrow(FormulairesDatabase.TableRue.TABLE_RUE, null, values);
+        return db.insertOrThrow(DecheterieDatabase.TableRue.TABLE_RUE, null, values);
     }
 
     /*
@@ -35,12 +35,12 @@ public class RuesDB extends MyDb {
      */
 
     public void clearRues() {
-        db.execSQL("delete from " + FormulairesDatabase.TableRue.TABLE_RUE);
+        db.execSQL("delete from " + DecheterieDatabase.TableRue.TABLE_RUE);
     }
 
     public ArrayList<Rue> getListeRues() {
         ArrayList<Rue> listeRues;
-        String query = "SELECT * FROM " + FormulairesDatabase.TableRue.TABLE_RUE + ";";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableRue.TABLE_RUE + ";";
         Cursor cursor = db.rawQuery(query, null);
         listeRues = cursorToListeRues(cursor);
         return listeRues;
@@ -52,9 +52,9 @@ public class RuesDB extends MyDb {
         if (c.moveToFirst()) {
             do {
                 Rue r = new Rue();
-                r.setIdRue(c.getInt(FormulairesDatabase.TableRue.NUM_ID));
-                r.setNom(c.getString(FormulairesDatabase.TableRue.NUM_NOM));
-                r.setIdVille(c.getInt(FormulairesDatabase.TableRue.NUM_ID_VILLE));
+                r.setIdRue(c.getInt(DecheterieDatabase.TableRue.NUM_ID));
+                r.setNom(c.getString(DecheterieDatabase.TableRue.NUM_NOM));
+                r.setIdVille(c.getInt(DecheterieDatabase.TableRue.NUM_ID_VILLE));
                 listeRues.add(r);
 
             } while (c.moveToNext());
@@ -66,7 +66,7 @@ public class RuesDB extends MyDb {
 
     public ArrayList<String> getListeNomRuesString(int idVille) {
         ArrayList<String> listeNomsRue = new ArrayList<>();
-        String query = "SELECT * FROM " + FormulairesDatabase.TableRue.TABLE_RUE + " WHERE " + FormulairesDatabase.TableRue.ID_VILLE + " = " + idVille + ";";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableRue.TABLE_RUE + " WHERE " + DecheterieDatabase.TableRue.ID_VILLE + " = " + idVille + ";";
         Cursor cursor = db.rawQuery(query, null);
         listeNomsRue = cursorToListeNomRues(cursor);
         return listeNomsRue;
@@ -77,7 +77,7 @@ public class RuesDB extends MyDb {
 
         if (c.moveToFirst()) {
             do {
-                listeRues.add(c.getString(FormulairesDatabase.TableRue.NUM_NOM));
+                listeRues.add(c.getString(DecheterieDatabase.TableRue.NUM_NOM));
             } while (c.moveToNext());
             c.close();
         }

@@ -15,7 +15,7 @@ import fr.trackoe.decheterie.model.bean.global.Modules;
 public class ModulesDB extends MyDb {
 
     public ModulesDB(Context ctx) {
-        mydb = new FormulairesDatabase(ctx);
+        mydb = new DecheterieDatabase(ctx);
     }
 
     /*
@@ -23,25 +23,25 @@ public class ModulesDB extends MyDb {
      */
     public long insertModule(Module module) {
         ContentValues values = new ContentValues();
-        values.put(FormulairesDatabase.TableModules.ID_MODULE, Integer.parseInt(module.getIdModule()));
-        values.put(FormulairesDatabase.TableModules.NOM, module.getNom());
-        values.put(FormulairesDatabase.TableModules.FORMULAIRE_JSON, module.getFormulaire());
-        values.put(FormulairesDatabase.TableModules.FORMULAIRE_VERSION, module.getVersion());
-        values.put(FormulairesDatabase.TableModules.IS_FORM, module.isForm() ? 1 : 0);
+        values.put(DecheterieDatabase.TableModules.ID_MODULE, Integer.parseInt(module.getIdModule()));
+        values.put(DecheterieDatabase.TableModules.NOM, module.getNom());
+        values.put(DecheterieDatabase.TableModules.FORMULAIRE_JSON, module.getFormulaire());
+        values.put(DecheterieDatabase.TableModules.FORMULAIRE_VERSION, module.getVersion());
+        values.put(DecheterieDatabase.TableModules.IS_FORM, module.isForm() ? 1 : 0);
 
-        return db.insertOrThrow(FormulairesDatabase.TableModules.TABLE_MODULES, null, values);
+        return db.insertOrThrow(DecheterieDatabase.TableModules.TABLE_MODULES, null, values);
     }
 
     /*
     Vider la table
      */
     public void clearModules() {
-        db.execSQL("delete from " + FormulairesDatabase.TableModules.TABLE_MODULES);
+        db.execSQL("delete from " + DecheterieDatabase.TableModules.TABLE_MODULES);
     }
 
     public Modules getModules() {
         Modules modules = new Modules();
-        String query = "SELECT * FROM " + FormulairesDatabase.TableModules.TABLE_MODULES + ";";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableModules.TABLE_MODULES + ";";
         Cursor cursor = db.rawQuery(query, null);
         modules.setListModules(cursorToModules(cursor));
         return modules;
@@ -49,7 +49,7 @@ public class ModulesDB extends MyDb {
 
     public Modules getFormulaires() {
         Modules modules = new Modules();
-        String query = "SELECT * FROM " + FormulairesDatabase.TableModules.TABLE_MODULES + " WHERE " + FormulairesDatabase.TableModules.IS_FORM + " = 1;";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableModules.TABLE_MODULES + " WHERE " + DecheterieDatabase.TableModules.IS_FORM + " = 1;";
         Cursor cursor = db.rawQuery(query, null);
         modules.setListModules(cursorToModules(cursor));
         return modules;
@@ -57,7 +57,7 @@ public class ModulesDB extends MyDb {
 
     public Module getFormulaireById(int id) {
         Module m = new Module();
-        String query = "SELECT * FROM " + FormulairesDatabase.TableModules.TABLE_MODULES + " WHERE " + FormulairesDatabase.TableModules.ID_MODULE + " = " + id;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableModules.TABLE_MODULES + " WHERE " + DecheterieDatabase.TableModules.ID_MODULE + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
         m = cursorToFormulaire(cursor);
         return m;
@@ -66,11 +66,11 @@ public class ModulesDB extends MyDb {
     private Module cursorToFormulaire(Cursor c){
         Module m = new Module();
         if(c.moveToFirst()) {
-            m.setIdModule(String.valueOf(c.getInt(FormulairesDatabase.TableModules.NUM_ID_MODULE)));
-            m.setNom(c.getString(FormulairesDatabase.TableModules.NUM_NOM));
-            m.setFormulaire(c.getString(FormulairesDatabase.TableModules.NUM_FORMULAIRE_JSON));
-            m.setVersion(c.getString(FormulairesDatabase.TableModules.NUM_FORMULAIRE_VERSION));
-            m.setIsForm(c.getInt(FormulairesDatabase.TableModules.NUM_IS_FORM) != 0);
+            m.setIdModule(String.valueOf(c.getInt(DecheterieDatabase.TableModules.NUM_ID_MODULE)));
+            m.setNom(c.getString(DecheterieDatabase.TableModules.NUM_NOM));
+            m.setFormulaire(c.getString(DecheterieDatabase.TableModules.NUM_FORMULAIRE_JSON));
+            m.setVersion(c.getString(DecheterieDatabase.TableModules.NUM_FORMULAIRE_VERSION));
+            m.setIsForm(c.getInt(DecheterieDatabase.TableModules.NUM_IS_FORM) != 0);
         }
         return m;
     }
@@ -81,11 +81,11 @@ public class ModulesDB extends MyDb {
          if(c.moveToFirst()) {
              do {
                  Module m = new Module();
-                 m.setIdModule(String.valueOf(c.getInt(FormulairesDatabase.TableModules.NUM_ID_MODULE)));
-                 m.setNom(c.getString(FormulairesDatabase.TableModules.NUM_NOM));
-                 m.setFormulaire(c.getString(FormulairesDatabase.TableModules.NUM_FORMULAIRE_JSON));
-                 m.setVersion(c.getString(FormulairesDatabase.TableModules.NUM_FORMULAIRE_VERSION));
-                 m.setIsForm(c.getInt(FormulairesDatabase.TableModules.NUM_IS_FORM) != 0);
+                 m.setIdModule(String.valueOf(c.getInt(DecheterieDatabase.TableModules.NUM_ID_MODULE)));
+                 m.setNom(c.getString(DecheterieDatabase.TableModules.NUM_NOM));
+                 m.setFormulaire(c.getString(DecheterieDatabase.TableModules.NUM_FORMULAIRE_JSON));
+                 m.setVersion(c.getString(DecheterieDatabase.TableModules.NUM_FORMULAIRE_VERSION));
+                 m.setIsForm(c.getInt(DecheterieDatabase.TableModules.NUM_IS_FORM) != 0);
                  lmodules.add(m);
              } while (c.moveToNext());
              c.close();
