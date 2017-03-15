@@ -4,30 +4,24 @@ package fr.trackoe.decheterie.ui.fragment;
  * Created by Trackoe on 14/03/2017.
  */
 
-import android.content.res.Configuration;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.support.v4.app.Fragment;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.trackoe.decheterie.R;
-
+import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
@@ -123,17 +117,13 @@ public class DecheterieFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        fr.trackoe.decheterie.configuration.Configuration.saveIdDecheterie(decheterie.getIdAccount());
+                        Configuration.saveIdDecheterie(decheterie.getIdAccount());
                         fr.trackoe.decheterie.configuration.Configuration.saveNameDecheterie(decheterie.getName());
                         System.out.println(name.getText().toString());
                         String dechetrieName = name.getText().toString();
                         if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                             ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
                         }
-                        TextView textView = (TextView)acceuilView.findViewById(R.id.textView_nom_decheterie);
-                        textView.setText(fr.trackoe.decheterie.configuration.Configuration.getNameDecheterie());
-                        
-
                     }
                 });
 

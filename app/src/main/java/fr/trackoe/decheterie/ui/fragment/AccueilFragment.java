@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
+
 import fr.trackoe.decheterie.R;
 
+import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 /**
@@ -34,9 +37,16 @@ public class AccueilFragment extends Fragment {
         return accueil_vg;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView textView = (TextView) accueil_vg.findViewById(R.id.textView_nom_decheterie);
+        textView.setText(Configuration.getNameDecheterie());
+    }
+
     /*
-    * Init Actionbar
-    */
+        * Init Actionbar
+        */
     public void initActionBar() {
         if(getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarLogin();
