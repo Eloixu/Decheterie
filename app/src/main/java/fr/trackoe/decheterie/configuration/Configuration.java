@@ -41,6 +41,19 @@ public abstract class Configuration {
         return ctx.getSharedPreferences(Const.CONTENANTS_PARAMS, Context.MODE_PRIVATE);
     }
 
+    public static void saveIdDecheterie(int idDecheterie) {
+        params.edit().putInt(Const.ID_DECHETERIE, idDecheterie).commit();
+    }
+
+    public static void saveNameDecheterie(String nameDecheterie) {
+        params.edit().putString(Const.NAME_DECHETERIE, nameDecheterie).commit();
+    }
+
+    public static String getNameDecheterie() {
+        return params.getString(Const.NAME_DECHETERIE, "");
+    }
+
+
     public static void saveIdUser(int idUser) {
         params.edit().putInt(Const.ID_USER, idUser).commit();
     }

@@ -7,8 +7,10 @@ public class Const {
 
     // Shared Preferences keys
     public static final String CONTENANTS_PARAMS = "CONTENANTS_PARAMS";
+    public static final String ID_DECHETERIE = "ID_DECHETERIE";
     public static final String ID_USER = "ID_USER";
     public static final String NAME_USER = "NAME_USER";
+    public static final String NAME_DECHETERIE = "NAME_DECHETERIE";
     public static final String NUMERO_TABLETTE = "NUMERO_TABLETTE";
     public static final String MAC_ADDRESS = "MAC_ADDRESS";
     public static final String NOM_TABLETTE = "NOM_TABLETTE";

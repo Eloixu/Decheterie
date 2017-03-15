@@ -51,9 +51,17 @@ public class DecheterieDB extends MyDb {
         return decheterie;
     }
 
-    public ArrayList<Decheterie> getAllDecheteries(String idAccount) {
+    public ArrayList<Decheterie> getAllDecheteries() {
         ArrayList<Decheterie> decheterieList;
         String query = "SELECT * FROM " + DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE;
+        Cursor cursor = db.rawQuery(query, null);
+        decheterieList = cursorToListeDechetrie(cursor);
+        return decheterieList;
+    }
+
+    public ArrayList<Decheterie> getDecheteriesByName(String name) {
+        ArrayList<Decheterie> decheterieList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE + " WHERE " + DecheterieDatabase.TableDecheterie.NAME + " LIKE " + "'%" + name + "%'" +  ";";
         Cursor cursor = db.rawQuery(query, null);
         decheterieList = cursorToListeDechetrie(cursor);
         return decheterieList;
