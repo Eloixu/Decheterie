@@ -1,11 +1,13 @@
 package fr.trackoe.decheterie.ui.fragment;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
@@ -40,8 +42,24 @@ public class AccueilFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        TextView textView = (TextView) accueil_vg.findViewById(R.id.textView_nom_decheterie);
-        textView.setText(Configuration.getNameDecheterie());
+        Button btnRecherche = (Button) accueil_vg.findViewById(R.id.btn_recherche);
+        Button btnIdentification = (Button) accueil_vg.findViewById(R.id.btn_identification);
+        Button btnListe = (Button) accueil_vg.findViewById(R.id.btn_liste);
+        Button btnChanger = (Button) accueil_vg.findViewById(R.id.btn_changer);
+        TextView textViewNomDecheterie = (TextView) accueil_vg.findViewById(R.id.textView_nom_decheterie);
+        if(Configuration.getNameDecheterie().isEmpty()||Configuration.getNameDecheterie()==null){
+            textViewNomDecheterie.setText("Aucune déchèterie sélectionnée");
+            btnIdentification.setClickable(false);
+            btnIdentification.setBackgroundResource(R.drawable.button_grey);
+            btnRecherche.setClickable(false);
+            btnRecherche.setBackgroundResource(R.drawable.button_grey);
+            btnListe.setClickable(false);
+            btnListe.setBackgroundResource(R.drawable.button_grey);
+        }
+        else {
+            textViewNomDecheterie.setText(Configuration.getNameDecheterie());
+        }
+
     }
 
     /*
@@ -64,11 +82,22 @@ public class AccueilFragment extends Fragment {
     Init Listeners
      */
     public void initListeners() {
+        //set listener for  button "changer déchèterie"
         accueil_vg.findViewById(R.id.btn_changer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     ((ContainerActivity) getActivity()).changeMainFragment(new DecheterieFragment(), true);
+                }
+            }
+        });
+
+        //set listener for  button "Identification d'une carte"
+        accueil_vg.findViewById(R.id.btn_identification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
                 }
             }
         });

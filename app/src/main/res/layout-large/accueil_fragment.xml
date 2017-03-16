@@ -19,7 +19,6 @@
         android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
         android:layout_marginTop="@dimen/accueil_fragment_textView_layout_marginTop"
         android:textSize="@dimen/general_txt_size"
-        android:textStyle="bold"
         android:layout_weight="0.11" />
 
     <TextView
@@ -28,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/accueil_fragment_textView_nom_decheterie_layout_marginTop"
-        android:textSize="@dimen/general_txt_size"
+        android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
         android:textStyle="bold"
         android:textColor="@color/bluedeep"
         android:layout_weight="1" />
@@ -39,7 +38,16 @@
         android:layout_width="@dimen/accueil_fragment_btn_changer_layout_width"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/accueil_fragment_btn_changer_layout_marginBottom"
-        android:textColor="@color/bluedeep"
+        android:textColor="@color/white"
+        android:background="@drawable/button"
+        android:textSize="18sp"
+        android:layout_marginTop="@dimen/accueil_fragment_btn_changer_layout_marginTop"
+        android:layout_marginRight="@dimen/accueil_fragment_btn_changer_layout_marginRight"
+
+        android:paddingBottom="8dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="8dp"
         />
 
     </LinearLayout>
@@ -56,31 +64,35 @@
         <Button
             android:id="@+id/btn_identification"
             android:text="@string/accueil_fragment_btn_identification_text"
-            android:layout_width="400dp"
+            android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
+            android:layout_width="@dimen/accueil_fragment_btn_identification_layout_width"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/accueil_fragment_btn_identification_layout_marginBottom"
-            android:textColor="@color/bluedeep"
+            android:textColor="@color/white"
             android:drawableEnd="@drawable/barcode2"
-            style="@style/TkActionButtonBlueListeReleve"
-            android:paddingEnd="40dp" />
+            android:background="@drawable/button_blue"
+            android:paddingEnd="20dp"
+            android:layout_weight="0.13" />
+
         <Button
             android:id="@+id/btn_recherche"
             android:text="@string/accueil_fragment_btn_recherche_text"
+            android:textSize="23sp"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/accueil_fragment_btn_recherche_layout_marginBottom"
-            android:textColor="@color/bluedeep"
+            android:textColor="@color/white"
             android:layout_weight="0.27"
-            style="@style/TkActionButtonBlueListeReleve"/>
+            android:background="@drawable/button_blue"/>
 
         <Button
             android:id="@+id/btn_liste"
             android:text="@string/accueil_fragment_btn_liste_text"
             android:layout_width="252dp"
             android:layout_height="@dimen/accueil_fragment_btn_liste_layout_height"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/accueil_fragment_btn_liste_textSize"
-            style="@style/TkActionButtonOrange"
+            android:background="@drawable/button_blue_shallow"
             android:layout_weight="0.02" />
     </LinearLayout>
 

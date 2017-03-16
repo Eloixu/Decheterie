@@ -215,19 +215,24 @@
     <dimen name="mrf_title2_size">16sp</dimen>
 
 
-    <dimen name="accueil_fragment_linearLayout1_layout_height">88dp</dimen>
+    <dimen name="accueil_fragment_linearLayout1_layout_height">190dp</dimen>
     <dimen name="accueil_fragment_textView_paddingStart">20dp</dimen>
     <dimen name="accueil_fragment_textView_layout_marginTop">20dp</dimen>
     <dimen name="accueil_fragment_textView_nom_decheterie_layout_marginTop">20dp</dimen>
+    <dimen name="accueil_fragment_textView_nom_decheterie_textSize">25sp</dimen>
     <dimen name="accueil_fragment_btn_changer_layout_width">218dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_layout_marginTop">20dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_layout_marginRight">10dp</dimen>
     <dimen name="accueil_fragment_btn_changer_layout_marginBottom">15dp</dimen>
-    <dimen name="accueil_fragment_btn_identification_layout_width">360dp</dimen>
+    <dimen name="accueil_fragment_btn_identification_textSize">23sp</dimen>
+
+    <dimen name="accueil_fragment_btn_identification_layout_width">400dp</dimen>
     <dimen name="accueil_fragment_btn_identification_layout_marginBottom">30dp</dimen>
     <dimen name="accueil_fragment_btn_recherche_layout_width">360dp</dimen>
     <dimen name="accueil_fragment_btn_recherche_layout_marginBottom">35dp</dimen>
     <dimen name="accueil_fragment_btn_liste_layout_width">206dp</dimen>
     <dimen name="accueil_fragment_btn_liste_layout_height">56dp</dimen>
-    <dimen name="accueil_fragment_btn_liste_textSize">12.5sp</dimen>
+    <dimen name="accueil_fragment_btn_liste_textSize">15sp</dimen>
 
 
 </resources>

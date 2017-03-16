@@ -38,7 +38,7 @@ public class DecheterieFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        decheterie_vg = (ViewGroup) inflater.inflate(R.layout.decheteries_frament, container, false);
+        decheterie_vg = (ViewGroup) inflater.inflate(R.layout.decheteries_fragment, container, false);
         listView = (ListView) decheterie_vg.findViewById(R.id.listView);
         // Init Actionbar
         initActionBar();
@@ -181,7 +181,7 @@ public class DecheterieFragment extends Fragment {
                             view = convertView;
                         }
 
-                        Decheterie decheterie = decheteries.get(position);
+                        final Decheterie decheterie = decheteries.get(position);
                         final TextView name = (TextView)view.findViewById(R.id.dechetrie_name);
                         name.setText(decheterie.getName());
                         name.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +189,13 @@ public class DecheterieFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 System.out.println(name.getText().toString());
+                                Configuration.saveIdDecheterie(decheterie.getIdAccount());
+                                fr.trackoe.decheterie.configuration.Configuration.saveNameDecheterie(decheterie.getName());
+                                System.out.println(name.getText().toString());
+                                String dechetrieName = name.getText().toString();
+                                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                                }
 
                             }
                         });
