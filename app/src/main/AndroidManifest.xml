@@ -17,14 +17,14 @@
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:label="trackoe déchèterie"
         android:theme="@style/AppTheme">
 
         <activity
             android:name="fr.trackoe.decheterie.ui.activity.ContainerActivity"
-            android:label="@string/app_name"
+            android:label="trackoe déchèterie"
             android:windowSoftInputMode="adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -36,7 +36,7 @@ public class ModulesFragment extends Fragment {
         }
 
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews();
@@ -50,11 +50,11 @@ public class ModulesFragment extends Fragment {
     /*
 	 * Init Actionbar
 	 */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if(getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarModules();
         }
-    }
+    }*/
 
     /*
     Init Views

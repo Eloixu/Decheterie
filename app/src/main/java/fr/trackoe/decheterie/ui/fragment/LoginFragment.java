@@ -34,7 +34,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         login_vg = (ViewGroup) inflater.inflate(R.layout.login_fragment, container, false);
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews();
@@ -48,11 +48,11 @@ public class LoginFragment extends Fragment {
     /*
 	 * Init Actionbar
 	 */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if(getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarLogin();
         }
-    }
+    }*/
 
     /*
     Init Views

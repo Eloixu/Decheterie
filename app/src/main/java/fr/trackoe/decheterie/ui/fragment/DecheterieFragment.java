@@ -41,7 +41,7 @@ public class DecheterieFragment extends Fragment {
         decheterie_vg = (ViewGroup) inflater.inflate(R.layout.decheteries_fragment, container, false);
         listView = (ListView) decheterie_vg.findViewById(R.id.listView);
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews(inflater,container);
@@ -55,11 +55,11 @@ public class DecheterieFragment extends Fragment {
     /*
     * Init Actionbar
     */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if(getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarLogin();
         }
-    }
+    }*/
 
     /*
     Init Views

@@ -28,7 +28,7 @@ public class AccueilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         accueil_vg = (ViewGroup) inflater.inflate(R.layout.accueil_fragment, container, false);
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews();
@@ -65,11 +65,11 @@ public class AccueilFragment extends Fragment {
     /*
         * Init Actionbar
         */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if(getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarLogin();
         }
-    }
+    }*/
 
     /*
     Init Views

@@ -1,5 +1,6 @@
 package fr.trackoe.decheterie.ui.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -23,6 +24,7 @@ import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
+import fr.trackoe.decheterie.ui.dialog.CustomDialog;
 
 public class DepotFragment extends Fragment {
     private ViewGroup depot_vg;
@@ -34,7 +36,7 @@ public class DepotFragment extends Fragment {
         depot_vg = (ViewGroup) inflater.inflate(R.layout.depot_fragment, container, false);
 
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews(inflater, container);
@@ -48,11 +50,11 @@ public class DepotFragment extends Fragment {
     /*
     * Init Actionbar
     */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarLogin();
         }
-    }
+    }*/
 
     /*
     Init Views
@@ -78,8 +80,27 @@ public class DepotFragment extends Fragment {
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            galleryFluxChoisi.removeView(viewCopy);
-                            galleryFlux.addView(view);
+                            CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                            builder.setMessage("Vous avez sélectionné flux NomFlux");
+                            builder.setTitle("NomFlux");
+                            builder.setPositiveButton("valider", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    //设置你的操作事项
+                                }
+                            });
+
+                            builder.setNegativeButton("Supprimer le flux",
+                                    new android.content.DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            galleryFluxChoisi.removeView(viewCopy);
+                                            galleryFlux.addView(view);
+                                        }
+                                    });
+
+                            builder.create().show();
+
                         }
                     });
                 }

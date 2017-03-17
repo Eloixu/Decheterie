@@ -23,6 +23,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -60,7 +62,7 @@ import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
 import fr.trackoe.decheterie.widget.WriteUsersTask;
 
-public class ContainerActivity extends FragmentActivity {
+public class ContainerActivity extends AppCompatActivity {
     private static final String CURRENT_FRAG_TAG = "CURRENT_FRAGMENT";
     private static final String APK_NAME = "decheterie.apk";
     private static final String DOWNLOAD = "/download/";
@@ -71,6 +73,7 @@ public class ContainerActivity extends FragmentActivity {
     private AlertDialog errorDialog;
 
     private ActionBar actionbar;
+    Toolbar toolbar;
     private LinearLayout actionbarLeftItem;
     private TextView actionbarLeftItemText;
     private TextView actionbarTitle;
@@ -86,12 +89,15 @@ public class ContainerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         activity = this;
         initSharedPreference(activity);
-        initActionBar();
+        //initActionBar();
 
         if (getResources().getBoolean(R.bool.landscape)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
@@ -469,7 +475,7 @@ public class ContainerActivity extends FragmentActivity {
         actionbarRightItemText = (TextView) findViewById(R.id.actionbar_right_txt);
     }
 
-    public void showBackArrowinNavBar(boolean visible) {
+   /* public void showBackArrowinNavBar(boolean visible) {
         if (visible) {
             findViewById(R.id.actionbar_left_arrow).setVisibility(View.VISIBLE);
         } else {
@@ -596,7 +602,7 @@ public class ContainerActivity extends FragmentActivity {
         actionbarTitle.setVisibility(View.VISIBLE);
         actionbarRightItem.setVisibility(View.VISIBLE);
         actionbarLeftItem.setVisibility(View.VISIBLE);
-    }
+    }*/
 
     public void getMACaddress() {
         Configuration.saveMACAddress(getUniqueCodeMac());
