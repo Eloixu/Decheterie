@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -57,12 +58,13 @@ import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
+import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
 import fr.trackoe.decheterie.widget.WriteUsersTask;
 
-public class ContainerActivity extends AppCompatActivity {
+public class ContainerActivity extends AppCompatActivity implements DrawerLocker {
     private static final String CURRENT_FRAG_TAG = "CURRENT_FRAGMENT";
     private static final String APK_NAME = "decheterie.apk";
     private static final String DOWNLOAD = "/download/";
@@ -84,6 +86,9 @@ public class ContainerActivity extends AppCompatActivity {
 
     private ArrayList<String> urlsReleve;
 
+    DrawerLayout drawerLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +96,9 @@ public class ContainerActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //disable the navigation drawer
+        setDrawerEnabled(false);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -754,6 +762,14 @@ public class ContainerActivity extends AppCompatActivity {
         codeRet = Long.parseLong(numTablette + date);
 
         return codeRet;
+    }
+
+    public void setDrawerEnabled(boolean enabled) {
+        drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
+        int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawerLayout.setDrawerLockMode(lockMode);
+        //toggle.setDrawerIndicatorEnabled(enabled);
     }
 
 }

@@ -75,6 +75,7 @@ public class AccueilFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
 
     }
 

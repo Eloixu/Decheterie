@@ -60,6 +60,7 @@ public class DepotFragment extends Fragment {
     Init Views
      */
     public void initViews(LayoutInflater inflater, ViewGroup container) {
+        ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux);
         galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux_choisi);
         for (int i = 0; i < 10; i++)

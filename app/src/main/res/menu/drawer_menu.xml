@@ -7,15 +7,16 @@
             ></item>
         <item
             android:id="@+id/message_id"
-            android:title="Home"
+            android:title="Msessage"
             ></item>
         <item
             android:id="@+id/settings_id"
-            android:title="Home"
+            android:title="Settings"
             ></item>
     </group>
 
     <item android:title="Social">
+    <menu>
         <item
             android:id="@+id/add_to_group_id"
             android:title="Add to Group"
@@ -24,6 +25,10 @@
             android:id="@+id/group_id"
             android:title="Group"
             ></item>
-
+        <item
+            android:id="@+id/share_id"
+            android:title="Share"
+            ></item>
+    </menu>
     </item>
 </menu>

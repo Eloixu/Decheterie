@@ -65,7 +65,7 @@ public class DecheterieFragment extends Fragment {
     Init Views
      */
     public void initViews(LayoutInflater inflater,ViewGroup container) {
-
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         final View acceuilView = inflater.inflate(R.layout.accueil_fragment,container,false);
         decheterieDB = new DecheterieDB(getContext());
         decheterieDB.open();
