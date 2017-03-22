@@ -5,24 +5,34 @@ package fr.trackoe.decheterie.model.bean.global;
  */
 
 public class Decheterie {
+    private int id;
     private int idAccount;
-    private String name;
+    private String nom;
     private String consigneComptage;
-    private String consigneSignature;
-    private boolean apport;
+    private String consigneAvSignature;
+    private boolean apportFlux;
     private String uniteTotal;
 
     public Decheterie() {
 
     }
 
-    public Decheterie(int idAccount, String name, String consigneComptage, String consigneSignature, boolean apport, String uniteTotal) {
+    public Decheterie(int id, int idAccount, String nom, String consigneComptage, String consigneAvSignature, boolean apportFlux, String uniteTotal) {
+        this.id = id;
         this.idAccount = idAccount;
-        this.name = name;
+        this.nom = nom;
         this.consigneComptage = consigneComptage;
-        this.consigneSignature = consigneSignature;
-        this.apport = apport;
+        this.consigneAvSignature = consigneAvSignature;
+        this.apportFlux = apportFlux;
         this.uniteTotal = uniteTotal;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIdAccount() {
@@ -33,12 +43,12 @@ public class Decheterie {
         this.idAccount = idAccount;
     }
 
-    public String getName() {
-        return name;
+    public String getNom() {
+        return nom;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getConsigneComptage() {
@@ -49,20 +59,20 @@ public class Decheterie {
         this.consigneComptage = consigneComptage;
     }
 
-    public String getConsigneSignature() {
-        return consigneSignature;
+    public String getConsigneAvSignature() {
+        return consigneAvSignature;
     }
 
-    public void setConsigneSignature(String consigneSignature) {
-        this.consigneSignature = consigneSignature;
+    public void setConsigneAvSignature(String consigneAvSignature) {
+        this.consigneAvSignature = consigneAvSignature;
     }
 
-    public boolean isApport() {
-        return apport;
+    public boolean isApportFlux() {
+        return apportFlux;
     }
 
-    public void setApport(boolean apport) {
-        this.apport = apport;
+    public void setApportFlux(boolean apportFlux) {
+        this.apportFlux = apportFlux;
     }
 
     public String getUniteTotal() {

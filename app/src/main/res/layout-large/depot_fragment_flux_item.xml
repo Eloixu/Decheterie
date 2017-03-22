@@ -9,16 +9,17 @@
 
     <ImageView
         android:id="@+id/imageView_flux_item"
-        android:layout_width="151dp"
-        android:layout_height="118dp"
-        android:layout_margin="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="13dp"
         android:background="@mipmap/logo_etoile_bleu" />
 
     <TextView
         android:id="@+id/textView_flux_item"
         android:text="TextView"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
         android:gravity="center"
          />
 </LinearLayout>

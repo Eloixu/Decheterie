@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -24,12 +25,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.idescout.sql.SqlScoutServer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,10 +54,12 @@ import java.util.Date;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
@@ -87,15 +96,29 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     private ArrayList<String> urlsReleve;
 
     DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SqlScoutServer.create(this, getPackageName());
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
 
+
+        initDB();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+        layoutParams.height = 50;
+        toolbar.setLayoutParams(layoutParams);
         setSupportActionBar(toolbar);
+        drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
 
         //disable the navigation drawer
         setDrawerEnabled(false);
@@ -771,5 +794,62 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         drawerLayout.setDrawerLockMode(lockMode);
         //toggle.setDrawerIndicatorEnabled(enabled);
     }
+
+    public void initDB(){
+        System.out.println("ContainerActivity --> OnCreate() --> initDB()");
+        IconDB iconDB = new IconDB(this);
+        iconDB.open();
+        iconDB.clearIcon();
+        //add All icons into DBB
+        String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
+        for(int i = 0; i < icons.length; i ++){
+            Icon icon = new Icon();
+            icon.setNom(icons[i]);
+            icon.setDomaine("");
+            icon.setPath("");
+            iconDB.insertIcon(icon);
+        }
+        ArrayList<Icon> iconList = iconDB.getAllIcons();
+        for(int i = 0; i < iconList.size(); i ++){
+            System.out.println(iconList.get(i).getNom());
+        }
+        iconDB.close();
+
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    /* private int getPictureId(String pictureName){
+        int pictureId = 0;
+        switch(pictureName){
+            case "amiante": pictureId = R.drawable.amiante; break;
+            case "biodechets": pictureId = R.drawable.biodechets; break;
+            case "bouteille_plus_conserve": pictureId = R.drawable.bouteille_plus_conserve; break;
+            case "carton_plus_papier": pictureId = R.drawable.carton_plus_papier; break;
+            case "carton": pictureId = R.drawable.carton; break;
+            case "deee": pictureId = R.drawable.deee; break;
+            case "depots_sauvage": pictureId = R.drawable.depots_sauvage; break;
+            case "encombrants": pictureId = R.drawable.encombrants; break;
+            case "feuilles": pictureId = R.drawable.feuilles; break;
+            case "gaz": pictureId = R.drawable.gaz; break;
+            case "journaux": pictureId = R.drawable.journaux; break;
+            case "metal": pictureId = R.drawable.metal; break;
+            case "meuble": pictureId = R.drawable.meuble; break;
+            case "piles_plus_electromenager": pictureId = R.drawable.piles_plus_electromenager; break;
+            case "plastique": pictureId = R.drawable.plastique; break;
+            case "pneu": pictureId = R.drawable.pneu; break;
+            case "produits_chimiques_2": pictureId = R.drawable.produits_chimiques_2; break;
+            case "produits_chimiques": pictureId = R.drawable.produits_chimiques; break;
+            case "sac_plastique": pictureId = R.drawable.sac_plastique; break;
+            case "sac": pictureId = R.drawable.sac; break;
+            case "verre": pictureId = R.drawable.verre; break;
+            case "vetements": pictureId = R.drawable.vetements; break;
+        }
+        return pictureId;
+    }*/
 
 }

@@ -7,7 +7,7 @@
     android:padding="20.0dip" >
 
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/bg_bombbox"
@@ -21,9 +21,13 @@
             android:gravity="center"
             android:text="Information"
             android:textSize="23dip"
-            android:paddingTop="15.0dip"
+            android:paddingTop="10.0dip"
             android:visibility="visible" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragmentLayout">
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="fill_parent"
@@ -35,21 +39,20 @@
             <TextView
                 android:id="@+id/message"
                 style="@style/text_16_666666"
-                android:text="A message"
-                android:layout_width="fill_parent"
+                android:text="Vous avez sélectionné flux carton_plus_papier"
+                android:layout_width="wrap_content"
                 android:layout_height="58dp"
                 android:gravity="left|center"
                 android:lineSpacingMultiplier="1.5"
                 android:minHeight="120.0dip"
                 android:paddingTop="25.0dip"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="110dp"/>
 
             <LinearLayout
-                android:layout_width="264dp"
+                android:layout_width="295dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="left"
-                android:layout_weight="1.10"
                 android:layout_marginBottom="10dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true">
@@ -58,10 +61,11 @@
                     android:id="@+id/textView_quantite_flux"
                     android:text="Quantité:   "
                     style="@style/text_16_666666"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="left|center"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="110dp"
+                    android:layout_weight="1.5"/>
 
                 <EditText
                     android:id="@+id/editText_quantite_flux"
@@ -72,7 +76,7 @@
                     android:inputType="numberDecimal"
                     android:ems="10"
                     android:layout_gravity="left"
-                    android:layout_weight="0.01"/>
+                    android:layout_weight="1.5"/>
             </LinearLayout>
 
             <Button
@@ -87,6 +91,15 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"/>
         </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView_flux_item_dialog"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="3dp"
+                android:layout_gravity="left" />
+        </FrameLayout>
 
         <View
             android:layout_width="fill_parent"

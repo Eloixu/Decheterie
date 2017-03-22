@@ -25,14 +25,15 @@ public class DecheterieDB extends MyDb {
     public long insertDecheterie(Decheterie decheterie) {
         ContentValues values = new ContentValues();
 
-        values.put(DecheterieDatabase.TableDecheterie.ID_ACCOUNT, decheterie.getIdAccount());
-        values.put(DecheterieDatabase.TableDecheterie.NAME, decheterie.getName());
-        values.put(DecheterieDatabase.TableDecheterie.CONSIGNE_COMPTAGE, decheterie.getConsigneComptage());
-        values.put(DecheterieDatabase.TableDecheterie.CONSIGNE_SIGNATURE, decheterie.getConsigneSignature());
-        values.put(DecheterieDatabase.TableDecheterie.APPORT, decheterie.isApport()? 1 : 0);
-        values.put(DecheterieDatabase.TableDecheterie.UNITE_TOTAL, decheterie.getUniteTotal());
+        //values.put(DecheterieDatabase.TableDchDecheterie.ID, decheterie.getId());
+        values.put(DecheterieDatabase.TableDchDecheterie.ID_ACCOUNT, decheterie.getIdAccount());
+        values.put(DecheterieDatabase.TableDchDecheterie.NOM, decheterie.getNom());
+        values.put(DecheterieDatabase.TableDchDecheterie.CONSIGNE_COMPTAGE, decheterie.getConsigneComptage());
+        values.put(DecheterieDatabase.TableDchDecheterie.CONSIGNE_AV_SIGNATURE, decheterie.getConsigneAvSignature());
+        values.put(DecheterieDatabase.TableDchDecheterie.APPORT_FLUX, decheterie.isApportFlux()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchDecheterie.UNITE_TOTAL, decheterie.getUniteTotal());
 
-        return db.insertOrThrow(DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE, null, values);
+        return db.insertOrThrow(DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE, null, values);
     }
 
     /*
@@ -40,12 +41,12 @@ public class DecheterieDB extends MyDb {
      */
 
     public void clearDecheterie() {
-        db.execSQL("delete from " + DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE);
+        db.execSQL("delete from " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE);
     }
 
-    public Decheterie getDecheterieByIdentifiant(String idAccount) {
+    public Decheterie getDecheterieByIdentifiant(String id) {
         Decheterie decheterie;
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE + " WHERE " + DecheterieDatabase.TableDecheterie.ID_ACCOUNT + "='" + idAccount + "';";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE + " WHERE " + DecheterieDatabase.TableDchDecheterie.ID + "='" + id + "';";
         Cursor cursor = db.rawQuery(query, null);
         decheterie = cursorToDechetrie(cursor);
         return decheterie;
@@ -53,7 +54,7 @@ public class DecheterieDB extends MyDb {
 
     public ArrayList<Decheterie> getAllDecheteries() {
         ArrayList<Decheterie> decheterieList;
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE;
         Cursor cursor = db.rawQuery(query, null);
         decheterieList = cursorToListeDechetrie(cursor);
         return decheterieList;
@@ -61,7 +62,7 @@ public class DecheterieDB extends MyDb {
 
     public ArrayList<Decheterie> getDecheteriesByName(String name) {
         ArrayList<Decheterie> decheterieList;
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDecheterie.TABLE_DECHETERIE + " WHERE " + DecheterieDatabase.TableDecheterie.NAME + " LIKE " + "'%" + name + "%'" +  ";";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE + " WHERE " + DecheterieDatabase.TableDchDecheterie.NOM + " LIKE " + "'%" + name + "%'" +  ";";
         Cursor cursor = db.rawQuery(query, null);
         decheterieList = cursorToListeDechetrie(cursor);
         return decheterieList;
@@ -74,12 +75,13 @@ public class DecheterieDB extends MyDb {
         }
         c.moveToFirst();
         Decheterie d = new Decheterie();
-        d.setIdAccount(c.getInt(DecheterieDatabase.TableDecheterie.NUM_ID_ACCOUNT));
-        d.setName(c.getString(DecheterieDatabase.TableDecheterie.NUM_NAME));
-        d.setConsigneComptage(c.getString(DecheterieDatabase.TableDecheterie.NUM_CONSIGNE_COMPTAGE));
-        d.setConsigneSignature(c.getString(DecheterieDatabase.TableDecheterie.NUM_CONSIGNE_SIGNATURE));
-        d.setApport((c.getInt(DecheterieDatabase.TableDecheterie.NUM_APPORT) == 1)? true : false);
-        d.setUniteTotal(c.getString(DecheterieDatabase.TableDecheterie.NUM_UNITE_TOTAL));
+        d.setId(c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_ID));
+        d.setIdAccount(c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_ID_ACCOUNT));
+        d.setNom(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_NOM));
+        d.setConsigneComptage(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_COMPTAGE));
+        d.setConsigneAvSignature(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_AV_SIGNATURE));
+        d.setApportFlux((c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_APPORT_FLUX) == 1)? true : false);
+        d.setUniteTotal(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_UNITE_TOTAL));
 
         c.close();
 
@@ -92,12 +94,13 @@ public class DecheterieDB extends MyDb {
         if (c.moveToFirst()) {
             do {
                 Decheterie d = new Decheterie();
-                d.setIdAccount(c.getInt(DecheterieDatabase.TableDecheterie.NUM_ID_ACCOUNT));
-                d.setName(c.getString(DecheterieDatabase.TableDecheterie.NUM_NAME));
-                d.setConsigneComptage(c.getString(DecheterieDatabase.TableDecheterie.NUM_CONSIGNE_COMPTAGE));
-                d.setConsigneSignature(c.getString(DecheterieDatabase.TableDecheterie.NUM_CONSIGNE_SIGNATURE));
-                d.setApport((c.getInt(DecheterieDatabase.TableDecheterie.NUM_APPORT) == 1)? true : false);
-                d.setUniteTotal(c.getString(DecheterieDatabase.TableDecheterie.NUM_UNITE_TOTAL));
+                d.setId(c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_ID));
+                d.setIdAccount(c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_ID_ACCOUNT));
+                d.setNom(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_NOM));
+                d.setConsigneComptage(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_COMPTAGE));
+                d.setConsigneAvSignature(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_AV_SIGNATURE));
+                d.setApportFlux((c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_APPORT_FLUX) == 1)? true : false);
+                d.setUniteTotal(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_UNITE_TOTAL));
                 decheterieList.add(d);
             } while (c.moveToNext());
 

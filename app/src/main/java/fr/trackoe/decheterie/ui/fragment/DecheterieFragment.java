@@ -73,11 +73,12 @@ public class DecheterieFragment extends Fragment {
         String[] ds = {"Paris","Shanghai","Montpellier","Belfort","Paris France","Shanghai China","New York","New York City","San Francisco","Washington"};
         for(int i = 0; i < 10; i ++){
             Decheterie dt = new Decheterie();
-            dt.setIdAccount(i + 1);
-            dt.setName(ds[i]);
+            //dt.setId(i + 1);
+            dt.setIdAccount(0);
+            dt.setNom(ds[i]);
             dt.setConsigneComptage("");
-            dt.setConsigneSignature("");
-            dt.setApport(true);
+            dt.setConsigneAvSignature("");
+            dt.setApportFlux(true);
             dt.setUniteTotal("");
             decheterieDB.insertDecheterie(dt);
         }
@@ -111,14 +112,14 @@ public class DecheterieFragment extends Fragment {
 
                 final Decheterie decheterie = decheterieList.get(position);
                 final TextView name = (TextView)view.findViewById(R.id.dechetrie_name);
-                name.setText(decheterie.getName());
+                name.setText(decheterie.getNom());
                 name.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
 
                         Configuration.saveIdDecheterie(decheterie.getIdAccount());
-                        fr.trackoe.decheterie.configuration.Configuration.saveNameDecheterie(decheterie.getName());
+                        fr.trackoe.decheterie.configuration.Configuration.saveNameDecheterie(decheterie.getNom());
                         System.out.println(name.getText().toString());
                         String dechetrieName = name.getText().toString();
                         if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
@@ -183,14 +184,14 @@ public class DecheterieFragment extends Fragment {
 
                         final Decheterie decheterie = decheteries.get(position);
                         final TextView name = (TextView)view.findViewById(R.id.dechetrie_name);
-                        name.setText(decheterie.getName());
+                        name.setText(decheterie.getNom());
                         name.setOnClickListener(new View.OnClickListener() {
 
                             @Override
                             public void onClick(View v) {
                                 System.out.println(name.getText().toString());
                                 Configuration.saveIdDecheterie(decheterie.getIdAccount());
-                                fr.trackoe.decheterie.configuration.Configuration.saveNameDecheterie(decheterie.getName());
+                                fr.trackoe.decheterie.configuration.Configuration.saveNameDecheterie(decheterie.getNom());
                                 System.out.println(name.getText().toString());
                                 String dechetrieName = name.getText().toString();
                                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {

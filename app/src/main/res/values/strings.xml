@@ -36,6 +36,8 @@
     <string name="dialog_maj_dispo_ko">Pas maintenant</string>
     <string name="dialog_maj_dispo_ok">Installer</string>
     <string name="dialog_maj_mess">Il reste des relevés non synchronisé avec le serveur sur votre tablette.\n Veuillez effectuer cette synchronisation via l\'écran des paramètres avant de pouvoir mettre à jour l\'application</string>
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
 
     <!--  Error message -->
     <string name="error_btn_ok">OK</string>

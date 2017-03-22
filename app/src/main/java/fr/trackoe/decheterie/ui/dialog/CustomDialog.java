@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class CustomDialog extends Dialog {
         private String message;
         private String positiveButtonText;
         private String negativeButtonText;
+        private String iconName;
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
@@ -39,6 +41,14 @@ public class CustomDialog extends Dialog {
         public Builder(Context context) {
             this.context = context;
         }
+
+
+        public Builder setIconName(String iconName) {
+            this.iconName = iconName;
+            return this;
+        }
+
+
 
         public Builder setMessage(String message) {
             this.message = message;
@@ -116,15 +126,16 @@ public class CustomDialog extends Dialog {
         }
 
         public CustomDialog create() {
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
             final CustomDialog dialog = new CustomDialog(context,R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_layout, null);
-            dialog.addContentView(layout, new LayoutParams(
-                    LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+            dialog.addContentView(layout, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
             ((TextView) layout.findViewById(R.id.title)).setText(title);
+            // set the icon image
+            if(!iconName.isEmpty() && iconName != null)
+            ((ImageView) layout.findViewById(R.id.imageView_flux_item_dialog)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
             // set the confirm button
             if (positiveButtonText != null) {
                 ((Button) layout.findViewById(R.id.positiveButton))
