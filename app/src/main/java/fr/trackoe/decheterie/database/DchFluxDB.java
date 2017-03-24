@@ -25,7 +25,7 @@ public class DchFluxDB extends MyDb {
     public long insertFlux(Flux flux) {
         ContentValues values = new ContentValues();
 
-        values.put(DecheterieDatabase.TableDchFlux.ID, flux.getId());
+        //values.put(DecheterieDatabase.TableDchFlux.ID, flux.getId());
         values.put(DecheterieDatabase.TableDchFlux.NOM, flux.getNom());
         values.put(DecheterieDatabase.TableDchFlux.ICON_ID, flux.getIcon_id());
 
@@ -40,9 +40,9 @@ public class DchFluxDB extends MyDb {
         db.execSQL("delete from " + DecheterieDatabase.TableDchFlux.TABLE_DCH_FLUX);
     }
 
-    public Flux getFluxByIdentifiant(String id) {
+    public Flux getFluxByIdentifiant(int id) {
         Flux flux;
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDchFlux.TABLE_DCH_FLUX + " WHERE " + DecheterieDatabase.TableDchFlux.ID + "='" + id + "';";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchFlux.TABLE_DCH_FLUX + " WHERE " + DecheterieDatabase.TableDchFlux.ID + "=" + id + ";";
         Cursor cursor = db.rawQuery(query, null);
         flux = cursorToFlux(cursor);
         return flux;

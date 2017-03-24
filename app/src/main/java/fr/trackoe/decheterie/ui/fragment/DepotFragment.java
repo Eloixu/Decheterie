@@ -3,9 +3,11 @@ package fr.trackoe.decheterie.ui.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ public class DepotFragment extends Fragment {
     private ViewGroup depot_vg;
     private LinearLayout galleryFlux;
     private LinearLayout galleryFluxChoisi;
+    ContainerActivity parentActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class DepotFragment extends Fragment {
     Init Views
      */
     public void initViews(LayoutInflater inflater, ViewGroup container) {
+        parentActivity = (ContainerActivity ) getActivity();
+        parentActivity.showHamburgerButton();
+        parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux);
         galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux_choisi);
@@ -148,6 +154,7 @@ public class DepotFragment extends Fragment {
             galleryFlux.addView(view);
         }
         iconDB.close();
+        parentActivity.openDrawerWithDelay();
 
     }
 
@@ -155,6 +162,14 @@ public class DepotFragment extends Fragment {
     Init Listeners
      */
     public void initListeners() {
+        final ImageView imgFinger = (ImageView) depot_vg.findViewById(R.id.imageView_finger);
+        parentActivity = (ContainerActivity ) getActivity();
+        imgFinger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parentActivity.openDrawer();
+            }
+        });
 
     }
 }

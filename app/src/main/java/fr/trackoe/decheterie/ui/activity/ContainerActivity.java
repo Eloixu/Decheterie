@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -28,10 +29,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,11 +57,13 @@ import java.util.Date;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
@@ -67,6 +72,7 @@ import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
+import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
@@ -95,8 +101,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
     private ArrayList<String> urlsReleve;
 
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle actionBarDrawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -117,8 +124,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        hideHamburgerButton();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
 
         //disable the navigation drawer
         setDrawerEnabled(false);
@@ -144,10 +151,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             //changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+            /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
+            fragmentTransaction.commit();*/
+
         } else {
             //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+            /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
+            fragmentTransaction.commit();*/
         }
+
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -404,6 +419,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
+
+        if( getCurrentFragment() instanceof DepotFragment) {
+            changeMainFragment(new AccueilFragment(), false);
         }
 
         // On cache le clavier
@@ -800,6 +819,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         IconDB iconDB = new IconDB(this);
         iconDB.open();
         iconDB.clearIcon();
+        DchFluxDB dchFluxDB = new DchFluxDB(this);
+        dchFluxDB.open();
+        dchFluxDB.clearFlux();
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
         for(int i = 0; i < icons.length; i ++){
@@ -814,6 +836,33 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             System.out.println(iconList.get(i).getNom());
         }
         iconDB.close();
+        //add flux into DBB
+        dchFluxDB.insertFlux(new Flux("Amiante", 1));
+        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2));
+        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3));
+        dchFluxDB.insertFlux(new Flux("Carton + papier", 4));
+        dchFluxDB.insertFlux(new Flux("Carton", 5));
+        dchFluxDB.insertFlux(new Flux("DEEE", 6));
+        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7));
+        dchFluxDB.insertFlux(new Flux("Encombrants", 8));
+        dchFluxDB.insertFlux(new Flux("Feuilles", 9));
+        dchFluxDB.insertFlux(new Flux("Gaz", 10));
+        dchFluxDB.insertFlux(new Flux("Journaux", 11));
+        dchFluxDB.insertFlux(new Flux("Metal", 12));
+        dchFluxDB.insertFlux(new Flux("Meuble", 13));
+        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14));
+        dchFluxDB.insertFlux(new Flux("Plastique", 15));
+        dchFluxDB.insertFlux(new Flux("Pneu", 16));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18));
+        dchFluxDB.insertFlux(new Flux("Sac plastique", 19));
+        dchFluxDB.insertFlux(new Flux("Sac", 20));
+        dchFluxDB.insertFlux(new Flux("Verre", 21));
+        dchFluxDB.insertFlux(new Flux("Vêtements", 22));
+        dchFluxDB.close();
+
+
+
 
     }
 
@@ -822,6 +871,41 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         super.onPostCreate(savedInstanceState);
         actionBarDrawerToggle.syncState();
     }
+
+    public void hideHamburgerButton(){
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
+    public void showHamburgerButton(){
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+    }
+
+    //open the drawer in a few time
+    public void openDrawerWithDelay(){
+        new Handler().postDelayed(new Runnable(){
+
+            public void run() {
+
+                drawerLayout.openDrawer(Gravity.LEFT);
+
+            }
+
+        }, 1500);
+    }
+
+    public void openDrawer(){
+                drawerLayout.openDrawer(Gravity.LEFT);
+    }
+
+    public void closeDrawer(){
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    public void changeToolbarIcon(){
+        toolbar.setNavigationIcon(R.drawable.user);
+    }
+
+
 
     /* private int getPictureId(String pictureName){
         int pictureId = 0;

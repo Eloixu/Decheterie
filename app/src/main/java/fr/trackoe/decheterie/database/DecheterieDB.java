@@ -44,9 +44,9 @@ public class DecheterieDB extends MyDb {
         db.execSQL("delete from " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE);
     }
 
-    public Decheterie getDecheterieByIdentifiant(String id) {
+    public Decheterie getDecheterieByIdentifiant(int id) {
         Decheterie decheterie;
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE + " WHERE " + DecheterieDatabase.TableDchDecheterie.ID + "='" + id + "';";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE + " WHERE " + DecheterieDatabase.TableDchDecheterie.ID + "=" + id + ";";
         Cursor cursor = db.rawQuery(query, null);
         decheterie = cursorToDechetrie(cursor);
         return decheterie;

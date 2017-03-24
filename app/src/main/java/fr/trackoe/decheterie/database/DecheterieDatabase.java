@@ -67,23 +67,6 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     private static final String DELETE_TABLE_DCH_DECHETERIE = "DROP TABLE IF EXISTS " + TableDchDecheterie.TABLE_DCH_DECHETERIE;
 
-    //    Table dch_flux
-    public static abstract class TableDchFlux implements BaseColumns {
-        public static final String TABLE_DCH_FLUX = "dch_flux";
-        public static final String ID = "id";
-        public static final int NUM_ID = 0;
-        public static final String NOM = "nom";
-        public static final int NUM_NOM = 1;
-        public static final String ICON_ID = "icon_id";
-        public static final int NUM_ICON_ID = 2;
-    }
-
-    public static final String CREATE_TABLE_DCH_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchFlux.TABLE_DCH_FLUX + " ("
-            + TableDchFlux.ID + INTEGER_TYPE + " PRIMARY KEY, "
-            + TableDchFlux.NOM + TEXT_TYPE + COMMA_SEP
-            + FOREIGN_KEY + "(" + TableDchFlux.ICON_ID + ")" + REFERENCES + TableIcon.TABLE_ICON + "(" + TableIcon.ID + ")" ;
-
-    private static final String DELETE_TABLE_DCH_FLUX = "DROP TABLE IF EXISTS " + TableDchFlux.TABLE_DCH_FLUX;
 
     //    Table icon
     public static abstract class TableIcon implements BaseColumns {
@@ -106,7 +89,42 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     private static final String DELETE_TABLE_ICON = "DROP TABLE IF EXISTS " + TableIcon.TABLE_ICON;
 
-//    Table users
+    //    Table dch_flux
+    public static abstract class TableDchFlux implements BaseColumns {
+        public static final String TABLE_DCH_FLUX = "dch_flux";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+        public static final String ICON_ID = "icon_id";
+        public static final int NUM_ICON_ID = 2;
+    }
+
+    public static final String CREATE_TABLE_DCH_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchFlux.TABLE_DCH_FLUX + " ("
+            + TableDchFlux.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchFlux.NOM + TEXT_TYPE + COMMA_SEP
+            + TableDchFlux.ICON_ID + INTEGER_TYPE + " )" ;
+            //+ FOREIGN_KEY + "(" + TableDchFlux.ICON_ID + ")" + REFERENCES + TableIcon.TABLE_ICON + "(" + TableIcon.ID + "))" ;
+
+    private static final String DELETE_TABLE_DCH_FLUX = "DROP TABLE IF EXISTS " + TableDchFlux.TABLE_DCH_FLUX;
+
+    //    Table dch_decheterie_flux
+    public static abstract class TableDchDecheterieFlux implements BaseColumns {
+        public static final String TABLE_DCH_DECHETERIE_FLUX = "dch_decheterie_flux";
+        public static final String DCH_DECHETERIE_ID = "dch_decheterie_id";
+        public static final int NUM_DCH_DECHETERIE_ID = 0;
+        public static final String DCH_FLUX_ID = "dch_flux_id";
+        public static final int NUM_DCH_FLUX_ID = 1;
+    }
+
+    public static final String CREATE_TABLE_DCH_DECHETERIE_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchDecheterieFlux.TABLE_DCH_DECHETERIE_FLUX + " ("
+            + TableDchDecheterieFlux.DCH_DECHETERIE_ID + INTEGER_TYPE
+            + TableDchDecheterieFlux.DCH_FLUX_ID + INTEGER_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_DECHETERIE_FLUX = "DROP TABLE IF EXISTS " + TableDchDecheterieFlux.TABLE_DCH_DECHETERIE_FLUX;
+
+
+    //    Table users
     public static abstract class TableUsers implements BaseColumns {
         public static final String TABLE_USERS = "users";
         public static final String ID_USER = "id_user";
@@ -374,34 +392,36 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USERS);
-        db.execSQL(CREATE_TABLE_MODULES);
-        db.execSQL(CREATE_TABLE_PAV);
-        db.execSQL(CREATE_TABLE_RELEVE);
-        db.execSQL(CREATE_TABLE_VILLE);
-        db.execSQL(CREATE_TABLE_RUE);
-        db.execSQL(CREATE_TABLE_PHOTO);
-        db.execSQL(CREATE_TABLE_REPONSE);
-        db.execSQL(CREATE_TABLE_INFO_BOUCLE);
+        //db.execSQL(CREATE_TABLE_USERS);
+        //db.execSQL(CREATE_TABLE_MODULES);
+        //db.execSQL(CREATE_TABLE_PAV);
+        //db.execSQL(CREATE_TABLE_RELEVE);
+        //db.execSQL(CREATE_TABLE_VILLE);
+        //db.execSQL(CREATE_TABLE_RUE);
+        //db.execSQL(CREATE_TABLE_PHOTO);
+        //db.execSQL(CREATE_TABLE_REPONSE);
+        //db.execSQL(CREATE_TABLE_INFO_BOUCLE);
         db.execSQL(CREATE_TABLE_DCH_DECHETERIE);
-        //db.execSQL(CREATE_TABLE_DCH_FLUX);
         db.execSQL(CREATE_TABLE_ICON);
+        db.execSQL(CREATE_TABLE_DCH_FLUX);
+        db.execSQL(CREATE_TABLE_DCH_DECHETERIE_FLUX);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DELETE_TABLE_USERS);
-        db.execSQL(DELETE_TABLE_MODULES);
-        db.execSQL(DELETE_TABLE_PAV);
+        //db.execSQL(DELETE_TABLE_USERS);
+        //db.execSQL(DELETE_TABLE_MODULES);
+        //db.execSQL(DELETE_TABLE_PAV);
         //db.execSQL(DELETE_TABLE_RELEVE);
-        db.execSQL(DELETE_TABLE_VILLE);
-        db.execSQL(DELETE_TABLE_RUE);
-        db.execSQL(CREATE_TABLE_INFO_BOUCLE);
-        db.execSQL(CREATE_TABLE_PHOTO);
-        db.execSQL(DELETE_TABLE_REPONSE);
+        //db.execSQL(DELETE_TABLE_VILLE);
+        //db.execSQL(DELETE_TABLE_RUE);
+        //db.execSQL(CREATE_TABLE_INFO_BOUCLE);
+        //db.execSQL(CREATE_TABLE_PHOTO);
+        //db.execSQL(DELETE_TABLE_REPONSE);
         db.execSQL(DELETE_TABLE_DCH_DECHETERIE);
-        db.execSQL(DELETE_TABLE_DCH_FLUX);
         db.execSQL(DELETE_TABLE_ICON);
+        db.execSQL(DELETE_TABLE_DCH_FLUX);
+        db.execSQL(DELETE_TABLE_DCH_DECHETERIE_FLUX);
         onCreate(db);
     }
 

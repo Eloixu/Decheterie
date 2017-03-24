@@ -35,6 +35,7 @@ public class DecheterieFragment extends Fragment {
     private ListView listView;
     private ArrayList<Decheterie> decheterieList;
     private DecheterieDB decheterieDB;
+    ContainerActivity parentActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +66,8 @@ public class DecheterieFragment extends Fragment {
     Init Views
      */
     public void initViews(LayoutInflater inflater,ViewGroup container) {
+        parentActivity = (ContainerActivity ) getActivity();
+        parentActivity.hideHamburgerButton();
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         final View acceuilView = inflater.inflate(R.layout.accueil_fragment,container,false);
         decheterieDB = new DecheterieDB(getContext());

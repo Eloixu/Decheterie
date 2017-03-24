@@ -19,6 +19,11 @@ public class Flux {
         this.icon_id = icon_id;
     }
 
+    public Flux(String nom, int icon_id) {
+        this.nom = nom;
+        this.icon_id = icon_id;
+    }
+
     public int getId() {
         return id;
     }

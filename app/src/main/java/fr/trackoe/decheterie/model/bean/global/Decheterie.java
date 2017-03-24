@@ -1,7 +1,7 @@
 package fr.trackoe.decheterie.model.bean.global;
 
 /**
- * Created by Trackoe on 14/03/2017.
+ * Created by Haocheng on 14/03/2017.
  */
 
 public class Decheterie {

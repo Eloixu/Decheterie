@@ -3,6 +3,7 @@ package fr.trackoe.decheterie.ui.fragment;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
+
+import com.idescout.sql.SqlScoutServer;
 
 import fr.trackoe.decheterie.R;
 
@@ -23,6 +26,8 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 public class AccueilFragment extends Fragment {
     private ViewGroup accueil_vg;
+    ContainerActivity parentActivity;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +81,8 @@ public class AccueilFragment extends Fragment {
      */
     public void initViews() {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        parentActivity = (ContainerActivity ) getActivity();
+        parentActivity.hideHamburgerButton();
 
     }
 
@@ -89,6 +96,9 @@ public class AccueilFragment extends Fragment {
             public void onClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     ((ContainerActivity) getActivity()).changeMainFragment(new DecheterieFragment(), true);
+                    /*fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_container,new DepotFragment());
+                    fragmentTransaction.commit();*/
                 }
             }
         });
@@ -99,6 +109,9 @@ public class AccueilFragment extends Fragment {
             public void onClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+                    /*fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_container,new DepotFragment());
+                    fragmentTransaction.commit();*/
                 }
             }
         });

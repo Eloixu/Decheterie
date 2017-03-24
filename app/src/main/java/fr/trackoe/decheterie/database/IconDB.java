@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import fr.trackoe.decheterie.model.bean.global.Icon;
 
 /**
- * Created by Trackoe on 21/03/2017.
+ * Created by Haocheng on 21/03/2017.
  */
 
 public class IconDB extends MyDb {
@@ -40,9 +40,9 @@ public class IconDB extends MyDb {
         db.execSQL("delete from " + DecheterieDatabase.TableIcon.TABLE_ICON);
     }
 
-    public Icon getIconByIdentifiant(String id) {
+    public Icon getIconByIdentifiant(int id) {
         Icon icon;
-        String query = "SELECT * FROM " + DecheterieDatabase.TableIcon.TABLE_ICON + " WHERE " + DecheterieDatabase.TableIcon.ID + "='" + id + "';";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableIcon.TABLE_ICON + " WHERE " + DecheterieDatabase.TableIcon.ID + "=" + id + ";";
         Cursor cursor = db.rawQuery(query, null);
         icon = cursorToIcon(cursor);
         return icon;

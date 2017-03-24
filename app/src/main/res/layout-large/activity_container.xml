@@ -18,6 +18,11 @@
             android:layout_height="wrap_content"
             layout="@layout/toolbar_layout"
             />
+        <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/main_container"
+            />
 
     </LinearLayout>
 
@@ -29,5 +34,6 @@
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/navigation_drawer_header">
     </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>

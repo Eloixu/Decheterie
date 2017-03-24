@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="30dp"
+    android:minHeight="?android:attr/actionBarSize"
     android:background="@color/blue"
-    android:minHeight="30dp"
     android:fitsSystemWindows="true"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
