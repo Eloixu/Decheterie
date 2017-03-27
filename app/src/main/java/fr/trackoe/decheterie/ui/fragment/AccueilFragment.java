@@ -116,5 +116,13 @@ public class AccueilFragment extends Fragment {
             }
         });
 
+        accueil_vg.findViewById(R.id.btn_changer).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                parentActivity.copyDatabaseToSDCard(getContext());
+                return true;
+            }
+        });
+
     }
 }

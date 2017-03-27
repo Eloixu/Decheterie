@@ -68,6 +68,14 @@ public class DecheterieDB extends MyDb {
         return decheterieList;
     }
 
+    public Decheterie getDecheterieByName(String name) {
+        Decheterie decheterie;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE + " WHERE " + DecheterieDatabase.TableDchDecheterie.NOM + " LIKE " + "'" + name + "'" +  ";";
+        Cursor cursor = db.rawQuery(query, null);
+        decheterie = cursorToDechetrie(cursor);
+        return decheterie;
+    }
+
 
     private Decheterie cursorToDechetrie(Cursor c){
         if(c.getCount() == 0) {

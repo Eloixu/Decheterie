@@ -52,7 +52,7 @@ public class DchDecheterieFluxDB extends MyDb {
         dchFluxDB.open();
         if (c.moveToFirst()) {
             do {
-                int fluxId = c.getInt(DecheterieDatabase.TableDchDecheterieFlux.NUM_DCH_DECHETERIE_ID);
+                int fluxId = c.getInt(DecheterieDatabase.TableDchDecheterieFlux.NUM_DCH_FLUX_ID);
                 Flux f = dchFluxDB.getFluxByIdentifiant(fluxId);
                 fluxList.add(f);
             } while (c.moveToNext());

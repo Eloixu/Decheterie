@@ -48,6 +48,14 @@ public class DchFluxDB extends MyDb {
         return flux;
     }
 
+    public Flux getFluxByIconId(int iconId) {
+        Flux flux;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchFlux.TABLE_DCH_FLUX + " WHERE " + DecheterieDatabase.TableDchFlux.ICON_ID + "=" + iconId + ";";
+        Cursor cursor = db.rawQuery(query, null);
+        flux = cursorToFlux(cursor);
+        return flux;
+    }
+
     public ArrayList<Flux> getAllFlux() {
         ArrayList<Flux> fluxList;
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchFlux.TABLE_DCH_FLUX;

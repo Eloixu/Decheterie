@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,12 +43,14 @@ import android.widget.TextView;
 import com.idescout.sql.SqlScoutServer;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,12 +60,14 @@ import java.util.Date;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
@@ -71,6 +76,7 @@ import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
@@ -421,15 +427,37 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
 
-        if( getCurrentFragment() instanceof DepotFragment) {
-            changeMainFragment(new AccueilFragment(), false);
-        }
+
 
         // On cache le clavier
         Utils.hideSoftKeyboard(this);
 
         try {
-            super.onBackPressed();
+            if( getCurrentFragment() instanceof DepotFragment) {
+                //pop-up
+                CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
+                builder.setMessage("Vous allez annuler le dépot en cours, confirmez l'annulation.");
+                builder.setTitle("Information");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        ContainerActivity.super.onBackPressed();
+                    }
+                });
+
+                builder.setNegativeButton("Non",
+                        new android.content.DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                builder.create().show();
+
+            }
+            else{
+                super.onBackPressed();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -822,6 +850,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchFluxDB dchFluxDB = new DchFluxDB(this);
         dchFluxDB.open();
         dchFluxDB.clearFlux();
+        DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(this);
+        dchDecheterieFluxDB.open();
+        dchDecheterieFluxDB.clearDecheterieFlux();
+
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
         for(int i = 0; i < icons.length; i ++){
@@ -836,6 +868,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             System.out.println(iconList.get(i).getNom());
         }
         iconDB.close();
+
         //add flux into DBB
         dchFluxDB.insertFlux(new Flux("Amiante", 1));
         dchFluxDB.insertFlux(new Flux("Biodéchèts", 2));
@@ -860,6 +893,15 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchFluxDB.insertFlux(new Flux("Verre", 21));
         dchFluxDB.insertFlux(new Flux("Vêtements", 22));
         dchFluxDB.close();
+
+        //add dechetrie_flux into DBB
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 2));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 3));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(2, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(3, 2));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(4, 3));
+        dchDecheterieFluxDB.close();
 
 
 
@@ -904,6 +946,46 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     public void changeToolbarIcon(){
         toolbar.setNavigationIcon(R.drawable.user);
     }
+
+    public boolean isDrawerOpen(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //save the BDD datas into a document
+    public static void copyDatabaseToSDCard(Context ctx) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = data + "/data/" + ctx.getPackageName() + "/databases/decheterie.db";
+                String backupDBPath = "decheterie.db";
+                File currentDB = new File(currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+                System.out.println("BDD is saved.");
+
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+
+
+
 
 
 

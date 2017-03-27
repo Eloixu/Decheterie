@@ -8,7 +8,7 @@
     <string name="mdp">opdemo</string>
 
     <!-- Paramètres base de données interne -->
-    <string name="database_name">formulaires.db</string>
+    <string name="database_name">decheterie.db</string>
     <integer name="database_version">1</integer>
 
     <!-- Valeurs appli -->
