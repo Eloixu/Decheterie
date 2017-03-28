@@ -5,31 +5,35 @@ package fr.trackoe.decheterie.model.bean.global;
  */
 
 public class Depot {
-    private int id;
+    private long id;
     private String nom;
     private String dateHeure;
     private int decheterieId;
     private int comptePrepayeId;
     private float qtyTotalUDD;
+    private boolean statut;
+    private boolean isSent;
 
     public Depot() {
 
     }
 
-    public Depot(int id, String nom, String dateHeure, int decheterieId, int comptePrepayeId, float qtyTotalUDD) {
+    public Depot(long id, String nom, String dateHeure, int decheterieId, int comptePrepayeId, float qtyTotalUDD, boolean statut, boolean isSent) {
         this.id = id;
         this.nom = nom;
         this.dateHeure = dateHeure;
         this.decheterieId = decheterieId;
         this.comptePrepayeId = comptePrepayeId;
         this.qtyTotalUDD = qtyTotalUDD;
+        this.statut = statut;
+        this.isSent = isSent;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -73,4 +77,19 @@ public class Depot {
         this.qtyTotalUDD = qtyTotalUDD;
     }
 
+    public boolean isStatut() {
+        return statut;
+    }
+
+    public void setStatut(boolean statut) {
+        this.statut = statut;
+    }
+
+    public boolean isSent() {
+        return isSent;
+    }
+
+    public void setSent(boolean sent) {
+        isSent = sent;
+    }
 }

@@ -152,6 +152,10 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_QTY_TOTAL_UDD = 4;
         public static final String NOM = "nom";
         public static final int NUM_NOM = 5;
+        public static final String STATUT = "statut";
+        public static final int NUM_STATUT = 6;
+        public static final String IS_SENT = "is_sent";
+        public static final int NUM_IS_SENT = 7;
 
     }
 
@@ -161,7 +165,9 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableDchDepot.DCH_DECHETERIE_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchDepot.DCH_COMPTE_PREPAYE_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchDepot.QTY_TOTAL_UDD + FLOAT_TYPE + COMMA_SEP
-            + TableDchDepot.NOM + TEXT_TYPE + " )" ;
+            + TableDchDepot.NOM + TEXT_TYPE + COMMA_SEP
+            + TableDchDepot.STATUT + INTEGER_TYPE + COMMA_SEP
+            + TableDchDepot.IS_SENT + INTEGER_TYPE + " )" ;
 
     private static final String DELETE_TABLE_DCH_DEPOT = "DROP TABLE IF EXISTS " +  TableDchDepot.TABLE_DCH_DEPOT;
 
@@ -174,13 +180,19 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_DCH_FLUX_ID = 1;
         public static final String QTY_APPORTE = "qty_apporte";
         public static final int NUM_QTY_APPORTE = 2;
+        public static final String IS_SENT = "is_sent";
+        public static final int NUM_IS_SENT = 3;
 
     }
 
     public static final String CREATE_TABLE_DCH_APPORT_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchApportFlux.TABLE_DCH_APPORT_FLUX + " ("
             + TableDchApportFlux.DCH_DEPOT_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchApportFlux.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
-            + TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + " )" ;
+            //+ TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + " )" ;
+            + TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + COMMA_SEP
+            + TableDchApportFlux.IS_SENT + INTEGER_TYPE + COMMA_SEP
+            + "CONSTRAINT PK PRIMARY KEY (dch_depot_id, dch_flux_id)" + " )" ;
+
 
     private static final String DELETE_TABLE_DCH_APPORT_FLUX = "DROP TABLE IF EXISTS " + TableDchApportFlux.TABLE_DCH_APPORT_FLUX;
 

@@ -29,6 +29,8 @@ public class DchDepotDB extends MyDb {
         values.put(DecheterieDatabase.TableDchDepot.DCH_COMPTE_PREPAYE_ID, depot.getComptePrepayeId());
         values.put(DecheterieDatabase.TableDchDepot.QTY_TOTAL_UDD, depot.getQtyTotalUDD());
         values.put(DecheterieDatabase.TableDchDepot.NOM, depot.getNom());
+        values.put(DecheterieDatabase.TableDchDepot.STATUT, depot.isStatut()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchDepot.IS_SENT, depot.isSent()? 1 : 0);
 
         return db.insertOrThrow(DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT, null, values);
     }
@@ -41,7 +43,7 @@ public class DchDepotDB extends MyDb {
         db.execSQL("delete from " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT);
     }
 
-    public Depot getDepotByIdentifiant(int id) {
+    public Depot getDepotByIdentifiant(long id) {
         Depot depot;
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.ID + "=" + id + ";";
         Cursor cursor = db.rawQuery(query, null);
@@ -86,6 +88,8 @@ public class DchDepotDB extends MyDb {
         d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
         d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
         d.setNom(c.getString(DecheterieDatabase.TableDchDepot.NUM_NOM));
+        d.setStatut((c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT) == 1)? true : false);
+        d.setSent((c.getInt(DecheterieDatabase.TableDchDepot.NUM_IS_SENT) == 1)? true : false);
 
         c.close();
 
@@ -104,6 +108,8 @@ public class DchDepotDB extends MyDb {
                 d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
                 d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
                 d.setNom(c.getString(DecheterieDatabase.TableDchDepot.NUM_NOM));
+                d.setStatut((c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT) == 1)? true : false);
+                d.setSent((c.getInt(DecheterieDatabase.TableDchDepot.NUM_IS_SENT) == 1)? true : false);
                 depotList.add(d);
             } while (c.moveToNext());
 

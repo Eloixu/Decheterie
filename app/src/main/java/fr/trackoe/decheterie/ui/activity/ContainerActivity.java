@@ -434,25 +434,34 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         try {
             if( getCurrentFragment() instanceof DepotFragment) {
-                //pop-up
-                CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
-                builder.setMessage("Vous allez annuler le dépot en cours, confirmez l'annulation.");
-                builder.setTitle("Information");
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        ContainerActivity.super.onBackPressed();
-                    }
-                });
+                //detect if the drawer is open
+                if(isDrawerOpen()){
+                    //close drawer
+                    closeDrawer();
+                }
+                else {
+                    //pop-up
+                    CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
+                    builder.setMessage("Vous allez annuler le dépot en cours, confirmez l'annulation.");
+                    builder.setTitle("Information");
+                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            ContainerActivity.super.onBackPressed();
+                            //delete the current depot and the flux associated
+                            //TODO: delete the current depot and the flux associated
+                        }
+                    });
 
-                builder.setNegativeButton("Non",
-                        new android.content.DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                    builder.setNegativeButton("Non",
+                            new android.content.DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
 
-                builder.create().show();
+                    builder.create().show();
+                }
 
             }
             else{

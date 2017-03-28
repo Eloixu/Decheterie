@@ -117,7 +117,6 @@ public class TabletteFragment extends Fragment {
             }
         });
 
-        // TODO Click su le bouton ok du clavier une fois qu'on a saisi le mdp valide le formulaire
 
     }
 

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +35,8 @@ public class CustomDialog extends Dialog {
         private String positiveButtonText;
         private String negativeButtonText;
         private String iconName;
+        private EditText editTextQuantiteFlux;
+        private String editTextQtyFlux;
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
@@ -43,8 +46,17 @@ public class CustomDialog extends Dialog {
         }
 
 
+        public EditText getEditTextQuantiteFlux() {
+            return editTextQuantiteFlux;
+        }
+
         public Builder setIconName(String iconName) {
             this.iconName = iconName;
+            return this;
+        }
+
+        public Builder setEditTextQtyFlux(String editTextQtyFlux) {
+            this.editTextQtyFlux = editTextQtyFlux;
             return this;
         }
 
@@ -133,6 +145,8 @@ public class CustomDialog extends Dialog {
             dialog.addContentView(layout, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
             ((TextView) layout.findViewById(R.id.title)).setText(title);
+            editTextQuantiteFlux = ((EditText) layout.findViewById(R.id.editText_quantite_flux));
+            editTextQuantiteFlux.setText(editTextQtyFlux);
             // set the icon image
             if(!iconName.isEmpty() && iconName != null)
             ((ImageView) layout.findViewById(R.id.imageView_flux_item_dialog)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
