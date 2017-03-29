@@ -1,5 +1,6 @@
 package fr.trackoe.decheterie.ui.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,10 +19,13 @@ import com.idescout.sql.SqlScoutServer;
 import fr.trackoe.decheterie.R;
 
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchDepotDB;
+import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 
 /**
- * Created by Trackoe on 13/03/2017.
+ * Created by Haocheng on 13/03/2017.
  */
 
 public class AccueilFragment extends Fragment {
@@ -31,6 +35,7 @@ public class AccueilFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("AccueilFragment-->onCreateView()");
         accueil_vg = (ViewGroup) inflater.inflate(R.layout.accueil_fragment, container, false);
         // Init Actionbar
         //initActionBar();
@@ -46,7 +51,12 @@ public class AccueilFragment extends Fragment {
 
     @Override
     public void onResume() {
+        System.out.println("AccueilFragment-->onResume()");
         super.onResume();
+
+        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+        dchDepotDB.open();
+
         Button btnRecherche = (Button) accueil_vg.findViewById(R.id.btn_recherche);
         Button btnIdentification = (Button) accueil_vg.findViewById(R.id.btn_identification);
         Button btnListe = (Button) accueil_vg.findViewById(R.id.btn_liste);
@@ -64,6 +74,46 @@ public class AccueilFragment extends Fragment {
         else {
             textViewNomDecheterie.setText(Configuration.getNameDecheterie());
         }
+
+        //detect if there is a depot which is on statut "statut_en_cours"
+        if(dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)) != null){
+            //pop-up ask if continue this depot
+            CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+            builder.setMessage("\nVous avez un dépot qui n'est pas encore terminé.\n" +
+                    "Est-ce que vous voulez continuer à éditer ce dépot?");
+            builder.setTitle("Information");
+            builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    //设置你的操作事项
+                    //turn to the page DepotFragment according to the depot
+                    if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                        //set a flag
+                        Configuration.setIsOuiClicked(true);
+                        ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+                    }
+                }
+            });
+
+            builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                    dchDepotDB.open();
+
+                    dialog.dismiss();
+
+                    //change the depot "statut" to "statut_annuler"
+                    Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
+                    dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(),getResources().getInteger(R.integer.statut_annuler));
+
+                    dchDepotDB.close();
+                }
+            });
+
+            builder.create().show();
+        }
+
+        dchDepotDB.close();
 
     }
 
@@ -108,6 +158,7 @@ public class AccueilFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    Configuration.setIsOuiClicked(false);
                     ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
                     /*fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.main_container,new DepotFragment());

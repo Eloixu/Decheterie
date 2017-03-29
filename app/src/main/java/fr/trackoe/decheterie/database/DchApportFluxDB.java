@@ -49,6 +49,14 @@ public class DchApportFluxDB extends MyDb {
         return apportFlux;
     }
 
+    public ArrayList<ApportFlux> getListeApportFluxByDepotId(long depotId) {
+        ArrayList<ApportFlux> apportFluxList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchApportFlux.TABLE_DCH_APPORT_FLUX + " WHERE " + DecheterieDatabase.TableDchApportFlux.DCH_DEPOT_ID + "=" + depotId + ";";
+        Cursor cursor = db.rawQuery(query, null);
+        apportFluxList = cursorToListeApportFlux(cursor);
+        return apportFluxList;
+    }
+
     public void updateQtyApporte(long depotId, int fluxId, float qtyApporte) {
         String query = "UPDATE " + DecheterieDatabase.TableDchApportFlux.TABLE_DCH_APPORT_FLUX + " SET " + DecheterieDatabase.TableDchApportFlux.QTY_APPORTE + "=" + qtyApporte
                      + " WHERE " + DecheterieDatabase.TableDchApportFlux.DCH_DEPOT_ID + "=" + depotId
@@ -78,6 +86,24 @@ public class DchApportFluxDB extends MyDb {
         c.close();
 
         return a;
+    }
+
+    private ArrayList<ApportFlux> cursorToListeApportFlux(Cursor c) {
+        ArrayList<ApportFlux> apportFluxList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                ApportFlux af = new ApportFlux();
+                af.setDepotId(c.getLong(DecheterieDatabase.TableDchApportFlux.NUM_DCH_DEPOT_ID));
+                af.setFluxId(c.getInt(DecheterieDatabase.TableDchApportFlux.NUM_DCH_FLUX_ID));
+                af.setQtyApporte(c.getFloat(DecheterieDatabase.TableDchApportFlux.NUM_QTY_APPORTE));
+                af.setSent(c.getInt(DecheterieDatabase.TableDchApportFlux.NUM_IS_SENT) == 1);
+                apportFluxList.add(af);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return apportFluxList;
     }
 
 }

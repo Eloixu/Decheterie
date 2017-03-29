@@ -11,14 +11,14 @@ public class Depot {
     private int decheterieId;
     private int comptePrepayeId;
     private float qtyTotalUDD;
-    private boolean statut;
+    private int statut;
     private boolean isSent;
 
     public Depot() {
 
     }
 
-    public Depot(long id, String nom, String dateHeure, int decheterieId, int comptePrepayeId, float qtyTotalUDD, boolean statut, boolean isSent) {
+    public Depot(long id, String nom, String dateHeure, int decheterieId, int comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
         this.id = id;
         this.nom = nom;
         this.dateHeure = dateHeure;
@@ -77,11 +77,11 @@ public class Depot {
         this.qtyTotalUDD = qtyTotalUDD;
     }
 
-    public boolean isStatut() {
+    public int getStatut() {
         return statut;
     }
 
-    public void setStatut(boolean statut) {
+    public void setStatut(int statut) {
         this.statut = statut;
     }
 

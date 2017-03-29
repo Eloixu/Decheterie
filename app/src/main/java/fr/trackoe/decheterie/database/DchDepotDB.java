@@ -29,7 +29,7 @@ public class DchDepotDB extends MyDb {
         values.put(DecheterieDatabase.TableDchDepot.DCH_COMPTE_PREPAYE_ID, depot.getComptePrepayeId());
         values.put(DecheterieDatabase.TableDchDepot.QTY_TOTAL_UDD, depot.getQtyTotalUDD());
         values.put(DecheterieDatabase.TableDchDepot.NOM, depot.getNom());
-        values.put(DecheterieDatabase.TableDchDepot.STATUT, depot.isStatut()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchDepot.STATUT, depot.getStatut());
         values.put(DecheterieDatabase.TableDchDepot.IS_SENT, depot.isSent()? 1 : 0);
 
         return db.insertOrThrow(DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT, null, values);
@@ -49,6 +49,24 @@ public class DchDepotDB extends MyDb {
         Cursor cursor = db.rawQuery(query, null);
         depot = cursorToDepot(cursor);
         return depot;
+    }
+
+    public Depot getDepotByStatut(int statut) {
+        Depot depot;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.STATUT + "=" + statut + ";";
+        Cursor cursor = db.rawQuery(query, null);
+        depot = cursorToDepot(cursor);
+        return depot;
+    }
+
+    public void changeDepotStatutByIdentifiant(long id, int statut) {
+        String query = "UPDATE " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " SET " + DecheterieDatabase.TableDchDepot.STATUT + "=" + statut
+                + " WHERE " + DecheterieDatabase.TableDchDepot.ID + "=" + id;
+        db.execSQL(query);
+    }
+
+    public void deleteDepotByIdentifiant(long id) {
+        db.execSQL("delete from " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.ID + "=" + id);
     }
 
     public ArrayList<Depot> getAllDepot() {
@@ -82,13 +100,13 @@ public class DchDepotDB extends MyDb {
         }
         c.moveToFirst();
         Depot d = new Depot();
-        d.setId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_ID));
+        d.setId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_ID));
         d.setDateHeure(c.getString(DecheterieDatabase.TableDchDepot.NUM_DATEHEURE));
         d.setDecheterieId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_DECHETERIE_ID));
         d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
         d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
         d.setNom(c.getString(DecheterieDatabase.TableDchDepot.NUM_NOM));
-        d.setStatut((c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT) == 1)? true : false);
+        d.setStatut(c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT));
         d.setSent((c.getInt(DecheterieDatabase.TableDchDepot.NUM_IS_SENT) == 1)? true : false);
 
         c.close();
@@ -102,13 +120,13 @@ public class DchDepotDB extends MyDb {
         if (c.moveToFirst()) {
             do {
                 Depot d = new Depot();
-                d.setId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_ID));
+                d.setId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_ID));
                 d.setDateHeure(c.getString(DecheterieDatabase.TableDchDepot.NUM_DATEHEURE));
                 d.setDecheterieId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_DECHETERIE_ID));
                 d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
                 d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
                 d.setNom(c.getString(DecheterieDatabase.TableDchDepot.NUM_NOM));
-                d.setStatut((c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT) == 1)? true : false);
+                d.setStatut(c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT));
                 d.setSent((c.getInt(DecheterieDatabase.TableDchDepot.NUM_IS_SENT) == 1)? true : false);
                 depotList.add(d);
             } while (c.moveToNext());

@@ -53,6 +53,14 @@ public abstract class Configuration {
         return params.getString(Const.NAME_DECHETERIE, "");
     }
 
+    public static Boolean getIsOuiClicked() {
+        return params.getBoolean(Const.IS_OUI_CLICKED, false);
+    }
+
+    public static void setIsOuiClicked(boolean IsOuiClicked) {
+        params.edit().putBoolean(Const.IS_OUI_CLICKED, IsOuiClicked).commit();
+    }
+
 
     public static void saveIdUser(int idUser) {
         params.edit().putInt(Const.ID_USER, idUser).commit();

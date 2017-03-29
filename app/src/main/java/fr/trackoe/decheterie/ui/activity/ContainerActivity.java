@@ -61,6 +61,7 @@ import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
+import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
@@ -68,6 +69,7 @@ import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
+import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
@@ -446,15 +448,23 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     builder.setTitle("Information");
                     builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            DchDepotDB dchDepotDB = new DchDepotDB(activity);
+                            dchDepotDB.open();
                             dialog.dismiss();
-                            ContainerActivity.super.onBackPressed();
                             //delete the current depot and the flux associated
                             //TODO: delete the current depot and the flux associated
+                            Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
+                            dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(),getResources().getInteger(R.integer.statut_annuler));
+
+                            Configuration.setIsOuiClicked(false);
+
+                            ContainerActivity.super.onBackPressed();
+
+                            dchDepotDB.close();
                         }
                     });
 
-                    builder.setNegativeButton("Non",
-                            new android.content.DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
@@ -936,12 +946,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         new Handler().postDelayed(new Runnable(){
 
             public void run() {
-
-                drawerLayout.openDrawer(Gravity.LEFT);
+                if( getCurrentFragment() instanceof DepotFragment) {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
 
             }
 
-        }, 1500);
+        }, 1000);
     }
 
     public void openDrawer(){
