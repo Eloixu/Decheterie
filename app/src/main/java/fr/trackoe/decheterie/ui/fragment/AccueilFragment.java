@@ -181,5 +181,15 @@ public class AccueilFragment extends Fragment {
             }
         });
 
+        accueil_vg.findViewById(R.id.btn_recherche).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new ApportProFragment(), true);
+                }
+                return true;
+            }
+        });
+
     }
 }

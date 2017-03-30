@@ -1,0 +1,293 @@
+<LinearLayout
+    android:id="@+id/linearLayout_global"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="fr.trackoe.decheterie.ui.fragment.ApportProFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_top"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:layout_marginTop="50px"
+        android:layout_weight="0.3">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_top_up"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@drawable/border">
+
+            <LinearLayout
+            android:id="@+id/linearLayout_top_up_line1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            >
+            <TextView
+                android:id="@+id/textView_top_up_line1_title"
+                android:text="Raison sociale:"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                android:textSize="@dimen/general_txt_size"
+                android:layout_weight="0.5" />
+
+            <TextView
+                android:id="@+id/textView_top_up_line1_value"
+                android:text="NOM RAISON SOCIALE"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                android:textStyle="bold"
+                android:textColor="@color/bluedeep"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_top_up_line2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                >
+                <TextView
+                    android:id="@+id/textView_top_up_line2_title"
+                    android:text="Adresse:"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                    android:textSize="@dimen/general_txt_size"
+                    android:layout_weight="0.5" />
+
+                <TextView
+                    android:id="@+id/textView_top_up_line2_value"
+                    android:text="ADRESSE"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                    android:textStyle="bold"
+                    android:textColor="@color/bluedeep"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_top_up_line3"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                >
+                <TextView
+                    android:id="@+id/textView_top_up_line3_title"
+                    android:text="N° de carte:"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                    android:textSize="@dimen/general_txt_size"
+                    android:layout_weight="0.5" />
+
+                <TextView
+                    android:id="@+id/textView_top_up_line3_value"
+                    android:text="NUMERO DE CARTE"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                    android:textStyle="bold"
+                    android:textColor="@color/bluedeep"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:layout_weight="0.7">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_bottom_left"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_bottom_left_up"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/border"
+                android:layout_weight="0.8">
+                <LinearLayout
+                    android:id="@+id/linearLayout_bottom_left_up_line1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    >
+                    <TextView
+                        android:id="@+id/textView_left_up_line1_title"
+                        android:text="Volume prépayés avant décompte:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_txt_size" />
+
+                    <TextView
+                        android:id="@+id/textView_left_up_line1_value"
+                        android:text="X.XX m3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingEnd="10dp"
+                        android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_bottom_left_up_line2"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    >
+                    <TextView
+                        android:id="@+id/textView_left_up_line2_title"
+                        android:text="Volume apporté et décompté:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_txt_size" />
+
+                    <TextView
+                        android:id="@+id/textView_left_up_line2_value"
+                        android:text="X.XX m3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingEnd="10dp"
+                        android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_bottom_left_up_line3"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    >
+                    <TextView
+                        android:id="@+id/textView_bottom_left_up_line3_title"
+                        android:text="Compte prépayés après décomptes:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_txt_size"/>
+
+                    <TextView
+                        android:id="@+id/textView_bottom_left_up_line3_value"
+                        android:text="X.XX m3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingEnd="10dp"
+                        android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView_left_up_information"
+                    android:text="Par ma signature je reconnais avoir pris connaissance et confirmé le décompte des apports."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="19sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout_bottom_left_down"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="0.2">
+
+                <Button
+                    android:id="@+id/btn_valider"
+                    android:text="valider"
+                    android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button"
+                    android:layout_gravity="center"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_bottom_right"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="0.55">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_bottom_right_up"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:background="@drawable/border_signature_information"
+                android:layout_weight="0.25">
+                <TextView
+                    android:id="@+id/textView_signature_information"
+                    android:text="Fait à la déchèterie de XXX, le JJ/MM/AAAA \nSignature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                    android:textSize="21sp"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_bottom_right_down"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/border_signature"
+                android:layout_weight="0.75">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
