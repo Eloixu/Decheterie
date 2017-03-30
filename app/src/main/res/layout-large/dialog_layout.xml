@@ -49,13 +49,13 @@
                 android:layout_marginStart="110dp"/>
 
             <LinearLayout
-                android:layout_width="295dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="left"
                 android:layout_marginBottom="10dp"
                 android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:focusableInTouchMode="true"
+                android:weightSum="1">
 
                 <TextView
                     android:id="@+id/textView_quantite_flux"
@@ -65,7 +65,7 @@
                     android:layout_height="match_parent"
                     android:gravity="left|center"
                     android:layout_marginStart="110dp"
-                    android:layout_weight="1.5"/>
+                    android:layout_weight="0.4"/>
 
                 <EditText
                     android:id="@+id/editText_quantite_flux"
@@ -74,22 +74,25 @@
                     android:gravity="center"
                     android:text=""
                     android:inputType="numberDecimal"
+                    android:maxLength="7"
                     android:ems="10"
                     android:layout_gravity="left"
-                    android:layout_weight="1.5"/>
+                    android:layout_marginEnd="30dp"
+                    android:layout_weight="0.4"/>
+
+                <Button
+                    android:id="@+id/negativeButton"
+                    style="@style/text_15_666666_sdw"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/delete"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="200dp" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/positiveButton"
-                style="@style/text_15_ffffff_sdw"
-                android:layout_width="114.0dip"
-                android:layout_height="40.0dip"
-                android:background="@drawable/btn_ok_selector"
-                android:gravity="center"
-                android:text="ok"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"/>
+
         </LinearLayout>
 
             <ImageView
@@ -115,18 +118,20 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-
-
             <Button
-                android:id="@+id/negativeButton"
-                style="@style/text_15_666666_sdw"
-                android:layout_width="114.0dip"
+                android:id="@+id/positiveButton"
+                style="@style/text_15_ffffff_sdw"
+                android:layout_width="0dp"
                 android:layout_height="40.0dip"
-                android:background="@drawable/btn_cancel_selector"
+                android:background="@drawable/button"
                 android:gravity="center"
-                android:text="cancel"
+                android:text="ok"
                 android:textColor="@color/white"
-                android:layout_weight="0.43" />
+                android:layout_weight="0.5"/>
+
+
+
+
         </LinearLayout>
     </LinearLayout>
 

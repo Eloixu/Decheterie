@@ -20,6 +20,7 @@ import fr.trackoe.decheterie.R;
 
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchDepotDB;
+import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
@@ -56,6 +57,8 @@ public class AccueilFragment extends Fragment {
 
         DchDepotDB dchDepotDB = new DchDepotDB(getContext());
         dchDepotDB.open();
+        DecheterieDB decheterieDB = new DecheterieDB(getContext());
+        decheterieDB.open();
 
         Button btnRecherche = (Button) accueil_vg.findViewById(R.id.btn_recherche);
         Button btnIdentification = (Button) accueil_vg.findViewById(R.id.btn_identification);
@@ -75,45 +78,48 @@ public class AccueilFragment extends Fragment {
             textViewNomDecheterie.setText(Configuration.getNameDecheterie());
         }
 
-        //detect if there is a depot which is on statut "statut_en_cours"
+        //detect if there is a depot which is on statut "statut_en_cours" and the its decheterie matches the current decheterie id
         if(dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)) != null){
-            //pop-up ask if continue this depot
-            CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-            builder.setMessage("\nVous avez un dépot qui n'est pas encore terminé.\n" +
-                    "Est-ce que vous voulez continuer à éditer ce dépot?");
-            builder.setTitle("Information");
-            builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    //设置你的操作事项
-                    //turn to the page DepotFragment according to the depot
-                    if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                        //set a flag
-                        Configuration.setIsOuiClicked(true);
-                        ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+            if(dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)).getDecheterieId() == decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId()) {
+                //pop-up ask if continue this depot
+                CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+                builder.setMessage("\nVous avez un dépot qui n'est pas encore terminé.\n" +
+                        "Est-ce que vous voulez continuer à éditer ce dépot?");
+                builder.setTitle("Information");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //设置你的操作事项
+                        //turn to the page DepotFragment according to the depot
+                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                            //set a flag
+                            Configuration.setIsOuiClicked(true);
+                            ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+                        }
                     }
-                }
-            });
+                });
 
-            builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                    dchDepotDB.open();
+                builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                        dchDepotDB.open();
 
-                    dialog.dismiss();
+                        dialog.dismiss();
 
-                    //change the depot "statut" to "statut_annuler"
-                    Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
-                    dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(),getResources().getInteger(R.integer.statut_annuler));
+                        //change the depot "statut" to "statut_annuler"
+                        Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
+                        dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(), getResources().getInteger(R.integer.statut_annuler));
 
-                    dchDepotDB.close();
-                }
-            });
+                        dchDepotDB.close();
+                    }
+                });
 
-            builder.create().show();
+                builder.create().show();
+            }
         }
 
         dchDepotDB.close();
+        decheterieDB.close();
 
     }
 

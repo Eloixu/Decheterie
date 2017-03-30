@@ -88,13 +88,14 @@
             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
             android:textStyle="bold"
             android:textColor="@color/bluedeep"
-            android:layout_weight="0.8" />
+            android:layout_weight="1" />
         <ImageView
             android:id="@+id/imageView_finger"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:background="@drawable/finger3"
             android:layout_gravity="center"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.2"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

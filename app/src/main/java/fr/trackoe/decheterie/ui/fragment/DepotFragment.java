@@ -25,6 +25,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
@@ -269,7 +270,7 @@ public class DepotFragment extends Fragment {
                         }
                     });
 
-                    builder.setNegativeButton("Supprimer le flux",
+                    builder.setNegativeButton("",
                             new android.content.DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     DchFluxDB dchFluxDB = new DchFluxDB(getContext());
@@ -348,7 +349,7 @@ public class DepotFragment extends Fragment {
                                 }
                             });
 
-                            builder.setNegativeButton("Supprimer le flux",
+                            builder.setNegativeButton("",
                                     new android.content.DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             DchFluxDB dchFluxDB = new DchFluxDB(getContext());
@@ -440,7 +441,7 @@ public class DepotFragment extends Fragment {
         }
 
 
-        //get the flux which associate to the depot
+        //get the flux which associate to the depot in the bottom scroll
         ArrayList<ApportFlux> apportFluxList = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
         ArrayList<Flux> fluxList = new ArrayList<>();
         for(ApportFlux af: apportFluxList){
@@ -452,14 +453,34 @@ public class DepotFragment extends Fragment {
             iconListOfGalleryFluxChoisi.add(icon);
         }
 
-        //get the rest flux
-        for(Icon iconTotal: iconListTotal){
+        //get the rest flux which are in the top scroll
+        /*for(Icon iconTotal: iconListTotal){
             for(Icon iconChoisi: iconListOfGalleryFluxChoisi) {
                 if (iconTotal.getId() != iconChoisi.getId()) {
                     iconListOfGalleryFlux.add(iconTotal);
                 }
             }
+        }*/
+        int[] arrIconTotalIdList = new int[iconListTotal.size()];
+        int[] arrIconChoisiIdList = new int[iconListOfGalleryFluxChoisi.size()];
+        for(int i = 0; i < iconListTotal.size(); i ++){
+            arrIconTotalIdList[i] = iconListTotal.get(i).getId();
         }
+        for(int i = 0; i < iconListOfGalleryFluxChoisi.size(); i ++){
+            arrIconChoisiIdList[i] = iconListOfGalleryFluxChoisi.get(i).getId();
+        }
+        HashSet<Integer> map = new HashSet<Integer>();
+        for (int i : arrIconChoisiIdList)
+            map.add(i);
+        for (int i : arrIconTotalIdList) {
+            if (!map.contains(i)){
+                // found not duplicate!
+                iconListOfGalleryFlux.add(iconDB.getIconByIdentifiant(i));
+            }
+
+        }
+
+
 
         //add the flux in "iconListOfGalleryFlux" in "galleryFlux"
         for (int i = 0; i < iconListOfGalleryFlux.size(); i++)
@@ -531,7 +552,7 @@ public class DepotFragment extends Fragment {
                         }
                     });
 
-                    builder.setNegativeButton("Supprimer le flux",
+                    builder.setNegativeButton("",
                             new android.content.DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     DchFluxDB dchFluxDB = new DchFluxDB(getContext());
@@ -610,7 +631,7 @@ public class DepotFragment extends Fragment {
                                 }
                             });
 
-                            builder.setNegativeButton("Supprimer le flux",
+                            builder.setNegativeButton("",
                                     new android.content.DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             DchFluxDB dchFluxDB = new DchFluxDB(getContext());
@@ -711,7 +732,7 @@ public class DepotFragment extends Fragment {
                         }
                     });
 
-                    builder.setNegativeButton("Supprimer le flux", new android.content.DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("", new android.content.DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                             dchFluxDB.open();
@@ -735,8 +756,98 @@ public class DepotFragment extends Fragment {
 
                     //TODO imgCopy.setOnClickListener
 
+                    imgCopy.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+                            dchApportFluxDB.open();
+                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
+                            dchFluxDB.open();
+
+                            galleryFlux.removeView(viewCopy);
+                            galleryFluxChoisi.addView(view);
+
+                            //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
+                            final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                            builder.setMessage("Vous avez sélectionné flux " + iconName);
+                            builder.setTitle(iconName);
+                            builder.setIconName(iconName);/*
+                            //show the qty from BDD
+                            if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) == null){
+
+                            }
+                            else{
+                                builder.setEditTextQtyFlux(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyApporte());
+                            }*/
+                            builder.setPositiveButton("valider", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    //设置你的操作事项
+                                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+                                    dchApportFluxDB.open();
+                                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
+                                    dchFluxDB.open();
+
+                                    int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                                    EditText editTextQuantiteFlux = builder.getEditTextQuantiteFlux();
+                                    float qtyApporte;
+
+                                    if(editTextQuantiteFlux.getText().toString().isEmpty()||editTextQuantiteFlux.getText().toString() ==""){
+                                        qtyApporte = 0;
+                                    }
+                                    else {
+                                        qtyApporte = Float.parseFloat(editTextQuantiteFlux.getText().toString());
+                                    }
+
+                                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) == null){
+                                        //save the qty into BDD
+                                        ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,false);
+                                        dchApportFluxDB.insertApportFlux(apportFlux);
+                                    }
+                                    else{
+                                        //update the data in BDD
+                                        dchApportFluxDB.updateQtyApporte(depotId, fluxId, qtyApporte);
+                                    }
+
+                                    dchApportFluxDB.close();
+                                    dchFluxDB.close();
 
 
+                                }
+                            });
+
+                            builder.setNegativeButton("",
+                                    new android.content.DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
+                                            dchFluxDB.open();
+                                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+                                            dchApportFluxDB.open();
+
+                                            dialog.dismiss();
+                                            galleryFluxChoisi.removeView(view);
+                                            galleryFlux.addView(viewCopy);
+
+                                            dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
+
+                                            dchFluxDB.close();
+                                            dchApportFluxDB.close();
+                                        }
+                                    });
+
+                            builder.create().show();
+
+
+                            dchApportFluxDB.close();
+                            dchFluxDB.close();
+
+                        }
+                    });
+
+
+                    dchApportFluxDB.close();
+                    dchFluxDB.close();
 
 
                 }

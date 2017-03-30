@@ -41,7 +41,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:srcCompat="@drawable/finger3"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:visibility="gone"/>
         </LinearLayout>
     </HorizontalScrollView>
 

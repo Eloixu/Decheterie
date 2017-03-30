@@ -114,6 +114,11 @@ public class CustomDialogNormal extends Dialog {
             return this;
         }
 
+        public Builder setCancelable(){
+            new CustomDialogNormal(context).setCanceledOnTouchOutside(false);
+            return this;
+        }
+
         public CustomDialog create() {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -171,6 +176,7 @@ public class CustomDialogNormal extends Dialog {
                 ((LinearLayout) layout.findViewById(R.id.content))
                         .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
             }
+            dialog.setCanceledOnTouchOutside(false);
             dialog.setContentView(layout);
             return dialog;
         }
