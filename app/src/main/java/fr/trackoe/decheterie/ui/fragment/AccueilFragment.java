@@ -173,6 +173,17 @@ public class AccueilFragment extends Fragment {
             }
         });
 
+        accueil_vg.findViewById(R.id.btn_identification).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    Configuration.setIsOuiClicked(false);
+                    ((ContainerActivity) getActivity()).changeMainFragment(new AncienneCarteFragment(), true);
+                }
+                return true;
+            }
+        });
+
         accueil_vg.findViewById(R.id.btn_changer).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
