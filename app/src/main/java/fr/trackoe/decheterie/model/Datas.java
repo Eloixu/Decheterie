@@ -35,26 +35,32 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ApkInfosParser());
     }
 
-    // Récupérations des users
+    // Récupération des users
     public static void loadUsers(Context ctx, DataCallback<Users> callback, String numTablette) {
         String url = Configuration.getInstance(ctx).getUsersUrl(ctx, numTablette);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsersParser());
     }
 
-    // Récupérations de l'abonnement
+    // Récupération de l'abonnement
     public static void loadAbonnement(Context ctx, DataCallback<ContenantBean> callback, String numTablette) {
         String url = Configuration.getInstance(ctx).getAbonnementUrl(ctx, numTablette);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new OptaeParser());
     }
 
-    // Récupérations des infos
+    // Récupération des infos
     public static void loadInfos(Context ctx, DataCallback<TabletteInfos> callback, String numTablette) {
         String url = Configuration.getInstance(ctx).getInfosUrl(ctx, numTablette);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new InfosParser());
     }
 
-    // Récupérations des modules
+    // Récupération des modules
     public static void loadModules(Context ctx, DataCallback<Modules> callback, String numTablette) {
+        String url = Configuration.getInstance(ctx).getModulesUrl(ctx, numTablette);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ModulesParser());
+    }
+
+    // Test WS
+    public static void testUrl(Context ctx, DataCallback<OptaeParser> callback, String numTablette) {
         String url = Configuration.getInstance(ctx).getModulesUrl(ctx, numTablette);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ModulesParser());
     }

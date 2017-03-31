@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.model.Const;
@@ -240,6 +237,10 @@ public abstract class Configuration {
         return (isProd() || getIsProdEnvWS()) ? "http://trackoe.fr/android-ws/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
     }
 
+    public String getWebServiceContenantHost(Context ctx) {
+        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://contenant.trackoe.fr/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+    }
+
     //    Récupération des users
     public String getUsersUrl(Context ctx, String numTablette) {
         if (numTablette == null) {
@@ -351,6 +352,11 @@ public abstract class Configuration {
         }
 
         return getWebServiceHost(ctx) + "ws_load_modules.php?code_tablette=" + numTablette + "&token=" + mac;
+    }
+
+    //    Test Url
+    public String getTestUrl(Context ctx, int value) {
+        return getWebServiceContenantHost(ctx) + "ws_load_value.php?value=" + value;
     }
 
     public String getEncodedParam(String param) {
