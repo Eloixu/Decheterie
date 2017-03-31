@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="30dp"
     android:minHeight="?android:attr/actionBarSize"
-    android:background="@color/blue"
+    android:background="@color/bluedeep"
     android:fitsSystemWindows="true"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
