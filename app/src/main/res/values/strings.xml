@@ -36,6 +36,8 @@
     <string name="dialog_maj_dispo_ko">Pas maintenant</string>
     <string name="dialog_maj_dispo_ok">Installer</string>
     <string name="dialog_maj_mess">Il reste des relevés non synchronisé avec le serveur sur votre tablette.\n Veuillez effectuer cette synchronisation via l\'écran des paramètres avant de pouvoir mettre à jour l\'application</string>
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
 
     <!--  Error message -->
     <string name="error_btn_ok">OK</string>
@@ -132,6 +134,12 @@
     <string name="modules_aucun">Aucun module n\'a été chargé pour cette tablette</string>
     <string name="formulaires_aucun">Aucun formulaire n\'a été chargé pour cette tablette</string>
 
+    <string name="accueil_fragment_textView_text">Déchèterie actuelle :</string>
+    <string name="accueil_fragment_btn_changer_text">Changer déchèterie</string>
+    <string name="accueil_fragment_btn_identification_text">Identification d\'une carte</string>
+    <string name="accueil_fragment_btn_recherche_text">Rechercher d\'un usager sans carte</string>
+    <string name="accueil_fragment_btn_liste_text">Liste des apports effectués</string>
+
     <!--Ecran menu interventions-->
     <string name="inter_m_btn_todo">Interventions à réaliser (%1$s)</string>
     <string name="inter_m_btn_done">Interventions réalisées (%1$s)</string>
@@ -197,6 +205,7 @@
     <string name="inter_stopper_valider">Valider</string>
     <string name="inter_stopper_annuler">Annuler</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

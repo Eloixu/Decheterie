@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="#7fb4ff"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <TextView
+        android:id="@+id/textView"
+        android:text="NOM"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+        android:layout_marginTop="@dimen/accueil_fragment_textView_layout_marginTop"
+        android:textSize="@dimen/general_txt_size"
+        android:layout_weight="0.5" />
+
+    <TextView
+        android:id="@+id/textView_nom_decheterie"
+        android:text="NOM USER"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/accueil_fragment_textView_nom_decheterie_layout_marginTop"
+        android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+        android:textStyle="bold"
+        android:textColor="@color/bluedeep"
+        android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/textView2"
+            android:text="Prénom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+            android:layout_marginTop="@dimen/accueil_fragment_textView_layout_marginTop"
+            android:textSize="@dimen/general_txt_size"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:id="@+id/textView_nom_decheterie2"
+            android:text="Prénom USER"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/accueil_fragment_textView_nom_decheterie_layout_marginTop"
+            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+            android:textStyle="bold"
+            android:textColor="@color/bluedeep"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/textView3"
+            android:text="Type d'usager"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+            android:layout_marginTop="@dimen/accueil_fragment_textView_layout_marginTop"
+            android:textSize="@dimen/general_txt_size"
+            android:layout_weight="0.5" />
+
+        <TextView
+            android:id="@+id/textView_nom_decheterie3"
+            android:text="Type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/accueil_fragment_textView_nom_decheterie_layout_marginTop"
+            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+            android:textStyle="bold"
+            android:textColor="@color/bluedeep"
+            android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/imageView_finger"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@drawable/finger3"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:visibility="gone"/>
+    </LinearLayout>
+</LinearLayout>

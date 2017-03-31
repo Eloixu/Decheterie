@@ -12,7 +12,7 @@ import fr.trackoe.decheterie.model.bean.global.User;
 public class UsersDB extends MyDb {
 
     public  UsersDB(Context ctx) {
-        mydb = new FormulairesDatabase(ctx);
+        mydb = new DecheterieDatabase(ctx);
     }
 
     /*
@@ -21,14 +21,14 @@ public class UsersDB extends MyDb {
     public long insertUser(User user) {
         ContentValues values = new ContentValues();
 
-        values.put(FormulairesDatabase.TableUsers.ID_USER, Integer.parseInt(user.getIdUser()));
-        values.put(FormulairesDatabase.TableUsers.LOGIN, user.getLogin());
-        values.put(FormulairesDatabase.TableUsers.PASSWORD, user.getPassword());
-        values.put(FormulairesDatabase.TableUsers.NOM, user.getNom());
-        values.put(FormulairesDatabase.TableUsers.PRENOM, user.getPrenom());
-        values.put(FormulairesDatabase.TableUsers.AUTORISATION_CHANGEMENT_INTER, user.isAutorisationChangementInter() ? 1 : 0);
+        values.put(DecheterieDatabase.TableUsers.ID_USER, Integer.parseInt(user.getIdUser()));
+        values.put(DecheterieDatabase.TableUsers.LOGIN, user.getLogin());
+        values.put(DecheterieDatabase.TableUsers.PASSWORD, user.getPassword());
+        values.put(DecheterieDatabase.TableUsers.NOM, user.getNom());
+        values.put(DecheterieDatabase.TableUsers.PRENOM, user.getPrenom());
+        values.put(DecheterieDatabase.TableUsers.AUTORISATION_CHANGEMENT_INTER, user.isAutorisationChangementInter() ? 1 : 0);
 
-        return db.insertOrThrow(FormulairesDatabase.TableUsers.TABLE_USERS, null, values);
+        return db.insertOrThrow(DecheterieDatabase.TableUsers.TABLE_USERS, null, values);
     }
 
     /*
@@ -36,12 +36,12 @@ public class UsersDB extends MyDb {
      */
 
     public void clearUsers() {
-        db.execSQL("delete from " + FormulairesDatabase.TableUsers.TABLE_USERS);
+        db.execSQL("delete from " + DecheterieDatabase.TableUsers.TABLE_USERS);
     }
 
     public User getUserByIdentifiant(String login) {
         User user;
-        String query = "SELECT * FROM " + FormulairesDatabase.TableUsers.TABLE_USERS + " WHERE " + FormulairesDatabase.TableUsers.LOGIN + "='" + login + "';";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsers.TABLE_USERS + " WHERE " + DecheterieDatabase.TableUsers.LOGIN + "='" + login + "';";
         Cursor cursor = db.rawQuery(query, null);
         user = cursorToUser(cursor);
         return user;
@@ -49,7 +49,7 @@ public class UsersDB extends MyDb {
 
     public boolean isUserAutorisationChangementBac(int idUser) {
         User user;
-        String query = "SELECT * FROM " + FormulairesDatabase.TableUsers.TABLE_USERS + " WHERE " + FormulairesDatabase.TableUsers.ID_USER + "=" + idUser + ";";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsers.TABLE_USERS + " WHERE " + DecheterieDatabase.TableUsers.ID_USER + "=" + idUser + ";";
         Cursor cursor = db.rawQuery(query, null);
         user = cursorToUser(cursor);
         return user.isAutorisationChangementInter();
@@ -61,12 +61,12 @@ public class UsersDB extends MyDb {
         }
         c.moveToFirst();
         User u = new User();
-        u.setIdUser(String.valueOf(c.getInt(FormulairesDatabase.TableUsers.NUM_ID_USER)));
-        u.setLogin(c.getString(FormulairesDatabase.TableUsers.NUM_LOGIN));
-        u.setPassword(c.getString(FormulairesDatabase.TableUsers.NUM_PASSWORD));
-        u.setNom(c.getString(FormulairesDatabase.TableUsers.NUM_NOM));
-        u.setPrenom(c.getString(FormulairesDatabase.TableUsers.NUM_PRENOM));
-        u.setIsAutorisationChangementInter(c.getInt(FormulairesDatabase.TableUsers.NUM_AUTORISATION_CHANGEMENT_INTER) != 0);
+        u.setIdUser(String.valueOf(c.getInt(DecheterieDatabase.TableUsers.NUM_ID_USER)));
+        u.setLogin(c.getString(DecheterieDatabase.TableUsers.NUM_LOGIN));
+        u.setPassword(c.getString(DecheterieDatabase.TableUsers.NUM_PASSWORD));
+        u.setNom(c.getString(DecheterieDatabase.TableUsers.NUM_NOM));
+        u.setPrenom(c.getString(DecheterieDatabase.TableUsers.NUM_PRENOM));
+        u.setIsAutorisationChangementInter(c.getInt(DecheterieDatabase.TableUsers.NUM_AUTORISATION_CHANGEMENT_INTER) != 0);
 
         c.close();
 

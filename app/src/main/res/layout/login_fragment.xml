@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/login_edittxt_margin"
                 />
 
-            <!--TODO Remove text-->
+
             <EditText
                 style="@style/TkEditText"
                 android:id="@+id/login_edittxt_identifiant"
@@ -70,7 +70,7 @@
                 android:layout_marginStart="@dimen/login_edittxt_margin"
                 android:layout_marginTop="@dimen/login_edittxt_margin"/>
 
-            <!--TODO remove text-->
+
             <EditText
                 style="@style/TkEditText"
                 android:id="@+id/login_edittxt_password"

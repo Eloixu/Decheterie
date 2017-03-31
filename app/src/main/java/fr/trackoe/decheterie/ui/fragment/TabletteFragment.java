@@ -30,7 +30,7 @@ public class TabletteFragment extends Fragment {
         tablette_vg = (ViewGroup) inflater.inflate(R.layout.tablette_fragment, container, false);
 
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews();
@@ -44,11 +44,11 @@ public class TabletteFragment extends Fragment {
     /*
 	 * Init Actionbar
 	 */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarTablette();
         }
-    }
+    }*/
 
     /*
     Init Views
@@ -117,7 +117,6 @@ public class TabletteFragment extends Fragment {
             }
         });
 
-        // TODO Click su le bouton ok du clavier une fois qu'on a saisi le mdp valide le formulaire
 
     }
 

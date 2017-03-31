@@ -16,6 +16,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -23,18 +25,32 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.idescout.sql.SqlScoutServer;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,22 +60,34 @@ import java.util.Date;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
+import fr.trackoe.decheterie.database.DchDepotDB;
+import fr.trackoe.decheterie.database.DchFluxDB;
+import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
+import fr.trackoe.decheterie.model.bean.global.Depot;
+import fr.trackoe.decheterie.model.bean.global.Flux;
+import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
+import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
+import fr.trackoe.decheterie.ui.fragment.DepotFragment;
+import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
 import fr.trackoe.decheterie.widget.WriteUsersTask;
 
-public class ContainerActivity extends FragmentActivity {
+public class ContainerActivity extends AppCompatActivity implements DrawerLocker {
     private static final String CURRENT_FRAG_TAG = "CURRENT_FRAGMENT";
     private static final String APK_NAME = "decheterie.apk";
     private static final String DOWNLOAD = "/download/";
@@ -70,6 +98,7 @@ public class ContainerActivity extends FragmentActivity {
     private AlertDialog errorDialog;
 
     private ActionBar actionbar;
+    Toolbar toolbar;
     private LinearLayout actionbarLeftItem;
     private TextView actionbarLeftItemText;
     private TextView actionbarTitle;
@@ -80,17 +109,41 @@ public class ContainerActivity extends FragmentActivity {
 
     private ArrayList<String> urlsReleve;
 
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    FragmentTransaction fragmentTransaction;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SqlScoutServer.create(this, getPackageName());
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
+
+
+        initDB();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+        layoutParams.height = 50;
+        toolbar.setLayoutParams(layoutParams);
+        setSupportActionBar(toolbar);
+        drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        hideHamburgerButton();
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //disable the navigation drawer
+        setDrawerEnabled(false);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         activity = this;
         initSharedPreference(activity);
-        initActionBar();
+        //initActionBar();
 
         if (getResources().getBoolean(R.bool.landscape)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
@@ -104,10 +157,20 @@ public class ContainerActivity extends FragmentActivity {
 
         // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
-            changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
+            //changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+            /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
+            fragmentTransaction.commit();*/
+
         } else {
-            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+            /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
+            fragmentTransaction.commit();*/
         }
+
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -366,11 +429,54 @@ public class ContainerActivity extends FragmentActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
 
+
+
         // On cache le clavier
         Utils.hideSoftKeyboard(this);
 
         try {
-            super.onBackPressed();
+            if( getCurrentFragment() instanceof DepotFragment) {
+                //detect if the drawer is open
+                if(isDrawerOpen()){
+                    //close drawer
+                    closeDrawer();
+                }
+                else {
+                    //pop-up
+                    CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
+                    builder.setMessage("Vous allez annuler le dépot en cours, confirmez l'annulation.");
+                    builder.setTitle("Information");
+                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            DchDepotDB dchDepotDB = new DchDepotDB(activity);
+                            dchDepotDB.open();
+                            dialog.dismiss();
+                            //delete the current depot and the flux associated
+                            //TODO: delete the current depot and the flux associated
+                            Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
+                            dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(),getResources().getInteger(R.integer.statut_annuler));
+
+                            Configuration.setIsOuiClicked(false);
+
+                            ContainerActivity.super.onBackPressed();
+
+                            dchDepotDB.close();
+                        }
+                    });
+
+                    builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    builder.create().show();
+                }
+
+            }
+            else{
+                super.onBackPressed();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -466,7 +572,7 @@ public class ContainerActivity extends FragmentActivity {
         actionbarRightItemText = (TextView) findViewById(R.id.actionbar_right_txt);
     }
 
-    public void showBackArrowinNavBar(boolean visible) {
+   /* public void showBackArrowinNavBar(boolean visible) {
         if (visible) {
             findViewById(R.id.actionbar_left_arrow).setVisibility(View.VISIBLE);
         } else {
@@ -593,7 +699,7 @@ public class ContainerActivity extends FragmentActivity {
         actionbarTitle.setVisibility(View.VISIBLE);
         actionbarRightItem.setVisibility(View.VISIBLE);
         actionbarLeftItem.setVisibility(View.VISIBLE);
-    }
+    }*/
 
     public void getMACaddress() {
         Configuration.saveMACAddress(getUniqueCodeMac());
@@ -746,5 +852,190 @@ public class ContainerActivity extends FragmentActivity {
 
         return codeRet;
     }
+
+    public void setDrawerEnabled(boolean enabled) {
+        drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
+        int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawerLayout.setDrawerLockMode(lockMode);
+        //toggle.setDrawerIndicatorEnabled(enabled);
+    }
+
+    public void initDB(){
+        System.out.println("ContainerActivity --> OnCreate() --> initDB()");
+        IconDB iconDB = new IconDB(this);
+        iconDB.open();
+        iconDB.clearIcon();
+        DchFluxDB dchFluxDB = new DchFluxDB(this);
+        dchFluxDB.open();
+        dchFluxDB.clearFlux();
+        DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(this);
+        dchDecheterieFluxDB.open();
+        dchDecheterieFluxDB.clearDecheterieFlux();
+
+        //add All icons into DBB
+        String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
+        for(int i = 0; i < icons.length; i ++){
+            Icon icon = new Icon();
+            icon.setNom(icons[i]);
+            icon.setDomaine("");
+            icon.setPath("");
+            iconDB.insertIcon(icon);
+        }
+        ArrayList<Icon> iconList = iconDB.getAllIcons();
+        for(int i = 0; i < iconList.size(); i ++){
+            System.out.println(iconList.get(i).getNom());
+        }
+        iconDB.close();
+
+        //add flux into DBB
+        dchFluxDB.insertFlux(new Flux("Amiante", 1));
+        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2));
+        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3));
+        dchFluxDB.insertFlux(new Flux("Carton + papier", 4));
+        dchFluxDB.insertFlux(new Flux("Carton", 5));
+        dchFluxDB.insertFlux(new Flux("DEEE", 6));
+        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7));
+        dchFluxDB.insertFlux(new Flux("Encombrants", 8));
+        dchFluxDB.insertFlux(new Flux("Feuilles", 9));
+        dchFluxDB.insertFlux(new Flux("Gaz", 10));
+        dchFluxDB.insertFlux(new Flux("Journaux", 11));
+        dchFluxDB.insertFlux(new Flux("Metal", 12));
+        dchFluxDB.insertFlux(new Flux("Meuble", 13));
+        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14));
+        dchFluxDB.insertFlux(new Flux("Plastique", 15));
+        dchFluxDB.insertFlux(new Flux("Pneu", 16));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18));
+        dchFluxDB.insertFlux(new Flux("Sac plastique", 19));
+        dchFluxDB.insertFlux(new Flux("Sac", 20));
+        dchFluxDB.insertFlux(new Flux("Verre", 21));
+        dchFluxDB.insertFlux(new Flux("Vêtements", 22));
+        dchFluxDB.close();
+
+        //add dechetrie_flux into DBB
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 2));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 3));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(2, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(3, 2));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(4, 3));
+        dchDecheterieFluxDB.close();
+
+
+
+
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    public void hideHamburgerButton(){
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+    }
+
+    public void showHamburgerButton(){
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+    }
+
+    //open the drawer in a few time
+    public void openDrawerWithDelay(){
+        new Handler().postDelayed(new Runnable(){
+
+            public void run() {
+                if( getCurrentFragment() instanceof DepotFragment) {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
+
+            }
+
+        }, 1000);
+    }
+
+    public void openDrawer(){
+                drawerLayout.openDrawer(Gravity.LEFT);
+    }
+
+    public void closeDrawer(){
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    public void changeToolbarIcon(){
+        toolbar.setNavigationIcon(R.drawable.user);
+    }
+
+    public boolean isDrawerOpen(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //save the BDD datas into a document
+    public static void copyDatabaseToSDCard(Context ctx) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = data + "/data/" + ctx.getPackageName() + "/databases/decheterie.db";
+                String backupDBPath = "decheterie.db";
+                File currentDB = new File(currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+                System.out.println("BDD is saved.");
+
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+
+
+
+
+
+
+    /* private int getPictureId(String pictureName){
+        int pictureId = 0;
+        switch(pictureName){
+            case "amiante": pictureId = R.drawable.amiante; break;
+            case "biodechets": pictureId = R.drawable.biodechets; break;
+            case "bouteille_plus_conserve": pictureId = R.drawable.bouteille_plus_conserve; break;
+            case "carton_plus_papier": pictureId = R.drawable.carton_plus_papier; break;
+            case "carton": pictureId = R.drawable.carton; break;
+            case "deee": pictureId = R.drawable.deee; break;
+            case "depots_sauvage": pictureId = R.drawable.depots_sauvage; break;
+            case "encombrants": pictureId = R.drawable.encombrants; break;
+            case "feuilles": pictureId = R.drawable.feuilles; break;
+            case "gaz": pictureId = R.drawable.gaz; break;
+            case "journaux": pictureId = R.drawable.journaux; break;
+            case "metal": pictureId = R.drawable.metal; break;
+            case "meuble": pictureId = R.drawable.meuble; break;
+            case "piles_plus_electromenager": pictureId = R.drawable.piles_plus_electromenager; break;
+            case "plastique": pictureId = R.drawable.plastique; break;
+            case "pneu": pictureId = R.drawable.pneu; break;
+            case "produits_chimiques_2": pictureId = R.drawable.produits_chimiques_2; break;
+            case "produits_chimiques": pictureId = R.drawable.produits_chimiques; break;
+            case "sac_plastique": pictureId = R.drawable.sac_plastique; break;
+            case "sac": pictureId = R.drawable.sac; break;
+            case "verre": pictureId = R.drawable.verre; break;
+            case "vetements": pictureId = R.drawable.vetements; break;
+        }
+        return pictureId;
+    }*/
 
 }

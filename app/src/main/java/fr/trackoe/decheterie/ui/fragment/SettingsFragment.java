@@ -32,7 +32,7 @@ public class SettingsFragment extends Fragment {
         }
 
         // Init Actionbar
-        initActionBar();
+        //initActionBar();
 
         // Init Views
         initViews();
@@ -50,12 +50,12 @@ public class SettingsFragment extends Fragment {
     /*
 	 * Init Actionbar
 	 */
-    public void initActionBar() {
+    /*public void initActionBar() {
         if(getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showActionBarSettings(isFirstLaunch);
         }
     }
-
+*/
     public void setMajDate() {
         ((TextView) settings_vg.findViewById(R.id.settings_synchro)).setText(Configuration.getDateMAJ());
     }

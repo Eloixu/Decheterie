@@ -11,7 +11,7 @@ public abstract class MyDb {
     protected Logger logger;
 
     protected SQLiteDatabase db;
-    protected FormulairesDatabase mydb;
+    protected DecheterieDatabase mydb;
 
     public MyDb() {
     }

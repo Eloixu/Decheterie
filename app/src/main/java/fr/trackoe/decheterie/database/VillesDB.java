@@ -14,7 +14,7 @@ import fr.trackoe.decheterie.model.bean.global.Ville;
 public class VillesDB extends MyDb {
 
     public VillesDB(Context ctx) {
-        mydb = new FormulairesDatabase(ctx);
+        mydb = new DecheterieDatabase(ctx);
     }
 
     /*
@@ -23,11 +23,11 @@ public class VillesDB extends MyDb {
     public long insertVille(Ville ville) {
         ContentValues values = new ContentValues();
 
-        values.put(FormulairesDatabase.TableVille.ID, ville.getIdVille());
-        values.put(FormulairesDatabase.TableVille.NOM, ville.getNom());
-        values.put(FormulairesDatabase.TableVille.CP, ville.getCp());
+        values.put(DecheterieDatabase.TableVille.ID, ville.getIdVille());
+        values.put(DecheterieDatabase.TableVille.NOM, ville.getNom());
+        values.put(DecheterieDatabase.TableVille.CP, ville.getCp());
 
-        return db.insertOrThrow(FormulairesDatabase.TableVille.TABLE_VILLE, null, values);
+        return db.insertOrThrow(DecheterieDatabase.TableVille.TABLE_VILLE, null, values);
     }
 
     /*
@@ -35,12 +35,12 @@ public class VillesDB extends MyDb {
      */
 
     public void clearVilles() {
-        db.execSQL("delete from " + FormulairesDatabase.TableVille.TABLE_VILLE);
+        db.execSQL("delete from " + DecheterieDatabase.TableVille.TABLE_VILLE);
     }
 
     public ArrayList<Ville> getListeVilles() {
         ArrayList<Ville> listeVilles;
-        String query = "SELECT * FROM " + FormulairesDatabase.TableVille.TABLE_VILLE + ";";
+        String query = "SELECT * FROM " + DecheterieDatabase.TableVille.TABLE_VILLE + ";";
         Cursor cursor = db.rawQuery(query, null);
         listeVilles = cursorToListeVilles(cursor);
         return listeVilles;
@@ -52,9 +52,9 @@ public class VillesDB extends MyDb {
         if (c.moveToFirst()) {
             do {
                 Ville v = new Ville();
-                v.setIdVille(c.getInt(FormulairesDatabase.TableVille.NUM_ID));
-                v.setNom(c.getString(FormulairesDatabase.TableVille.NUM_NOM));
-                v.setCp(c.getString(FormulairesDatabase.TableVille.NUM_CP));
+                v.setIdVille(c.getInt(DecheterieDatabase.TableVille.NUM_ID));
+                v.setNom(c.getString(DecheterieDatabase.TableVille.NUM_NOM));
+                v.setCp(c.getString(DecheterieDatabase.TableVille.NUM_CP));
 
                 listeVilles.add(v);
 

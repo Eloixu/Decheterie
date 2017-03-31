@@ -10,14 +10,17 @@ import fr.trackoe.decheterie.R;
 /**
  * Created by Remi on 02/12/2015.
  */
-public class FormulairesDatabase extends SQLiteOpenHelper {
+public class DecheterieDatabase extends SQLiteOpenHelper {
     private Context ctx;
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
-//    private static final String NUMERIC_TYPE = " NUMERIC";
+    private static final String FLOAT_TYPE = " FLOAT";
     private static final String NOT_NULL = " NOT_NULL";
     private static final String COMMA_SEP = ", ";
+    private static final String FOREIGN_KEY = "FOREIGN KEY";
+    private static final String REFERENCES  = "REFERENCES";
+    private static final String DATE_TIME  = "DATETIME";
 
     @Override
     protected void finalize() throws Throwable {
@@ -35,7 +38,166 @@ public class FormulairesDatabase extends SQLiteOpenHelper {
 
     /* Declaration des tables */
 
-//    Table users
+//    Table dch_decheterie
+    public static abstract class TableDchDecheterie implements BaseColumns {
+        public static final String TABLE_DCH_DECHETERIE = "dch_decheterie";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String ID_ACCOUNT = "id_account";
+        public static final int NUM_ID_ACCOUNT = 1;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 2;
+        public static final String CONSIGNE_COMPTAGE = "consigne_comptage";
+        public static final int NUM_CONSIGNE_COMPTAGE = 3;
+        public static final String CONSIGNE_AV_SIGNATURE = "consigne_av_signature";
+        public static final int NUM_CONSIGNE_AV_SIGNATURE = 4;
+        public static final String APPORT_FLUX= "apport_flux";
+        public static final int NUM_APPORT_FLUX = 5;
+        public static final String UNITE_TOTAL = "unite_total";
+        public static final int NUM_UNITE_TOTAL = 6;
+    }
+
+    public static final String CREATE_TABLE_DCH_DECHETERIE = "CREATE TABLE IF NOT EXISTS " + TableDchDecheterie.TABLE_DCH_DECHETERIE + " ("
+            + TableDchDecheterie.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchDecheterie.ID_ACCOUNT + INTEGER_TYPE + COMMA_SEP
+            + TableDchDecheterie.NOM + TEXT_TYPE + NOT_NULL + COMMA_SEP
+            + TableDchDecheterie.CONSIGNE_COMPTAGE + TEXT_TYPE  + COMMA_SEP
+            + TableDchDecheterie.CONSIGNE_AV_SIGNATURE + TEXT_TYPE + COMMA_SEP
+            + TableDchDecheterie.APPORT_FLUX + INTEGER_TYPE + COMMA_SEP
+            + TableDchDecheterie.UNITE_TOTAL + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_DECHETERIE = "DROP TABLE IF EXISTS " + TableDchDecheterie.TABLE_DCH_DECHETERIE;
+
+
+    //    Table icon
+    public static abstract class TableIcon implements BaseColumns {
+        public static final String TABLE_ICON = "icon";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+        public static final String DOMAINE = "domaine";
+        public static final int NUM_DOMAINE = 2;
+        public static final String PATH = "path";
+        public static final int NUM_PATH = 3;
+    }
+
+    public static final String CREATE_TABLE_ICON= "CREATE TABLE IF NOT EXISTS " + TableIcon.TABLE_ICON + " ("
+            + TableIcon.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableIcon.NOM + TEXT_TYPE + COMMA_SEP
+            + TableIcon.DOMAINE + TEXT_TYPE + COMMA_SEP
+            + TableIcon.PATH + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_ICON = "DROP TABLE IF EXISTS " + TableIcon.TABLE_ICON;
+
+    //    Table dch_flux
+    public static abstract class TableDchFlux implements BaseColumns {
+        public static final String TABLE_DCH_FLUX = "dch_flux";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+        public static final String ICON_ID = "icon_id";
+        public static final int NUM_ICON_ID = 2;
+    }
+
+    public static final String CREATE_TABLE_DCH_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchFlux.TABLE_DCH_FLUX + " ("
+            + TableDchFlux.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchFlux.NOM + TEXT_TYPE + COMMA_SEP
+            + TableDchFlux.ICON_ID + INTEGER_TYPE + " )" ;
+            //+ FOREIGN_KEY + "(" + TableDchFlux.ICON_ID + ")" + REFERENCES + TableIcon.TABLE_ICON + "(" + TableIcon.ID + "))" ;
+
+    private static final String DELETE_TABLE_DCH_FLUX = "DROP TABLE IF EXISTS " + TableDchFlux.TABLE_DCH_FLUX;
+
+    //    Table dch_decheterie_flux
+    public static abstract class TableDchDecheterieFlux implements BaseColumns {
+        public static final String TABLE_DCH_DECHETERIE_FLUX = "dch_decheterie_flux";
+        public static final String DCH_DECHETERIE_ID = "dch_decheterie_id";
+        public static final int NUM_DCH_DECHETERIE_ID = 0;
+        public static final String DCH_FLUX_ID = "dch_flux_id";
+        public static final int NUM_DCH_FLUX_ID = 1;
+    }
+
+    public static final String CREATE_TABLE_DCH_DECHETERIE_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchDecheterieFlux.TABLE_DCH_DECHETERIE_FLUX + " ("
+            + TableDchDecheterieFlux.DCH_DECHETERIE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchDecheterieFlux.DCH_FLUX_ID + INTEGER_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_DECHETERIE_FLUX = "DROP TABLE IF EXISTS " + TableDchDecheterieFlux.TABLE_DCH_DECHETERIE_FLUX;
+
+    //    Table dch_compte_prepaye
+    public static abstract class TableDchComptePrepaye implements BaseColumns {
+        public static final String TABLE_DCH_COMPTE_PREPAYE = "dch_compte_prepaye";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+
+    }
+
+    public static final String CREATE_TABLE_DCH_COMPTE_PREPAYE = "CREATE TABLE IF NOT EXISTS " + TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " ("
+            + TableDchComptePrepaye.ID + INTEGER_TYPE + " PRIMARY KEY " + " )" ;
+
+    private static final String DELETE_TABLE_DCH_COMPTE_PREPAYE = "DROP TABLE IF EXISTS " +  TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE;
+
+    //    Table dch_depot
+    public static abstract class TableDchDepot implements BaseColumns {
+        public static final String TABLE_DCH_DEPOT = "dch_depot";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String DATEHEURE = "dateheure";
+        public static final int NUM_DATEHEURE = 1;
+        public static final String DCH_DECHETERIE_ID = "dch_decheterie_id";
+        public static final int NUM_DCH_DECHETERIE_ID = 2;
+        public static final String DCH_COMPTE_PREPAYE_ID = "dch_compte_prepaye_id";
+        public static final int NUM_DCH_COMPTE_PREPAYE_ID = 3;
+        public static final String QTY_TOTAL_UDD = "qty_total_udd";
+        public static final int NUM_QTY_TOTAL_UDD = 4;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 5;
+        public static final String STATUT = "statut";
+        public static final int NUM_STATUT = 6;
+        public static final String IS_SENT = "is_sent";
+        public static final int NUM_IS_SENT = 7;
+
+    }
+
+    public static final String CREATE_TABLE_DCH_DEPOT = "CREATE TABLE IF NOT EXISTS " + TableDchDepot.TABLE_DCH_DEPOT + " ("
+            + TableDchDepot.ID + INTEGER_TYPE + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchDepot.DATEHEURE + TEXT_TYPE + COMMA_SEP
+            + TableDchDepot.DCH_DECHETERIE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchDepot.DCH_COMPTE_PREPAYE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchDepot.QTY_TOTAL_UDD + FLOAT_TYPE + COMMA_SEP
+            + TableDchDepot.NOM + TEXT_TYPE + COMMA_SEP
+            + TableDchDepot.STATUT + INTEGER_TYPE + COMMA_SEP
+            + TableDchDepot.IS_SENT + INTEGER_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_DEPOT = "DROP TABLE IF EXISTS " +  TableDchDepot.TABLE_DCH_DEPOT;
+
+    //    Table dch_apport_flux
+    public static abstract class TableDchApportFlux implements BaseColumns {
+        public static final String TABLE_DCH_APPORT_FLUX = "dch_apport_flux";
+        public static final String DCH_DEPOT_ID = "dch_depot_id";
+        public static final int NUM_DCH_DEPOT_ID = 0;
+        public static final String DCH_FLUX_ID = "dch_flux_id";
+        public static final int NUM_DCH_FLUX_ID = 1;
+        public static final String QTY_APPORTE = "qty_apporte";
+        public static final int NUM_QTY_APPORTE = 2;
+        public static final String IS_SENT = "is_sent";
+        public static final int NUM_IS_SENT = 3;
+
+    }
+
+    public static final String CREATE_TABLE_DCH_APPORT_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchApportFlux.TABLE_DCH_APPORT_FLUX + " ("
+            + TableDchApportFlux.DCH_DEPOT_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchApportFlux.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
+            //+ TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + " )" ;
+            + TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + COMMA_SEP
+            + TableDchApportFlux.IS_SENT + INTEGER_TYPE + COMMA_SEP
+            + "CONSTRAINT PK PRIMARY KEY (dch_depot_id, dch_flux_id)" + " )" ;
+
+
+    private static final String DELETE_TABLE_DCH_APPORT_FLUX = "DROP TABLE IF EXISTS " + TableDchApportFlux.TABLE_DCH_APPORT_FLUX;
+
+
+    //    Table users
     public static abstract class TableUsers implements BaseColumns {
         public static final String TABLE_USERS = "users";
         public static final String ID_USER = "id_user";
@@ -296,35 +458,49 @@ public class FormulairesDatabase extends SQLiteOpenHelper {
 
     public static final String DELETE_TABLE_PHOTO = "DROP TABLE IF EXISTS " + TableReponse.TABLE_NAME;
 
-    public FormulairesDatabase(Context context) {
+    public DecheterieDatabase(Context context) {
         super(context, context.getString(R.string.database_name), null, context.getResources().getInteger(R.integer.database_version));
         this.ctx = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE_USERS);
-        db.execSQL(CREATE_TABLE_MODULES);
-        db.execSQL(CREATE_TABLE_PAV);
-        db.execSQL(CREATE_TABLE_RELEVE);
-        db.execSQL(CREATE_TABLE_VILLE);
-        db.execSQL(CREATE_TABLE_RUE);
-        db.execSQL(CREATE_TABLE_PHOTO);
-        db.execSQL(CREATE_TABLE_REPONSE);
-        db.execSQL(CREATE_TABLE_INFO_BOUCLE);
+        //db.execSQL(CREATE_TABLE_USERS);
+        //db.execSQL(CREATE_TABLE_MODULES);
+        //db.execSQL(CREATE_TABLE_PAV);
+        //db.execSQL(CREATE_TABLE_RELEVE);
+        //db.execSQL(CREATE_TABLE_VILLE);
+        //db.execSQL(CREATE_TABLE_RUE);
+        //db.execSQL(CREATE_TABLE_PHOTO);
+        //db.execSQL(CREATE_TABLE_REPONSE);
+        //db.execSQL(CREATE_TABLE_INFO_BOUCLE);
+        db.execSQL(CREATE_TABLE_DCH_DECHETERIE);
+        db.execSQL(CREATE_TABLE_ICON);
+        db.execSQL(CREATE_TABLE_DCH_FLUX);
+        db.execSQL(CREATE_TABLE_DCH_DECHETERIE_FLUX);
+        db.execSQL(CREATE_TABLE_DCH_COMPTE_PREPAYE);
+        db.execSQL(CREATE_TABLE_DCH_DEPOT);
+        db.execSQL(CREATE_TABLE_DCH_APPORT_FLUX);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DELETE_TABLE_USERS);
-        db.execSQL(DELETE_TABLE_MODULES);
-        db.execSQL(DELETE_TABLE_PAV);
+        //db.execSQL(DELETE_TABLE_USERS);
+        //db.execSQL(DELETE_TABLE_MODULES);
+        //db.execSQL(DELETE_TABLE_PAV);
         //db.execSQL(DELETE_TABLE_RELEVE);
-        db.execSQL(DELETE_TABLE_VILLE);
-        db.execSQL(DELETE_TABLE_RUE);
-        db.execSQL(CREATE_TABLE_INFO_BOUCLE);
-        db.execSQL(CREATE_TABLE_PHOTO);
-        db.execSQL(DELETE_TABLE_REPONSE);
+        //db.execSQL(DELETE_TABLE_VILLE);
+        //db.execSQL(DELETE_TABLE_RUE);
+        //db.execSQL(CREATE_TABLE_INFO_BOUCLE);
+        //db.execSQL(CREATE_TABLE_PHOTO);
+        //db.execSQL(DELETE_TABLE_REPONSE);
+        db.execSQL(DELETE_TABLE_DCH_DECHETERIE);
+        db.execSQL(DELETE_TABLE_ICON);
+        db.execSQL(DELETE_TABLE_DCH_FLUX);
+        db.execSQL(DELETE_TABLE_DCH_DECHETERIE_FLUX);
+        db.execSQL(DELETE_TABLE_DCH_COMPTE_PREPAYE);
+        db.execSQL(DELETE_TABLE_DCH_DEPOT);
+        db.execSQL(DELETE_TABLE_DCH_APPORT_FLUX);
         onCreate(db);
     }
 
