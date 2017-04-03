@@ -88,6 +88,7 @@ import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
+import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
@@ -479,6 +480,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     builder.create().show();
                 }
 
+            }
+            if( getCurrentFragment() instanceof IdentificationFragment) {
+                ((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
+                super.onBackPressed();
             }
             else{
                 super.onBackPressed();

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="baud">
+        <item>200</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>9600</item>
+        <item>115200</item>
+        <item>230400</item>
+    </string-array>
+    <string-array name="display">
+        <item>HEX</item>
+        <item>ASCII</item>
+        <item>HEX(fast)</item>
+        <item>ASCII(fast)</item>
+    </string-array>
+    <string-array name="gpio_group">
+        <item>Bank A</item>
+        <item>Bank B</item>
+        <item>Bank C</item>
+        <item>Bank D</item>
+        <item>Bank E</item>
+        <item>Bank X</item>
+        <item>Bank Y</item>
+        <item>Bank Z</item>
+        <item>Bank AO</item>
+    </string-array>
+    <string-array name="gpio_num">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+    </string-array>
+    <string-array name="gpio_operate">
+        <item>底</item>
+        <item>高</item>
+    </string-array>
+    <string-array name="index">
+        <item>ttyS0</item>
+        <item>ttyS1</item>
+        <item>ttyS2</item>
+        <item>ttyS3</item>
+        <item>ttyUSB0</item>
+        <item>ttyUSB1</item>
+        <item>ttyUSB2</item>
+        <item>ttyUSB3</item>
+        <item>ttyACM0</item>
+        <item>ttyACM1</item>
+        <item>ttyACM2</item>
+        <item>ttyACM3</item>
+        <item>ttyCOM0</item>
+        <item>ttyCOM1</item>
+        <item>ttyCOM2</item>
+        <item>ttyCOM3</item>
+    </string-array>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">EMserialport</string>
+    <string name="button_clean">清除</string>
+    <string name="button_close">已关闭</string>
+    <string name="button_open">打开</string>
+    <string name="button_save">保存窗口</string>
+    <string name="button_send">发送</string>
+    <string name="db_button_close">下电</string>
+    <string name="db_button_open">上电</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="txt_d_baud">波特率</string>
+    <string name="txt_d_hex">显示</string>
+    <string name="txt_d_index">串口结点</string>
+    <string name="txt_d_open">串口操作</string>
+    <string name="txt_d_set_ascii">ASCII</string>
+    <string name="txt_d_set_hex">HEX</string>
+    <string name="txt_d_st">状态</string>
+    <string name="txt_d_st_rx">RX:0</string>
+    <string name="txt_d_st_tx">TX:0</string>
+    <string name="txt_d_windows">窗口操作</string>
+    <string name="txt_dg_bd_cont">GPS/BD Power:</string>
+    <string name="txt_dg_group">GPIO组号:</string>
+    <string name="txt_dg_num">GPIO脚号:</string>
+    <string name="txt_dg_state">GPIO状态:</string>
+    <string name="txt_readme">EMserialportV1.1.5 Readme:\n
+        					  1:选择要打开的串口结点，波特率，显示方式后，点击“打开”按钮；\n
+        					  2:显示方式ASCII(fast)及HEX(fast)会自动清空读到的数据（避免数据量大时程序卡死无响应）;\n
+        					  3:“保存窗口”按钮可以保存窗口数据到TF卡，当提示保存成功才算成功(/mnt/sdcard/external_sdcard/);\n
+        					  4:在发送文本框里，当为16进制发送模式时，可以输入16进制数据及空格；\n
+        					  5:状态中TX:表示发送的数据字节数；RX:表示接收到的数据字节数；\n
+        					  6:在成功打开串口前，“发送”及“关闭”按钮不可用；\n
+        					  7:本软件不支持中文接收及发送;\n
+        					  8:本软件只支持2014年01月01日以后发布的系统；\n
+        					  9:点击“menu”菜单键可以弹出一些附加功能操作；</string>
+    <string name="txt_readme_nothing"/>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+</resources>

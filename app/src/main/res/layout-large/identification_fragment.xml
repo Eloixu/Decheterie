@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/textView_line1_title"
+        android:text="@string/textView_line1_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+        android:textSize="@dimen/general_txt_size"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout_top"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        >
+
+        <EditText
+            android:id="@+id/editText_barcode"
+            android:layout_width="wrap_content"
+            android:layout_height="39dp"
+            android:ems="10"
+            android:background="@drawable/edit_bg"/>
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_suivant"
+        android:text="Suivant"
+        android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/button"/>
+
+</LinearLayout>

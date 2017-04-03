@@ -19,13 +19,13 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
  */
 
 public class AncienneCarteFragment extends Fragment {
-    private ViewGroup accueil_vg;
+    private ViewGroup ancienne_vg;
     ContainerActivity parentActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("AncienneCarteFragment-->onCreateView()");
-        accueil_vg = (ViewGroup) inflater.inflate(R.layout.ancienne_carte_fragment, container, false);
+        ancienne_vg = (ViewGroup) inflater.inflate(R.layout.ancienne_carte_fragment, container, false);
 
         // Init Actionbar
         //initActionBar();
@@ -36,7 +36,7 @@ public class AncienneCarteFragment extends Fragment {
         // Init des listeners
         initListeners(container);
 
-        return accueil_vg;
+        return ancienne_vg;
     }
 
     @Override

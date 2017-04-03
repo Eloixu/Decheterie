@@ -4,8 +4,11 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,10 @@ import android.widget.TextView;
 
 import com.idescout.sql.SqlScoutServer;
 
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import fr.trackoe.decheterie.R;
 
 import fr.trackoe.decheterie.configuration.Configuration;
@@ -25,6 +32,12 @@ import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 
+import android.os.SerialPortServiceManager;
+
+
+
+
+
 /**
  * Created by Haocheng on 13/03/2017.
  */
@@ -33,6 +46,8 @@ public class AccueilFragment extends Fragment {
     private ViewGroup accueil_vg;
     ContainerActivity parentActivity;
     FragmentTransaction fragmentTransaction;
+    TextView textViewNomDecheterie;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +61,7 @@ public class AccueilFragment extends Fragment {
 
         // Init des listeners
         initListeners();
+
 
         return accueil_vg;
     }
@@ -64,7 +80,7 @@ public class AccueilFragment extends Fragment {
         Button btnIdentification = (Button) accueil_vg.findViewById(R.id.btn_identification);
         Button btnListe = (Button) accueil_vg.findViewById(R.id.btn_liste);
         Button btnChanger = (Button) accueil_vg.findViewById(R.id.btn_changer);
-        TextView textViewNomDecheterie = (TextView) accueil_vg.findViewById(R.id.textView_nom_decheterie);
+        textViewNomDecheterie = (TextView) accueil_vg.findViewById(R.id.textView_nom_decheterie);
         if(Configuration.getNameDecheterie().isEmpty()||Configuration.getNameDecheterie()==null){
             textViewNomDecheterie.setText("Aucune déchèterie sélectionnée");
             btnIdentification.setClickable(false);
@@ -117,6 +133,9 @@ public class AccueilFragment extends Fragment {
                 builder.create().show();
             }
         }
+
+
+
 
         dchDepotDB.close();
         decheterieDB.close();
@@ -178,7 +197,7 @@ public class AccueilFragment extends Fragment {
             public boolean onLongClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     Configuration.setIsOuiClicked(false);
-                    ((ContainerActivity) getActivity()).changeMainFragment(new AncienneCarteFragment(), true);
+                    ((ContainerActivity) getActivity()).changeMainFragment(new IdentificationFragment(), true);
                 }
                 return true;
             }
@@ -203,4 +222,8 @@ public class AccueilFragment extends Fragment {
         });
 
     }
+
+
+
+
 }

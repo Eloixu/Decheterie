@@ -39,6 +39,9 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
+    <!--Identification Fragment-->
+    <string name="textView_line1_title">Veuillez scanner le barcode</string>
+
     <!--  Error message -->
     <string name="error_btn_ok">OK</string>
     <string name="error_btn_annuler">Annuler</string>
