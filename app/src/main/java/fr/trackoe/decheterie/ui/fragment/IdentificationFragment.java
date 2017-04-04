@@ -1,5 +1,7 @@
 package fr.trackoe.decheterie.ui.fragment;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,7 +10,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
@@ -23,11 +30,12 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 public class IdentificationFragment extends Fragment {
     private ViewGroup identification_vg;
-    ContainerActivity parentActivity;
-    EditText editText_barcode;
+    private ContainerActivity parentActivity;
+    private EditText editText_barcode;
+    private ImageView scanner;
 
     //scan attributs
-    private SerialPortServiceManager   mSeriport;
+    private SerialPortServiceManager mSeriport;
     private read_thread mreadTh;
     private byte[] read_buffer = new byte[1024];
     private byte[] write_buffer= new byte[1024];
@@ -49,6 +57,7 @@ public class IdentificationFragment extends Fragment {
         identification_vg = (ViewGroup) inflater.inflate(R.layout.identification_fragment, container, false);
 
         editText_barcode = (EditText)  identification_vg.findViewById(R.id.editText_barcode);
+        scanner = (ImageView) identification_vg.findViewById(R.id.imageView_scanner);
 
 
         // Init Actionbar
@@ -118,7 +127,15 @@ public class IdentificationFragment extends Fragment {
     Init Listeners
      */
     public void initListeners(ViewGroup container) {
+        scanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator integrator = new IntentIntegrator(getActivity());
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                integrator.initiateScan();
 
+            }
+        });
 
 
     }
@@ -165,6 +182,9 @@ public class IdentificationFragment extends Fragment {
     public void closeBarCodeReader() {
         mSeriport.close();
     }
+
+
+
 
 
 }

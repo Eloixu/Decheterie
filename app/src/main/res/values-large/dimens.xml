@@ -215,7 +215,7 @@
     <dimen name="mrf_title2_size">16sp</dimen>
 
 
-    <dimen name="accueil_fragment_linearLayout1_layout_height">190dp</dimen>
+    <dimen name="accueil_fragment_linearLayout1_layout_height">175dp</dimen>
     <dimen name="accueil_fragment_textView_paddingStart">20dp</dimen>
     <dimen name="accueil_fragment_textView_layout_marginTop">20dp</dimen>
     <dimen name="accueil_fragment_textView_nom_decheterie_layout_marginTop">20dp</dimen>

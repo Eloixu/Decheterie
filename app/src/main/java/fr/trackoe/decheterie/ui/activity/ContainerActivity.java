@@ -19,9 +19,15 @@ import android.graphics.Path;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -41,11 +47,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.idescout.sql.SqlScoutServer;
 
 import java.io.File;
@@ -57,6 +68,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,7 +106,7 @@ import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
 import fr.trackoe.decheterie.widget.WriteUsersTask;
 
-public class ContainerActivity extends AppCompatActivity implements DrawerLocker {
+public class ContainerActivity extends AppCompatActivity implements DrawerLocker, NfcAdapter.OnNdefPushCompleteCallback, NfcAdapter.CreateNdefMessageCallback{
     private static final String CURRENT_FRAG_TAG = "CURRENT_FRAGMENT";
     private static final String APK_NAME = "decheterie.apk";
     private static final String DOWNLOAD = "/download/";
@@ -113,12 +125,26 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     private TextView actionbarRightItemText;
     private LocationListener ls;
     private LocationManager locationManager;
+    private Button parametres;
 
     private ArrayList<String> urlsReleve;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     FragmentTransaction fragmentTransaction;
+
+    private String barcode;
+    private NfcAdapter mNfcAdapter;
+
+    //NFC
+    //The array lists to hold our messages
+    private ArrayList<String> messagesToSendArray = new ArrayList<>();
+    private ArrayList<String> messagesReceivedArray = new ArrayList<>();
+
+    //Text boxes to add and display our messages
+    private EditText txtBoxAddMessage;
+    private TextView txtReceivedMessages;
+    private TextView txtMessagesToSend;
 
 
     @Override
@@ -151,6 +177,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         activity = this;
         initSharedPreference(activity);
         //initActionBar();
+        parametres = (Button) findViewById(R.id.toolbar_parametres);
+        parametres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    changeMainFragment(new SettingsFragment(), true);
+            }
+        });
 
         if (getResources().getBoolean(R.bool.landscape)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
@@ -187,6 +220,24 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         registerReceiver(networkStateReceiver, new IntentFilter("INTERNET_OK"));
 
         getMACaddress();
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(mNfcAdapter != null) {
+            //Handle some NFC initialization here
+            Toast.makeText(this, "NFC available on this device",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "NFC not available on this device",
+                    Toast.LENGTH_SHORT).show();}
+
+        //NFC
+        txtBoxAddMessage = (EditText) findViewById(R.id.txtBoxAddMessage);
+        txtMessagesToSend = (TextView) findViewById(R.id.txtMessageToSend);
+        txtReceivedMessages = (TextView) findViewById(R.id.txtMessagesReceived);
+        Button btnAddMessage = (Button) findViewById(R.id.buttonAddMessage);
+
+
 
     }
 
@@ -481,7 +532,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 }
 
             }
-            if( getCurrentFragment() instanceof IdentificationFragment) {
+            else if( getCurrentFragment() instanceof IdentificationFragment) {
                 ((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
                 super.onBackPressed();
             }
@@ -798,6 +849,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentIntegrator.REQUEST_CODE) {
+            if(data != null) {
+                IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                String contents = data.getStringExtra("SCAN_RESULT");
+                ((EditText) findViewById(R.id.editText_barcode)).setText(contents);
+            }
+        }
     }
 
     // Storage Permissions
@@ -1013,6 +1071,145 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         }
     }
+
+    public String getBarcode(){
+        return barcode;
+    }
+
+    //NFC
+    public void addMessage(View view) {
+        String newMessage = txtBoxAddMessage.getText().toString();
+        messagesToSendArray.add(newMessage);
+
+        txtBoxAddMessage.setText(null);
+        updateTextViews();
+
+        Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
+    }
+
+
+    public  void updateTextViews() {
+        txtMessagesToSend.setText("Messages To Send:\n");
+        //Populate Our list of messages we want to send
+        if(messagesToSendArray.size() > 0) {
+            for (int i = 0; i < messagesToSendArray.size(); i++) {
+                txtMessagesToSend.append(messagesToSendArray.get(i));
+                txtMessagesToSend.append("\n");
+            }
+        }
+
+        txtReceivedMessages.setText("Messages Received:\n");
+        //Populate our list of messages we have received
+        if (messagesReceivedArray.size() > 0) {
+            for (int i = 0; i < messagesReceivedArray.size(); i++) {
+                txtReceivedMessages.append(messagesReceivedArray.get(i));
+                txtReceivedMessages.append("\n");
+            }
+        }
+    }
+
+    //Save our Array Lists of Messages for if the user navigates away
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("messagesToSend", messagesToSendArray);
+        savedInstanceState.putStringArrayList("lastMessagesReceived",messagesReceivedArray);
+    }
+
+    //Load our Array Lists of Messages for when the user navigates back
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        messagesToSendArray = savedInstanceState.getStringArrayList("messagesToSend");
+        messagesReceivedArray = savedInstanceState.getStringArrayList("lastMessagesReceived");
+    }
+
+
+    @Override
+    public void onNdefPushComplete(NfcEvent event) {
+        //This is called when the system detects that our NdefMessage was successfully sent.
+        messagesToSendArray.clear();
+    }
+
+    @Override
+    public NdefMessage createNdefMessage(NfcEvent event) {
+        //This will be called when another NFC capable device is detected.
+        if (messagesToSendArray.size() == 0) {
+            return null;
+        }
+        //We'll write the createRecords() method in just a moment
+        NdefRecord[] recordsToAttach = createRecords();
+        //When creating an NdefMessage we need to provide an NdefRecord[]
+        return new NdefMessage(recordsToAttach);
+    }
+
+    public NdefRecord[] createRecords() {
+        NdefRecord[] records = new NdefRecord[messagesToSendArray.size() + 1];
+        //To Create Messages Manually if API is less than
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            for (int i = 0; i < messagesToSendArray.size(); i++){
+                byte[] payload = messagesToSendArray.get(i).
+                        getBytes(Charset.forName("UTF-8"));
+                NdefRecord record = new NdefRecord(
+                        NdefRecord.TNF_WELL_KNOWN,      //Our 3-bit Type name format
+                        NdefRecord.RTD_TEXT,            //Description of our payload
+                        new byte[0],                    //The optional id for our Record
+                        payload);                       //Our payload for the Record
+
+                records[i] = record;
+            }
+        }
+        //Api is high enough that we can use createMime, which is preferred.
+        else {
+            for (int i = 0; i < messagesToSendArray.size(); i++){
+                byte[] payload = messagesToSendArray.get(i).
+                        getBytes(Charset.forName("UTF-8"));
+
+                NdefRecord record = NdefRecord.createMime("text/plain",payload);
+                records[i] = record;
+            }
+        }
+        records[messagesToSendArray.size()] =
+                NdefRecord.createApplicationRecord(getPackageName());
+        return records;
+    }
+
+    private void handleNfcIntent(Intent NfcIntent) {
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
+            Parcelable[] receivedArray =
+                    NfcIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+
+            if(receivedArray != null) {
+                messagesReceivedArray.clear();
+                NdefMessage receivedMessage = (NdefMessage) receivedArray[0];
+                NdefRecord[] attachedRecords = receivedMessage.getRecords();
+
+                for (NdefRecord record:attachedRecords) {
+                    String string = new String(record.getPayload());
+                    //Make sure we don't pass along our AAR (Android Application Record)
+                    if (string.equals(getPackageName())) { continue; }
+                    messagesReceivedArray.add(string);
+                }
+                Toast.makeText(this, "Received " + messagesReceivedArray.size() +
+                        " Messages", Toast.LENGTH_LONG).show();
+                updateTextViews();
+            }
+            else {
+                Toast.makeText(this, "Received Blank Parcel", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        handleNfcIntent(intent);
+    }
+
+
+
+
+
 
 
 
