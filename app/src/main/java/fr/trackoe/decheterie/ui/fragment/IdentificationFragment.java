@@ -43,7 +43,10 @@ public class IdentificationFragment extends Fragment {
     Queue<String> rx_queue = new LinkedList<String>();
     private int       sum_rx = 0;
     public static final int Message_display = 0x010;
-    public static byte[]  part_serialPortNode = new String("/dev/" + "ttyUSB1" + "\0").getBytes();
+    public static byte[]  part_serialPortNode_ttyUSB0 = new String("/dev/" + "ttyUSB0" + "\0").getBytes();
+    public static byte[]  part_serialPortNode_ttyUSB1 = new String("/dev/" + "ttyUSB1" + "\0").getBytes();
+    public static byte[]  part_serialPortNode_ttyUSB2 = new String("/dev/" + "ttyUSB2" + "\0").getBytes();
+    public static byte[]  part_serialPortNode_ttyUSB3 = new String("/dev/" + "ttyUSB3" + "\0").getBytes();
     public static int     part_baud = 9600;
     public static int     part_data_size = 8;
     public static int     part_stop_bit = 1;
@@ -70,7 +73,14 @@ public class IdentificationFragment extends Fragment {
         initListeners(container);
 
         mSeriport = new SerialPortServiceManager(0);
-        mSeriport.open(part_serialPortNode, part_baud, part_data_size, part_stop_bit);
+        //set the parameters
+        if(mSeriport.open(part_serialPortNode_ttyUSB0, part_baud, part_data_size, part_stop_bit) == -1){
+            if(mSeriport.open(part_serialPortNode_ttyUSB1, part_baud, part_data_size, part_stop_bit) == -1){
+                if(mSeriport.open(part_serialPortNode_ttyUSB2, part_baud, part_data_size, part_stop_bit) == -1){
+                    mSeriport.open(part_serialPortNode_ttyUSB3, part_baud, part_data_size, part_stop_bit);
+                }
+            }
+        }
 
         mHandler = new Handler() {
             @Override

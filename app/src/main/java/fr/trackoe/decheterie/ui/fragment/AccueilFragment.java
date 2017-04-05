@@ -221,15 +221,6 @@ public class AccueilFragment extends Fragment {
             }
         });
 
-        accueil_vg.findViewById(R.id.btn_liste).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new TestNFCFragment(), true);
-                }
-                return true;
-            }
-        });
 
     }
 

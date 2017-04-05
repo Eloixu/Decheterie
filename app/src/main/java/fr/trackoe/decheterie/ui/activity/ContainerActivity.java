@@ -23,10 +23,16 @@ import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
+import android.nfc.Tag;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.NfcA;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
@@ -74,6 +80,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
@@ -106,7 +113,7 @@ import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
 import fr.trackoe.decheterie.widget.WriteUsersTask;
 
-public class ContainerActivity extends AppCompatActivity implements DrawerLocker, NfcAdapter.OnNdefPushCompleteCallback, NfcAdapter.CreateNdefMessageCallback{
+public class ContainerActivity extends AppCompatActivity implements DrawerLocker{
     private static final String CURRENT_FRAG_TAG = "CURRENT_FRAGMENT";
     private static final String APK_NAME = "decheterie.apk";
     private static final String DOWNLOAD = "/download/";
@@ -137,14 +144,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     private NfcAdapter mNfcAdapter;
 
     //NFC
-    //The array lists to hold our messages
-    private ArrayList<String> messagesToSendArray = new ArrayList<>();
-    private ArrayList<String> messagesReceivedArray = new ArrayList<>();
-
-    //Text boxes to add and display our messages
-    private EditText txtBoxAddMessage;
-    private TextView txtReceivedMessages;
-    private TextView txtMessagesToSend;
+    private List<Tag> mTags = new ArrayList<>();
+    private String idCard;
 
 
     @Override
@@ -230,14 +231,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         else {
             Toast.makeText(this, "NFC not available on this device",
                     Toast.LENGTH_SHORT).show();}
-
-        //NFC
-        txtBoxAddMessage = (EditText) findViewById(R.id.txtBoxAddMessage);
-        txtMessagesToSend = (TextView) findViewById(R.id.txtMessageToSend);
-        txtReceivedMessages = (TextView) findViewById(R.id.txtMessagesReceived);
-        Button btnAddMessage = (Button) findViewById(R.id.buttonAddMessage);
-
-
 
     }
 
@@ -1077,134 +1070,268 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     }
 
     //NFC
-    public void addMessage(View view) {
-        String newMessage = txtBoxAddMessage.getText().toString();
-        messagesToSendArray.add(newMessage);
 
-        txtBoxAddMessage.setText(null);
-        updateTextViews();
-
-        Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
-    }
-
-
-    public  void updateTextViews() {
-        txtMessagesToSend.setText("Messages To Send:\n");
-        //Populate Our list of messages we want to send
-        if(messagesToSendArray.size() > 0) {
-            for (int i = 0; i < messagesToSendArray.size(); i++) {
-                txtMessagesToSend.append(messagesToSendArray.get(i));
-                txtMessagesToSend.append("\n");
-            }
-        }
-
-        txtReceivedMessages.setText("Messages Received:\n");
-        //Populate our list of messages we have received
-        if (messagesReceivedArray.size() > 0) {
-            for (int i = 0; i < messagesReceivedArray.size(); i++) {
-                txtReceivedMessages.append(messagesReceivedArray.get(i));
-                txtReceivedMessages.append("\n");
-            }
-        }
-    }
-
-    //Save our Array Lists of Messages for if the user navigates away
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList("messagesToSend", messagesToSendArray);
-        savedInstanceState.putStringArrayList("lastMessagesReceived",messagesReceivedArray);
-    }
-
-    //Load our Array Lists of Messages for when the user navigates back
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        messagesToSendArray = savedInstanceState.getStringArrayList("messagesToSend");
-        messagesReceivedArray = savedInstanceState.getStringArrayList("lastMessagesReceived");
-    }
-
-
-    @Override
-    public void onNdefPushComplete(NfcEvent event) {
-        //This is called when the system detects that our NdefMessage was successfully sent.
-        messagesToSendArray.clear();
-    }
-
-    @Override
-    public NdefMessage createNdefMessage(NfcEvent event) {
-        //This will be called when another NFC capable device is detected.
-        if (messagesToSendArray.size() == 0) {
-            return null;
-        }
-        //We'll write the createRecords() method in just a moment
-        NdefRecord[] recordsToAttach = createRecords();
-        //When creating an NdefMessage we need to provide an NdefRecord[]
-        return new NdefMessage(recordsToAttach);
-    }
-
-    public NdefRecord[] createRecords() {
-        NdefRecord[] records = new NdefRecord[messagesToSendArray.size() + 1];
-        //To Create Messages Manually if API is less than
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            for (int i = 0; i < messagesToSendArray.size(); i++){
-                byte[] payload = messagesToSendArray.get(i).
-                        getBytes(Charset.forName("UTF-8"));
-                NdefRecord record = new NdefRecord(
-                        NdefRecord.TNF_WELL_KNOWN,      //Our 3-bit Type name format
-                        NdefRecord.RTD_TEXT,            //Description of our payload
-                        new byte[0],                    //The optional id for our Record
-                        payload);                       //Our payload for the Record
-
-                records[i] = record;
-            }
-        }
-        //Api is high enough that we can use createMime, which is preferred.
-        else {
-            for (int i = 0; i < messagesToSendArray.size(); i++){
-                byte[] payload = messagesToSendArray.get(i).
-                        getBytes(Charset.forName("UTF-8"));
-
-                NdefRecord record = NdefRecord.createMime("text/plain",payload);
-                records[i] = record;
-            }
-        }
-        records[messagesToSendArray.size()] =
-                NdefRecord.createApplicationRecord(getPackageName());
-        return records;
-    }
-
-    private void handleNfcIntent(Intent NfcIntent) {
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
-            Parcelable[] receivedArray =
-                    NfcIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-
-            if(receivedArray != null) {
-                messagesReceivedArray.clear();
-                NdefMessage receivedMessage = (NdefMessage) receivedArray[0];
-                NdefRecord[] attachedRecords = receivedMessage.getRecords();
-
-                for (NdefRecord record:attachedRecords) {
-                    String string = new String(record.getPayload());
-                    //Make sure we don't pass along our AAR (Android Application Record)
-                    if (string.equals(getPackageName())) { continue; }
-                    messagesReceivedArray.add(string);
+    private void resolveIntent(Intent intent) {
+        String action = intent.getAction();
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
+                || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
+                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage[] msgs;
+            if (rawMsgs != null) {
+                msgs = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++) {
+                    msgs[i] = (NdefMessage) rawMsgs[i];
                 }
-                Toast.makeText(this, "Received " + messagesReceivedArray.size() +
-                        " Messages", Toast.LENGTH_LONG).show();
-                updateTextViews();
+            } else {
+                // Unknown tag type
+                byte[] empty = new byte[0];
+                byte[] id = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
+                Tag tag = (Tag) intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                byte[] payload = dumpTagData(tag).getBytes();
+                NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, id, payload);
+                NdefMessage msg = new NdefMessage(new NdefRecord[] { record });
+                msgs = new NdefMessage[] { msg };
+                mTags.add(tag);
+
+                String idCardInformation[] = dumpTagData(tag).split(":");
+                idCard = idCardInformation[1];
+
             }
-            else {
-                Toast.makeText(this, "Received Blank Parcel", Toast.LENGTH_LONG).show();
-            }
+
         }
     }
 
 
+
+    private String dumpTagData(Tag tag) {
+        StringBuilder sb = new StringBuilder();
+        byte[] id = tag.getId();
+        //sb.append("ID (hex): ").append(toHex(id)).append('\n');
+        sb.append("ID (reversed hex): ").append(toReversedHex(id));
+        //sb.append("ID (dec): ").append(toDec(id)).append('\n');
+        //sb.append("ID (reversed dec): ").append(toReversedDec(id)).append('\n');
+
+        /*String prefix = "android.nfc.tech.";
+        sb.append("Technologies: ");
+        for (String tech : tag.getTechList()) {
+            sb.append(tech.substring(prefix.length()));
+            sb.append(", ");
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        for (String tech : tag.getTechList()) {
+            if (tech.equals(MifareClassic.class.getName())) {
+                sb.append('\n');
+                String type = "Unknown";
+                try {
+                    MifareClassic mifareTag;
+                    try {
+                        mifareTag = MifareClassic.get(tag);
+                    } catch (Exception e) {
+                        // Fix for Sony Xperia Z3/Z5 phones
+                        tag = cleanupTag(tag);
+                        mifareTag = MifareClassic.get(tag);
+                    }
+                    switch (mifareTag.getType()) {
+                        case MifareClassic.TYPE_CLASSIC:
+                            type = "Classic";
+                            break;
+                        case MifareClassic.TYPE_PLUS:
+                            type = "Plus";
+                            break;
+                        case MifareClassic.TYPE_PRO:
+                            type = "Pro";
+                            break;
+                    }
+                    sb.append("Mifare Classic type: ");
+                    sb.append(type);
+                    sb.append('\n');
+
+                    sb.append("Mifare size: ");
+                    sb.append(mifareTag.getSize() + " bytes");
+                    sb.append('\n');
+
+                    sb.append("Mifare sectors: ");
+                    sb.append(mifareTag.getSectorCount());
+                    sb.append('\n');
+
+                    sb.append("Mifare blocks: ");
+                    sb.append(mifareTag.getBlockCount());
+                } catch (Exception e) {
+                    sb.append("Mifare classic error: " + e.getMessage());
+                }
+            }
+
+            if (tech.equals(MifareUltralight.class.getName())) {
+                sb.append('\n');
+                MifareUltralight mifareUlTag = MifareUltralight.get(tag);
+                String type = "Unknown";
+                switch (mifareUlTag.getType()) {
+                    case MifareUltralight.TYPE_ULTRALIGHT:
+                        type = "Ultralight";
+                        break;
+                    case MifareUltralight.TYPE_ULTRALIGHT_C:
+                        type = "Ultralight C";
+                        break;
+                }
+                sb.append("Mifare Ultralight type: ");
+                sb.append(type);
+            }
+        }*/
+
+        return sb.toString();
+    }
+
+    private Tag cleanupTag(Tag oTag) {
+        if (oTag == null)
+            return null;
+
+        String[] sTechList = oTag.getTechList();
+
+        Parcel oParcel = Parcel.obtain();
+        oTag.writeToParcel(oParcel, 0);
+        oParcel.setDataPosition(0);
+
+        int len = oParcel.readInt();
+        byte[] id = null;
+        if (len >= 0) {
+            id = new byte[len];
+            oParcel.readByteArray(id);
+        }
+        int[] oTechList = new int[oParcel.readInt()];
+        oParcel.readIntArray(oTechList);
+        Bundle[] oTechExtras = oParcel.createTypedArray(Bundle.CREATOR);
+        int serviceHandle = oParcel.readInt();
+        int isMock = oParcel.readInt();
+        IBinder tagService;
+        if (isMock == 0) {
+            tagService = oParcel.readStrongBinder();
+        } else {
+            tagService = null;
+        }
+        oParcel.recycle();
+
+        int nfca_idx = -1;
+        int mc_idx = -1;
+        short oSak = 0;
+        short nSak = 0;
+
+        for (int idx = 0; idx < sTechList.length; idx++) {
+            if (sTechList[idx].equals(NfcA.class.getName())) {
+                if (nfca_idx == -1) {
+                    nfca_idx = idx;
+                    if (oTechExtras[idx] != null && oTechExtras[idx].containsKey("sak")) {
+                        oSak = oTechExtras[idx].getShort("sak");
+                        nSak = oSak;
+                    }
+                } else {
+                    if (oTechExtras[idx] != null && oTechExtras[idx].containsKey("sak")) {
+                        nSak = (short) (nSak | oTechExtras[idx].getShort("sak"));
+                    }
+                }
+            } else if (sTechList[idx].equals(MifareClassic.class.getName())) {
+                mc_idx = idx;
+            }
+        }
+
+        boolean modified = false;
+
+        if (oSak != nSak) {
+            oTechExtras[nfca_idx].putShort("sak", nSak);
+            modified = true;
+        }
+
+        if (nfca_idx != -1 && mc_idx != -1 && oTechExtras[mc_idx] == null) {
+            oTechExtras[mc_idx] = oTechExtras[nfca_idx];
+            modified = true;
+        }
+
+        if (!modified) {
+            return oTag;
+        }
+
+        Parcel nParcel = Parcel.obtain();
+        nParcel.writeInt(id.length);
+        nParcel.writeByteArray(id);
+        nParcel.writeInt(oTechList.length);
+        nParcel.writeIntArray(oTechList);
+        nParcel.writeTypedArray(oTechExtras, 0);
+        nParcel.writeInt(serviceHandle);
+        nParcel.writeInt(isMock);
+        if (isMock == 0) {
+            nParcel.writeStrongBinder(tagService);
+        }
+        nParcel.setDataPosition(0);
+
+        Tag nTag = Tag.CREATOR.createFromParcel(nParcel);
+
+        nParcel.recycle();
+
+        return nTag;
+    }
+
+    private String toHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = bytes.length - 1; i >= 0; --i) {
+            int b = bytes[i] & 0xff;
+            if (b < 0x10)
+                sb.append('0');
+            sb.append(Integer.toHexString(b));
+            if (i > 0) {
+                sb.append(" ");
+            }
+        }
+        return sb.toString();
+    }
+
+    private String toReversedHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < bytes.length; ++i) {
+            if (i > 0) {
+                sb.append(" ");
+            }
+            int b = bytes[i] & 0xff;
+            if (b < 0x10)
+                sb.append('0');
+            sb.append(Integer.toHexString(b));
+        }
+        return sb.toString();
+    }
+
+    private long toDec(byte[] bytes) {
+        long result = 0;
+        long factor = 1;
+        for (int i = 0; i < bytes.length; ++i) {
+            long value = bytes[i] & 0xffl;
+            result += value * factor;
+            factor *= 256l;
+        }
+        return result;
+    }
+
+    private long toReversedDec(byte[] bytes) {
+        long result = 0;
+        long factor = 1;
+        for (int i = bytes.length - 1; i >= 0; --i) {
+            long value = bytes[i] & 0xffl;
+            result += value * factor;
+            factor *= 256l;
+        }
+        return result;
+    }
+
+    //lanced when card attaches to the back of tablette
     @Override
     public void onNewIntent(Intent intent) {
-        handleNfcIntent(intent);
+        if(getCurrentFragment() instanceof IdentificationFragment) {
+            setIntent(intent);
+            resolveIntent(intent);
+            ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
+        }
     }
+
+
+
 
 
 
