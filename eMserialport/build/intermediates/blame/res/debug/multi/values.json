@@ -1,5 +1,712 @@
 [
     {
+        "outputFile": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 11,
+                    "endColumn": 19,
+                    "endOffset": 310
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\spinner_data.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endLine": 11,
+                        "endColumn": 19,
+                        "endOffset": 321
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 315,
+                    "endLine": 17,
+                    "endColumn": 19,
+                    "endOffset": 480
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\spinner_data.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 333,
+                        "endLine": 18,
+                        "endColumn": 19,
+                        "endOffset": 503
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 485,
+                    "endLine": 28,
+                    "endColumn": 19,
+                    "endOffset": 790
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\spinner_data.xml",
+                    "position": {
+                        "startLine": 44,
+                        "startColumn": 4,
+                        "startOffset": 1162,
+                        "endLine": 54,
+                        "endColumn": 19,
+                        "endOffset": 1477
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 795,
+                    "endLine": 66,
+                    "endColumn": 19,
+                    "endOffset": 1699
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\spinner_data.xml",
+                    "position": {
+                        "startLine": 56,
+                        "startColumn": 4,
+                        "startOffset": 1489,
+                        "endLine": 93,
+                        "endColumn": 19,
+                        "endOffset": 2430
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 67,
+                    "startColumn": 4,
+                    "startOffset": 1704,
+                    "endLine": 70,
+                    "endColumn": 19,
+                    "endOffset": 1804
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\spinner_data.xml",
+                    "position": {
+                        "startLine": 39,
+                        "startColumn": 4,
+                        "startOffset": 1047,
+                        "endLine": 42,
+                        "endColumn": 19,
+                        "endOffset": 1150
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 71,
+                    "startColumn": 4,
+                    "startOffset": 1809,
+                    "endLine": 88,
+                    "endColumn": 19,
+                    "endOffset": 2312
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\spinner_data.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 515,
+                        "endLine": 37,
+                        "endColumn": 19,
+                        "endOffset": 1035
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 89,
+                    "startColumn": 4,
+                    "startOffset": 2317,
+                    "endColumn": 57,
+                    "endOffset": 2370
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 92,
+                        "endColumn": 57,
+                        "endOffset": 145
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 90,
+                    "startColumn": 4,
+                    "startOffset": 2375,
+                    "endColumn": 55,
+                    "endOffset": 2426
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 151,
+                        "endColumn": 55,
+                        "endOffset": 202
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 91,
+                    "startColumn": 4,
+                    "startOffset": 2431,
+                    "endColumn": 52,
+                    "endOffset": 2479
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 110,
+                        "endColumn": 52,
+                        "endOffset": 158
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 92,
+                    "startColumn": 4,
+                    "startOffset": 2484,
+                    "endColumn": 49,
+                    "endOffset": 2529
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endColumn": 49,
+                        "endOffset": 104
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 93,
+                    "startColumn": 4,
+                    "startOffset": 2534,
+                    "endColumn": 43,
+                    "endOffset": 2573
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 1,
+                        "startOffset": 1620,
+                        "endColumn": 40,
+                        "endOffset": 1659
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 94,
+                    "startColumn": 4,
+                    "startOffset": 2578,
+                    "endColumn": 44,
+                    "endOffset": 2618
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 1,
+                        "startOffset": 1577,
+                        "endColumn": 41,
+                        "endOffset": 1617
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 95,
+                    "startColumn": 4,
+                    "startOffset": 2623,
+                    "endColumn": 42,
+                    "endOffset": 2661
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 33,
+                        "startColumn": 1,
+                        "startOffset": 1536,
+                        "endColumn": 39,
+                        "endOffset": 1574
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 96,
+                    "startColumn": 4,
+                    "startOffset": 2666,
+                    "endColumn": 44,
+                    "endOffset": 2706
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 37,
+                        "startColumn": 1,
+                        "startOffset": 1703,
+                        "endColumn": 41,
+                        "endOffset": 1743
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 97,
+                    "startColumn": 4,
+                    "startOffset": 2711,
+                    "endColumn": 42,
+                    "endOffset": 2749
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 36,
+                        "startColumn": 1,
+                        "startOffset": 1662,
+                        "endColumn": 39,
+                        "endOffset": 1700
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 98,
+                    "startColumn": 4,
+                    "startOffset": 2754,
+                    "endColumn": 46,
+                    "endOffset": 2796
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1285,
+                        "endColumn": 46,
+                        "endOffset": 1327
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 99,
+                    "startColumn": 4,
+                    "startOffset": 2801,
+                    "endColumn": 45,
+                    "endOffset": 2842
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1238,
+                        "endColumn": 45,
+                        "endOffset": 1279
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 100,
+                    "startColumn": 4,
+                    "startOffset": 2847,
+                    "endColumn": 52,
+                    "endOffset": 2895
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 164,
+                        "endColumn": 52,
+                        "endOffset": 212
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 101,
+                    "startColumn": 4,
+                    "startOffset": 2900,
+                    "endColumn": 42,
+                    "endOffset": 2938
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 821,
+                        "endColumn": 42,
+                        "endOffset": 859
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 102,
+                    "startColumn": 4,
+                    "startOffset": 2943,
+                    "endColumn": 40,
+                    "endOffset": 2979
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 911,
+                        "endColumn": 40,
+                        "endOffset": 947
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 103,
+                    "startColumn": 4,
+                    "startOffset": 2984,
+                    "endColumn": 44,
+                    "endOffset": 3024
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 865,
+                        "endColumn": 44,
+                        "endOffset": 905
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 104,
+                    "startColumn": 4,
+                    "startOffset": 3029,
+                    "endColumn": 43,
+                    "endOffset": 3068
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 38,
+                        "startColumn": 1,
+                        "startOffset": 1746,
+                        "endColumn": 40,
+                        "endOffset": 1785
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 105,
+                    "startColumn": 4,
+                    "startOffset": 3073,
+                    "endColumn": 49,
+                    "endOffset": 3118
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1086,
+                        "endColumn": 49,
+                        "endOffset": 1131
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 106,
+                    "startColumn": 4,
+                    "startOffset": 3123,
+                    "endColumn": 45,
+                    "endOffset": 3164
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1137,
+                        "endColumn": 45,
+                        "endOffset": 1178
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 107,
+                    "startColumn": 4,
+                    "startOffset": 3169,
+                    "endColumn": 39,
+                    "endOffset": 3204
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 953,
+                        "endColumn": 39,
+                        "endOffset": 988
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 108,
+                    "startColumn": 4,
+                    "startOffset": 3209,
+                    "endColumn": 44,
+                    "endOffset": 3249
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1040,
+                        "endColumn": 44,
+                        "endOffset": 1080
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 109,
+                    "startColumn": 4,
+                    "startOffset": 3254,
+                    "endColumn": 44,
+                    "endOffset": 3294
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 994,
+                        "endColumn": 44,
+                        "endOffset": 1034
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 110,
+                    "startColumn": 4,
+                    "startOffset": 3299,
+                    "endColumn": 46,
+                    "endOffset": 3341
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1184,
+                        "endColumn": 46,
+                        "endOffset": 1226
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 111,
+                    "startColumn": 4,
+                    "startOffset": 3346,
+                    "endColumn": 56,
+                    "endOffset": 3398
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1481,
+                        "endColumn": 56,
+                        "endOffset": 1533
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 112,
+                    "startColumn": 4,
+                    "startOffset": 3403,
+                    "endColumn": 48,
+                    "endOffset": 3447
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1333,
+                        "endColumn": 48,
+                        "endOffset": 1377
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 113,
+                    "startColumn": 4,
+                    "startOffset": 3452,
+                    "endColumn": 46,
+                    "endOffset": 3494
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1383,
+                        "endColumn": 46,
+                        "endOffset": 1425
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 114,
+                    "startColumn": 4,
+                    "startOffset": 3499,
+                    "endColumn": 48,
+                    "endOffset": 3543
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 1431,
+                        "endColumn": 48,
+                        "endOffset": 1475
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 115,
+                    "startColumn": 4,
+                    "startOffset": 3548,
+                    "endLine": 124,
+                    "endColumn": 50,
+                    "endOffset": 4087
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 218,
+                        "endLine": 15,
+                        "endColumn": 50,
+                        "endOffset": 766
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 125,
+                    "startColumn": 4,
+                    "startOffset": 4092,
+                    "endColumn": 39,
+                    "endOffset": 4127
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 772,
+                        "endColumn": 47,
+                        "endOffset": 815
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 126,
+                    "startColumn": 4,
+                    "startOffset": 4132,
+                    "endLine": 132,
+                    "endColumn": 12,
+                    "endOffset": 4418
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 192,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 484
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 133,
+                    "startColumn": 4,
+                    "startOffset": 4423,
+                    "endLine": 135,
+                    "endColumn": 12,
+                    "endOffset": 4578
+                },
+                "from": {
+                    "file": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 525,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 682
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "C:\\projets_android\\decheterie\\eMserialport\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
         "map": [
             {

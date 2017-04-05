@@ -1,7 +1,15 @@
 [
     {
+        "merged": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\gps_power.xml",
+        "source": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\layout\\gps_power.xml"
+    },
+    {
         "merged": "C:\\projets_android\\decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\menu_gpio_operate.xml",
         "source": "C:\\projets_android\\decheterie\\eMserialport\\src\\main\\res\\layout\\menu_gpio_operate.xml"
+    },
+    {
+        "merged": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\send.xml",
+        "source": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\layout\\send.xml"
     },
     {
         "merged": "C:\\projets_android\\decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\send.xml",
@@ -12,11 +20,23 @@
         "source": "C:\\projets_android\\decheterie\\eMserialport\\src\\main\\res\\layout\\main_display.xml"
     },
     {
+        "merged": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\function.xml",
+        "source": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\layout\\function.xml"
+    },
+    {
         "merged": "C:\\projets_android\\decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\gps_power.xml",
         "source": "C:\\projets_android\\decheterie\\eMserialport\\src\\main\\res\\layout\\gps_power.xml"
     },
     {
         "merged": "C:\\projets_android\\decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\function.xml",
         "source": "C:\\projets_android\\decheterie\\eMserialport\\src\\main\\res\\layout\\function.xml"
+    },
+    {
+        "merged": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\main_display.xml",
+        "source": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\layout\\main_display.xml"
+    },
+    {
+        "merged": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\build\\intermediates\\res\\merged\\debug\\layout\\menu_gpio_operate.xml",
+        "source": "C:\\Users\\Remi\\AndroidStudioProjects\\Decheterie\\eMserialport\\src\\main\\res\\layout\\menu_gpio_operate.xml"
     }
 ]
