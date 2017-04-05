@@ -36,5 +36,5 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.idescout.sql:sqlscout-server:2.0'
     testCompile 'junit:junit:4.12'
-    compile files('C:/projets_android/decheterie/libs/EmdoorAPI.jar')
+    compile files('C:/Users/Remi/AndroidStudioProjects/Decheterie/libs/EmdoorAPI.jar')
 }

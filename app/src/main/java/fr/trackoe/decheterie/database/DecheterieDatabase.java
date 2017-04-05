@@ -458,6 +458,269 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     public static final String DELETE_TABLE_PHOTO = "DROP TABLE IF EXISTS " + TableReponse.TABLE_NAME;
 
+    // Table usager
+    public static abstract class TableUsager implements BaseColumns {
+        public static final String TABLE_NAME = "usager";
+        public static final String ID_USAGER = "id_usager";
+        public static final int NUM_ID_USAGER = 0;
+        public static final String ID_ACCOUNT = "id_account";
+        public static final int NUM_ID_ACCOUNT = 1;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 2;
+        public static final String DATE_MAJ = "date_maj";
+        public static final int NUM_DATE_MAJ = 3;
+    }
+
+    public static final String CREATE_TABLE_USAGER = "CREATE TABLE IF NOT EXISTS " + TableUsager.TABLE_NAME + " ("
+            + TableUsager.ID_USAGER + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableUsager.ID_ACCOUNT + INTEGER_TYPE + COMMA_SEP
+            + TableUsager.NOM + TEXT_TYPE + COMMA_SEP
+            + TableUsager.DATE_MAJ + TEXT_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_USAGER = "DROP TABLE IF EXISTS " + TableUsager.TABLE_NAME;
+
+    // Table menage
+    public static abstract class TableMenage implements BaseColumns {
+        public static final String TABLE_NAME = "menage";
+        public static final String ID_MENAGE = "id_menage";
+        public static final int NUM_ID_MENAGE = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+        public static final String PRENOM = "prenom";
+        public static final int NUM_PRENOM = 2;
+        public static final String EMAIL = "email";
+        public static final int NUM_EMAIL = 3;
+        public static final String NB_HABITANT = "nb_habitant";
+        public static final int NUM_NB_HABITANT = 4;
+        public static final String REFERENCE = "reference";
+        public static final int NUM_REFERENCE = 5;
+        public static final String ACTIF = "actif";
+        public static final int NUM_ACTIF = 6;
+        public static final String TELEPHONE = "telephone";
+        public static final int NUM_TELEPHONE = 7;
+        public static final String CIVILITE = "civilite";
+        public static final int NUM_CIVILITE = 8;
+    }
+
+    public static final String CREATE_TABLE_MENAGE = "CREATE TABLE IF NOT EXISTS " + TableMenage.TABLE_NAME + " ("
+            + TableMenage.ID_MENAGE + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableMenage.NOM + TEXT_TYPE + COMMA_SEP
+            + TableMenage.PRENOM + TEXT_TYPE + COMMA_SEP
+            + TableMenage.EMAIL + TEXT_TYPE + COMMA_SEP
+            + TableMenage.NB_HABITANT + INTEGER_TYPE + COMMA_SEP
+            + TableMenage.REFERENCE + TEXT_TYPE + COMMA_SEP
+            + TableMenage.ACTIF + INTEGER_TYPE + COMMA_SEP
+            + TableMenage.TELEPHONE + TEXT_TYPE + COMMA_SEP
+            + TableMenage.CIVILITE + TEXT_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_MENAGE = "DROP TABLE IF EXISTS " + TableMenage.TABLE_NAME;
+
+    // Table habitat
+    public static abstract class TableHabitat implements BaseColumns {
+        public static final String TABLE_NAME = "habitat";
+        public static final String ID_HABITAT = "id_habitat";
+        public static final int NUM_ID_HABITAT = 0;
+        public static final String ADRESSE = "adresse";
+        public static final int NUM_ADRESSE = 1;
+        public static final String CP = "cp";
+        public static final int NUM_CP = 2;
+        public static final String VILLE = "ville";
+        public static final int NUM_VILLE = 3;
+        public static final String NB_LGT = "nb_lgt";
+        public static final int NUM_NB_LGT = 4;
+        public static final String NB_HABITANT = "nb_habitant";
+        public static final int NUM_NB_HABITANT = 5;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 6;
+        public static final String REFERENCE = "reference";
+        public static final int NUM_REFERENCE = 7;
+        public static final String COORDONNEES_X = "coordonnees_x";
+        public static final int NUM_COORDONNEES_X = 8;
+        public static final String COORDONNEES_Y = "coordonnees_y";
+        public static final int NUM_COORDONNEES_Y = 9;
+        public static final String COMPLEMENT = "complement";
+        public static final int NUM_COMPLEMENT = 10;
+        public static final String DERNIER_MAJ = "dernier_maj";
+        public static final int NUM_DERNIER_MAJ = 11;
+        public static final String NUMERO = "numero";
+        public static final int NUM_NUMERO = 12;
+        public static final String IS_ACTIF = "is_actif";
+        public static final int NUM_IS_ACTIF = 13;
+        public static final String ACTIVITES = "activites";
+        public static final int NUM_ACTIVITES = 14;
+        public static final String ADRESSE_2 = "adresse_2";
+        public static final int NUM_ADRESSE_2 = 15;
+        public static final String REMARQUE = "remarque";
+        public static final int NUM_REMARQUE = 16;
+        public static final String ID_TYPE_HABITAT = "id_type_habitat";
+        public static final int NUM_ID_TYPE_HABITAT = 17;
+    }
+
+    public static final String CREATE_TABLE_HABITAT = "CREATE TABLE IF NOT EXISTS " + TableHabitat.TABLE_NAME + " ("
+            + TableHabitat.ID_HABITAT + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableHabitat.ADRESSE + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.CP + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.VILLE + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.NB_LGT + INTEGER_TYPE + COMMA_SEP
+            + TableHabitat.NB_HABITANT + INTEGER_TYPE + COMMA_SEP
+            + TableHabitat.NOM + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.REFERENCE + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.COORDONNEES_X + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.COORDONNEES_Y + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.COMPLEMENT + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.DERNIER_MAJ + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.NUMERO + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.IS_ACTIF + INTEGER_TYPE + COMMA_SEP
+            + TableHabitat.ACTIVITES + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.ADRESSE_2 + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.REMARQUE + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.ID_TYPE_HABITAT + INTEGER_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_HABITAT = "DROP TABLE IF EXISTS " + TableHabitat.TABLE_NAME;
+
+    // Table contact
+    public static abstract class TableContact implements BaseColumns {
+        public static final String TABLE_NAME = "contact";
+        public static final String ID_CONTACT = "id_contact";
+        public static final int NUM_ID_CONTACT = 0;
+        public static final String CIVILITE = "civilite";
+        public static final int NUM_CIVILITE = 1;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 2;
+        public static final String PRENOM = "prenom";
+        public static final int NUM_PRENOM = 3;
+        public static final String TELEPHONE = "telephone";
+        public static final int NUM_TELEPHONE = 4;
+        public static final String ADRESSE = "adresse";
+        public static final int NUM_ADRESSE = 5;
+        public static final String CP = "cp";
+        public static final int NUM_CP = 6;
+        public static final String VILLE = "ville";
+        public static final int NUM_VILLE = 7;
+        public static final String EMAIL = "email";
+        public static final int NUM_EMAIL = 8;
+        public static final String IS_MULTI = "is_multi";
+        public static final int NUM_IS_MULTI = 9;
+        public static final String TYPE = "type";
+        public static final int NUM_TYPE = 10;
+        public static final String RAISON_SOCIALE = "raison_sociale";
+        public static final int NUM_RAISON_SOCIALE = 11;
+        public static final String NUMERO = "numero";
+        public static final int NUM_NUMERO = 12;
+        public static final String COMPLEMENT = "complement";
+        public static final int NUM_COMPLEMENT = 13;
+        public static final String RUE = "rue";
+        public static final int NUM_RUE = 14;
+        public static final String ID_TYPE_CONTACT = "id_type_contact";
+        public static final int NUM_ID_TYPE_CONTACT = 15;
+        public static final String ACTIVITE = "activite";
+        public static final int NUM_ACTIVITE = 16;
+        public static final String IS_ACTIF = "is_actif";
+        public static final int NUM_IS_ACTIF = 17;
+    }
+
+    public static final String CREATE_TABLE_CONTACT = "CREATE TABLE IF NOT EXISTS " + TableContact.TABLE_NAME + " ("
+            + TableContact.ID_CONTACT + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableContact.CIVILITE + TEXT_TYPE + COMMA_SEP
+            + TableContact.NOM + TEXT_TYPE + COMMA_SEP
+            + TableContact.PRENOM + TEXT_TYPE + COMMA_SEP
+            + TableContact.TELEPHONE + TEXT_TYPE + COMMA_SEP
+            + TableContact.ADRESSE + TEXT_TYPE + COMMA_SEP
+            + TableContact.CP + TEXT_TYPE + COMMA_SEP
+            + TableContact.VILLE + TEXT_TYPE + COMMA_SEP
+            + TableContact.EMAIL + TEXT_TYPE + COMMA_SEP
+            + TableContact.IS_MULTI + INTEGER_TYPE + COMMA_SEP
+            + TableContact.TYPE + TEXT_TYPE + COMMA_SEP
+            + TableContact.RAISON_SOCIALE + TEXT_TYPE + COMMA_SEP
+            + TableContact.NUMERO + TEXT_TYPE + COMMA_SEP
+            + TableContact.COMPLEMENT + TEXT_TYPE + COMMA_SEP
+            + TableContact.RUE + TEXT_TYPE + COMMA_SEP
+            + TableContact.ID_TYPE_CONTACT + INTEGER_TYPE + COMMA_SEP
+            + TableContact.ACTIVITE + TEXT_TYPE + COMMA_SEP
+            + TableContact.IS_ACTIF + INTEGER_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_CONTACT = "DROP TABLE IF EXISTS " + TableContact.TABLE_NAME;
+
+    // Table type_contact
+    public static abstract class TableTypeContact implements BaseColumns {
+        public static final String TABLE_NAME = "type_contact";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+    }
+
+    public static final String CREATE_TABLE_TYPE_CONTACT = "CREATE TABLE IF NOT EXISTS " + TableTypeContact.TABLE_NAME + " ("
+            + TableTypeContact.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableTypeContact.NOM + TEXT_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_TYPE_CONTACT = "DROP TABLE IF EXISTS " + TableTypeContact.TABLE_NAME;
+
+    // Table type_habitat
+    public static abstract class TableTypeHabitat implements BaseColumns {
+        public static final String TABLE_NAME = "type_habitat";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String TYPE = "type";
+        public static final int NUM_TYPE = 1;
+    }
+
+    public static final String CREATE_TABLE_TYPE_HABITAT = "CREATE TABLE IF NOT EXISTS " + TableTypeHabitat.TABLE_NAME + " ("
+            + TableTypeHabitat.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableTypeHabitat.TYPE + TEXT_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_TYPE_HABITAT = "DROP TABLE IF EXISTS " + TableTypeHabitat.TABLE_NAME;
+
+    // Table habitat_contact
+    public static abstract class TableHabitatContact implements BaseColumns {
+        public static final String TABLE_NAME = "habitat_contact";
+        public static final String ID_HABITAT = "id_habitat";
+        public static final int NUM_ID_HABITAT = 0;
+        public static final String ID_CONTACT = "id_contact";
+        public static final int NUM_ID_CONTACT = 1;
+        public static final String IS_PRINCIPAL = "is_principal";
+        public static final int NUM_IS_PRINCIPAL = 2;
+    }
+
+    public static final String CREATE_TABLE_HABITAT_CONTACT = "CREATE TABLE IF NOT EXISTS " + TableHabitatContact.TABLE_NAME + " ("
+            + TableHabitatContact.ID_HABITAT + INTEGER_TYPE + COMMA_SEP
+            + TableHabitatContact.ID_CONTACT + INTEGER_TYPE + COMMA_SEP
+            + TableHabitatContact.IS_PRINCIPAL + INTEGER_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_HABITAT_CONTACT = "DROP TABLE IF EXISTS " + TableHabitatContact.TABLE_NAME;
+
+    // Table usager_habitat
+    public static abstract class TableUsagerHabitat implements BaseColumns {
+        public static final String TABLE_NAME = "habitat_usager_habitat";
+        public static final String ID_USAGER = "id_usager";
+        public static final int NUM_ID_USAGER = 0;
+        public static final String ID_HABITAT = "id_habitat";
+        public static final int NUM_ID_HABITAT = 1;
+    }
+
+    public static final String CREATE_TABLE_USAGER_HABITAT = "CREATE TABLE IF NOT EXISTS " + TableUsagerHabitat.TABLE_NAME + " ("
+            + TableUsagerHabitat.ID_USAGER + INTEGER_TYPE + COMMA_SEP
+            + TableUsagerHabitat.ID_HABITAT + INTEGER_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_USAGER_HABITAT = "DROP TABLE IF EXISTS " + TableUsagerHabitat.TABLE_NAME;
+
+    // Table usager_menage
+    public static abstract class TableUsagerMenage implements BaseColumns {
+        public static final String TABLE_NAME = "habitat_usager_habitat";
+        public static final String ID_USAGER = "id_usager";
+        public static final int NUM_ID_USAGER = 0;
+        public static final String ID_MENAGE = "id_menaget";
+        public static final int NUM_ID_MENAGE = 1;
+    }
+
+    public static final String CREATE_TABLE_USAGER_MENAGE = "CREATE TABLE IF NOT EXISTS " + TableUsagerMenage.TABLE_NAME + " ("
+            + TableUsagerMenage.ID_USAGER + INTEGER_TYPE + COMMA_SEP
+            + TableUsagerMenage.ID_MENAGE + INTEGER_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_USAGER_MENAGE = "DROP TABLE IF EXISTS " + TableUsagerMenage.TABLE_NAME;
+
+
+    //************************************************************************************************************************************
     public DecheterieDatabase(Context context) {
         super(context, context.getString(R.string.database_name), null, context.getResources().getInteger(R.integer.database_version));
         this.ctx = context;
@@ -481,6 +744,15 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DCH_COMPTE_PREPAYE);
         db.execSQL(CREATE_TABLE_DCH_DEPOT);
         db.execSQL(CREATE_TABLE_DCH_APPORT_FLUX);
+        db.execSQL(CREATE_TABLE_USAGER);
+        db.execSQL(CREATE_TABLE_MENAGE);
+        db.execSQL(CREATE_TABLE_TYPE_CONTACT);
+        db.execSQL(CREATE_TABLE_TYPE_HABITAT);
+        db.execSQL(CREATE_TABLE_CONTACT);
+        db.execSQL(CREATE_TABLE_HABITAT);
+        db.execSQL(CREATE_TABLE_HABITAT_CONTACT);
+        db.execSQL(CREATE_TABLE_USAGER_HABITAT);
+        db.execSQL(CREATE_TABLE_USAGER_MENAGE);
     }
 
     @Override
@@ -501,6 +773,15 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_DCH_COMPTE_PREPAYE);
         db.execSQL(DELETE_TABLE_DCH_DEPOT);
         db.execSQL(DELETE_TABLE_DCH_APPORT_FLUX);
+        db.execSQL(DELETE_TABLE_USAGER);
+        db.execSQL(DELETE_TABLE_MENAGE);
+        db.execSQL(DELETE_TABLE_HABITAT);
+        db.execSQL(DELETE_TABLE_CONTACT);
+        db.execSQL(DELETE_TABLE_TYPE_CONTACT);
+        db.execSQL(DELETE_TABLE_TYPE_HABITAT);
+        db.execSQL(DELETE_TABLE_HABITAT_CONTACT);
+        db.execSQL(DELETE_TABLE_USAGER_HABITAT);
+        db.execSQL(DELETE_TABLE_USAGER_MENAGE);
         onCreate(db);
     }
 
