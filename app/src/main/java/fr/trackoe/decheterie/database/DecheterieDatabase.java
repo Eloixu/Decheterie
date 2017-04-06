@@ -129,13 +129,76 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final String TABLE_DCH_COMPTE_PREPAYE = "dch_compte_prepaye";
         public static final String ID = "id";
         public static final int NUM_ID = 0;
+        public static final String DCH_USAGER_ID = "dch_usager_id";
+        public static final int NUM_DCH_USAGER_ID = 1;
+        public static final String QTY_POINT = "qty_point";
+        public static final int NUM_QTY_POINT = 2;
+        public static final String NB_DEPOT_RESTANT = "nb_depot_restant";
+        public static final int NUM_NB_DEPOT_RESTANT = 3;
 
     }
 
     public static final String CREATE_TABLE_DCH_COMPTE_PREPAYE = "CREATE TABLE IF NOT EXISTS " + TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " ("
-            + TableDchComptePrepaye.ID + INTEGER_TYPE + " PRIMARY KEY " + " )" ;
+            + TableDchComptePrepaye.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchComptePrepaye.DCH_USAGER_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchComptePrepaye.QTY_POINT + FLOAT_TYPE + COMMA_SEP
+            + TableDchComptePrepaye.NB_DEPOT_RESTANT + INTEGER_TYPE + " )" ;
 
     private static final String DELETE_TABLE_DCH_COMPTE_PREPAYE = "DROP TABLE IF EXISTS " +  TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE;
+
+    //    Table dch_carte
+    public static abstract class TableDchCarte implements BaseColumns {
+        public static final String TABLE_DCH_CARTE = "dch_carte";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NUM_CARTE = "num_carte";
+        public static final int NUM_NUM_CARTE = 1;
+        public static final String NUM_RFID = "num_RFID";
+        public static final int NUM_NUM_RFID = 2;
+        public static final String DCH_TYPE_CARTE_ID = "dch_type_carte_id";
+        public static final int NUM_DCH_TYPE_CARTE_ID = 3;
+        public static final String DCH_ACCOUNT_ID = "dch_account_id";
+        public static final int NUM_DCH_ACCOUNT_ID = 4;
+
+    }
+
+    public static final String CREATE_TABLE_DCH_CARTE = "CREATE TABLE IF NOT EXISTS " + TableDchCarte.TABLE_DCH_CARTE + " ("
+            + TableDchCarte.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchCarte.NUM_CARTE + TEXT_TYPE + COMMA_SEP
+            + TableDchCarte.NUM_RFID + TEXT_TYPE + COMMA_SEP
+            + TableDchCarte.DCH_TYPE_CARTE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchCarte.DCH_ACCOUNT_ID + INTEGER_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_CARTE = "DROP TABLE IF EXISTS " +  TableDchCarte.TABLE_DCH_CARTE;
+
+    //    Table dch_carte_active
+    public static abstract class TableDchCarteActive implements BaseColumns {
+        public static final String TABLE_DCH_CARTE_ACTIVE = "dch_carte_active";
+        public static final String DCH_CARTE_ID = "dch_carte_id";
+        public static final int NUM_DCH_CARTE_ID = 0;
+        public static final String DATE_ACTIVATION = "date_activation";
+        public static final int NUM_DATE_ACTIVATION = 1;
+        public static final String DATE_DERNIER_MOTIF = "date_dernier_motif";
+        public static final int NUM_DATE_DERNIER_MOTIF = 2;
+        public static final String DCH_CARTE_ETAT_RAISON_ID = "dch_carte_etat_raison_id";
+        public static final int NUM_DCH_CARTE_ETAT_RAISON_ID = 3;
+        public static final String IS_ACTIVE = "is_active";
+        public static final int NUM_IS_ACTIVE = 4;
+        public static final String DCH_COMPTE_PREPAYE_ID = "dch_compte_prepaye_id";
+        public static final int NUM_DCH_COMPTE_PREPAYE_ID = 5;
+
+    }
+
+    public static final String CREATE_TABLE_DCH_CARTE_ACTIVE = "CREATE TABLE IF NOT EXISTS " + TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE + " ("
+            + TableDchCarteActive.DCH_CARTE_ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchCarteActive.DATE_ACTIVATION + TEXT_TYPE + COMMA_SEP
+            + TableDchCarteActive.DATE_DERNIER_MOTIF + TEXT_TYPE + COMMA_SEP
+            + TableDchCarteActive.DCH_CARTE_ETAT_RAISON_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchCarteActive.IS_ACTIVE + INTEGER_TYPE + COMMA_SEP
+            + TableDchCarteActive.DCH_COMPTE_PREPAYE_ID + INTEGER_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_CARTE_ACTIVE = "DROP TABLE IF EXISTS " +  TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE;
+
 
     //    Table dch_depot
     public static abstract class TableDchDepot implements BaseColumns {
@@ -745,6 +808,9 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DCH_DEPOT);
         db.execSQL(CREATE_TABLE_DCH_APPORT_FLUX);
         db.execSQL(CREATE_TABLE_USAGER);
+        db.execSQL(CREATE_TABLE_DCH_COMPTE_PREPAYE);
+        db.execSQL(CREATE_TABLE_DCH_CARTE_ACTIVE);
+        db.execSQL(CREATE_TABLE_DCH_CARTE);
         db.execSQL(CREATE_TABLE_MENAGE);
         db.execSQL(CREATE_TABLE_TYPE_CONTACT);
         db.execSQL(CREATE_TABLE_TYPE_HABITAT);
@@ -774,6 +840,9 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_DCH_DEPOT);
         db.execSQL(DELETE_TABLE_DCH_APPORT_FLUX);
         db.execSQL(DELETE_TABLE_USAGER);
+        db.execSQL(DELETE_TABLE_DCH_COMPTE_PREPAYE);
+        db.execSQL(DELETE_TABLE_DCH_CARTE_ACTIVE);
+        db.execSQL(DELETE_TABLE_DCH_CARTE);
         db.execSQL(DELETE_TABLE_MENAGE);
         db.execSQL(DELETE_TABLE_HABITAT);
         db.execSQL(DELETE_TABLE_CONTACT);

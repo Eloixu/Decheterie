@@ -85,14 +85,21 @@ import java.util.List;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchCarteActiveDB;
+import fr.trackoe.decheterie.database.DchCarteDB;
+import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
+import fr.trackoe.decheterie.database.UsagerDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.Carte;
+import fr.trackoe.decheterie.model.bean.global.CarteActive;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
@@ -101,6 +108,7 @@ import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.Users;
+import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
@@ -156,7 +164,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
 
-        //initDB();
+        initDB();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -198,14 +206,14 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             //changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
-            changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
             fragmentTransaction.commit();*/
 
         } else {
             //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-            changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
             fragmentTransaction.commit();*/
@@ -933,6 +941,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(this);
         dchDecheterieFluxDB.open();
         dchDecheterieFluxDB.clearDecheterieFlux();
+        UsagerDB usagerDB = new UsagerDB(this);
+        usagerDB.open();
+        usagerDB.clearUsager();
+        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(this);
+        dchComptePrepayeDB.open();
+        dchComptePrepayeDB.clearComptePrepaye();
+        DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(this);
+        dchCarteActiveDB.open();
+        dchCarteActiveDB.clearCarteActive();
+        DchCarteDB dchCarteDB = new DchCarteDB(this);
+        dchCarteDB.open();
+        dchCarteDB.clearCarte();
 
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
@@ -983,9 +1003,57 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(4, 3));
         dchDecheterieFluxDB.close();
 
+        //add usager into DBB
+        usagerDB.insertUsager(new Usager(1,0,"Adèle",null));
+        usagerDB.insertUsager(new Usager(2,0,"Armelle",null));
+        usagerDB.insertUsager(new Usager(3,0,"Bécassine",null));
+        usagerDB.insertUsager(new Usager(4,0,"Bibi",null));
+        usagerDB.insertUsager(new Usager(5,0,"Carine",null));
+        usagerDB.insertUsager(new Usager(6,0,"Carolane",null));
+        usagerDB.insertUsager(new Usager(7,0,"Danielle",null));
+        usagerDB.insertUsager(new Usager(8,0,"Delphine",null));
+        usagerDB.insertUsager(new Usager(9,0,"Edmée",null));
+        usagerDB.insertUsager(new Usager(10,0,"Emilie ",null));
+        usagerDB.close();
 
+        //add comptePrepaye into DBB
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(1,1,100,10));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(2,2,50,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(3,3,35,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(4,4,15,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(5,5,13,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(6,6,100,10));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(7,6,50,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(8,6,35,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(9,6,15,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(10,6,13,3));
+        dchComptePrepayeDB.close();
 
+        //add carteActive into DBB
+        dchCarteActiveDB.insertCarteActive(new CarteActive(1,null,null,0,true,1));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(2,null,null,0,true,2));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(3,null,null,0,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(4,null,null,0,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(5,null,null,0,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(6,null,null,0,true,4));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(7,null,null,0,true,5));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(8,null,null,0,true,6));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(9,null,null,0,true,7));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(10,null,null,0,true,9));
+        dchCarteActiveDB.close();
 
+        //add carte into BDD
+        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,0,0));
+        dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,0,0));
+        dchCarteDB.insertCarte(new Carte(3,"532sqdksd",null,0,0));
+        dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,0,0));
+        dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,0,0));
+        dchCarteDB.insertCarte(new Carte(6,"2f4913f3",null,0,1));
+        dchCarteDB.insertCarte(new Carte(7,"cdwfjnqe",null,0,0));
+        dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,0,0));
+        dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,0,0));
+        dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,0,0));
+        dchCarteDB.close();
     }
 
     @Override

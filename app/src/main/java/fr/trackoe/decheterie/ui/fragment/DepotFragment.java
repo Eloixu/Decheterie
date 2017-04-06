@@ -138,8 +138,8 @@ public class DepotFragment extends Fragment {
         /*// Init Actionbar
         initActionBar();*/
 
-        /*// Init Views
-        initViews(inflater, container);*/
+        // Init Views
+        //initViews(inflater, container);
 
         // Init des listeners
         initListeners(container);

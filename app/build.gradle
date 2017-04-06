@@ -37,11 +37,7 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.idescout.sql:sqlscout-server:2.0'
     testCompile 'junit:junit:4.12'
-<<<<<<< HEAD
     compile files('C:/projets_android/decheterie/libs/EmdoorAPI.jar')
     compile 'com.journeyapps:zxing-android-embedded:3.0.2@aar'
     compile 'com.google.zxing:core:3.2.0'
-=======
-    compile files('C:/Users/Remi/AndroidStudioProjects/Decheterie/libs/EmdoorAPI.jar')
->>>>>>> cbeb3bddae141b2bd3141b373abb05faf27fb4cf
 }

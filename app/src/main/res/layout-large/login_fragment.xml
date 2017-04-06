@@ -2,9 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/login_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_fond" >
+    android:layout_height="match_parent" >
 
+    <RelativeLayout
+        android:id="@+id/login_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50px"
+        android:background="@drawable/login_fond">
     <LinearLayout
         android:id="@+id/login_form_layout"
         android:orientation="vertical"
@@ -12,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/login_form_marginTop"
         android:background="@drawable/bbox">
 
@@ -95,8 +102,7 @@
         android:src="@drawable/logo_trackoe"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="@dimen/tablette_img_margin"
-        android:layout_marginEnd="@dimen/tablette_img_margin"
         android:layout_marginBottom="@dimen/tablette_img_margin" />
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -50,4 +50,12 @@ public class UsagerDB extends MyDb {
         return u;
     }
 
+    /*
+    Vider la table
+     */
+
+    public void clearUsager() {
+        db.execSQL("delete from " + DecheterieDatabase.TableUsager.TABLE_NAME);
+    }
+
 }

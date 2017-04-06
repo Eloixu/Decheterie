@@ -2,8 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/settings_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/fond" >
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/login_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50px"
+        android:background="@drawable/fond">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -401,5 +408,7 @@
         </LinearLayout>
 
     </ScrollView>
+
+    </LinearLayout>
 
 </RelativeLayout>

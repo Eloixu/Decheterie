@@ -1,5 +1,6 @@
 package fr.trackoe.decheterie.ui.fragment;
 
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +8,10 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -29,10 +33,13 @@ public class LoginFragment extends Fragment {
     private ViewGroup login_vg;
     private EditText identifiantEditText;
     private EditText mdpEditText;
+    private Button valider;
+    private RelativeLayout main;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         login_vg = (ViewGroup) inflater.inflate(R.layout.login_fragment, container, false);
+        main = (RelativeLayout) login_vg.findViewById(R.id.login_content);
         // Init Actionbar
         //initActionBar();
 
@@ -41,6 +48,8 @@ public class LoginFragment extends Fragment {
 
         // Init des listeners
         initListeners();
+
+        //addLayoutListener(main,valider);
 
         return login_vg;
     }
@@ -60,13 +69,14 @@ public class LoginFragment extends Fragment {
     public void initViews() {
         identifiantEditText = (EditText) login_vg.findViewById(R.id.login_edittxt_identifiant);
         mdpEditText = (EditText) login_vg.findViewById(R.id.login_edittxt_password);
+        valider = (Button) login_vg.findViewById(R.id.login_btn);
 
         mdpEditText.setTypeface(Typeface.DEFAULT);
         mdpEditText.setTransformationMethod(new PasswordTransformationMethod());
 
         if(!Utils.isStringEmpty(Configuration.getNameUser())) {
             identifiantEditText.setText(Configuration.getNameUser());
-            mdpEditText.requestFocus();
+            //mdpEditText.requestFocus();
         } else if(!Configuration.getInstance(getContext()).isProd()) {
             identifiantEditText.setText(getString(R.string.login));
             mdpEditText.setText(getString(R.string.mdp));
@@ -87,7 +97,7 @@ public class LoginFragment extends Fragment {
     }
 
     public void login() {
-        User user;
+/*        User user;
         UsersDB usersDB = new UsersDB(getActivity());
         usersDB.read();
         user = usersDB.getUserByIdentifiant(identifiantEditText.getText().toString());
@@ -110,6 +120,10 @@ public class LoginFragment extends Fragment {
                 showSimpleAlertDialog(getString(R.string.error_mdp));
             }
 
+        }*/
+
+        if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+            ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
         }
     }
 
@@ -144,6 +158,25 @@ public class LoginFragment extends Fragment {
         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
             ((ContainerActivity) getActivity()).showSimpleAlertDialog(getActivity(), getString(R.string.error_title_information), mError);
         }
+    }
+
+    public void addLayoutListener(final View main, final View scroll) {
+        main.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                main.getWindowVisibleDisplayFrame(rect);
+                int mainInvisibleHeight = main.getRootView().getHeight() - rect.bottom;
+                if (mainInvisibleHeight > 100) {
+                    int[] location = new int[2];
+                    scroll.getLocationInWindow(location);
+                    int srollHeight = (location[1] + scroll.getHeight()) - rect.bottom;
+                    main.scrollTo(0, srollHeight);
+                } else {
+                    main.scrollTo(0, 0);
+                }
+            }
+        });
     }
 
 }

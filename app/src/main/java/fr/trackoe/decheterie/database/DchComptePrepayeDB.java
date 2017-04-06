@@ -2,11 +2,12 @@ package fr.trackoe.decheterie.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 
 /**
- * Created by Trackoe on 27/03/2017.
+ * Created by Haocheng on 27/03/2017.
  */
 
 public class DchComptePrepayeDB extends MyDb {
@@ -19,9 +20,32 @@ public class DchComptePrepayeDB extends MyDb {
      */
     public long insertComptePrepaye(ComptePrepaye comptePrepaye) {
         ContentValues values = new ContentValues();
+        //values.put(DecheterieDatabase.TableDchComptePrepaye.ID, comptePrepaye.getId());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.DCH_USAGER_ID, comptePrepaye.getDchUsagerId());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.QTY_POINT, comptePrepaye.getQtyPoint());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.NB_DEPOT_RESTANT, comptePrepaye.getNbDepotRestant());
 
         return db.insertOrThrow(DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE, null, values);
     }
+
+    private ComptePrepaye getComptePrepayeFromID(long id) {
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " WHERE " + DecheterieDatabase.TableDchComptePrepaye.ID + " = " + id;
+        Cursor cursor = db.rawQuery(query, null);
+        return cursorToComptePrepaye(cursor);
+    }
+
+
+    private ComptePrepaye cursorToComptePrepaye(Cursor c){
+        ComptePrepaye cp = new ComptePrepaye();
+        if(c.moveToFirst()) {
+            cp.setId(c.getLong(DecheterieDatabase.TableDchComptePrepaye.NUM_ID));
+            cp.setDchUsagerId(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_DCH_USAGER_ID));
+            cp.setQtyPoint(c.getFloat(DecheterieDatabase.TableDchComptePrepaye.NUM_QTY_POINT));
+            cp.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_NB_DEPOT_RESTANT));
+        }
+        return cp;
+    }
+
 
     /*
     Vider la table

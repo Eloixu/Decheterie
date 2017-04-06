@@ -9,6 +9,17 @@ public class Usager {
     private String nom;
     private String dateMaj;
 
+    public Usager() {
+
+    }
+
+    public Usager(int id, int idAccount, String nom, String dateMaj) {
+        this.id = id;
+        this.idAccount = idAccount;
+        this.nom = nom;
+        this.dateMaj = dateMaj;
+    }
+
     public int getId() {
         return id;
     }
