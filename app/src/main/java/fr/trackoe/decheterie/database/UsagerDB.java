@@ -33,13 +33,13 @@ public class UsagerDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableUsager.TABLE_NAME, null, values);
     }
 
-    private Usager getUsagerFromID(int id) {
+    public Usager getUsagerFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsager.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsager.ID_USAGER + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
         return cursorToUsager(cursor);
     }
 
-    private Usager cursorToUsager(Cursor c){
+    public Usager cursorToUsager(Cursor c){
         Usager u = new Usager();
         if(c.moveToFirst()) {
             u.setId(c.getInt(DecheterieDatabase.TableUsager.NUM_ID_USAGER));

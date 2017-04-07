@@ -28,14 +28,14 @@ public class DchComptePrepayeDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE, null, values);
     }
 
-    private ComptePrepaye getComptePrepayeFromID(long id) {
+    public ComptePrepaye getComptePrepayeFromID(long id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " WHERE " + DecheterieDatabase.TableDchComptePrepaye.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
         return cursorToComptePrepaye(cursor);
     }
 
 
-    private ComptePrepaye cursorToComptePrepaye(Cursor c){
+    public ComptePrepaye cursorToComptePrepaye(Cursor c){
         ComptePrepaye cp = new ComptePrepaye();
         if(c.moveToFirst()) {
             cp.setId(c.getLong(DecheterieDatabase.TableDchComptePrepaye.NUM_ID));

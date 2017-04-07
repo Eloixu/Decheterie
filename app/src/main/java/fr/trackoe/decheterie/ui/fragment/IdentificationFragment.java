@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -22,6 +23,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import fr.trackoe.decheterie.R;
+import fr.trackoe.decheterie.database.DchCarteActiveDB;
+import fr.trackoe.decheterie.database.DchCarteDB;
+import fr.trackoe.decheterie.database.DchComptePrepayeDB;
+import fr.trackoe.decheterie.database.UsagerDB;
+import fr.trackoe.decheterie.model.bean.global.Carte;
+import fr.trackoe.decheterie.model.bean.global.CarteActive;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
+import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 /**
@@ -33,6 +42,7 @@ public class IdentificationFragment extends Fragment {
     private ContainerActivity parentActivity;
     private EditText editText_barcode;
     private ImageView scanner;
+    private Button suivant;
 
     //scan attributs
     private SerialPortServiceManager mSeriport;
@@ -61,6 +71,7 @@ public class IdentificationFragment extends Fragment {
 
         editText_barcode = (EditText)  identification_vg.findViewById(R.id.editText_barcode);
         scanner = (ImageView) identification_vg.findViewById(R.id.imageView_scanner);
+        suivant = (Button) identification_vg.findViewById(R.id.btn_suivant);
 
 
         // Init Actionbar
@@ -143,6 +154,33 @@ public class IdentificationFragment extends Fragment {
                 IntentIntegrator integrator = new IntentIntegrator(getActivity());
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
                 integrator.initiateScan();
+
+            }
+        });
+
+        suivant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DchCarteDB dchCarteDB = new DchCarteDB(getContext());
+                dchCarteDB.open();
+                DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(getContext());
+                dchCarteActiveDB.open();
+                DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+                dchComptePrepayeDB.open();
+                UsagerDB usagerDB = new UsagerDB(getContext());
+                usagerDB.open();
+
+                Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(),0);
+                CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
+                ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
+                Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
+                Toast.makeText(getContext(), "NomUsager: " + usager.getNom(),
+                        Toast.LENGTH_SHORT).show();
+
+                dchCarteDB.close();
+                dchCarteActiveDB.close();
+                dchComptePrepayeDB.close();
+                usagerDB.close();
 
             }
         });

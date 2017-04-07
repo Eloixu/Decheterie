@@ -591,7 +591,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_VILLE = 3;
         public static final String NB_LGT = "nb_lgt";
         public static final int NUM_NB_LGT = 4;
-        public static final String NB_HABITANT = "nb_habitant";
+        public static final String NB_HABITANT = "nb_habitat";
         public static final int NUM_NB_HABITANT = 5;
         public static final String NOM = "nom";
         public static final int NUM_NOM = 6;
@@ -754,7 +754,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     // Table usager_habitat
     public static abstract class TableUsagerHabitat implements BaseColumns {
-        public static final String TABLE_NAME = "habitat_usager_habitat";
+        public static final String TABLE_NAME = "usager_habitat";
         public static final String ID_USAGER = "id_usager";
         public static final int NUM_ID_USAGER = 0;
         public static final String ID_HABITAT = "id_habitat";
@@ -769,10 +769,10 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     // Table usager_menage
     public static abstract class TableUsagerMenage implements BaseColumns {
-        public static final String TABLE_NAME = "habitat_usager_habitat";
+        public static final String TABLE_NAME = "usager_menage";
         public static final String ID_USAGER = "id_usager";
         public static final int NUM_ID_USAGER = 0;
-        public static final String ID_MENAGE = "id_menaget";
+        public static final String ID_MENAGE = "id_menage";
         public static final int NUM_ID_MENAGE = 1;
     }
 

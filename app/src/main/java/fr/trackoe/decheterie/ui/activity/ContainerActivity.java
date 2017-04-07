@@ -85,6 +85,7 @@ import java.util.List;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchApportFluxDB;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
 import fr.trackoe.decheterie.database.DchComptePrepayeDB;
@@ -171,7 +172,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         layoutParams.height = 50;
         toolbar.setLayoutParams(layoutParams);
         setSupportActionBar(toolbar);
-        drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         hideHamburgerButton();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
@@ -468,9 +469,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         }
 
         if (addFrag) {
-            transaction.add(R.id.fragment_container, frag, CURRENT_FRAG_TAG);
+            transaction.add(R.id.drawerLayout, frag, CURRENT_FRAG_TAG);
         } else {
-            transaction.replace(R.id.fragment_container, frag, CURRENT_FRAG_TAG);
+            transaction.replace(R.id.drawerLayout, frag, CURRENT_FRAG_TAG);
         }
         transaction.commit();
     }
@@ -923,7 +924,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     }
 
     public void setDrawerEnabled(boolean enabled) {
-        drawerLayout = (DrawerLayout) findViewById(R.id.fragment_container);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
                 DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         drawerLayout.setDrawerLockMode(lockMode);
@@ -1396,16 +1397,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -30,20 +30,20 @@ public class DchCarteDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE, null, values);
     }
 
-    private Carte getCarteFromID(long id) {
+    public Carte getCarteFromID(long id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE + " WHERE " + DecheterieDatabase.TableDchCarte.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
         return cursorToCarte(cursor);
     }
 
-    private Carte getCarteByNumCarteAndAccountId(String numCarte, int accountId) {
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE + " WHERE " + DecheterieDatabase.TableDchCarte.NUM_CARTE + "LIKE" + "'" + numCarte + "'" + " AND "
+    public Carte getCarteByNumCarteAndAccountId(String numCarte, int accountId) {
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE + " WHERE " + DecheterieDatabase.TableDchCarte.NUM_CARTE + " LIKE " + "'" + numCarte + "'" + " AND "
                                                                                                        + DecheterieDatabase.TableDchCarte.DCH_ACCOUNT_ID  + "=" + accountId +";";
         Cursor cursor = db.rawQuery(query, null);
         return cursorToCarte(cursor);
     }
 
-    private Carte cursorToCarte(Cursor c){
+    public Carte cursorToCarte(Cursor c){
         Carte carte = new Carte();
         if(c.moveToFirst()) {
             carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));

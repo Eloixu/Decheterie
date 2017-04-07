@@ -31,13 +31,13 @@ public class DchCarteActiveDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE, null, values);
     }
 
-    private CarteActive getCarteActiveFromDchCarteId(long dchCarteId) {
-        String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE + " WHERE " + DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ID + " = " + dchCarteId;
+    public CarteActive getCarteActiveFromDchCarteId(long dchCarteId) {
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE + " WHERE " + DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ID + " = " + dchCarteId;
         Cursor cursor = db.rawQuery(query, null);
         return cursorToCarteActive(cursor);
     }
 
-    private CarteActive cursorToCarteActive(Cursor c){
+    public CarteActive cursorToCarteActive(Cursor c){
         CarteActive ca = new CarteActive();
         if(c.moveToFirst()) {
             ca.setDchCarteId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ID));
