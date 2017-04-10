@@ -553,8 +553,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_PRENOM = 2;
         public static final String EMAIL = "email";
         public static final int NUM_EMAIL = 3;
-        public static final String NB_HABITANT = "nb_habitant";
-        public static final int NUM_NB_HABITANT = 4;
+        public static final String NB_HABITATS = "nb_habitats";
+        public static final int NUM_NB_HABITATS = 4;
         public static final String REFERENCE = "reference";
         public static final int NUM_REFERENCE = 5;
         public static final String ACTIF = "actif";
@@ -563,6 +563,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_TELEPHONE = 7;
         public static final String CIVILITE = "civilite";
         public static final int NUM_CIVILITE = 8;
+        public static final String HABITAT_ID = "habitat_id";
+        public static final int NUM_HABITAT_ID = 7;
     }
 
     public static final String CREATE_TABLE_MENAGE = "CREATE TABLE IF NOT EXISTS " + TableMenage.TABLE_NAME + " ("
@@ -570,13 +572,47 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableMenage.NOM + TEXT_TYPE + COMMA_SEP
             + TableMenage.PRENOM + TEXT_TYPE + COMMA_SEP
             + TableMenage.EMAIL + TEXT_TYPE + COMMA_SEP
-            + TableMenage.NB_HABITANT + INTEGER_TYPE + COMMA_SEP
+            + TableMenage.NB_HABITATS + INTEGER_TYPE + COMMA_SEP
             + TableMenage.REFERENCE + TEXT_TYPE + COMMA_SEP
             + TableMenage.ACTIF + INTEGER_TYPE + COMMA_SEP
             + TableMenage.TELEPHONE + TEXT_TYPE + COMMA_SEP
-            + TableMenage.CIVILITE + TEXT_TYPE + " )" ;
+            + TableMenage.CIVILITE + TEXT_TYPE + COMMA_SEP
+            + TableMenage.HABITAT_ID + INTEGER_TYPE + " )" ;
 
     public static final String DELETE_TABLE_MENAGE = "DROP TABLE IF EXISTS " + TableMenage.TABLE_NAME;
+
+    // Table local
+    public static abstract class TableLocal implements BaseColumns {
+        public static final String TABLE_NAME = "local";
+        public static final String ID_LOCAL = "id_local";
+        public static final int NUM_ID_LOCAL = 0;
+        public static final String HABITAT_ID = "habitat_id";
+        public static final int NUM_HABITAT_ID = 1;
+        public static final String MENAGE_ID = "menage_id";
+        public static final int NUM_MENAGE_ID = 2;
+        public static final String LOT = "lot";
+        public static final int NUM_LOT = 3;
+        public static final String INVARIANT_DFIP = "invariant_dfip";
+        public static final int NUM_INVARIANT_DFIP = 4;
+        public static final String IDENTIFIANT_INTERNE = "identidiant_interne";
+        public static final int NUM_IDENTIFIANT_INTERNE = 5;
+        public static final String BATIMENT = "batiment";
+        public static final int NUM_BATIMENT = 6;
+        public static final String ETAGE_PORTE = "etage_porte";
+        public static final int NUM_ETAGE_PORTE = 7;
+    }
+
+    public static final String CREATE_TABLE_LOCAL = "CREATE TABLE IF NOT EXISTS " + TableLocal.TABLE_NAME + " ("
+            + TableLocal.ID_LOCAL + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableLocal.HABITAT_ID + INTEGER_TYPE + COMMA_SEP
+            + TableLocal.MENAGE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableLocal.LOT + TEXT_TYPE + COMMA_SEP
+            + TableLocal.INVARIANT_DFIP + TEXT_TYPE + COMMA_SEP
+            + TableLocal.IDENTIFIANT_INTERNE + TEXT_TYPE + COMMA_SEP
+            + TableLocal.BATIMENT + TEXT_TYPE + COMMA_SEP
+            + TableLocal.ETAGE_PORTE + TEXT_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_LOCAL = "DROP TABLE IF EXISTS " + TableLocal.TABLE_NAME;
 
     // Table habitat
     public static abstract class TableHabitat implements BaseColumns {
@@ -819,6 +855,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_HABITAT_CONTACT);
         db.execSQL(CREATE_TABLE_USAGER_HABITAT);
         db.execSQL(CREATE_TABLE_USAGER_MENAGE);
+        db.execSQL(CREATE_TABLE_LOCAL);
     }
 
     @Override
@@ -851,6 +888,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_HABITAT_CONTACT);
         db.execSQL(DELETE_TABLE_USAGER_HABITAT);
         db.execSQL(DELETE_TABLE_USAGER_MENAGE);
+        db.execSQL(DELETE_TABLE_LOCAL);
         onCreate(db);
     }
 

@@ -50,7 +50,7 @@ public class UsagerHabitatDB extends MyDb {
         c.moveToFirst();
         UsagerHabitat u = new UsagerHabitat();
         u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
-        u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
+        u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
 
         c.close();
 
