@@ -6,21 +6,21 @@ package fr.trackoe.decheterie.model.bean.global;
 
 public class Carte {
     private long id;
-    private String num_carte;
-    private String num_RFID;
-    private int dch_type_carte_id;
-    private int dch_account_id;
+    private String numCarte;
+    private String numRFID;
+    private int dchTypeCarteId;
+    private int dchAccountId;
 
     public Carte() {
 
     }
 
-    public Carte(long id, String num_carte, String num_RFID, int dch_type_carte_id, int dch_account_id) {
+    public Carte(long id, String numCarte, String numRFID, int dchTypeCarteId, int dchAccountId) {
         this.id = id;
-        this.num_carte = num_carte;
-        this.num_RFID = num_RFID;
-        this.dch_type_carte_id = dch_type_carte_id;
-        this.dch_account_id = dch_account_id;
+        this.numCarte = numCarte;
+        this.numRFID = numRFID;
+        this.dchTypeCarteId = dchTypeCarteId;
+        this.dchAccountId = dchAccountId;
     }
 
     public long getId() {
@@ -31,35 +31,35 @@ public class Carte {
         this.id = id;
     }
 
-    public String getNum_carte() {
-        return num_carte;
+    public String getNumCarte() {
+        return numCarte;
     }
 
-    public void setNum_carte(String num_carte) {
-        this.num_carte = num_carte;
+    public void setNumCarte(String numCarte) {
+        this.numCarte = numCarte;
     }
 
-    public String getNum_RFID() {
-        return num_RFID;
+    public String getNumRFID() {
+        return numRFID;
     }
 
-    public void setNum_RFID(String num_RFID) {
-        this.num_RFID = num_RFID;
+    public void setNumRFID(String numRFID) {
+        this.numRFID = numRFID;
     }
 
-    public int getDch_type_carte_id() {
-        return dch_type_carte_id;
+    public int getDchTypeCarteId() {
+        return dchTypeCarteId;
     }
 
-    public void setDch_type_carte_id(int dch_type_carte_id) {
-        this.dch_type_carte_id = dch_type_carte_id;
+    public void setDchTypeCarteId(int dchTypeCarteId) {
+        this.dchTypeCarteId = dchTypeCarteId;
     }
 
-    public int getDch_account_id() {
-        return dch_account_id;
+    public int getDchAccountId() {
+        return dchAccountId;
     }
 
-    public void setDch_account_id(int dch_account_id) {
-        this.dch_account_id = dch_account_id;
+    public void setDchAccountId(int dchAccountId) {
+        this.dchAccountId = dchAccountId;
     }
 }

@@ -89,6 +89,7 @@ public class DepotFragment extends Fragment {
             SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
             String dateTime = df.format(d);
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
+            long carteActiveCarteId = 0;
             int comptePrepayeId = 0;
             float qtyTotalUDD = 0;
             String depotNom = "";
@@ -99,6 +100,7 @@ public class DepotFragment extends Fragment {
             depot.setId(depotId);
             depot.setDateHeure(dateTime);
             depot.setDecheterieId(decheterieId);
+            depot.setCarteActiveCarteId(carteActiveCarteId);
             depot.setComptePrepayeId(comptePrepayeId);
             depot.setQtyTotalUDD(qtyTotalUDD);
             depot.setNom(depotNom);

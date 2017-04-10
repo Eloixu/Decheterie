@@ -26,10 +26,20 @@ import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
 import fr.trackoe.decheterie.database.DchComptePrepayeDB;
+import fr.trackoe.decheterie.database.HabitatDB;
+import fr.trackoe.decheterie.database.LocalDB;
+import fr.trackoe.decheterie.database.MenageDB;
 import fr.trackoe.decheterie.database.UsagerDB;
+import fr.trackoe.decheterie.database.UsagerHabitatDB;
+import fr.trackoe.decheterie.database.UsagerMenageDB;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
+import fr.trackoe.decheterie.model.bean.global.Habitat;
+import fr.trackoe.decheterie.model.bean.global.Local;
+import fr.trackoe.decheterie.model.bean.global.Menage;
+import fr.trackoe.decheterie.model.bean.global.UsagerHabitat;
+import fr.trackoe.decheterie.model.bean.global.UsagerMenage;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
@@ -169,11 +179,30 @@ public class IdentificationFragment extends Fragment {
                 dchComptePrepayeDB.open();
                 UsagerDB usagerDB = new UsagerDB(getContext());
                 usagerDB.open();
+                UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(getContext());
+                usagerHabitatDB.open();
+                HabitatDB habitatDB = new HabitatDB(getContext());
+                habitatDB.open();
+                UsagerMenageDB usagerMenageDB = new UsagerMenageDB(getContext());
+                usagerMenageDB.open();
+                MenageDB menageDB = new MenageDB(getContext());
+                menageDB.open();
+                LocalDB localDB = new LocalDB(getContext());
+                localDB.open();
 
                 Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(),0);
                 CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
                 ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
                 Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
+                UsagerHabitat usagerHabitat = usagerHabitatDB.getUsagerHabitatByUsagerId(usager.getId());
+                if(usagerHabitat != null){
+                    Habitat habitat = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
+                }
+                else {
+                    UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByUsagerId(usager.getId());
+                    Menage menage = menageDB.getMenageById(usagerMenage.getMenageId());
+                    //Local local = localDB.getLocalById();
+                }
                 Toast.makeText(getContext(), "NomUsager: " + usager.getNom(),
                         Toast.LENGTH_SHORT).show();
 
@@ -181,6 +210,11 @@ public class IdentificationFragment extends Fragment {
                 dchCarteActiveDB.close();
                 dchComptePrepayeDB.close();
                 usagerDB.close();
+                usagerHabitatDB.close();
+                habitatDB.close();
+                usagerMenageDB.close();
+                menageDB.close();
+                localDB.close();
 
             }
         });
