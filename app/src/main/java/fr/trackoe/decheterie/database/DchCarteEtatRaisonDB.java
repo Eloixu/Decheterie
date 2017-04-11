@@ -10,9 +10,9 @@ import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
  * Created by Haocheng on 10/04/2017.
  */
 
-public class DchCarteEtatRaison extends MyDb{
+public class DchCarteEtatRaisonDB extends MyDb{
 
-    public DchCarteEtatRaison(Context ctx) {
+    public DchCarteEtatRaisonDB(Context ctx) {
         mydb = new DecheterieDatabase(ctx);
     }
 

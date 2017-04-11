@@ -162,6 +162,21 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     private static final String DELETE_TABLE_DCH_TYPE_CARTE = "DROP TABLE IF EXISTS " + TableDchTypeCarte.TABLE_NAME;
 
+    //    Table dch_choix_decompte_total
+    public static abstract class TableDchChoixDecompteTotal implements BaseColumns {
+        public static final String TABLE_NAME = "dch_choix_decompte_total";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+    }
+
+    public static final String CREATE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL = "CREATE TABLE IF NOT EXISTS " + TableDchChoixDecompteTotal.TABLE_NAME + " ("
+            + TableDchChoixDecompteTotal.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchChoixDecompteTotal.NOM + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL = "DROP TABLE IF EXISTS " + TableDchChoixDecompteTotal.TABLE_NAME;
+
     //    Table dch_account_setting
     public static abstract class TableDchAccountSetting implements BaseColumns {
         public static final String TABLE_NAME = "dch_account_setting";
@@ -963,6 +978,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USAGER_HABITAT);
         db.execSQL(CREATE_TABLE_USAGER_MENAGE);
         db.execSQL(CREATE_TABLE_LOCAL);
+        db.execSQL(CREATE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL);
         db.execSQL(CREATE_TABLE_DCH_ACCOUNT_SETTING);
         db.execSQL(CREATE_TABLE_DCH_ACCOUNT_FLUX_SETTING);
     }
@@ -999,6 +1015,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_USAGER_HABITAT);
         db.execSQL(DELETE_TABLE_USAGER_MENAGE);
         db.execSQL(DELETE_TABLE_LOCAL);
+        db.execSQL(DELETE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL);
         db.execSQL(DELETE_TABLE_DCH_ACCOUNT_SETTING);
         db.execSQL(DELETE_TABLE_DCH_ACCOUNT_FLUX_SETTING);
         onCreate(db);

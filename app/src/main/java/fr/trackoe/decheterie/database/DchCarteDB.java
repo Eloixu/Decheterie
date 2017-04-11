@@ -51,8 +51,12 @@ public class DchCarteDB extends MyDb {
             carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
             carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
             carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+            return carte;
         }
-        return carte;
+        else{
+            return null;
+        }
+
     }
 
     /*

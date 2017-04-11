@@ -183,23 +183,8 @@ public class AccueilFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    Configuration.setIsOuiClicked(false);
-                    ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
-                    /*fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.main_container,new DepotFragment());
-                    fragmentTransaction.commit();*/
-                }
-            }
-        });
-
-        accueil_vg.findViewById(R.id.btn_identification).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    Configuration.setIsOuiClicked(false);
                     ((ContainerActivity) getActivity()).changeMainFragment(new IdentificationFragment(), true);
                 }
-                return true;
             }
         });
 

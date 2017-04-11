@@ -46,8 +46,12 @@ public class DchCarteActiveDB extends MyDb {
             ca.setDchCarteEtatRaisonId(c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ETAT_RAISON_ID));
             ca.setActive((c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_IS_ACTIVE) == 1)? true : false);
             ca.setDchComptePrepayeId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_COMPTE_PREPAYE_ID));
+            return ca;
         }
-        return ca;
+        else{
+            return null;
+        }
+
     }
 
     /*
