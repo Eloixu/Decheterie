@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import fr.trackoe.decheterie.model.bean.global.Menage;
+import fr.trackoe.decheterie.model.bean.usager.Menage;
 
 /**
  * Created by Haocheng on 10/04/2017.

@@ -1,4 +1,4 @@
-package fr.trackoe.decheterie.model.bean.global;
+package fr.trackoe.decheterie.model.bean.usager;
 
 /**
  * Created by Haocheng on 07/04/2017.
