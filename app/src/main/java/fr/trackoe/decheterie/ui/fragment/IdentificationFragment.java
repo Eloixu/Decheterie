@@ -1,7 +1,6 @@
 package fr.trackoe.decheterie.ui.fragment;
 
-import android.content.Intent;
-import android.media.Image;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,22 +15,30 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import fr.trackoe.decheterie.R;
+import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
+import fr.trackoe.decheterie.database.DchCarteEtatRaisonDB;
 import fr.trackoe.decheterie.database.DchComptePrepayeDB;
+import fr.trackoe.decheterie.database.HabitatDB;
+import fr.trackoe.decheterie.database.LocalDB;
+import fr.trackoe.decheterie.database.MenageDB;
 import fr.trackoe.decheterie.database.UsagerDB;
+import fr.trackoe.decheterie.database.UsagerHabitatDB;
+import fr.trackoe.decheterie.database.UsagerMenageDB;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
+import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 
 /**
  * Created by Haocheng on 03/04/2017.
@@ -169,18 +176,132 @@ public class IdentificationFragment extends Fragment {
                 dchComptePrepayeDB.open();
                 UsagerDB usagerDB = new UsagerDB(getContext());
                 usagerDB.open();
+                UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(getContext());
+                usagerHabitatDB.open();
+                HabitatDB habitatDB = new HabitatDB(getContext());
+                habitatDB.open();
+                UsagerMenageDB usagerMenageDB = new UsagerMenageDB(getContext());
+                usagerMenageDB.open();
+                MenageDB menageDB = new MenageDB(getContext());
+                menageDB.open();
+                LocalDB localDB = new LocalDB(getContext());
+                localDB.open();
+                DchCarteEtatRaisonDB dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(getContext());
+                dchCarteEtatRaisonDB.open();
 
+                //check if the card existes in the DB
                 Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(),0);
+                if(carte == null){
+                    //pop-up2
+                    CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+                    builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
+                    builder.setTitle("Information");
+                    builder.setPositiveButton("Créer", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            //设置你的操作事项
+
+                        }
+                    });
+
+                    builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.create().show();
+                }
+                else{
+                    CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
+                    if (carteActive == null) {
+                        //pop-up2
+                        CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+                        builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
+                        builder.setTitle("Information");
+                        builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                //设置你的操作事项
+
+                            }
+                        });
+
+                        builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        builder.create().show();
+
+                    }
+                    else{
+                        if(carteActive.isActive() == false){
+                            ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
+                            Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
+                            CarteEtatRaison carteEtatRaison = dchCarteEtatRaisonDB.getCarteEtatRaisonFromID(carteActive.getDchCarteEtatRaisonId());
+                            //pop-up1
+                            CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+                            builder.setMessage("\nDétenteur de la carte: " + usager.getNom()
+                                             + "\nCette carte a été désactivée car: " + carteEtatRaison.getRaison());
+                            builder.setTitle("Information");
+                            builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    //设置你的操作事项
+
+                                }
+                            });
+
+                            builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            builder.create().show();
+                        }
+                        else{
+                            //ok, turn to next page
+                            Toast.makeText(getContext(), "Carte ok!",
+                                    Toast.LENGTH_SHORT).show();
+                            if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                                Configuration.setIsOuiClicked(false);
+                                ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+                            }
+
+                        }
+
+                    }
+                }
+
+/*
                 CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
                 ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
                 Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
+                UsagerHabitat usagerHabitat = usagerHabitatDB.getUsagerHabitatByUsagerId(usager.getId());
+                if(usagerHabitat != null){
+                    Habitat habitat = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
+                }
+                else {
+                    UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByUsagerId(usager.getId());
+                    Menage menage = menageDB.getMenageById(usagerMenage.getMenageId());
+                    //Local local = localDB.getLocalById();
+                }
                 Toast.makeText(getContext(), "NomUsager: " + usager.getNom(),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
 
                 dchCarteDB.close();
                 dchCarteActiveDB.close();
                 dchComptePrepayeDB.close();
                 usagerDB.close();
+                usagerHabitatDB.close();
+                habitatDB.close();
+                usagerMenageDB.close();
+                menageDB.close();
+                localDB.close();
+                dchCarteEtatRaisonDB.close();
 
             }
         });

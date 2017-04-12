@@ -9,6 +9,7 @@ public class Depot {
     private String nom;
     private String dateHeure;
     private int decheterieId;
+    private long carteActiveCarteId;
     private int comptePrepayeId;
     private float qtyTotalUDD;
     private int statut;
@@ -18,11 +19,12 @@ public class Depot {
 
     }
 
-    public Depot(long id, String nom, String dateHeure, int decheterieId, int comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
+    public Depot(long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, int comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
         this.id = id;
         this.nom = nom;
         this.dateHeure = dateHeure;
         this.decheterieId = decheterieId;
+        this.carteActiveCarteId = carteActiveCarteId;
         this.comptePrepayeId = comptePrepayeId;
         this.qtyTotalUDD = qtyTotalUDD;
         this.statut = statut;
@@ -59,6 +61,14 @@ public class Depot {
 
     public void setDecheterieId(int decheterieId) {
         this.decheterieId = decheterieId;
+    }
+
+    public long getCarteActiveCarteId() {
+        return carteActiveCarteId;
+    }
+
+    public void setCarteActiveCarteId(long carteActiveCarteId) {
+        this.carteActiveCarteId = carteActiveCarteId;
     }
 
     public int getComptePrepayeId() {

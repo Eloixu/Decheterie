@@ -22,10 +22,10 @@ public class DchCarteDB extends MyDb {
     public long insertCarte(Carte carte) {
         ContentValues values = new ContentValues();
         //values.put(DecheterieDatabase.TableDchCarte.ID, carte.getId());
-        values.put(DecheterieDatabase.TableDchCarte.NUM_CARTE, carte.getNum_carte());
-        values.put(DecheterieDatabase.TableDchCarte.NUM_RFID, carte.getNum_RFID());
-        values.put(DecheterieDatabase.TableDchCarte.DCH_TYPE_CARTE_ID, carte.getDch_type_carte_id());
-        values.put(DecheterieDatabase.TableDchCarte.DCH_ACCOUNT_ID, carte.getDch_account_id());
+        values.put(DecheterieDatabase.TableDchCarte.NUM_CARTE, carte.getNumCarte());
+        values.put(DecheterieDatabase.TableDchCarte.NUM_RFID, carte.getNumRFID());
+        values.put(DecheterieDatabase.TableDchCarte.DCH_TYPE_CARTE_ID, carte.getDchTypeCarteId());
+        values.put(DecheterieDatabase.TableDchCarte.DCH_ACCOUNT_ID, carte.getDchAccountId());
 
         return db.insertOrThrow(DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE, null, values);
     }
@@ -47,12 +47,16 @@ public class DchCarteDB extends MyDb {
         Carte carte = new Carte();
         if(c.moveToFirst()) {
             carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));
-            carte.setNum_carte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
-            carte.setNum_RFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
-            carte.setDch_type_carte_id(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
-            carte.setDch_account_id(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+            carte.setNumCarte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
+            carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
+            carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
+            carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+            return carte;
         }
-        return carte;
+        else{
+            return null;
+        }
+
     }
 
     /*

@@ -146,6 +146,110 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     private static final String DELETE_TABLE_DCH_COMPTE_PREPAYE = "DROP TABLE IF EXISTS " +  TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE;
 
+    //    Table dch_type_carte
+    public static abstract class TableDchTypeCarte implements BaseColumns {
+        public static final String TABLE_NAME = "dch_type_carte";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+
+    }
+
+    public static final String CREATE_TABLE_DCH_TYPE_CARTE = "CREATE TABLE IF NOT EXISTS " + TableDchTypeCarte.TABLE_NAME + " ("
+            + TableDchTypeCarte.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchTypeCarte.NOM + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_TYPE_CARTE = "DROP TABLE IF EXISTS " + TableDchTypeCarte.TABLE_NAME;
+
+    //    Table dch_choix_decompte_total
+    public static abstract class TableDchChoixDecompteTotal implements BaseColumns {
+        public static final String TABLE_NAME = "dch_choix_decompte_total";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String NOM = "nom";
+        public static final int NUM_NOM = 1;
+    }
+
+    public static final String CREATE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL = "CREATE TABLE IF NOT EXISTS " + TableDchChoixDecompteTotal.TABLE_NAME + " ("
+            + TableDchChoixDecompteTotal.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchChoixDecompteTotal.NOM + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL = "DROP TABLE IF EXISTS " + TableDchChoixDecompteTotal.TABLE_NAME;
+
+    //    Table dch_account_setting
+    public static abstract class TableDchAccountSetting implements BaseColumns {
+        public static final String TABLE_NAME = "dch_account_setting";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String DCH_ACCOUNT_ID = "dch_account_id";
+        public static final int NUM_DCH_ACCOUNT_ID = 1;
+        public static final String DCH_TYPE_CARTE_ID = "dch_type_carte_id";
+        public static final int NUM_DCH_TYPE_CARTE_ID = 2;
+        public static final String DCH_UNITE_ID = "dch_unite_id";
+        public static final int NUM_DCH_UNITE_ID = 3;
+        public static final String DECOMPTE_DEPOT = "decompte_depot";
+        public static final int NUM_DECOMPTE_DEPOT = 4;
+        public static final String DECOMPTE_UDD = "decompte_udd";
+        public static final int NUM_DECOMPTE_UDD = 5;
+        public static final String PAGE_SIGNATURE = "page_signature";
+        public static final int NUM_PAGE_SIGNATURE = 6;
+        public static final String COUT_UDD_PR_POINT = "cout_UDD_pr_point";
+        public static final int NUM_COUT_UDD_PR_POINT = 7;
+        public static final String COUT_POINT = "cout_point";
+        public static final int NUM_COUT_POINT = 8;
+        public static final String UNITE_POINT = "unite_point";
+        public static final int NUM_UNITE_POINT = 9;
+        public static final String DATE_DEBUT_PARAM = "date_debut_param";
+        public static final int NUM_DATE_DEBUT_PARAM = 10;
+        public static final String DATE_FIN_PARAM = "date_fin_param";
+        public static final int NUM_DATE_FIN_PARAM = 11;
+        public static final String DCH_CHOIX_DECOMPTE_TOTAL_ID = "dch_choix_decompte_total_id";
+        public static final int NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID = 12;
+        public static final String NB_DEPOT_RESTANT = "nb_depot_restant";
+        public static final int NUM_NB_DEPOT_RESTANT = 13;
+    }
+
+    public static final String CREATE_TABLE_DCH_ACCOUNT_SETTING = "CREATE TABLE IF NOT EXISTS " + TableDchAccountSetting.TABLE_NAME + " ("
+            + TableDchAccountSetting.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchAccountSetting.DCH_ACCOUNT_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DCH_TYPE_CARTE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DCH_UNITE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DECOMPTE_DEPOT + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DECOMPTE_UDD + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.PAGE_SIGNATURE + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.COUT_UDD_PR_POINT + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.COUT_POINT + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.UNITE_POINT + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DATE_DEBUT_PARAM + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DATE_FIN_PARAM + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.DCH_CHOIX_DECOMPTE_TOTAL_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.NB_DEPOT_RESTANT + INTEGER_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_ACCOUNT_SETTING = "DROP TABLE IF EXISTS " + TableDchAccountSetting.TABLE_NAME;
+
+    //    Table dch_account_flux_setting
+    public static abstract class TableDchAccountFluxSetting implements BaseColumns {
+        public static final String TABLE_NAME = "dch_account_flux_setting";
+        public static final String DCH_ACCOUNT_SETTING_ID = "dch_account_setting_id";
+        public static final int NUM_DCH_ACCOUNT_SETTING_ID = 0;
+        public static final String DCH_FLUX_ID = "dch_flux_id";
+        public static final int NUM_DCH_FLUX_ID = 1;
+        public static final String CONVERT_COMPTAGE_PR_UDD = "convert_comptage_pr_UDD";
+        public static final int NUM_CONVERT_COMPTAGE_PR_UDD = 2;
+        public static final String COUT_UC_PR_POINT = "cout_UC_pr_point";
+        public static final int NUM_COUT_UC_PR_POINT = 3;
+    }
+
+    public static final String CREATE_TABLE_DCH_ACCOUNT_FLUX_SETTING = "CREATE TABLE IF NOT EXISTS " + TableDchAccountFluxSetting.TABLE_NAME + " ("
+            + TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountFluxSetting.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountFluxSetting.COUT_UC_PR_POINT + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_ACCOUNT_FLUX_SETTING = "DROP TABLE IF EXISTS " + TableDchAccountFluxSetting.TABLE_NAME;
+
+
     //    Table dch_carte
     public static abstract class TableDchCarte implements BaseColumns {
         public static final String TABLE_DCH_CARTE = "dch_carte";
@@ -199,6 +303,21 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     private static final String DELETE_TABLE_DCH_CARTE_ACTIVE = "DROP TABLE IF EXISTS " +  TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE;
 
+    //    Table dch_carte_etat_raison
+    public static abstract class TableDchCarteEtatRaison implements BaseColumns {
+        public static final String TABLE_NAME = "dch_carte_etat_raison";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String RAISON = "raison";
+        public static final int NUM_RAISON = 1;
+    }
+
+    public static final String CREATE_TABLE_DCH_CARTE_ETAT_RAISON = "CREATE TABLE IF NOT EXISTS " + TableDchCarteEtatRaison.TABLE_NAME + " ("
+            + TableDchCarteEtatRaison.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchCarteEtatRaison.RAISON + TEXT_TYPE + " )" ;
+
+    private static final String DELETE_TABLE_DCH_CARTE_ETAT_RAISON = "DROP TABLE IF EXISTS " +  TableDchCarteEtatRaison.TABLE_NAME;
+
 
     //    Table dch_depot
     public static abstract class TableDchDepot implements BaseColumns {
@@ -209,16 +328,18 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_DATEHEURE = 1;
         public static final String DCH_DECHETERIE_ID = "dch_decheterie_id";
         public static final int NUM_DCH_DECHETERIE_ID = 2;
+        public static final String DCH_CARTE_ACTIVE_DCH_CARTE_ID = "dch_carte_active_dch_carte_id";
+        public static final int NUM_DCH_CARTE_ACTIVE_DCH_CARTE_ID = 3;
         public static final String DCH_COMPTE_PREPAYE_ID = "dch_compte_prepaye_id";
-        public static final int NUM_DCH_COMPTE_PREPAYE_ID = 3;
+        public static final int NUM_DCH_COMPTE_PREPAYE_ID = 4;
         public static final String QTY_TOTAL_UDD = "qty_total_udd";
-        public static final int NUM_QTY_TOTAL_UDD = 4;
+        public static final int NUM_QTY_TOTAL_UDD = 5;
         public static final String NOM = "nom";
-        public static final int NUM_NOM = 5;
+        public static final int NUM_NOM = 6;
         public static final String STATUT = "statut";
-        public static final int NUM_STATUT = 6;
+        public static final int NUM_STATUT = 7;
         public static final String IS_SENT = "is_sent";
-        public static final int NUM_IS_SENT = 7;
+        public static final int NUM_IS_SENT = 8;
 
     }
 
@@ -226,6 +347,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableDchDepot.ID + INTEGER_TYPE + INTEGER_TYPE + " PRIMARY KEY, "
             + TableDchDepot.DATEHEURE + TEXT_TYPE + COMMA_SEP
             + TableDchDepot.DCH_DECHETERIE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchDepot.DCH_CARTE_ACTIVE_DCH_CARTE_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchDepot.DCH_COMPTE_PREPAYE_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchDepot.QTY_TOTAL_UDD + FLOAT_TYPE + COMMA_SEP
             + TableDchDepot.NOM + TEXT_TYPE + COMMA_SEP
@@ -251,7 +373,6 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_DCH_APPORT_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchApportFlux.TABLE_DCH_APPORT_FLUX + " ("
             + TableDchApportFlux.DCH_DEPOT_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchApportFlux.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
-            //+ TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + " )" ;
             + TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + COMMA_SEP
             + TableDchApportFlux.IS_SENT + INTEGER_TYPE + COMMA_SEP
             + "CONSTRAINT PK PRIMARY KEY (dch_depot_id, dch_flux_id)" + " )" ;
@@ -845,6 +966,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DCH_APPORT_FLUX);
         db.execSQL(CREATE_TABLE_USAGER);
         db.execSQL(CREATE_TABLE_DCH_COMPTE_PREPAYE);
+        db.execSQL(CREATE_TABLE_DCH_CARTE_ETAT_RAISON);
         db.execSQL(CREATE_TABLE_DCH_CARTE_ACTIVE);
         db.execSQL(CREATE_TABLE_DCH_CARTE);
         db.execSQL(CREATE_TABLE_MENAGE);
@@ -856,6 +978,9 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USAGER_HABITAT);
         db.execSQL(CREATE_TABLE_USAGER_MENAGE);
         db.execSQL(CREATE_TABLE_LOCAL);
+        db.execSQL(CREATE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL);
+        db.execSQL(CREATE_TABLE_DCH_ACCOUNT_SETTING);
+        db.execSQL(CREATE_TABLE_DCH_ACCOUNT_FLUX_SETTING);
     }
 
     @Override
@@ -878,6 +1003,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_DCH_APPORT_FLUX);
         db.execSQL(DELETE_TABLE_USAGER);
         db.execSQL(DELETE_TABLE_DCH_COMPTE_PREPAYE);
+        db.execSQL(DELETE_TABLE_DCH_CARTE_ETAT_RAISON);
         db.execSQL(DELETE_TABLE_DCH_CARTE_ACTIVE);
         db.execSQL(DELETE_TABLE_DCH_CARTE);
         db.execSQL(DELETE_TABLE_MENAGE);
@@ -889,6 +1015,9 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_USAGER_HABITAT);
         db.execSQL(DELETE_TABLE_USAGER_MENAGE);
         db.execSQL(DELETE_TABLE_LOCAL);
+        db.execSQL(DELETE_TABLE_DCH_CHOIX_DECOMPTE_TOTAL);
+        db.execSQL(DELETE_TABLE_DCH_ACCOUNT_SETTING);
+        db.execSQL(DELETE_TABLE_DCH_ACCOUNT_FLUX_SETTING);
         onCreate(db);
     }
 

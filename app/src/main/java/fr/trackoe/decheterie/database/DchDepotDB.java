@@ -26,6 +26,7 @@ public class DchDepotDB extends MyDb {
         values.put(DecheterieDatabase.TableDchDepot.ID, depot.getId());
         values.put(DecheterieDatabase.TableDchDepot.DATEHEURE, depot.getDateHeure());
         values.put(DecheterieDatabase.TableDchDepot.DCH_DECHETERIE_ID, depot.getDecheterieId());
+        values.put(DecheterieDatabase.TableDchDepot.DCH_CARTE_ACTIVE_DCH_CARTE_ID, depot.getCarteActiveCarteId());
         values.put(DecheterieDatabase.TableDchDepot.DCH_COMPTE_PREPAYE_ID, depot.getComptePrepayeId());
         values.put(DecheterieDatabase.TableDchDepot.QTY_TOTAL_UDD, depot.getQtyTotalUDD());
         values.put(DecheterieDatabase.TableDchDepot.NOM, depot.getNom());
@@ -103,8 +104,9 @@ public class DchDepotDB extends MyDb {
         d.setId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_ID));
         d.setDateHeure(c.getString(DecheterieDatabase.TableDchDepot.NUM_DATEHEURE));
         d.setDecheterieId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_DECHETERIE_ID));
+        d.setCarteActiveCarteId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_DCH_CARTE_ACTIVE_DCH_CARTE_ID));
         d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
-        d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
+        d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_QTY_TOTAL_UDD));
         d.setNom(c.getString(DecheterieDatabase.TableDchDepot.NUM_NOM));
         d.setStatut(c.getInt(DecheterieDatabase.TableDchDepot.NUM_STATUT));
         d.setSent((c.getInt(DecheterieDatabase.TableDchDepot.NUM_IS_SENT) == 1)? true : false);
@@ -123,6 +125,7 @@ public class DchDepotDB extends MyDb {
                 d.setId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_ID));
                 d.setDateHeure(c.getString(DecheterieDatabase.TableDchDepot.NUM_DATEHEURE));
                 d.setDecheterieId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_DECHETERIE_ID));
+                d.setCarteActiveCarteId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_DCH_CARTE_ACTIVE_DCH_CARTE_ID));
                 d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
                 d.setQtyTotalUDD(c.getFloat(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
                 d.setNom(c.getString(DecheterieDatabase.TableDchDepot.NUM_NOM));

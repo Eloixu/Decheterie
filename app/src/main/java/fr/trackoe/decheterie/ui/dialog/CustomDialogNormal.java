@@ -34,9 +34,23 @@ public class CustomDialogNormal extends Dialog {
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
+        private boolean visibilityLeftButton = true;
+        private boolean visibilityRightButton = true;
+        private Button btnLeft;
+        private Button btnRight;
 
         public Builder(Context context) {
             this.context = context;
+        }
+
+        public Builder setVisibilityLeftButton(Boolean visibility) {
+            this.visibilityLeftButton = visibility;
+            return this;
+        }
+
+        public Builder setVisibilityRightButton(Boolean visibility) {
+            this.visibilityRightButton = visibility;
+            return this;
         }
 
         public Builder setMessage(String message) {
@@ -124,7 +138,7 @@ public class CustomDialogNormal extends Dialog {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
             final CustomDialog dialog = new CustomDialog(context,R.style.Dialog);
-            View layout = inflater.inflate(R.layout.dialog_onbackpressed_layout, null);
+            View layout = inflater.inflate(R.layout.dialog_normal_layout, null);
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title

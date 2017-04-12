@@ -11,35 +11,25 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcEvent;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
-import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.NfcA;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -47,17 +37,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +60,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,9 +70,9 @@ import java.util.List;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
-import fr.trackoe.decheterie.database.DchApportFluxDB;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
+import fr.trackoe.decheterie.database.DchCarteEtatRaisonDB;
 import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
@@ -100,6 +85,7 @@ import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
+import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
@@ -113,7 +99,6 @@ import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
-import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
@@ -954,6 +939,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchCarteDB dchCarteDB = new DchCarteDB(this);
         dchCarteDB.open();
         dchCarteDB.clearCarte();
+        DchCarteEtatRaisonDB dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(this);
+        dchCarteEtatRaisonDB.open();
+        dchCarteEtatRaisonDB.clearCarteEtatRaison();
 
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
@@ -1030,19 +1018,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(10,6,13,3));
         dchComptePrepayeDB.close();
 
-        //add carteActive into DBB
-        dchCarteActiveDB.insertCarteActive(new CarteActive(1,null,null,0,true,1));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(2,null,null,0,true,2));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(3,null,null,0,true,3));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(4,null,null,0,true,3));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(5,null,null,0,true,3));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(6,null,null,0,true,4));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(7,null,null,0,true,5));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(8,null,null,0,true,6));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(9,null,null,0,true,7));
-        dchCarteActiveDB.insertCarteActive(new CarteActive(10,null,null,0,true,9));
-        dchCarteActiveDB.close();
-
         //add carte into BDD
         dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,0,0));
         dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,0,0));
@@ -1055,6 +1030,24 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,0,0));
         dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,0,0));
         dchCarteDB.close();
+
+        //add carteActive into DBB
+        dchCarteActiveDB.insertCarteActive(new CarteActive(1,null,null,1,true,1));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(2,null,null,1,true,2));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(3,null,null,1,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(4,null,null,2,false,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(5,null,null,2,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(6,null,null,2,true,4));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(8,null,null,3,true,6));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(9,null,null,3,true,7));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(10,null,null,3,true,9));
+        dchCarteActiveDB.close();
+
+        //add carteEtatRaison into BDD
+        dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(1,"Raison 1."));
+        dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 2."));
+        dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 3."));
+        dchCarteEtatRaisonDB.close();
     }
 
     @Override
