@@ -23,7 +23,7 @@ public class DchAccountFluxSettingDB extends MyDb {
         ContentValues values = new ContentValues();
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID, accountFluxSetting.getDchAccountSettingId());
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.DCH_FLUX_ID, accountFluxSetting.getDchFluxId());
-        values.put(DecheterieDatabase.TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD, accountFluxSetting.getConvertComptagePrUDD());
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD, accountFluxSetting.isConvertComptagePrUDD()? 1 : 0);
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.COUT_UC_PR_POINT, accountFluxSetting.getCoutUCPrPoint());
 
         return db.insertOrThrow(DecheterieDatabase.TableDchAccountFluxSetting.TABLE_NAME, null, values);
@@ -40,7 +40,7 @@ public class DchAccountFluxSettingDB extends MyDb {
         if(c.moveToFirst()) {
             a.setDchAccountSettingId(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DCH_ACCOUNT_SETTING_ID));
             a.setDchFluxId(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DCH_FLUX_ID));
-            a.setConvertComptagePrUDD(c.getString(DecheterieDatabase.TableDchAccountFluxSetting.NUM_CONVERT_COMPTAGE_PR_UDD));
+            a.setConvertComptagePrUDD(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_CONVERT_COMPTAGE_PR_UDD) == 1);
             a.setCoutUCPrPoint(c.getString(DecheterieDatabase.TableDchAccountFluxSetting.NUM_COUT_UC_PR_POINT));
         }
         return a;

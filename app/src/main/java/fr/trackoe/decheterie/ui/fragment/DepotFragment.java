@@ -73,7 +73,7 @@ public class DepotFragment extends Fragment {
                 //add depot into BDD
                 dchDepotDB.insertDepot(depot);
             }
-            else{
+                                                else{
                 //update depot in BDD
             }
 
@@ -124,6 +124,7 @@ public class DepotFragment extends Fragment {
 
         System.out.println("id: " + depot.getId());
         System.out.println("dateHeure: " + depot.getDateHeure());
+        System.out.println("signature: " + depot.getSignature());
         System.out.println("decheterieId: " + depot.getDecheterieId());
         System.out.println("compte_prepaye_id: " + depot.getComptePrepayeId());
         System.out.println("qty_total_UDD: " + depot.getQtyTotalUDD());
@@ -756,7 +757,6 @@ public class DepotFragment extends Fragment {
 
 
 
-                    //TODO imgCopy.setOnClickListener
 
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -907,7 +907,8 @@ public class DepotFragment extends Fragment {
                 Configuration.setIsOuiClicked(false);
 
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                    ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId);
+                    ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                 }
 
                 dchDepotDB.close();

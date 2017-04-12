@@ -7,6 +7,7 @@ package fr.trackoe.decheterie.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -34,9 +35,15 @@ public class CustomDialogOnBackPressed extends Dialog {
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
+        private int messageGravity;
 
         public Builder(Context context) {
             this.context = context;
+        }
+
+        public Builder setMessageGravity(int gravity) {
+            this.messageGravity = gravity;
+            return this;
         }
 
         public Builder setMessage(String message) {
@@ -163,6 +170,9 @@ public class CustomDialogOnBackPressed extends Dialog {
             // set the content message
             if (message != null) {
                 ((TextView) layout.findViewById(R.id.message)).setText(message);
+                if(messageGravity != 0) {
+                    ((TextView) layout.findViewById(R.id.message)).setGravity(messageGravity);
+                }
             } else if (contentView != null) {
                 // if no message set
                 // add the contentView to the dialog body

@@ -20,11 +20,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
+import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
@@ -33,11 +37,14 @@ public class ApportProFragment extends Fragment {
     ContainerActivity parentActivity;
     private ImageView imageSign;
     private PaintView mView;
+    private long depotId;
+    private Depot depot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("ApportProFragment-->onCreateView()");
         accueil_vg = (ViewGroup) inflater.inflate(R.layout.apport_pro_fragment, container, false);
+
 
         //FrameLayout frameLayout = (FrameLayout) accueil_vg.findViewById(R.id.frameLayout_bottom_right_down);
         LinearLayout linearLayout = (LinearLayout) accueil_vg.findViewById(R.id.linearLayout_signature);
@@ -53,6 +60,7 @@ public class ApportProFragment extends Fragment {
 
         // Init des listeners
         initListeners();
+
 
         return accueil_vg;
     }
@@ -81,6 +89,19 @@ public class ApportProFragment extends Fragment {
         parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
 
+        //get the depotId sent From DepotFragment
+        if (getArguments() != null) {
+            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+            dchDepotDB.open();
+
+            depotId = getArguments().getLong("depotId");
+            Toast.makeText(getContext(), "depotId: " + depotId,
+                    Toast.LENGTH_SHORT).show();
+            depot =  dchDepotDB.getDepotByIdentifiant(depotId);
+
+            dchDepotDB.close();
+        }
+
     }
 
     /*
@@ -101,7 +122,18 @@ public class ApportProFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                //save the signature into DB
+                DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                dchDepotDB.open();
+
                 Bitmap imageBitmap = mView.getCachebBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                depot.setSignature(baos.toByteArray());
+                dchDepotDB.updateDepot(depot);
+
+                dchDepotDB.close();
+
             }
         });
 
@@ -207,6 +239,13 @@ public class ApportProFragment extends Fragment {
         }
     }
 
+    public static ApportProFragment newInstance(long depotId) {
+        ApportProFragment apportProFragment = new ApportProFragment();
+        Bundle args = new Bundle();
+        args.putLong("depotId", depotId);
+        apportProFragment.setArguments(args);
+        return apportProFragment;
+    }
 
 
 

@@ -7,14 +7,14 @@ package fr.trackoe.decheterie.model.bean.global;
 public class AccountFluxSetting {
     private int dchAccountSettingId;
     private int dchFluxId;
-    private String convertComptagePrUDD;
+    private boolean convertComptagePrUDD;
     private String coutUCPrPoint;
 
     public AccountFluxSetting() {
 
     }
 
-    public AccountFluxSetting(int dchAccountSettingId, int dchFluxId, String convertComptagePrUDD, String coutUCPrPoint) {
+    public AccountFluxSetting(int dchAccountSettingId, int dchFluxId, boolean convertComptagePrUDD, String coutUCPrPoint) {
         this.dchAccountSettingId = dchAccountSettingId;
         this.dchFluxId = dchFluxId;
         this.convertComptagePrUDD = convertComptagePrUDD;
@@ -37,11 +37,11 @@ public class AccountFluxSetting {
         this.dchFluxId = dchFluxId;
     }
 
-    public String getConvertComptagePrUDD() {
+    public boolean isConvertComptagePrUDD() {
         return convertComptagePrUDD;
     }
 
-    public void setConvertComptagePrUDD(String convertComptagePrUDD) {
+    public void setConvertComptagePrUDD(boolean convertComptagePrUDD) {
         this.convertComptagePrUDD = convertComptagePrUDD;
     }
 

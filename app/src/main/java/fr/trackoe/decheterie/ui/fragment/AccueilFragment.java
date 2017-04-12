@@ -178,7 +178,7 @@ public class AccueilFragment extends Fragment {
             }
         });
 
-        //set listener for  button "Identification d'une carte"
+        //set listener for button "Identification d'une carte"
         accueil_vg.findViewById(R.id.btn_identification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,16 +192,6 @@ public class AccueilFragment extends Fragment {
             @Override
             public boolean onLongClick(View v) {
                 parentActivity.copyDatabaseToSDCard(getContext());
-                return true;
-            }
-        });
-
-        accueil_vg.findViewById(R.id.btn_recherche).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new ApportProFragment(), true);
-                }
                 return true;
             }
         });

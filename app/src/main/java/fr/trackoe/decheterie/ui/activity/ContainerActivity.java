@@ -98,7 +98,9 @@ import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
+import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
@@ -521,6 +523,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             else if( getCurrentFragment() instanceof IdentificationFragment) {
                 ((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
                 super.onBackPressed();
+            }
+            else if( getCurrentFragment() instanceof AccueilFragment) {
+                //pop-up
+                CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
+                builder.setMessage("Voulez-vous vous déconnecter?");
+                builder.setMessageGravity(Gravity.CENTER);
+                builder.setTitle("Information");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        changeMainFragment(new LoginFragment(), true);
+
+                    }
+                });
+
+                builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
             }
             else{
                 super.onBackPressed();
