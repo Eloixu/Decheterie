@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import fr.trackoe.decheterie.model.bean.global.Local;
+import fr.trackoe.decheterie.model.bean.usager.Local;
 
 /**
  * Created by Haocheng on 10/04/2017.
@@ -37,7 +37,6 @@ public class LocalDB extends MyDb {
     /*
     Vider la table
      */
-
     public void clearLocal() {
         db.execSQL("delete from " + DecheterieDatabase.TableLocal.TABLE_NAME);
     }
