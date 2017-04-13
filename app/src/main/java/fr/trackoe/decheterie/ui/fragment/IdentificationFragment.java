@@ -270,7 +270,8 @@ public class IdentificationFragment extends Fragment {
                                         Toast.LENGTH_SHORT).show();
                                 if (getActivity() != null && getActivity() instanceof ContainerActivity) {
                                     Configuration.setIsOuiClicked(false);
-                                    ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+                                    DepotFragment depotFragment = DepotFragment.newInstance(editText_barcode.getText().toString());
+                                    ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
                                 }
 
                             }

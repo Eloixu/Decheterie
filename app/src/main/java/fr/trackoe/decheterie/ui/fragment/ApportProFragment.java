@@ -3,10 +3,13 @@ package fr.trackoe.decheterie.ui.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
@@ -33,25 +37,24 @@ import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 public class ApportProFragment extends Fragment {
-    private ViewGroup accueil_vg;
+    private ViewGroup apf_vg;
     ContainerActivity parentActivity;
     private ImageView imageSign;
     private PaintView mView;
     private long depotId;
     private Depot depot;
+    private LinearLayout linearLayoutSignature;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("ApportProFragment-->onCreateView()");
-        accueil_vg = (ViewGroup) inflater.inflate(R.layout.apport_pro_fragment, container, false);
+        apf_vg = (ViewGroup) inflater.inflate(R.layout.apport_pro_fragment, container, false);
 
 
         //FrameLayout frameLayout = (FrameLayout) accueil_vg.findViewById(R.id.frameLayout_bottom_right_down);
-        LinearLayout linearLayout = (LinearLayout) accueil_vg.findViewById(R.id.linearLayout_signature);
+        linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.linearLayout_signature);
 
-        mView = new PaintView(getContext());
-        linearLayout.addView(mView);
-        mView.requestFocus();
+
         // Init Actionbar
         //initActionBar();
 
@@ -62,7 +65,7 @@ public class ApportProFragment extends Fragment {
         initListeners();
 
 
-        return accueil_vg;
+        return apf_vg;
     }
 
     @Override
@@ -95,11 +98,22 @@ public class ApportProFragment extends Fragment {
             dchDepotDB.open();
 
             depotId = getArguments().getLong("depotId");
+            //depotId = 1183153170412171602L;
             Toast.makeText(getContext(), "depotId: " + depotId,
                     Toast.LENGTH_SHORT).show();
             depot =  dchDepotDB.getDepotByIdentifiant(depotId);
 
             dchDepotDB.close();
+        }
+
+        //detect if the signature picture has already existed
+        if (depot.getSignature() == null){
+            mView = new PaintView(getContext());
+            linearLayoutSignature.addView(mView);
+            mView.requestFocus();
+        }
+        else{
+
         }
 
     }
@@ -108,7 +122,7 @@ public class ApportProFragment extends Fragment {
     Init Listeners
      */
     public void initListeners() {
-        ImageView imageViewClear = (ImageView) accueil_vg.findViewById(R.id.imageView_clear);
+        ImageView imageViewClear = (ImageView) apf_vg.findViewById(R.id.imageView_clear);
         imageViewClear.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -117,7 +131,7 @@ public class ApportProFragment extends Fragment {
             }
         });
 
-        Button btnValider = (Button) accueil_vg.findViewById(R.id.btn_valider);
+        Button btnValider = (Button) apf_vg.findViewById(R.id.btn_valider);
         btnValider.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -132,6 +146,11 @@ public class ApportProFragment extends Fragment {
                 depot.setSignature(baos.toByteArray());
                 dchDepotDB.updateDepot(depot);
 
+                //turn to page Accueil
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                }
+
                 dchDepotDB.close();
 
             }
@@ -139,7 +158,11 @@ public class ApportProFragment extends Fragment {
 
     }
 
-    class PaintView extends View {
+    public PaintView getMView(){
+        return mView;
+    }
+
+    class PaintView extends View implements Serializable {
         private Paint paint;
         private Canvas cacheCanvas;
         private Bitmap cachebBitmap;
@@ -148,6 +171,10 @@ public class ApportProFragment extends Fragment {
         public Bitmap getCachebBitmap() {
             return cachebBitmap;
         }
+
+       /* public void setCacheBitmap(Bitmap bitmap){
+            this.cachebBitmap = bitmap;
+        }*/
 
         public PaintView(Context context) {
             super(context);
@@ -246,6 +273,18 @@ public class ApportProFragment extends Fragment {
         apportProFragment.setArguments(args);
         return apportProFragment;
     }
+
+    public Drawable changeToDrawable(Bitmap bp)
+     {
+         Bitmap bm=bp;
+         BitmapDrawable bd= new BitmapDrawable(getResources(), bm);
+         return bd;
+        }
+
+    public long getDepotId(){
+        return depotId;
+    }
+
 
 
 

@@ -70,6 +70,7 @@ import java.util.List;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
 import fr.trackoe.decheterie.database.DchCarteEtatRaisonDB;
@@ -82,6 +83,7 @@ import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.database.UsagerDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
+import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
@@ -101,6 +103,7 @@ import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
+import fr.trackoe.decheterie.ui.fragment.ApportProFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
@@ -546,6 +549,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                 builder.create().show();
             }
+            else if( getCurrentFragment() instanceof ApportProFragment) {
+                DepotFragment depotFragment = DepotFragment.newInstance(((ApportProFragment) getCurrentFragment()).getDepotId());
+                changeMainFragment(depotFragment, true);
+            }
             else{
                 super.onBackPressed();
             }
@@ -966,6 +973,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchCarteEtatRaisonDB dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(this);
         dchCarteEtatRaisonDB.open();
         dchCarteEtatRaisonDB.clearCarteEtatRaison();
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(this);
+        dchAccountSettingDB.open();
+        dchAccountSettingDB.clearAccountSetting();
 
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
@@ -1043,7 +1053,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchComptePrepayeDB.close();
 
         //add carte into BDD
-        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,0,0));
+        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,1,0));
         dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,0,0));
         dchCarteDB.insertCarte(new Carte(3,"532sqdksd",null,0,0));
         dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,0,0));
@@ -1072,6 +1082,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 2."));
         dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 3."));
         dchCarteEtatRaisonDB.close();
+
+        //add accountSetting into BDD
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,0,false,false,true,null,null,null,"170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,0,false,false,true,null,null,null,"170101","170410",0,0));
     }
 
     @Override
