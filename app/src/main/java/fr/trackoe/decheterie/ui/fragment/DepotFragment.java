@@ -30,6 +30,7 @@ import java.util.HashSet;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
 import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchApportFluxDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
@@ -37,8 +38,10 @@ import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.DchTypeCarteDB;
+import fr.trackoe.decheterie.database.DchUniteDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.database.IconDB;
+import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Carte;
@@ -58,6 +61,8 @@ public class DepotFragment extends Fragment {
     private Carte carte;
     private boolean pageSignature = false;
     private AccountSetting accountSetting;
+    private boolean CCPU;
+    String nomUnite;
     ContainerActivity parentActivity;
 
     @Override
@@ -96,6 +101,9 @@ public class DepotFragment extends Fragment {
                 //update depot in BDD
             }
 
+            //check if all the convert_comptage_pr_UDD of each flux equals to 0
+            CCPU = checkCCPU();
+
             //initViews
             initViewsNotNormal(inflater,container);
 
@@ -105,9 +113,7 @@ public class DepotFragment extends Fragment {
             //create a new depot
             System.out.println("oui isn't clicked");
             depotId = parentActivity.generateCodeFromDateAndNumTablette();
-            Date d = new Date();
-            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
-            String dateTime = df.format(d);
+            String dateTime = "";
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
             long carteActiveCarteId = carte.getId();
             int comptePrepayeId = 0;
@@ -118,11 +124,11 @@ public class DepotFragment extends Fragment {
 
             depot = new Depot();
             depot.setId(depotId);
-            depot.setDateHeure(dateTime);
+            //depot.setDateHeure(dateTime);
             depot.setDecheterieId(decheterieId);
             depot.setCarteActiveCarteId(carteActiveCarteId);
             depot.setComptePrepayeId(comptePrepayeId);
-            depot.setQtyTotalUDD(qtyTotalUDD);
+            //depot.setQtyTotalUDD(qtyTotalUDD);
             depot.setNom(depotNom);
             depot.setStatut(statut);
             depot.setSent(isSent);
@@ -136,6 +142,9 @@ public class DepotFragment extends Fragment {
                 //update depot in BDD
             }
 
+            //check if all the convert_comptage_pr_UDD of each flux equals to 0
+            CCPU = checkCCPU();
+
             //initViews
             initViews(inflater, container);
         }
@@ -144,6 +153,9 @@ public class DepotFragment extends Fragment {
             depot = dchDepotDB.getDepotByIdentifiant(depotId);
             carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
             setPageSignatureFromCarte();
+
+            //check if all the convert_comptage_pr_UDD of each flux equals to 0
+            CCPU = checkCCPU();
             //initViews
             initViewsNotNormal(inflater,container);
         }
@@ -151,6 +163,8 @@ public class DepotFragment extends Fragment {
 
         //show depot information
         showDepotDetails();
+
+
 
 
 
@@ -924,8 +938,6 @@ public class DepotFragment extends Fragment {
                     parentActivity.closeDrawer();
                 }
 
-                //update the table "depot" and change the row "statut" to statut_termine
-                dchDepotDB.changeDepotStatutByIdentifiant(depotId, getResources().getInteger(R.integer.statut_termine));
 
                 Configuration.setIsOuiClicked(false);
 
@@ -937,10 +949,16 @@ public class DepotFragment extends Fragment {
                     }
                 }
                 else{
+                    //update the table "depot" and change the row "statut" to statut_termine
+                    dchDepotDB.changeDepotStatutByIdentifiant(depotId, getResources().getInteger(R.integer.statut_termine));
+
                     if (getActivity() != null && getActivity() instanceof ContainerActivity) {
                         ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
                     }
+                    depot.setDateHeure(getDateHeure());
+                    dchDepotDB.updateDepot(depot);
                 }
+
 
                 dchDepotDB.close();
             }
@@ -1069,6 +1087,49 @@ public class DepotFragment extends Fragment {
         System.out.println("nom: " + depot.getNom());
         System.out.println("statut: " + depot.getStatut());
         System.out.println("is_sent: " + depot.isSent());
+
+    }
+
+    public String getDateHeure(){
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
+        String dateHeure = df.format(d);
+
+        return dateHeure;
+    }
+
+    //check if all the convert_comptage_pr_UDD of each flux equals to 0
+    public boolean checkCCPU(){
+        DecheterieDB decheterieDB = new DecheterieDB(getContext());
+        decheterieDB.open();
+        DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
+        dchDecheterieFluxDB.open();
+        DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
+        dchAccountFluxSettingDB.open();
+        DchUniteDB dchUniteDB = new DchUniteDB(getContext());
+        dchUniteDB.open();
+
+        boolean result = true;
+
+        Decheterie decheterie = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie());
+        ArrayList<Flux> fluxList = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
+        for(Flux flux: fluxList){
+            AccountFluxSetting accountFluxSetting = dchAccountFluxSettingDB.getAccountFluxSettingByAccountSettingIdAndFluxId(accountSetting.getId(), flux.getId());
+            if(accountFluxSetting != null && !accountFluxSetting.isConvertComptagePrUDD()){
+                result = false;
+            }
+        }
+
+        decheterieDB.close();
+        dchDecheterieFluxDB.close();
+        dchAccountFluxSettingDB.close();
+
+        if(result){
+            nomUnite = dchUniteDB.getUniteFromID(accountSetting.getDchUniteId()).getNom();
+        }
+
+        dchUniteDB.close();
+        return result;
 
     }
 

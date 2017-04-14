@@ -230,6 +230,12 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Toast.makeText(this, "NFC not available on this device",
                     Toast.LENGTH_SHORT).show();}
 
+        if (!mNfcAdapter.isEnabled())
+        {
+            Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+        }
+
     }
 
     public void launchOnlineAction() {
@@ -507,7 +513,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                             Configuration.setIsOuiClicked(false);
 
-                            ContainerActivity.super.onBackPressed();
+                            changeMainFragment(new IdentificationFragment(), true);
 
                             dchDepotDB.close();
                         }
@@ -1086,6 +1092,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         //add accountSetting into BDD
         dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,0,false,false,true,null,null,null,"170101","171230",0,0));
         dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,0,false,false,true,null,null,null,"170101","170410",0,0));
+        dchAccountSettingDB.close();
     }
 
     @Override

@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
@@ -50,10 +52,8 @@ public class ApportProFragment extends Fragment {
         System.out.println("ApportProFragment-->onCreateView()");
         apf_vg = (ViewGroup) inflater.inflate(R.layout.apport_pro_fragment, container, false);
 
-
         //FrameLayout frameLayout = (FrameLayout) accueil_vg.findViewById(R.id.frameLayout_bottom_right_down);
         linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.linearLayout_signature);
-
 
         // Init Actionbar
         //initActionBar();
@@ -113,7 +113,12 @@ public class ApportProFragment extends Fragment {
             mView.requestFocus();
         }
         else{
-
+            /*byte[] byteSignature = depot.getSignature();
+            Bitmap bmpSignature = BitmapFactory.decodeByteArray(byteSignature, 0, byteSignature.length);
+            Bitmap mutableBmpSignature = bmpSignature.copy(Bitmap.Config.ARGB_8888, true);
+            mView = new PaintView(getContext(), mutableBmpSignature);
+            linearLayoutSignature.addView(mView);
+            mView.requestFocus();*/
         }
 
     }
@@ -144,7 +149,12 @@ public class ApportProFragment extends Fragment {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 depot.setSignature(baos.toByteArray());
+                depot.setDateHeure(getDateHeure());
                 dchDepotDB.updateDepot(depot);
+
+                //update the table "depot" and change the row "statut" to statut_termine
+                dchDepotDB.changeDepotStatutByIdentifiant(depotId, getResources().getInteger(R.integer.statut_termine));
+
 
                 //turn to page Accueil
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
@@ -172,12 +182,18 @@ public class ApportProFragment extends Fragment {
             return cachebBitmap;
         }
 
-       /* public void setCacheBitmap(Bitmap bitmap){
+        public void setCacheBitmap(Bitmap bitmap){
             this.cachebBitmap = bitmap;
-        }*/
+        }
 
         public PaintView(Context context) {
             super(context);
+            init();
+        }
+
+        public PaintView(Context context, Bitmap cachebBitmap) {
+            super(context);
+            this.cachebBitmap = cachebBitmap;
             init();
         }
 
@@ -283,6 +299,14 @@ public class ApportProFragment extends Fragment {
 
     public long getDepotId(){
         return depotId;
+    }
+
+    public String getDateHeure(){
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
+        String dateHeure = df.format(d);
+
+        return dateHeure;
     }
 
 

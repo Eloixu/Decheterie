@@ -35,6 +35,15 @@ public class DchAccountFluxSettingDB extends MyDb {
         return cursorToAccountSetting(cursor);
     }*/
 
+    public AccountFluxSetting getAccountFluxSettingByAccountSettingIdAndFluxId(int accountSettingId, int fluxId){
+        AccountFluxSetting accountFluxSetting;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchAccountFluxSetting.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID + "=" + accountSettingId + " AND "
+                + DecheterieDatabase.TableDchAccountFluxSetting.DCH_FLUX_ID  + "=" + fluxId +";";
+        Cursor cursor = db.rawQuery(query, null);
+        accountFluxSetting = cursorToAccountFluxSetting(cursor);
+        return accountFluxSetting;
+    }
+
     public AccountFluxSetting cursorToAccountFluxSetting(Cursor c){
         AccountFluxSetting a = new AccountFluxSetting();
         if(c.moveToFirst()) {
@@ -42,8 +51,12 @@ public class DchAccountFluxSettingDB extends MyDb {
             a.setDchFluxId(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DCH_FLUX_ID));
             a.setConvertComptagePrUDD(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_CONVERT_COMPTAGE_PR_UDD) == 1);
             a.setCoutUCPrPoint(c.getString(DecheterieDatabase.TableDchAccountFluxSetting.NUM_COUT_UC_PR_POINT));
+            return a;
         }
-        return a;
+        else{
+            return null;
+        }
+
     }
 
     /*
