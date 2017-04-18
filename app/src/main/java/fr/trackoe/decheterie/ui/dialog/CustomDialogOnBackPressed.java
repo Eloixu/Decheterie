@@ -182,6 +182,7 @@ public class CustomDialogOnBackPressed extends Dialog {
                         .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
             }
             dialog.setContentView(layout);
+            dialog.setCanceledOnTouchOutside(false);
             return dialog;
         }
     }

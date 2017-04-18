@@ -150,16 +150,17 @@ public class ApportProFragment extends Fragment {
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 depot.setSignature(baos.toByteArray());
                 depot.setDateHeure(getDateHeure());
-                dchDepotDB.updateDepot(depot);
 
                 //update the table "depot" and change the row "statut" to statut_termine
-                dchDepotDB.changeDepotStatutByIdentifiant(depotId, getResources().getInteger(R.integer.statut_termine));
+                depot.setStatut(getResources().getInteger(R.integer.statut_termine));
 
 
                 //turn to page Accueil
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
                 }
+                depot.setDateHeure(getDateHeure());
+                dchDepotDB.updateDepot(depot);
 
                 dchDepotDB.close();
 
