@@ -26,7 +26,7 @@ public class MenageDB extends MyDb {
         values.put(DecheterieDatabase.TableMenage.NOM, menage.getNom());
         values.put(DecheterieDatabase.TableMenage.PRENOM, menage.getPrenom());
         values.put(DecheterieDatabase.TableMenage.EMAIL, menage.getEmail());
-        values.put(DecheterieDatabase.TableMenage.NB_HABITATS, menage.getNbHabitats());
+        values.put(DecheterieDatabase.TableMenage.NB_HABITANTS, menage.getNbHabitants());
         values.put(DecheterieDatabase.TableMenage.REFERENCE, menage.getReference());
         values.put(DecheterieDatabase.TableMenage.HABITAT_ID, menage.getHabitatId());
         values.put(DecheterieDatabase.TableMenage.ACTIF, menage.isActif()? 1 : 0);
@@ -62,7 +62,8 @@ public class MenageDB extends MyDb {
         m.setId(c.getInt(DecheterieDatabase.TableMenage.NUM_ID_MENAGE));
         m.setNom(c.getString(DecheterieDatabase.TableMenage.NUM_NOM));
         m.setPrenom(c.getString(DecheterieDatabase.TableMenage.NUM_PRENOM));
-        m.setNbHabitats(c.getInt(DecheterieDatabase.TableMenage.NUM_NB_HABITATS));
+        m.setEmail(c.getString(DecheterieDatabase.TableMenage.NUM_EMAIL));
+        m.setNbHabitants(c.getInt(DecheterieDatabase.TableMenage.NUM_NB_HABITANTS));
         m.setReference(c.getString(DecheterieDatabase.TableMenage.NUM_REFERENCE));
         m.setHabitatId(c.getInt(DecheterieDatabase.TableMenage.NUM_HABITAT_ID));
         m.setActif(c.getInt(DecheterieDatabase.TableMenage.NUM_ACTIF) == 1);

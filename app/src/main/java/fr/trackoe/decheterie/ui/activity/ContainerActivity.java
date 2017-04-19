@@ -80,9 +80,13 @@ import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.DchUniteDB;
+import fr.trackoe.decheterie.database.HabitatDB;
 import fr.trackoe.decheterie.database.IconDB;
+import fr.trackoe.decheterie.database.LocalDB;
+import fr.trackoe.decheterie.database.MenageDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.database.UsagerDB;
+import fr.trackoe.decheterie.database.UsagerHabitatDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
@@ -101,7 +105,11 @@ import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.Unite;
 import fr.trackoe.decheterie.model.bean.global.Users;
+import fr.trackoe.decheterie.model.bean.usager.Habitat;
+import fr.trackoe.decheterie.model.bean.usager.Local;
+import fr.trackoe.decheterie.model.bean.usager.Menage;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
@@ -239,6 +247,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
             startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
         }
+
 
 
     }
@@ -993,6 +1002,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(this);
         dchAccountFluxSettingDB.open();
         dchAccountFluxSettingDB.clearAccountFluxSetting();
+        HabitatDB habitatDB = new HabitatDB(this);
+        habitatDB.open();
+        habitatDB.clearHabitat();
+        MenageDB menageDB = new MenageDB(this);
+        menageDB.open();
+        menageDB.clearMenage();
+        LocalDB localDB = new LocalDB(this);
+        localDB.open();
+        localDB.clearLocal();
+        UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(this);
+        usagerHabitatDB.open();
+        usagerHabitatDB.clearUsagerHabitat();
 
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
@@ -1120,6 +1141,38 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchUniteDB.insertUnite(new Unite(1,"m3"));
         dchUniteDB.insertUnite(new Unite(2,"kg"));
         dchUniteDB.close();
+
+        //add habitat into BDD
+        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4));
+        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2));
+        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",true,null,null,null,1));
+        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",true,null,null,null,1));
+        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",true,null,null,null,4));
+        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",true,null,null,null,2));
+        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4));
+        habitatDB.close();
+
+        //add menage into BDD
+        menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",0,true,"0123456789","M"));
+        menageDB.insertMenage(new Menage(2,"COQUET","Remi","rcoquet@trackoe.fr",3,"124AD",0,true,"0776583366","M"));
+        menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",0,true,"0605040302","M"));
+        menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,0,true,"0345678991","M"));
+        menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,0,true,"0634217690","M"));
+        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,0,true,"0123456789","M"));
+        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,0,true,"0123456789","M"));
+        menageDB.close();
+
+        //add local into DBB
+        localDB.insertLocal(new Local(1,3,1,null,null,null,null,null));
+        localDB.insertLocal(new Local(2,2,2,null,null,null,null,null));
+        localDB.insertLocal(new Local(3,5,3,null,null,null,null,null));
+        localDB.close();
+
+        //add usagerHabitat into BDD
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
+        usagerHabitatDB.close();
     }
 
     @Override
@@ -1231,9 +1284,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 String idCardInformation[] = dumpTagData(tag).split(":");
                 idCard = idCardInformation[1];
 
+                ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
+
             }
 
         }
+
+
     }
 
 
@@ -1460,7 +1517,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         if(getCurrentFragment() instanceof IdentificationFragment) {
             setIntent(intent);
             resolveIntent(intent);
-            ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
         }
     }
 

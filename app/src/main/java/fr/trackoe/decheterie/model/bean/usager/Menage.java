@@ -9,7 +9,7 @@ public class Menage {
     private String nom;
     private String prenom;
     private String email;
-    private int nbHabitats;
+    private int nbHabitants;
     private String reference;
     private int habitatId;
     private boolean actif;
@@ -20,12 +20,12 @@ public class Menage {
 
     }
 
-    public Menage(int id, String nom, String prenom, String email, int nbHabitats, String reference, int habitatId, boolean actif, String telephone, String civilite) {
+    public Menage(int id, String nom, String prenom, String email, int nbHabitants, String reference, int habitatId, boolean actif, String telephone, String civilite) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.nbHabitats = nbHabitats;
+        this.nbHabitants = nbHabitants;
         this.reference = reference;
         this.habitatId = habitatId;
         this.actif = actif;
@@ -65,12 +65,12 @@ public class Menage {
         this.email = email;
     }
 
-    public int getNbHabitats() {
-        return nbHabitats;
+    public int getNbHabitants() {
+        return nbHabitants;
     }
 
-    public void setNbHabitats(int nbHabitats) {
-        this.nbHabitats = nbHabitats;
+    public void setNbHabitants(int nbHabitants) {
+        this.nbHabitants = nbHabitants;
     }
 
     public String getReference() {

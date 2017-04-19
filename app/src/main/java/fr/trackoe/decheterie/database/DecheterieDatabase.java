@@ -695,8 +695,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_PRENOM = 2;
         public static final String EMAIL = "email";
         public static final int NUM_EMAIL = 3;
-        public static final String NB_HABITATS = "nb_habitats";
-        public static final int NUM_NB_HABITATS = 4;
+        public static final String NB_HABITANTS = "nb_habitants";
+        public static final int NUM_NB_HABITANTS = 4;
         public static final String REFERENCE = "reference";
         public static final int NUM_REFERENCE = 5;
         public static final String ACTIF = "actif";
@@ -714,7 +714,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableMenage.NOM + TEXT_TYPE + COMMA_SEP
             + TableMenage.PRENOM + TEXT_TYPE + COMMA_SEP
             + TableMenage.EMAIL + TEXT_TYPE + COMMA_SEP
-            + TableMenage.NB_HABITATS + INTEGER_TYPE + COMMA_SEP
+            + TableMenage.NB_HABITANTS + INTEGER_TYPE + COMMA_SEP
             + TableMenage.REFERENCE + TEXT_TYPE + COMMA_SEP
             + TableMenage.ACTIF + INTEGER_TYPE + COMMA_SEP
             + TableMenage.TELEPHONE + TEXT_TYPE + COMMA_SEP

@@ -22,10 +22,10 @@ public class HabitatDB extends MyDb {
         ContentValues values = new ContentValues();
         values.put(DecheterieDatabase.TableHabitat.ID_HABITAT, habitat.getIdHabitat());
         values.put(DecheterieDatabase.TableHabitat.ADRESSE, habitat.getAdresse());
-        values.put(DecheterieDatabase.TableHabitat.CP, habitat.getIdHabitat());
+        values.put(DecheterieDatabase.TableHabitat.CP, habitat.getCp());
         values.put(DecheterieDatabase.TableHabitat.VILLE, habitat.getVille());
         values.put(DecheterieDatabase.TableHabitat.NB_LGT, habitat.getNbLgt());
-        values.put(DecheterieDatabase.TableHabitat.NB_HABITANT, habitat.getNbHabitat());
+        values.put(DecheterieDatabase.TableHabitat.NB_HABITANT, habitat.getNbHabitant());
         values.put(DecheterieDatabase.TableHabitat.NOM, habitat.getNom());
         values.put(DecheterieDatabase.TableHabitat.REFERENCE, habitat.getReference());
         values.put(DecheterieDatabase.TableHabitat.COORDONNEES_X, habitat.getCoordonneesX());
@@ -56,7 +56,7 @@ public class HabitatDB extends MyDb {
             h.setCp(c.getString(DecheterieDatabase.TableHabitat.NUM_CP));
             h.setVille(c.getString(DecheterieDatabase.TableHabitat.NUM_VILLE));
             h.setNbLgt(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_LGT));
-            h.setNbHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_HABITANT));
+            h.setNbHabitant(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_HABITANT));
             h.setNom(c.getString(DecheterieDatabase.TableHabitat.NUM_NOM));
             h.setReference(c.getString(DecheterieDatabase.TableHabitat.NUM_REFERENCE));
             h.setCoordonneesX(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_X));

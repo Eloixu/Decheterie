@@ -10,7 +10,7 @@ public class Habitat {
     private String cp;
     private String ville;
     private int nbLgt;
-    private int nbHabitat;
+    private int nbHabitant;
     private String nom;
     private String reference;
     private String coordonneesX;
@@ -28,14 +28,13 @@ public class Habitat {
 
     }
 
-    public Habitat(String remarque, int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitat, String nom, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String activites, String adresse2, int idTypeHabitat) {
-        this.remarque = remarque;
+    public Habitat(int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitant, String nom, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String activites, String adresse2, String remarque, int idTypeHabitat) {
         this.idHabitat = idHabitat;
         this.adresse = adresse;
         this.cp = cp;
         this.ville = ville;
         this.nbLgt = nbLgt;
-        this.nbHabitat = nbHabitat;
+        this.nbHabitant = nbHabitant;
         this.nom = nom;
         this.reference = reference;
         this.coordonneesX = coordonneesX;
@@ -46,6 +45,7 @@ public class Habitat {
         this.isActif = isActif;
         this.activites = activites;
         this.adresse2 = adresse2;
+        this.remarque = remarque;
         this.idTypeHabitat = idTypeHabitat;
     }
 
@@ -97,12 +97,12 @@ public class Habitat {
         this.nbLgt = nbLgt;
     }
 
-    public int getNbHabitat() {
-        return nbHabitat;
+    public int getNbHabitant() {
+        return nbHabitant;
     }
 
-    public void setNbHabitat(int nbHabitat) {
-        this.nbHabitat = nbHabitat;
+    public void setNbHabitant(int nbHabitant) {
+        this.nbHabitant = nbHabitant;
     }
 
     public String getNom() {

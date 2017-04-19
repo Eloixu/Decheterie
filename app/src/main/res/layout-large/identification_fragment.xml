@@ -30,6 +30,7 @@
             android:id="@+id/editText_barcode"
             android:layout_width="300dp"
             android:layout_height="63dp"
+            android:singleLine="true"
             android:ems="10"
             android:layout_marginStart="100dp"
             android:background="@drawable/edit_bg" />
