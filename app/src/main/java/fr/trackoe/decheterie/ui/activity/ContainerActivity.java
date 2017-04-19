@@ -208,8 +208,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
-            //changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
-            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
             /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
             fragmentTransaction.commit();*/

@@ -969,7 +969,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //db.execSQL(CREATE_TABLE_USERS);
+        db.execSQL(CREATE_TABLE_USERS);
         //db.execSQL(CREATE_TABLE_MODULES);
         //db.execSQL(CREATE_TABLE_PAV);
         //db.execSQL(CREATE_TABLE_RELEVE);
