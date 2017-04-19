@@ -8,6 +8,7 @@ public class Depot {
     private long id;
     private String nom;
     private String dateHeure;
+    private byte[] signature;
     private int decheterieId;
     private long carteActiveCarteId;
     private int comptePrepayeId;
@@ -19,10 +20,11 @@ public class Depot {
 
     }
 
-    public Depot(long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, int comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
+    public Depot(long id, String nom, String dateHeure, byte[] signature, int decheterieId, long carteActiveCarteId, int comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
         this.id = id;
         this.nom = nom;
         this.dateHeure = dateHeure;
+        this.signature = signature;
         this.decheterieId = decheterieId;
         this.carteActiveCarteId = carteActiveCarteId;
         this.comptePrepayeId = comptePrepayeId;
@@ -53,6 +55,14 @@ public class Depot {
 
     public void setDateHeure(String dateHeure) {
         this.dateHeure = dateHeure;
+    }
+
+    public byte[] getSignature() {
+        return signature;
+    }
+
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
     }
 
     public int getDecheterieId() {

@@ -70,6 +70,8 @@ import java.util.List;
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
+import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
 import fr.trackoe.decheterie.database.DchCarteEtatRaisonDB;
@@ -77,11 +79,14 @@ import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
+import fr.trackoe.decheterie.database.DchUniteDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.database.UsagerDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
+import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
+import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
@@ -94,11 +99,15 @@ import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
+import fr.trackoe.decheterie.model.bean.global.Unite;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
+import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
+import fr.trackoe.decheterie.ui.fragment.ApportProFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
@@ -223,6 +232,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         else {
             Toast.makeText(this, "NFC not available on this device",
                     Toast.LENGTH_SHORT).show();}
+
+        if (!mNfcAdapter.isEnabled())
+        {
+            Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+        }
+
 
     }
 
@@ -501,7 +517,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                             Configuration.setIsOuiClicked(false);
 
-                            ContainerActivity.super.onBackPressed();
+                            changeMainFragment(new IdentificationFragment(), true);
 
                             dchDepotDB.close();
                         }
@@ -519,7 +535,33 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             }
             else if( getCurrentFragment() instanceof IdentificationFragment) {
                 ((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
-                super.onBackPressed();
+                changeMainFragment(new AccueilFragment(), true);
+            }
+            else if( getCurrentFragment() instanceof AccueilFragment) {
+                //pop-up
+                CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
+                builder.setMessage("Voulez-vous vous déconnecter?");
+                builder.setMessageGravity(Gravity.CENTER);
+                builder.setTitle("Information");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        changeMainFragment(new LoginFragment(), true);
+
+                    }
+                });
+
+                builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
+            }
+            else if( getCurrentFragment() instanceof ApportProFragment) {
+                DepotFragment depotFragment = DepotFragment.newInstance(((ApportProFragment) getCurrentFragment()).getDepotId());
+                changeMainFragment(depotFragment, true);
             }
             else{
                 super.onBackPressed();
@@ -941,6 +983,15 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchCarteEtatRaisonDB dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(this);
         dchCarteEtatRaisonDB.open();
         dchCarteEtatRaisonDB.clearCarteEtatRaison();
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(this);
+        dchAccountSettingDB.open();
+        dchAccountSettingDB.clearAccountSetting();
+        DchUniteDB dchUniteDB = new DchUniteDB(this);
+        dchUniteDB.open();
+        dchUniteDB.clearUnite();
+        DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(this);
+        dchAccountFluxSettingDB.open();
+        dchAccountFluxSettingDB.clearAccountFluxSetting();
 
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
@@ -1018,9 +1069,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchComptePrepayeDB.close();
 
         //add carte into BDD
-        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,0,0));
+        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,1,0));
         dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,0,0));
-        dchCarteDB.insertCarte(new Carte(3,"532sqdksd",null,0,0));
+        dchCarteDB.insertCarte(new Carte(3,"2f4913f2",null,3,0));
         dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,0,0));
         dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,0,0));
         dchCarteDB.insertCarte(new Carte(6,"2f4913f3",null,0,1));
@@ -1047,6 +1098,27 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 2."));
         dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 3."));
         dchCarteEtatRaisonDB.close();
+
+        //add accountSetting into BDD
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,false,false,true,null,null,null,"170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,null,"170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,null,"170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,null,"170101","171230",0,0));
+        dchAccountSettingDB.close();
+
+        //add accountFluxSetting into BDD
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,false,null));
+        dchAccountFluxSettingDB.close();
+
+        //add unite into BDD
+        dchUniteDB.insertUnite(new Unite(1,"m3"));
+        dchUniteDB.insertUnite(new Unite(2,"kg"));
+        dchUniteDB.close();
     }
 
     @Override
@@ -1117,7 +1189,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     src.close();
                     dst.close();
                 }
-                System.out.println("BDD is saved.");
+                Toast.makeText(ctx, "BDD updated.",
+                        Toast.LENGTH_SHORT).show();
 
             }
         } catch (Exception e) {
@@ -1389,14 +1462,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
         }
     }
-
-
-
-
-
-
-
-
 
     /* private int getPictureId(String pictureName){
         int pictureId = 0;

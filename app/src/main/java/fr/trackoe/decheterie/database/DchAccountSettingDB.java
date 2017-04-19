@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 
 /**
@@ -44,6 +46,15 @@ public class DchAccountSettingDB extends MyDb {
         return cursorToAccountSetting(cursor);
     }
 
+    public ArrayList<AccountSetting> getListeAccountSettingByAccountIdAndTypeCarteId(int accountId, int typeCarteId) {
+        ArrayList<AccountSetting> accountSettingList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchAccountSetting.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchAccountSetting.DCH_ACCOUNT_ID + "=" + accountId
+                + " AND " + DecheterieDatabase.TableDchAccountSetting.DCH_TYPE_CARTE_ID + "=" + typeCarteId + ";";
+        Cursor cursor = db.rawQuery(query, null);
+        accountSettingList = cursorToListeAccountSetting(cursor);
+        return accountSettingList;
+    }
+
     public AccountSetting cursorToAccountSetting(Cursor c){
         AccountSetting a = new AccountSetting();
         if(c.moveToFirst()) {
@@ -62,6 +73,37 @@ public class DchAccountSettingDB extends MyDb {
             a.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_RESTANT));
         }
         return a;
+    }
+
+    private ArrayList<AccountSetting> cursorToListeAccountSetting(Cursor c) {
+        ArrayList<AccountSetting> accountSettingList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                AccountSetting a = new AccountSetting();
+                a.setId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_ID));
+                a.setDchAccountId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_ACCOUNT_ID));
+                a.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_TYPE_CARTE_ID));
+                a.setDchUniteId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_UNITE_ID));
+                a.setDecompteDepot(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DECOMPTE_DEPOT) == 1);
+                a.setDecompteUDD(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DECOMPTE_UDD) == 1);
+                a.setPageSignature(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_PAGE_SIGNATURE) == 1);
+                a.setCoutUDDPrPoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_COUT_UDD_PR_POINT));
+                a.setCoutPoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_COUT_POINT));
+                a.setDateDebutParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_DEBUT_PARAM));
+                a.setDateFinParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_FIN_PARAM));
+                a.setDchChoixDecompteTotalId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID));
+                a.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_RESTANT));
+                accountSettingList.add(a);
+            } while (c.moveToNext());
+
+            c.close();
+            return accountSettingList;
+        }
+        else{
+            return null;
+        }
+
     }
 
     /*

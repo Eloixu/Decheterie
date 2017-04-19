@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +30,21 @@ import java.util.HashSet;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
+import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchApportFluxDB;
+import fr.trackoe.decheterie.database.DchCarteDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
+import fr.trackoe.decheterie.database.DchTypeCarteDB;
+import fr.trackoe.decheterie.database.DchUniteDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.database.IconDB;
+import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
+import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
+import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
@@ -49,24 +58,41 @@ public class DepotFragment extends Fragment {
     private LinearLayout galleryFluxChoisi;
     private Depot depot;
     private long depotId;
+    private Carte carte;
+    private boolean pageSignature = false;
+    private AccountSetting accountSetting;
+    private boolean CCPU;
+    private String nomUnite;
     ContainerActivity parentActivity;
+    private TextView textViewVolumeTotal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         depot_vg = (ViewGroup) inflater.inflate(R.layout.depot_fragment, container, false);
         parentActivity = (ContainerActivity ) getActivity();
+        textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.textView_volume_total);
 
         DecheterieDB decheterieDB = new DecheterieDB(getContext());
         decheterieDB.open();
         DchDepotDB dchDepotDB = new DchDepotDB(getContext());
         dchDepotDB.open();
+        DchCarteDB dchCarteDB = new DchCarteDB(getContext());
+        dchCarteDB.open();
+
+        //get the numCarte sent From IdentifigationFragment
+        getNumCarteFromIdentificationFragment();
+        //get the depotId sent From ApportProFragment
+        getDepotIdFromApportProFragment();
 
         //detect if "oui" is clicked
+        //the case that we continue to edit the depot incompleted
         if(Configuration.getIsOuiClicked()){
             //get the depot on "statut en_cours"
             System.out.println("oui is clicked");
             depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
             depotId = depot.getId();
+            carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
+            setPageSignatureFromCarte();
 
             //detect if the current depot existe in the BDD
             if(dchDepotDB.getDepotByIdentifiant(depotId) == null) {
@@ -77,19 +103,21 @@ public class DepotFragment extends Fragment {
                 //update depot in BDD
             }
 
+            //check if all the convert_comptage_pr_UDD of each flux equals to 0
+            CCPU = checkCCPU();
+
             //initViews
             initViewsNotNormal(inflater,container);
 
         }
-        else{
+        //the most normal case
+        else if(!Configuration.getIsOuiClicked() && depotId == 0){
             //create a new depot
             System.out.println("oui isn't clicked");
             depotId = parentActivity.generateCodeFromDateAndNumTablette();
-            Date d = new Date();
-            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
-            String dateTime = df.format(d);
+            String dateTime = "";
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
-            long carteActiveCarteId = 0;
+            long carteActiveCarteId = carte.getId();
             int comptePrepayeId = 0;
             float qtyTotalUDD = 0;
             String depotNom = "";
@@ -98,11 +126,11 @@ public class DepotFragment extends Fragment {
 
             depot = new Depot();
             depot.setId(depotId);
-            depot.setDateHeure(dateTime);
+            //depot.setDateHeure(dateTime);
             depot.setDecheterieId(decheterieId);
             depot.setCarteActiveCarteId(carteActiveCarteId);
             depot.setComptePrepayeId(comptePrepayeId);
-            depot.setQtyTotalUDD(qtyTotalUDD);
+            //depot.setQtyTotalUDD(qtyTotalUDD);
             depot.setNom(depotNom);
             depot.setStatut(statut);
             depot.setSent(isSent);
@@ -116,26 +144,38 @@ public class DepotFragment extends Fragment {
                 //update depot in BDD
             }
 
+            //check if all the convert_comptage_pr_UDD of each flux equals to 0
+            CCPU = checkCCPU();
+
             //initViews
             initViews(inflater, container);
         }
+        //the case when click "back" dans ApportProFragment
+        else if(!Configuration.getIsOuiClicked() && depotId != 0){
+            depot = dchDepotDB.getDepotByIdentifiant(depotId);
+            carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
+            setPageSignatureFromCarte();
+
+            //check if all the convert_comptage_pr_UDD of each flux equals to 0
+            CCPU = checkCCPU();
+            //initViews
+            initViewsNotNormal(inflater,container);
+        }
 
 
+        //show depot information
+        showDepotDetails();
 
-        System.out.println("id: " + depot.getId());
-        System.out.println("dateHeure: " + depot.getDateHeure());
-        System.out.println("decheterieId: " + depot.getDecheterieId());
-        System.out.println("compte_prepaye_id: " + depot.getComptePrepayeId());
-        System.out.println("qty_total_UDD: " + depot.getQtyTotalUDD());
-        System.out.println("nom: " + depot.getNom());
-        System.out.println("statut: " + depot.getStatut());
-        System.out.println("is_sent: " + depot.isSent());
+
 
 
 
 
         decheterieDB.close();
         dchDepotDB.close();
+        dchCarteDB.close();
+
+
 
         /*// Init Actionbar
         initActionBar();*/
@@ -180,11 +220,11 @@ public class DepotFragment extends Fragment {
         decheterieDB.open();
         DchFluxDB dchFluxDB = new DchFluxDB(getContext());
         dchFluxDB.open();
-        DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
+        final DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
         dchDecheterieFluxDB.open();
         DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
         dchApportFluxDB.open();
-        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+        final DchDepotDB dchDepotDB = new DchDepotDB(getContext());
         dchDepotDB.open();
 
         //the list of icons which associate with the actual decheterie
@@ -236,6 +276,7 @@ public class DepotFragment extends Fragment {
                     builder.setMessage("Vous avez sélectionné flux " + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
+                    if(!CCPU && nomUnite != null) builder.setUniteFlux(nomUnite);
                     //show the qty from BDD
                     if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) == null){
 
@@ -251,6 +292,8 @@ public class DepotFragment extends Fragment {
                             dchFluxDB.open();
                             DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                             dchApportFluxDB.open();
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
 
                             //save the qty into BDD
@@ -266,8 +309,22 @@ public class DepotFragment extends Fragment {
 
                             ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,false);
                             dchApportFluxDB.insertApportFlux(apportFlux);
+
+                            //refresh the qtyTotal of this depot
+                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                            float qtyTotal = 0;
+                            for(ApportFlux af: listApportFlux){
+                                float qty = af.getQtyApporte();
+                                qtyTotal = qtyTotal + qty;
+                            }
+                            depot.setQtyTotalUDD(qtyTotal);
+                            dchDepotDB.updateDepot(depot);
+
+                            textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
                             dchFluxDB.close();
                             dchApportFluxDB.close();
+                            dchDepotDB.close();
 
                         }
                     });
@@ -279,14 +336,31 @@ public class DepotFragment extends Fragment {
                                     dchFluxDB.open();
                                     DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                                     dchApportFluxDB.open();
+                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                                    dchDepotDB.open();
+
+
 
                                     dialog.dismiss();
                                     galleryFluxChoisi.removeView(viewCopy);
                                     galleryFlux.addView(view);
                                     dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
 
+                                    //refresh the volume total
+                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                                    float qtyTotal = 0;
+                                    for(ApportFlux af: listApportFlux){
+                                        float qty = af.getQtyApporte();
+                                        qtyTotal = qtyTotal + qty;
+                                    }
+                                    depot.setQtyTotalUDD(qtyTotal);
+                                    dchDepotDB.updateDepot(depot);
+                                    textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
                                     dchFluxDB.close();
                                     dchApportFluxDB.close();
+                                    dchDepotDB.close();
+
                                 }
                             });
 
@@ -302,11 +376,13 @@ public class DepotFragment extends Fragment {
                             DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                             dchFluxDB.open();
 
+
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
                             builder.setMessage("Vous avez sélectionné flux " + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
+                            if(!CCPU && nomUnite != null) builder.setUniteFlux(nomUnite);
                             //show the qty from BDD
                             if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) == null){
 
@@ -322,6 +398,8 @@ public class DepotFragment extends Fragment {
                                     dchApportFluxDB.open();
                                     DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                                     dchFluxDB.open();
+                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                                    dchDepotDB.open();
 
                                     int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
                                     EditText editTextQuantiteFlux = builder.getEditTextQuantiteFlux();
@@ -343,9 +421,21 @@ public class DepotFragment extends Fragment {
                                         //update the data in BDD
                                         dchApportFluxDB.updateQtyApporte(depotId, fluxId, qtyApporte);
                                     }
+                                    //refresh the qtyTotal of this depot
+                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                                    float qtyTotal = 0;
+                                    for(ApportFlux af: listApportFlux){
+                                        float qty = af.getQtyApporte();
+                                        qtyTotal = qtyTotal + qty;
+                                    }
+                                    depot.setQtyTotalUDD(qtyTotal);
+                                    dchDepotDB.updateDepot(depot);
+                                    textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
 
                                     dchApportFluxDB.close();
                                     dchFluxDB.close();
+                                    dchDepotDB.close();
 
 
                                 }
@@ -358,15 +448,28 @@ public class DepotFragment extends Fragment {
                                             dchFluxDB.open();
                                             DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                                             dchApportFluxDB.open();
+                                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                                            dchDepotDB.open();
 
                                             dialog.dismiss();
                                             galleryFluxChoisi.removeView(viewCopy);
                                             galleryFlux.addView(view);
-
                                             dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
+
+                                            //refresh the volume total
+                                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                                            float qtyTotal = 0;
+                                            for(ApportFlux af: listApportFlux){
+                                                float qty = af.getQtyApporte();
+                                                qtyTotal = qtyTotal + qty;
+                                            }
+                                            depot.setQtyTotalUDD(qtyTotal);
+                                            dchDepotDB.updateDepot(depot);
+                                            textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
 
                                             dchFluxDB.close();
                                             dchApportFluxDB.close();
+                                            dchDepotDB.close();
                                         }
                                     });
 
@@ -518,6 +621,7 @@ public class DepotFragment extends Fragment {
                     builder.setMessage("Vous avez sélectionné flux " + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
+                    if(!CCPU && nomUnite != null) builder.setUniteFlux(nomUnite);
                     //show the qty from BDD
                     if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) == null){
 
@@ -533,6 +637,8 @@ public class DepotFragment extends Fragment {
                             dchFluxDB.open();
                             DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                             dchApportFluxDB.open();
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
 
                             //save the qty into BDD
@@ -548,8 +654,22 @@ public class DepotFragment extends Fragment {
 
                             ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,false);
                             dchApportFluxDB.insertApportFlux(apportFlux);
+
+                            //refresh the qtyTotal of this depot
+                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                            float qtyTotal = 0;
+                            for(ApportFlux af: listApportFlux){
+                                float qty = af.getQtyApporte();
+                                qtyTotal = qtyTotal + qty;
+                            }
+                            depot.setQtyTotalUDD(qtyTotal);
+                            dchDepotDB.updateDepot(depot);
+
+                            textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
                             dchFluxDB.close();
                             dchApportFluxDB.close();
+                            dchDepotDB.close();
 
                         }
                     });
@@ -561,14 +681,28 @@ public class DepotFragment extends Fragment {
                                     dchFluxDB.open();
                                     DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                                     dchApportFluxDB.open();
+                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                                    dchDepotDB.open();
 
                                     dialog.dismiss();
                                     galleryFluxChoisi.removeView(viewCopy);
                                     galleryFlux.addView(view);
                                     dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
 
+                                    //refresh the volume total
+                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                                    float qtyTotal = 0;
+                                    for(ApportFlux af: listApportFlux){
+                                        float qty = af.getQtyApporte();
+                                        qtyTotal = qtyTotal + qty;
+                                    }
+                                    depot.setQtyTotalUDD(qtyTotal);
+                                    dchDepotDB.updateDepot(depot);
+                                    textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
                                     dchFluxDB.close();
                                     dchApportFluxDB.close();
+                                    dchDepotDB.close();
                                 }
                             });
 
@@ -589,6 +723,7 @@ public class DepotFragment extends Fragment {
                             builder.setMessage("Vous avez sélectionné flux " + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
+                            if(!CCPU && nomUnite != null) builder.setUniteFlux(nomUnite);
                             //show the qty from BDD
                             if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) == null){
 
@@ -604,6 +739,8 @@ public class DepotFragment extends Fragment {
                                     dchApportFluxDB.open();
                                     DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                                     dchFluxDB.open();
+                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                                    dchDepotDB.open();
 
                                     int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
                                     EditText editTextQuantiteFlux = builder.getEditTextQuantiteFlux();
@@ -626,8 +763,21 @@ public class DepotFragment extends Fragment {
                                         dchApportFluxDB.updateQtyApporte(depotId, fluxId, qtyApporte);
                                     }
 
+                                    //refresh the qtyTotal of this depot
+                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                                    float qtyTotal = 0;
+                                    for(ApportFlux af: listApportFlux){
+                                        float qty = af.getQtyApporte();
+                                        qtyTotal = qtyTotal + qty;
+                                    }
+                                    depot.setQtyTotalUDD(qtyTotal);
+                                    dchDepotDB.updateDepot(depot);
+
+                                    textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
                                     dchApportFluxDB.close();
                                     dchFluxDB.close();
+                                    dchDepotDB.close();
 
 
                                 }
@@ -640,15 +790,28 @@ public class DepotFragment extends Fragment {
                                             dchFluxDB.open();
                                             DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                                             dchApportFluxDB.open();
+                                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                                            dchDepotDB.open();
 
                                             dialog.dismiss();
                                             galleryFluxChoisi.removeView(viewCopy);
                                             galleryFlux.addView(view);
-
                                             dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
+
+                                            //refresh the volume total
+                                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                                            float qtyTotal = 0;
+                                            for(ApportFlux af: listApportFlux){
+                                                float qty = af.getQtyApporte();
+                                                qtyTotal = qtyTotal + qty;
+                                            }
+                                            depot.setQtyTotalUDD(qtyTotal);
+                                            dchDepotDB.updateDepot(depot);
+                                            textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
 
                                             dchFluxDB.close();
                                             dchApportFluxDB.close();
+                                            dchDepotDB.close();
                                         }
                                     });
 
@@ -693,6 +856,7 @@ public class DepotFragment extends Fragment {
                     DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                     dchFluxDB.open();
 
+
                     final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
                     builder.setMessage("Vous avez sélectionné flux " + iconName);
                     builder.setTitle(iconName);
@@ -706,6 +870,8 @@ public class DepotFragment extends Fragment {
                             dchApportFluxDB.open();
                             DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                             dchFluxDB.open();
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
                             int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
                             EditText editTextQuantiteFlux = builder.getEditTextQuantiteFlux();
@@ -728,8 +894,21 @@ public class DepotFragment extends Fragment {
                                 dchApportFluxDB.updateQtyApporte(depotId, fluxId, qtyApporte);
                             }
 
+                            //refresh the qtyTotal of this depot
+                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                            float qtyTotal = 0;
+                            for(ApportFlux af: listApportFlux){
+                                float qty = af.getQtyApporte();
+                                qtyTotal = qtyTotal + qty;
+                            }
+                            depot.setQtyTotalUDD(qtyTotal);
+                            dchDepotDB.updateDepot(depot);
+
+                            textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
+
                             dchApportFluxDB.close();
                             dchFluxDB.close();
+                            dchDepotDB.close();
 
                         }
                     });
@@ -740,15 +919,28 @@ public class DepotFragment extends Fragment {
                             dchFluxDB.open();
                             DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                             dchApportFluxDB.open();
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
                             dialog.dismiss();
                             galleryFluxChoisi.removeView(view);
                             galleryFlux.addView(viewCopy);
-
                             dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
+
+                            //refresh the volume total
+                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+                            float qtyTotal = 0;
+                            for(ApportFlux af: listApportFlux){
+                                float qty = af.getQtyApporte();
+                                qtyTotal = qtyTotal + qty;
+                            }
+                            depot.setQtyTotalUDD(qtyTotal);
+                            dchDepotDB.updateDepot(depot);
+                            textViewVolumeTotal.setText("Volume total: " + qtyTotal + " " + nomUnite);
 
                             dchFluxDB.close();
                             dchApportFluxDB.close();
+                            dchDepotDB.close();
                         }
                     });
 
@@ -756,7 +948,6 @@ public class DepotFragment extends Fragment {
 
 
 
-                    //TODO imgCopy.setOnClickListener
 
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -901,14 +1092,26 @@ public class DepotFragment extends Fragment {
                     parentActivity.closeDrawer();
                 }
 
-                //update the table "depot" and change the row "statut" to statut_termine
-                dchDepotDB.changeDepotStatutByIdentifiant(depotId, getResources().getInteger(R.integer.statut_termine));
 
                 Configuration.setIsOuiClicked(false);
 
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                //detect the pageSignature
+                if(pageSignature) {
+                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                        ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId);
+                        ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
+                    }
                 }
+                else{
+                    //update the table "depot" and change the row "statut" to statut_termine
+                    depot.setStatut(getResources().getInteger(R.integer.statut_termine));
+                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                    }
+                    depot.setDateHeure(getDateHeure());
+                    dchDepotDB.updateDepot(depot);
+                }
+
 
                 dchDepotDB.close();
             }
@@ -956,6 +1159,130 @@ public class DepotFragment extends Fragment {
                 return gesture.onTouchEvent(event);
             }
         });
+
+    }
+
+    public static DepotFragment newInstance(String numCarte) {
+        DepotFragment depotFragment = new DepotFragment();
+        Bundle args = new Bundle();
+        args.putString("numCarte", numCarte);
+        depotFragment.setArguments(args);
+        return depotFragment;
+    }
+
+    public static DepotFragment newInstance(long depotId) {
+        DepotFragment depotFragment = new DepotFragment();
+        Bundle args = new Bundle();
+        args.putLong("depotId", depotId);
+        depotFragment.setArguments(args);
+        return depotFragment;
+    }
+
+    public void getDepotIdFromApportProFragment(){
+        if (getArguments() != null) {
+            depotId = getArguments().getLong("depotId");
+            Toast.makeText(getContext(), "depotId From ApportProFragment: " + depotId,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getNumCarteFromIdentificationFragment(){
+        if (getArguments() != null) {
+            DchCarteDB dchCarteDB = new DchCarteDB(getContext());
+            dchCarteDB.open();
+
+            String numCarte = getArguments().getString("numCarte");
+            if(numCarte != null) {
+                Toast.makeText(getContext(), "numCarte: " + numCarte,
+                        Toast.LENGTH_SHORT).show();
+                carte = dchCarteDB.getCarteByNumCarteAndAccountId(numCarte, 0);
+                setPageSignatureFromCarte();
+            }
+
+            dchCarteDB.close();
+        }
+    }
+
+    public void setPageSignatureFromCarte(){
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
+        dchAccountSettingDB.open();
+
+        if(carte != null){
+            int typeCarteId = carte.getDchTypeCarteId();
+            int accountId = carte.getDchAccountId();
+            Date d = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+            int date = Integer.parseInt(df.format(d));
+            ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountId, typeCarteId);
+            if (accountSettingList != null) {
+                for (AccountSetting as : accountSettingList) {
+                    int dateDebut = Integer.parseInt(as.getDateDebutParam());
+                    int dateFin = Integer.parseInt(as.getDateFinParam());
+                    if (date >= dateDebut && date <= dateFin) {
+                        accountSetting = as;
+                        pageSignature = accountSetting.isPageSignature();
+                    }
+
+                }
+            }
+        }
+
+        dchAccountSettingDB.close();
+    }
+
+    public void showDepotDetails(){
+        System.out.println("id: " + depot.getId());
+        System.out.println("dateHeure: " + depot.getDateHeure());
+        System.out.println("signature: " + depot.getSignature());
+        System.out.println("decheterieId: " + depot.getDecheterieId());
+        System.out.println("compte_prepaye_id: " + depot.getComptePrepayeId());
+        System.out.println("qty_total_UDD: " + depot.getQtyTotalUDD());
+        System.out.println("nom: " + depot.getNom());
+        System.out.println("statut: " + depot.getStatut());
+        System.out.println("is_sent: " + depot.isSent());
+
+    }
+
+    public String getDateHeure(){
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
+        String dateHeure = df.format(d);
+
+        return dateHeure;
+    }
+
+    //check if all the convert_comptage_pr_UDD of each flux equals to 0
+    public boolean checkCCPU(){
+        DecheterieDB decheterieDB = new DecheterieDB(getContext());
+        decheterieDB.open();
+        DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
+        dchDecheterieFluxDB.open();
+        DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
+        dchAccountFluxSettingDB.open();
+        DchUniteDB dchUniteDB = new DchUniteDB(getContext());
+        dchUniteDB.open();
+
+        boolean result = true;
+
+        Decheterie decheterie = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie());
+        ArrayList<Flux> fluxList = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
+        for(Flux flux: fluxList){
+            AccountFluxSetting afs = dchAccountFluxSettingDB.getAccountFluxSettingByAccountSettingIdAndFluxId(accountSetting.getId(), flux.getId());
+            if(afs != null && !afs.isConvertComptagePrUDD()){
+                result = false;
+            }
+        }
+
+        decheterieDB.close();
+        dchDecheterieFluxDB.close();
+        dchAccountFluxSettingDB.close();
+
+        if(!result){
+            nomUnite = dchUniteDB.getUniteFromID(accountSetting.getDchUniteId()).getNom();
+        }
+
+        dchUniteDB.close();
+        return result;
 
     }
 

@@ -40,6 +40,7 @@ public class CustomDialog extends Dialog {
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
+        private String uniteFlux;
 
         public Builder(Context context) {
             this.context = context;
@@ -64,6 +65,11 @@ public class CustomDialog extends Dialog {
 
         public Builder setMessage(String message) {
             this.message = message;
+            return this;
+        }
+
+        public Builder setUniteFlux(String uniteFlux) {
+            this.uniteFlux = uniteFlux;
             return this;
         }
 
@@ -150,6 +156,11 @@ public class CustomDialog extends Dialog {
             // set the icon image
             if(!iconName.isEmpty() && iconName != null)
             ((ImageView) layout.findViewById(R.id.imageView_flux_item_dialog)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
+            //set the unite flux
+            if(uniteFlux != null) {
+                if(!uniteFlux.isEmpty())
+                ((TextView) layout.findViewById(R.id.textView_unite_flux)).setText(uniteFlux);
+            }
             // set the confirm button
             if (positiveButtonText != null) {
                 ((Button) layout.findViewById(R.id.positiveButton))
@@ -198,6 +209,7 @@ public class CustomDialog extends Dialog {
                         .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
             }
             dialog.setContentView(layout);
+            dialog.setCanceledOnTouchOutside(false);
             return dialog;
         }
     }

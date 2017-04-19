@@ -189,37 +189,19 @@ public class IdentificationFragment extends Fragment {
                 DchCarteEtatRaisonDB dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(getContext());
                 dchCarteEtatRaisonDB.open();
 
-                //check if the card existes in the DB
-                Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(),0);
-                if(carte == null){
-                    //pop-up2
-                    CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                    builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
-                    builder.setTitle("Information");
-                    builder.setPositiveButton("Créer", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            //设置你的操作事项
+                if(editText_barcode.getText().toString().isEmpty()){
 
-                        }
-                    });
-
-                    builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    builder.create().show();
                 }
-                else{
-                    CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
-                    if (carteActive == null) {
+                else {
+
+                    //check if the card existes in the DB
+                    Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(), 0);
+                    if (carte == null) {
                         //pop-up2
                         CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
                         builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
                         builder.setTitle("Information");
-                        builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Créer", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 //设置你的操作事项
@@ -234,17 +216,12 @@ public class IdentificationFragment extends Fragment {
                         });
 
                         builder.create().show();
-
-                    }
-                    else{
-                        if(carteActive.isActive() == false){
-                            ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
-                            Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
-                            CarteEtatRaison carteEtatRaison = dchCarteEtatRaisonDB.getCarteEtatRaisonFromID(carteActive.getDchCarteEtatRaisonId());
-                            //pop-up1
+                    } else {
+                        CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
+                        if (carteActive == null) {
+                            //pop-up2
                             CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                            builder.setMessage("\nDétenteur de la carte: " + usager.getNom()
-                                             + "\nCette carte a été désactivée car: " + carteEtatRaison.getRaison());
+                            builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
                             builder.setTitle("Information");
                             builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -261,18 +238,45 @@ public class IdentificationFragment extends Fragment {
                             });
 
                             builder.create().show();
-                        }
-                        else{
-                            //ok, turn to next page
-                            Toast.makeText(getContext(), "Carte ok!",
-                                    Toast.LENGTH_SHORT).show();
-                            if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                                Configuration.setIsOuiClicked(false);
-                                ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+
+                        } else {
+                            if (carteActive.isActive() == false) {
+                                ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
+                                Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
+                                CarteEtatRaison carteEtatRaison = dchCarteEtatRaisonDB.getCarteEtatRaisonFromID(carteActive.getDchCarteEtatRaisonId());
+                                //pop-up1
+                                CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+                                builder.setMessage("\nDétenteur de la carte: " + usager.getNom()
+                                        + "\nCette carte a été désactivée car: " + carteEtatRaison.getRaison());
+                                builder.setTitle("Information");
+                                builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        //设置你的操作事项
+
+                                    }
+                                });
+
+                                builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                builder.create().show();
+                            } else {
+                                //ok, turn to next page
+                                Toast.makeText(getContext(), "Carte ok!",
+                                        Toast.LENGTH_SHORT).show();
+                                if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                                    Configuration.setIsOuiClicked(false);
+                                    DepotFragment depotFragment = DepotFragment.newInstance(editText_barcode.getText().toString());
+                                    ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
+                                }
+
                             }
 
                         }
-
                     }
                 }
 

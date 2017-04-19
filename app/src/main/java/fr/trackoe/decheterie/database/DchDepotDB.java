@@ -25,6 +25,7 @@ public class DchDepotDB extends MyDb {
         ContentValues values = new ContentValues();
         values.put(DecheterieDatabase.TableDchDepot.ID, depot.getId());
         values.put(DecheterieDatabase.TableDchDepot.DATEHEURE, depot.getDateHeure());
+        values.put(DecheterieDatabase.TableDchDepot.SIGNATURE, depot.getSignature());
         values.put(DecheterieDatabase.TableDchDepot.DCH_DECHETERIE_ID, depot.getDecheterieId());
         values.put(DecheterieDatabase.TableDchDepot.DCH_CARTE_ACTIVE_DCH_CARTE_ID, depot.getCarteActiveCarteId());
         values.put(DecheterieDatabase.TableDchDepot.DCH_COMPTE_PREPAYE_ID, depot.getComptePrepayeId());
@@ -70,6 +71,11 @@ public class DchDepotDB extends MyDb {
         db.execSQL("delete from " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.ID + "=" + id);
     }
 
+    public void updateDepot(Depot depot) {
+        deleteDepotByIdentifiant(depot.getId());
+        insertDepot(depot);
+    }
+
     public ArrayList<Depot> getAllDepot() {
         ArrayList<Depot> depotList;
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT;
@@ -103,6 +109,7 @@ public class DchDepotDB extends MyDb {
         Depot d = new Depot();
         d.setId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_ID));
         d.setDateHeure(c.getString(DecheterieDatabase.TableDchDepot.NUM_DATEHEURE));
+        d.setSignature(c.getBlob(DecheterieDatabase.TableDchDepot.NUM_SIGNATURE));
         d.setDecheterieId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_DECHETERIE_ID));
         d.setCarteActiveCarteId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_DCH_CARTE_ACTIVE_DCH_CARTE_ID));
         d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
@@ -124,6 +131,7 @@ public class DchDepotDB extends MyDb {
                 Depot d = new Depot();
                 d.setId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_ID));
                 d.setDateHeure(c.getString(DecheterieDatabase.TableDchDepot.NUM_DATEHEURE));
+                d.setSignature(c.getBlob(DecheterieDatabase.TableDchDepot.NUM_SIGNATURE));
                 d.setDecheterieId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_DECHETERIE_ID));
                 d.setCarteActiveCarteId(c.getLong(DecheterieDatabase.TableDchDepot.NUM_DCH_CARTE_ACTIVE_DCH_CARTE_ID));
                 d.setComptePrepayeId(c.getInt(DecheterieDatabase.TableDchDepot.NUM_DCH_COMPTE_PREPAYE_ID));
