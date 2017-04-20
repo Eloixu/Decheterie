@@ -15,12 +15,13 @@ public class Menage {
     private boolean actif;
     private String telephone;
     private String civilite;
+    private int localId;
 
     public Menage() {
 
     }
 
-    public Menage(int id, String nom, String prenom, String email, int nbHabitants, String reference, int habitatId, boolean actif, String telephone, String civilite) {
+    public Menage(int id, String nom, String prenom, String email, int nbHabitants, String reference, int habitatId, boolean actif, String telephone, String civilite,int localId) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -31,6 +32,7 @@ public class Menage {
         this.actif = actif;
         this.telephone = telephone;
         this.civilite = civilite;
+        this.localId = localId;
     }
 
     public int getId() {
@@ -111,5 +113,13 @@ public class Menage {
 
     public void setCivilite(String civilite) {
         this.civilite = civilite;
+    }
+
+    public int getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(int localId) {
+        this.localId = localId;
     }
 }

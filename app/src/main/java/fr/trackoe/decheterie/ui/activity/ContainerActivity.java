@@ -79,14 +79,17 @@ import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
+import fr.trackoe.decheterie.database.DchTypeCarteDB;
 import fr.trackoe.decheterie.database.DchUniteDB;
 import fr.trackoe.decheterie.database.HabitatDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.LocalDB;
 import fr.trackoe.decheterie.database.MenageDB;
 import fr.trackoe.decheterie.database.ModulesDB;
+import fr.trackoe.decheterie.database.TypeHabitatDB;
 import fr.trackoe.decheterie.database.UsagerDB;
 import fr.trackoe.decheterie.database.UsagerHabitatDB;
+import fr.trackoe.decheterie.database.UsagerMenageDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
@@ -103,6 +106,8 @@ import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
+import fr.trackoe.decheterie.model.bean.global.TypeCarte;
+import fr.trackoe.decheterie.model.bean.global.TypeHabitat;
 import fr.trackoe.decheterie.model.bean.global.Unite;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.model.bean.usager.Habitat;
@@ -110,6 +115,7 @@ import fr.trackoe.decheterie.model.bean.usager.Local;
 import fr.trackoe.decheterie.model.bean.usager.Menage;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
@@ -983,6 +989,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(this);
         dchComptePrepayeDB.open();
         dchComptePrepayeDB.clearComptePrepaye();
+        DchTypeCarteDB typeCarteDB = new DchTypeCarteDB(this);
+        typeCarteDB.open();
+        typeCarteDB.clearTypeCarte();
         DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(this);
         dchCarteActiveDB.open();
         dchCarteActiveDB.clearCarteActive();
@@ -1001,6 +1010,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(this);
         dchAccountFluxSettingDB.open();
         dchAccountFluxSettingDB.clearAccountFluxSetting();
+        TypeHabitatDB typeHabitatDB = new TypeHabitatDB(this);
+        typeHabitatDB.open();
+        typeHabitatDB.clearTypeHabitat();
         HabitatDB habitatDB = new HabitatDB(this);
         habitatDB.open();
         habitatDB.clearHabitat();
@@ -1013,6 +1025,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(this);
         usagerHabitatDB.open();
         usagerHabitatDB.clearUsagerHabitat();
+        UsagerMenageDB usagerMenageDB = new UsagerMenageDB(this);
+        usagerMenageDB.open();
+        usagerMenageDB.clearUsagerMenage();
+
 
         //add All icons into DBB
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
@@ -1089,17 +1105,23 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(10,6,13,3));
         dchComptePrepayeDB.close();
 
+        //add typeCarte into DBB
+        typeCarteDB.insertTypeCarte(new TypeCarte(1,"typeCarte1"));
+        typeCarteDB.insertTypeCarte(new TypeCarte(2,"typeCarte2"));
+        typeCarteDB.insertTypeCarte(new TypeCarte(3,"typeCarte3"));
+        typeCarteDB.close();
+
         //add carte into BDD
         dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,1,0));
-        dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,0,0));
+        dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,1,0));
         dchCarteDB.insertCarte(new Carte(3,"2f4913f2",null,3,0));
-        dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,0,0));
-        dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,0,0));
-        dchCarteDB.insertCarte(new Carte(6,"2f4913f3",null,0,1));
-        dchCarteDB.insertCarte(new Carte(7,"cdwfjnqe",null,0,0));
-        dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,0,0));
-        dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,0,0));
-        dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,0,0));
+        dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,3,0));
+        dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,2,0));
+        dchCarteDB.insertCarte(new Carte(6,"2f4913f3",null,3,1));
+        dchCarteDB.insertCarte(new Carte(7,"cdwfjnqe",null,3,0));
+        dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,1,0));
+        dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,3,0));
+        dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,1,0));
         dchCarteDB.close();
 
         //add carteActive into DBB
@@ -1121,7 +1143,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,false,false,true,null,null,null,"170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,null,null,null,"170101","171230",0,0));
         dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,null,"170101","170410",0,0));
         dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,null,"170101","170410",0,0));
         dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,null,"170101","171230",0,0));
@@ -1141,6 +1163,14 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchUniteDB.insertUnite(new Unite(2,"kg"));
         dchUniteDB.close();
 
+        //add typeHabitat into BDD
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(1,"Individuel"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(2,"Collectif"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(3,"Administration"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(4,"Professionnel"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(5,"Divers"));
+        typeHabitatDB.close();
+
         //add habitat into BDD
         habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4));
         habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2));
@@ -1152,26 +1182,30 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         habitatDB.close();
 
         //add menage into BDD
-        menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",0,true,"0123456789","M"));
-        menageDB.insertMenage(new Menage(2,"COQUET","Remi","rcoquet@trackoe.fr",3,"124AD",0,true,"0776583366","M"));
-        menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",0,true,"0605040302","M"));
-        menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,0,true,"0345678991","M"));
-        menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,0,true,"0634217690","M"));
-        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,0,true,"0123456789","M"));
-        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,0,true,"0123456789","M"));
+        menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",0,true,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(2,"COQUET","Remi","rcoquet@trackoe.fr",3,"124AD",0,true,"0776583366","M",2));
+        menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",0,true,"0605040302","M",3));
+        menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,0,true,"0345678991","M",3));
+        menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,0,true,"0634217690","M",2));
+        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,0,true,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,0,true,"0123456789","M",1));
         menageDB.close();
 
         //add local into DBB
-        localDB.insertLocal(new Local(1,3,1,null,null,null,null,null));
-        localDB.insertLocal(new Local(2,2,2,null,null,null,null,null));
-        localDB.insertLocal(new Local(3,5,3,null,null,null,null,null));
+        localDB.insertLocal(new Local(1,3,null,null,null,null,null));
+        localDB.insertLocal(new Local(2,2,null,null,null,null,null));
+        localDB.insertLocal(new Local(3,5,null,null,null,null,null));
         localDB.close();
 
         //add usagerHabitat into BDD
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
-        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
+        //usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
         usagerHabitatDB.close();
+
+        //add usagerMenage into BDD
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,3));
+        usagerMenageDB.close();
     }
 
     @Override

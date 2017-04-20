@@ -46,7 +46,7 @@ public class DchTypeCarteDB extends MyDb {
     Vider la table
      */
 
-    public void clearCarteTypeCarte() {
+    public void clearTypeCarte() {
         db.execSQL("delete from " + DecheterieDatabase.TableDchTypeCarte.TABLE_NAME);
     }
 

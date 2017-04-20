@@ -2,6 +2,7 @@ package fr.trackoe.decheterie.ui.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -34,22 +35,42 @@ import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
 import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchApportFluxDB;
+import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
+import fr.trackoe.decheterie.database.DchCarteEtatRaisonDB;
+import fr.trackoe.decheterie.database.DchChoixDecompteTotalDB;
+import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.DchTypeCarteDB;
 import fr.trackoe.decheterie.database.DchUniteDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
+import fr.trackoe.decheterie.database.HabitatDB;
 import fr.trackoe.decheterie.database.IconDB;
+import fr.trackoe.decheterie.database.LocalDB;
+import fr.trackoe.decheterie.database.MenageDB;
+import fr.trackoe.decheterie.database.ModulesDB;
+import fr.trackoe.decheterie.database.TypeHabitatDB;
+import fr.trackoe.decheterie.database.UsagerDB;
+import fr.trackoe.decheterie.database.UsagerHabitatDB;
+import fr.trackoe.decheterie.database.UsagerMenageDB;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Carte;
+import fr.trackoe.decheterie.model.bean.global.CarteActive;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.global.Icon;
+import fr.trackoe.decheterie.model.bean.usager.Habitat;
+import fr.trackoe.decheterie.model.bean.usager.Local;
+import fr.trackoe.decheterie.model.bean.usager.Menage;
+import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialog;
 
@@ -67,23 +88,71 @@ public class DepotFragment extends Fragment {
     ContainerActivity parentActivity;
     private TextView textViewVolumeTotal;
 
+    //DB
+    private DchAccountFluxSettingDB dchAccountFluxSettingDB;
+    private DchAccountSettingDB dchAccountSettingDB;
+    private DchApportFluxDB dchApportFluxDB;
+    private DchCarteActiveDB dchCarteActiveDB;
+    private DchCarteDB dchCarteDB;
+    private DchCarteEtatRaisonDB dchCarteEtatRaisonDB;
+    private DchChoixDecompteTotalDB dchChoixDecompteTotalDB;
+    private DchComptePrepayeDB dchComptePrepayeDB;
+    private DchDecheterieFluxDB dchDecheterieFluxDB;
+    private DchDepotDB dchDepotDB;
+    private DchFluxDB dchFluxDB;
+    private DchTypeCarteDB dchTypeCarteDB;
+    private DchUniteDB dchUniteDB;
+    private DecheterieDB decheterieDB;
+    private HabitatDB habitatDB;
+    private IconDB iconDB;
+    private LocalDB localDB;
+    private MenageDB menageDB;
+    private ModulesDB modulesDB;
+    private TypeHabitatDB typeHabitatDB;
+    private UsagerDB usagerDB;
+    private UsagerHabitatDB usagerHabitatDB;
+    private UsagerMenageDB usagerMenageDB;
+
+    //the views of navigation drawer
+    private ViewGroup nd_vg;
+    private LinearLayout ndLinearLayoutLine1;
+    private LinearLayout ndLinearLayoutLine2;
+    private LinearLayout ndLinearLayoutLine3;
+    private LinearLayout ndLinearLayoutLine4;
+    private LinearLayout ndLinearLayoutLine5;
+    private LinearLayout ndLinearLayoutLine6;
+    private LinearLayout ndLinearLayoutLine7;
+    private TextView ndTextViewLine1Title;
+    private TextView ndTextViewLine2Title;
+    private TextView ndTextViewLine3Title;
+    private TextView ndTextViewLine4Title;
+    private TextView ndTextViewLine5Title;
+    private TextView ndTextViewLine6Title;
+    private TextView ndTextViewLine7Title;
+    private TextView ndTextViewLine1Value;
+    private TextView ndTextViewLine2Value;
+    private TextView ndTextViewLine3Value;
+    private TextView ndTextViewLine4Value;
+    private TextView ndTextViewLine5Value;
+    private TextView ndTextViewLine6Value;
+    private TextView ndTextViewLine7Value;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         depot_vg = (ViewGroup) inflater.inflate(R.layout.depot_fragment, container, false);
         parentActivity = (ContainerActivity ) getActivity();
         textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.textView_volume_total);
 
-        DecheterieDB decheterieDB = new DecheterieDB(getContext());
-        decheterieDB.open();
-        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-        dchDepotDB.open();
-        DchCarteDB dchCarteDB = new DchCarteDB(getContext());
-        dchCarteDB.open();
+        initAllDB();
+        openAllDB();
 
         //get the numCarte sent From IdentifigationFragment
         getNumCarteFromIdentificationFragment();
         //get the depotId sent From ApportProFragment
         getDepotIdFromApportProFragment();
+
+//        initViewsNavigationDrawer(inflater,container);
 
         //detect if "oui" is clicked
         //the case that we continue to edit the depot incompleted
@@ -163,18 +232,16 @@ public class DepotFragment extends Fragment {
             initViewsNotNormal(inflater,container);
         }
 
+        //init the views of the navigation drawer
+        initViewsNavigationDrawer(inflater,container);
+
 
         //show depot information
         showDepotDetails();
 
 
 
-
-
-
-        decheterieDB.close();
-        dchDepotDB.close();
-        dchCarteDB.close();
+        closeAllDB();
 
 
 
@@ -1329,6 +1396,220 @@ public class DepotFragment extends Fragment {
         return result;
 
     }
+
+    public void initViewsNavigationDrawer(LayoutInflater inflater, ViewGroup container){
+        nd_vg = (ViewGroup) inflater.inflate(R.layout.activity_container, container, false);
+        NavigationView navigationView = (NavigationView) nd_vg.findViewById(R.id.navigation_view);
+        ndLinearLayoutLine1 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line1);
+        ndLinearLayoutLine2 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line2);
+        ndLinearLayoutLine3 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line3);
+        ndLinearLayoutLine4 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line4);
+        ndLinearLayoutLine5 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line5);
+        ndLinearLayoutLine6 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line6);
+        ndLinearLayoutLine7 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line7);
+        ndTextViewLine1Title = (TextView) parentActivity.findViewById(R.id.textView_line1_title);
+        ndTextViewLine2Title = (TextView) parentActivity.findViewById(R.id.textView_line2_title);
+        ndTextViewLine3Title = (TextView) parentActivity.findViewById(R.id.textView_line3_title);
+        ndTextViewLine4Title = (TextView) parentActivity.findViewById(R.id.textView_line4_title);
+        ndTextViewLine5Title = (TextView) parentActivity.findViewById(R.id.textView_line5_title);
+        ndTextViewLine6Title = (TextView) parentActivity.findViewById(R.id.textView_line6_title);
+        ndTextViewLine7Title = (TextView) parentActivity.findViewById(R.id.textView_line7_title);
+        ndTextViewLine1Value = (TextView) parentActivity.findViewById(R.id.textView_line1_value);
+        ndTextViewLine2Value = (TextView) parentActivity.findViewById(R.id.textView_line2_value);
+        ndTextViewLine3Value = (TextView) parentActivity.findViewById(R.id.textView_line3_value);
+        ndTextViewLine4Value = (TextView) parentActivity.findViewById(R.id.textView_line4_value);
+        ndTextViewLine5Value = (TextView) parentActivity.findViewById(R.id.textView_line5_value);
+        ndTextViewLine6Value = (TextView) parentActivity.findViewById(R.id.textView_line6_value);
+        ndTextViewLine7Value = (TextView) parentActivity.findViewById(R.id.textView_line7_value);
+
+
+        if(carte != null){
+            CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
+            ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
+            Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
+            UsagerHabitat usagerHabitat = usagerHabitatDB.getUsagerHabitatByUsagerId(usager.getId());
+
+            //case 1
+            if(usagerHabitat != null){
+                Habitat habitat = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
+                ndTextViewLine1Title.setText("Nom");
+                ndTextViewLine1Value.setText(habitat.getNom());
+                ndLinearLayoutLine2.setVisibility(View.GONE);
+                ndTextViewLine3Title.setText("Type d'usager");
+                ndTextViewLine3Value.setText(typeHabitatDB.getTypeHabitatFromID(habitat.getIdTypeHabitat()).getType());
+                ndTextViewLine4Title.setText("Adresse");
+                ndTextViewLine4Value.setText((habitat.getNumero()== null? "" : habitat.getNumero() + " " ) + (habitat.getComplement()== null? "" : habitat.getComplement() + " ") + (habitat.getAdresse()==null? "" : habitat.getAdresse()) + "\n"
+                                           + (habitat.getCp()==null? "" : habitat.getCp() + ", ") + (habitat.getVille()==null? "" : habitat.getVille()));
+                ndTextViewLine5Title.setText("Carte");
+                ndTextViewLine5Value.setText((dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom()==null? "" : dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom() + "\n")
+                                             +(carte.getNumCarte()==null? "" : carte.getNumCarte()));
+                if(accountSetting.isDecompteDepot()){
+                    ndLinearLayoutLine6.setVisibility(View.VISIBLE);
+                    ndTextViewLine6Title.setText("Nb dépôt restant");
+                    ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
+                }
+                else{
+                    ndLinearLayoutLine6.setVisibility(View.GONE);
+                }
+                if(accountSetting.isDecompteUDD()){
+                    ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                    ndTextViewLine7Title.setText("Apport restant");
+                    ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + (accountSetting.getUnitePoint()==null? "" : accountSetting.getUnitePoint()));
+                }
+                else{
+                    ndLinearLayoutLine7.setVisibility(View.GONE);
+                }
+            }
+            //case 2
+            else {
+                UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByUsagerId(usager.getId());
+                if(usagerMenage != null){
+                    Menage menage = menageDB.getMenageById(usagerMenage.getMenageId());
+                    Local local = localDB.getLocalById(menage.getLocalId());
+                    Habitat habitat = habitatDB.getHabitatFromID(local.getHabitatId());
+                    ndTextViewLine1Title.setText("Nom");
+                    ndTextViewLine1Value.setText(menage.getNom());
+                    ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+                    ndTextViewLine2Title.setText("Prénom");
+                    ndTextViewLine2Value.setText(menage.getPrenom());
+                    ndTextViewLine3Title.setText("Type d'usager");
+                    ndTextViewLine3Value.setText("Particulier");
+                    ndTextViewLine4Title.setText("Adresse");
+                    ndTextViewLine4Value.setText((habitat.getNumero()== null? "" : habitat.getNumero() + " " ) + (habitat.getComplement()== null? "" : habitat.getComplement() + " ") + (habitat.getAdresse()==null? "" : habitat.getAdresse()) + "\n"
+                            + (habitat.getCp()==null? "" : habitat.getCp() + ", ") + (habitat.getVille()==null? "" : habitat.getVille()));
+                    ndTextViewLine5Title.setText("Carte");
+                    ndTextViewLine5Value.setText((dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom()==null? "" : dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom() + "\n")
+                            +(carte.getNumCarte()==null? "" : carte.getNumCarte()));
+                    if(accountSetting.isDecompteDepot()){
+                        ndLinearLayoutLine6.setVisibility(View.VISIBLE);
+                        ndTextViewLine6Title.setText("Nb dépôt restant");
+                        ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
+                    }
+                    else{
+                        ndLinearLayoutLine6.setVisibility(View.GONE);
+                    }
+                    if(accountSetting.isDecompteUDD()){
+                        ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                        ndTextViewLine7Title.setText("Apport restant");
+                        ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + (accountSetting.getUnitePoint()==null? "" : accountSetting.getUnitePoint()));
+                    }
+                    else{
+                        ndLinearLayoutLine7.setVisibility(View.GONE);
+                    }
+                }
+                //case 3
+                else{
+
+                }
+            }
+        }
+
+
+    }
+
+    /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
+    private DchAccountSettingDB dchAccountSettingDB;
+    private DchApportFluxDB dchApportFluxDB;
+    private DchCarteActiveDB dchCarteActiveDB;
+    private DchCarteDB dchCarteDB;
+    private DchCarteEtatRaisonDB dchCarteEtatRaisonDB;
+    private DchChoixDecompteTotalDB dchChoixDecompteTotalDB;
+    private DchComptePrepayeDB dchComptePrepayeDB;
+    private DchDecheterieFluxDB dchDecheterieFluxDB;
+    private DchDepotDB dchDepotDB;
+    private DchFluxDB dchFluxDB;
+    private DchTypeCarteDB dchTypeCarteDB;
+    private DchUniteDB dchUniteDB;
+    private DecheterieDB decheterieDB;
+    private HabitatDB habitatDB;
+    private IconDB iconDB;
+    private LocalDB localDB;
+    private MenageDB menageDB;
+    private ModulesDB modulesDB;
+    private UsagerDB usagerDB;
+    private UsagerHabitatDB usagerHabitatDB;
+    private UsagerMenageDB usagerMenageDB;*/
+
+    public void initAllDB(){
+        dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
+        dchAccountSettingDB = new DchAccountSettingDB(getContext());
+        dchApportFluxDB = new DchApportFluxDB(getContext());
+        dchCarteActiveDB = new DchCarteActiveDB(getContext());
+        dchCarteDB = new DchCarteDB(getContext());
+        dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(getContext());
+        dchChoixDecompteTotalDB = new DchChoixDecompteTotalDB(getContext());
+        dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+        dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
+        dchDepotDB = new DchDepotDB(getContext());
+        dchFluxDB = new DchFluxDB(getContext());
+        dchTypeCarteDB = new DchTypeCarteDB(getContext());
+        dchUniteDB = new DchUniteDB(getContext());
+        decheterieDB = new DecheterieDB(getContext());
+        habitatDB = new HabitatDB(getContext());
+        iconDB = new IconDB(getContext());
+        localDB = new LocalDB(getContext());
+        menageDB = new MenageDB(getContext());
+        modulesDB = new ModulesDB(getContext());
+        usagerDB = new UsagerDB(getContext());
+        usagerHabitatDB = new UsagerHabitatDB(getContext());
+        usagerMenageDB = new UsagerMenageDB(getContext());
+        typeHabitatDB = new TypeHabitatDB(getContext());
+    }
+
+    public void openAllDB(){
+        dchAccountFluxSettingDB.open();
+        dchAccountSettingDB.open();
+        dchApportFluxDB.open();
+        dchCarteActiveDB.open();
+        dchCarteDB.open();
+        dchCarteEtatRaisonDB.open();
+        dchChoixDecompteTotalDB.open();
+        dchComptePrepayeDB.open();
+        dchDecheterieFluxDB.open();
+        dchDepotDB.open();
+        dchFluxDB.open();
+        dchTypeCarteDB.open();
+        dchUniteDB.open();
+        decheterieDB.open();
+        habitatDB.open();
+        iconDB.open();
+        localDB.open();
+        menageDB.open();
+        modulesDB.open();
+        typeHabitatDB.open();
+        usagerDB.open();
+        usagerHabitatDB.open();
+        usagerMenageDB.open();
+
+    }
+
+    public void closeAllDB(){
+        dchAccountFluxSettingDB.close();
+        dchAccountSettingDB.close();
+        dchApportFluxDB.close();
+        dchCarteActiveDB.close();
+        dchCarteDB.close();
+        dchCarteEtatRaisonDB.close();
+        dchChoixDecompteTotalDB.close();
+        dchComptePrepayeDB.close();
+        dchDecheterieFluxDB.close();
+        dchDepotDB.close();
+        dchFluxDB.close();
+        dchTypeCarteDB.close();
+        dchUniteDB.close();
+        decheterieDB.close();
+        habitatDB.close();
+        iconDB.close();
+        localDB.close();
+        menageDB.close();
+        modulesDB.close();
+        typeHabitatDB.close();
+        usagerDB.close();
+        usagerHabitatDB.close();
+        usagerMenageDB.close();
+
+    }
+
 
 
 }

@@ -24,7 +24,6 @@ public class LocalDB extends MyDb {
 
         values.put(DecheterieDatabase.TableLocal.ID_LOCAL, local.getIdLocal());
         values.put(DecheterieDatabase.TableLocal.HABITAT_ID, local.getHabitatId());
-        values.put(DecheterieDatabase.TableLocal.MENAGE_ID, local.getMenageId());
         values.put(DecheterieDatabase.TableLocal.LOT, local.getLot());
         values.put(DecheterieDatabase.TableLocal.INVARIANT_DFIP, local.getInvariantDfip());
         values.put(DecheterieDatabase.TableLocal.IDENTIFIANT_INTERNE, local.getIdentifiantInterne());
@@ -58,7 +57,6 @@ public class LocalDB extends MyDb {
         Local l = new Local();
         l.setIdLocal(c.getInt(DecheterieDatabase.TableLocal.NUM_ID_LOCAL));
         l.setHabitatId(c.getInt(DecheterieDatabase.TableLocal.NUM_HABITAT_ID));
-        l.setMenageId(c.getInt(DecheterieDatabase.TableLocal.NUM_MENAGE_ID));
         l.setLot(c.getString(DecheterieDatabase.TableLocal.NUM_LOT));
         l.setInvariantDfip(c.getString(DecheterieDatabase.TableLocal.NUM_INVARIANT_DFIP));
         l.setIdentifiantInterne(c.getString(DecheterieDatabase.TableLocal.NUM_IDENTIFIANT_INTERNE));

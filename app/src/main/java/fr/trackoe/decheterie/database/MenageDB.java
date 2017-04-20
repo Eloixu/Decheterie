@@ -32,6 +32,7 @@ public class MenageDB extends MyDb {
         values.put(DecheterieDatabase.TableMenage.ACTIF, menage.isActif()? 1 : 0);
         values.put(DecheterieDatabase.TableMenage.TELEPHONE, menage.getTelephone());
         values.put(DecheterieDatabase.TableMenage.CIVILITE, menage.getCivilite());
+        values.put(DecheterieDatabase.TableMenage.LOCAL_ID, menage.getLocalId());
 
         return db.insertOrThrow(DecheterieDatabase.TableMenage.TABLE_NAME, null, values);
     }
@@ -69,6 +70,7 @@ public class MenageDB extends MyDb {
         m.setActif(c.getInt(DecheterieDatabase.TableMenage.NUM_ACTIF) == 1);
         m.setTelephone(c.getString(DecheterieDatabase.TableMenage.NUM_TELEPHONE));
         m.setCivilite(c.getString(DecheterieDatabase.TableMenage.NUM_CIVILITE));
+        m.setLocalId(c.getInt(DecheterieDatabase.TableMenage.NUM_LOCAL_ID));
 
         c.close();
 

@@ -7,7 +7,6 @@ package fr.trackoe.decheterie.model.bean.usager;
 public class Local {
     private int idLocal;
     private int habitatId;
-    private int menageId;
     private String lot;
     private String invariantDfip;
     private String identifiantInterne;
@@ -18,10 +17,9 @@ public class Local {
 
     }
 
-    public Local(int idLocal, int habitatId, int menageId, String lot, String invariantDfip, String identifiantInterne, String batiment, String etagePorte) {
+    public Local(int idLocal, int habitatId, String lot, String invariantDfip, String identifiantInterne, String batiment, String etagePorte) {
         this.idLocal = idLocal;
         this.habitatId = habitatId;
-        this.menageId = menageId;
         this.lot = lot;
         this.invariantDfip = invariantDfip;
         this.identifiantInterne = identifiantInterne;
@@ -43,14 +41,6 @@ public class Local {
 
     public void setHabitatId(int habitatId) {
         this.habitatId = habitatId;
-    }
-
-    public int getMenageId() {
-        return menageId;
-    }
-
-    public void setMenageId(int menageId) {
-        this.menageId = menageId;
     }
 
     public String getLot() {

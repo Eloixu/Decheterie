@@ -25,11 +25,212 @@
                 android:layout_width="400dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start">
-                <include
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    layout="@layout/navigation_drawer_header"
-                    />
+                    android:background="#aec6cf"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line1"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line1_title"
+                            android:text="NOM"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/general_txt_size"
+                            android:layout_weight="0.5" />
+
+                        <TextView
+                            android:id="@+id/textView_line1_value"
+                            android:text="NOM USER"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line2_title"
+                            android:text="Prénom"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/general_txt_size"
+                            android:layout_weight="0.5" />
+
+                        <TextView
+                            android:id="@+id/textView_line2_value"
+                            android:text="Prénom USER"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line3"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line3_title"
+                            android:text="Type d'usager"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="@dimen/general_txt_size"
+                            android:layout_weight="0.5" />
+
+                        <TextView
+                            android:id="@+id/textView_line3_value"
+                            android:text="Type"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line4"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line4_title"
+                            android:text="Adresse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/textView_line4_value"
+                            android:text="xxx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/general_txt_size"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="0.5" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line5"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line5_title"
+                            android:text="Carte"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/textView_line5_value"
+                            android:text="xxx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/general_txt_size"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="0.5" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line6"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line6_title"
+                            android:text="Nb dépôt restant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/textView_line6_value"
+                            android:text="xxx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/general_txt_size"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="0.5" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_line7"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/navigation_drawer_line_margin"
+                        >
+                        <TextView
+                            android:id="@+id/textView_line7_title"
+                            android:text="Apport restant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/textView_line7_value"
+                            android:text="xxx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:textSize="@dimen/general_txt_size"
+                            android:textColor="@color/bluedeep"
+                            android:layout_weight="0.5" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </android.support.design.widget.NavigationView>
 

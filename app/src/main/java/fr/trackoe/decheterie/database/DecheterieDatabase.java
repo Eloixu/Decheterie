@@ -706,7 +706,9 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final String CIVILITE = "civilite";
         public static final int NUM_CIVILITE = 8;
         public static final String HABITAT_ID = "habitat_id";
-        public static final int NUM_HABITAT_ID = 7;
+        public static final int NUM_HABITAT_ID = 9;
+        public static final String LOCAL_ID = "local_id";
+        public static final int NUM_LOCAL_ID = 10;
     }
 
     public static final String CREATE_TABLE_MENAGE = "CREATE TABLE IF NOT EXISTS " + TableMenage.TABLE_NAME + " ("
@@ -719,7 +721,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableMenage.ACTIF + INTEGER_TYPE + COMMA_SEP
             + TableMenage.TELEPHONE + TEXT_TYPE + COMMA_SEP
             + TableMenage.CIVILITE + TEXT_TYPE + COMMA_SEP
-            + TableMenage.HABITAT_ID + INTEGER_TYPE + " )" ;
+            + TableMenage.HABITAT_ID + INTEGER_TYPE + COMMA_SEP
+            + TableMenage.LOCAL_ID + INTEGER_TYPE + " )" ;
 
     public static final String DELETE_TABLE_MENAGE = "DROP TABLE IF EXISTS " + TableMenage.TABLE_NAME;
 
@@ -730,24 +733,21 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_ID_LOCAL = 0;
         public static final String HABITAT_ID = "habitat_id";
         public static final int NUM_HABITAT_ID = 1;
-        public static final String MENAGE_ID = "menage_id";
-        public static final int NUM_MENAGE_ID = 2;
         public static final String LOT = "lot";
-        public static final int NUM_LOT = 3;
+        public static final int NUM_LOT = 2;
         public static final String INVARIANT_DFIP = "invariant_dfip";
-        public static final int NUM_INVARIANT_DFIP = 4;
+        public static final int NUM_INVARIANT_DFIP = 3;
         public static final String IDENTIFIANT_INTERNE = "identidiant_interne";
-        public static final int NUM_IDENTIFIANT_INTERNE = 5;
+        public static final int NUM_IDENTIFIANT_INTERNE = 4;
         public static final String BATIMENT = "batiment";
-        public static final int NUM_BATIMENT = 6;
+        public static final int NUM_BATIMENT = 5;
         public static final String ETAGE_PORTE = "etage_porte";
-        public static final int NUM_ETAGE_PORTE = 7;
+        public static final int NUM_ETAGE_PORTE = 6;
     }
 
     public static final String CREATE_TABLE_LOCAL = "CREATE TABLE IF NOT EXISTS " + TableLocal.TABLE_NAME + " ("
             + TableLocal.ID_LOCAL + INTEGER_TYPE + " PRIMARY KEY, "
             + TableLocal.HABITAT_ID + INTEGER_TYPE + COMMA_SEP
-            + TableLocal.MENAGE_ID + INTEGER_TYPE + COMMA_SEP
             + TableLocal.LOT + TEXT_TYPE + COMMA_SEP
             + TableLocal.INVARIANT_DFIP + TEXT_TYPE + COMMA_SEP
             + TableLocal.IDENTIFIANT_INTERNE + TEXT_TYPE + COMMA_SEP
@@ -970,7 +970,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
-        //db.execSQL(CREATE_TABLE_MODULES);
+        db.execSQL(CREATE_TABLE_MODULES);
         //db.execSQL(CREATE_TABLE_PAV);
         //db.execSQL(CREATE_TABLE_RELEVE);
         //db.execSQL(CREATE_TABLE_VILLE);
@@ -988,6 +988,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USAGER);
         db.execSQL(CREATE_TABLE_DCH_COMPTE_PREPAYE);
         db.execSQL(CREATE_TABLE_DCH_CARTE_ETAT_RAISON);
+        db.execSQL(CREATE_TABLE_DCH_TYPE_CARTE);
         db.execSQL(CREATE_TABLE_DCH_CARTE_ACTIVE);
         db.execSQL(CREATE_TABLE_DCH_CARTE);
         db.execSQL(CREATE_TABLE_MENAGE);
@@ -1008,7 +1009,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL(DELETE_TABLE_USERS);
-        //db.execSQL(DELETE_TABLE_MODULES);
+        db.execSQL(DELETE_TABLE_MODULES);
         //db.execSQL(DELETE_TABLE_PAV);
         //db.execSQL(DELETE_TABLE_RELEVE);
         //db.execSQL(DELETE_TABLE_VILLE);
@@ -1026,6 +1027,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_USAGER);
         db.execSQL(DELETE_TABLE_DCH_COMPTE_PREPAYE);
         db.execSQL(DELETE_TABLE_DCH_CARTE_ETAT_RAISON);
+        db.execSQL(DELETE_TABLE_DCH_TYPE_CARTE);
         db.execSQL(DELETE_TABLE_DCH_CARTE_ACTIVE);
         db.execSQL(DELETE_TABLE_DCH_CARTE);
         db.execSQL(DELETE_TABLE_MENAGE);

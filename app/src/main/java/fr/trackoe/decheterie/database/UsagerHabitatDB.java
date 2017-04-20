@@ -44,17 +44,18 @@ public class UsagerHabitatDB extends MyDb {
     }
 
     private UsagerHabitat cursorToUsagerHabitat(Cursor c){
-        if(c.getCount() == 0) {
+        if(c.moveToFirst()){
+            UsagerHabitat u = new UsagerHabitat();
+            u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
+            u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
+            c.close();
+            return u;
+        }
+        else{
+            c.close();
             return null;
         }
-        c.moveToFirst();
-        UsagerHabitat u = new UsagerHabitat();
-        u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
-        u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
 
-        c.close();
-
-        return u;
     }
 
 
