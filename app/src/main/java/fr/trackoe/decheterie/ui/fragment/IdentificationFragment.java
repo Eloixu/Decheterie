@@ -146,9 +146,8 @@ public class IdentificationFragment extends Fragment {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         parentActivity = (ContainerActivity) getActivity();
 
-
-
-        parentActivity.openDrawerWithDelay();
+        String lastNumCarte = Configuration.getLastNumCard();
+        if(lastNumCarte != null) editText_barcode.setText(lastNumCarte);
     }
 
     /*
@@ -273,6 +272,9 @@ public class IdentificationFragment extends Fragment {
                                     DepotFragment depotFragment = DepotFragment.newInstance(editText_barcode.getText().toString());
                                     ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
                                 }
+
+                                //save the num card
+                                Configuration.saveLastNumCard(editText_barcode.getText().toString());
 
                             }
 

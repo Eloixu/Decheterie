@@ -1398,8 +1398,6 @@ public class DepotFragment extends Fragment {
     }
 
     public void initViewsNavigationDrawer(LayoutInflater inflater, ViewGroup container){
-        nd_vg = (ViewGroup) inflater.inflate(R.layout.activity_container, container, false);
-        NavigationView navigationView = (NavigationView) nd_vg.findViewById(R.id.navigation_view);
         ndLinearLayoutLine1 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line1);
         ndLinearLayoutLine2 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line2);
         ndLinearLayoutLine3 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line3);
@@ -1427,79 +1425,131 @@ public class DepotFragment extends Fragment {
             CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
             ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
             Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
-            UsagerHabitat usagerHabitat = usagerHabitatDB.getUsagerHabitatByUsagerId(usager.getId());
+            ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId());
 
             //case 1
-            if(usagerHabitat != null){
-                Habitat habitat = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
-                ndTextViewLine1Title.setText("Nom");
-                ndTextViewLine1Value.setText(habitat.getNom());
-                ndLinearLayoutLine2.setVisibility(View.GONE);
-                ndTextViewLine3Title.setText("Type d'usager");
-                ndTextViewLine3Value.setText(typeHabitatDB.getTypeHabitatFromID(habitat.getIdTypeHabitat()).getType());
-                ndTextViewLine4Title.setText("Adresse");
-                ndTextViewLine4Value.setText((habitat.getNumero()== null? "" : habitat.getNumero() + " " ) + (habitat.getComplement()== null? "" : habitat.getComplement() + " ") + (habitat.getAdresse()==null? "" : habitat.getAdresse()) + "\n"
-                                           + (habitat.getCp()==null? "" : habitat.getCp() + ", ") + (habitat.getVille()==null? "" : habitat.getVille()));
-                ndTextViewLine5Title.setText("Carte");
-                ndTextViewLine5Value.setText((dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom()==null? "" : dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom() + "\n")
-                                             +(carte.getNumCarte()==null? "" : carte.getNumCarte()));
-                if(accountSetting.isDecompteDepot()){
+            if(usagerHabitatList.size() != 0){
+                Habitat habitat = new Habitat();
+                //find the habitat who is actif
+                for(UsagerHabitat usagerHabitat: usagerHabitatList ){
+                    Habitat h = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
+                    if(h.isActif()){
+                        habitat = h;
+                        break;
+                    }
+                }
+                if(habitat.isActif()) {
+                    ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine3.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine4.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine5.setVisibility(View.VISIBLE);
                     ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-                    ndTextViewLine6Title.setText("Nb dépôt restant");
-                    ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
-                }
-                else{
-                    ndLinearLayoutLine6.setVisibility(View.GONE);
-                }
-                if(accountSetting.isDecompteUDD()){
                     ndLinearLayoutLine7.setVisibility(View.VISIBLE);
-                    ndTextViewLine7Title.setText("Apport restant");
-                    ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + (accountSetting.getUnitePoint()==null? "" : accountSetting.getUnitePoint()));
-                }
-                else{
-                    ndLinearLayoutLine7.setVisibility(View.GONE);
+                    ndTextViewLine1Title.setText("Nom");
+                    String nom = habitat.getNom();
+                    ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
+                    ndLinearLayoutLine2.setVisibility(View.GONE);
+                    ndTextViewLine3Title.setText("Type d'usager");
+                    String type = typeHabitatDB.getTypeHabitatFromID(habitat.getIdTypeHabitat()).getType();
+                    ndTextViewLine3Value.setText((type == null || type.isEmpty())? "-" : type);
+                    ndTextViewLine4Title.setText("Adresse");
+                    ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                            + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
+                    ndTextViewLine5Title.setText("Carte");
+                    String typeCarte = dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom();
+                    String numCarte = carte.getNumCarte();
+                    ndTextViewLine5Value.setText(( (typeCarte == null || typeCarte.isEmpty()) ? "-\n" : typeCarte + "\n")
+                                                + ((numCarte == null || numCarte.isEmpty()) ? "N° -" : "N° " + numCarte));
+                    if (accountSetting.isDecompteDepot()) {
+                        ndTextViewLine6Title.setText("Nb dépôt restant");
+                        ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
+                    } else {
+                        ndLinearLayoutLine6.setVisibility(View.GONE);
+                    }
+                    if (accountSetting.isDecompteUDD()) {
+                        ndTextViewLine7Title.setText("Apport restant");
+                        String unitePoint = accountSetting.getUnitePoint();
+                        ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : unitePoint));
+                    } else {
+                        ndLinearLayoutLine7.setVisibility(View.GONE);
+                    }
                 }
             }
             //case 2
             else {
-                UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByUsagerId(usager.getId());
-                if(usagerMenage != null){
-                    Menage menage = menageDB.getMenageById(usagerMenage.getMenageId());
-                    Local local = localDB.getLocalById(menage.getLocalId());
-                    Habitat habitat = habitatDB.getHabitatFromID(local.getHabitatId());
-                    ndTextViewLine1Title.setText("Nom");
-                    ndTextViewLine1Value.setText(menage.getNom());
-                    ndLinearLayoutLine2.setVisibility(View.VISIBLE);
-                    ndTextViewLine2Title.setText("Prénom");
-                    ndTextViewLine2Value.setText(menage.getPrenom());
-                    ndTextViewLine3Title.setText("Type d'usager");
-                    ndTextViewLine3Value.setText("Particulier");
-                    ndTextViewLine4Title.setText("Adresse");
-                    ndTextViewLine4Value.setText((habitat.getNumero()== null? "" : habitat.getNumero() + " " ) + (habitat.getComplement()== null? "" : habitat.getComplement() + " ") + (habitat.getAdresse()==null? "" : habitat.getAdresse()) + "\n"
-                            + (habitat.getCp()==null? "" : habitat.getCp() + ", ") + (habitat.getVille()==null? "" : habitat.getVille()));
-                    ndTextViewLine5Title.setText("Carte");
-                    ndTextViewLine5Value.setText((dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom()==null? "" : dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom() + "\n")
-                            +(carte.getNumCarte()==null? "" : carte.getNumCarte()));
-                    if(accountSetting.isDecompteDepot()){
+                ArrayList<UsagerMenage> usagerMenageList = usagerMenageDB.getListUsagerMenageByUsagerId(usager.getId());
+                if(usagerMenageList.size() != 0){
+                    Habitat habitat = new Habitat();
+                    Menage menage = new Menage();
+                    Local local = new Local();
+                    //find the menage actif then the habitat actif
+                    for(UsagerMenage usagerMenage: usagerMenageList ){
+                        Menage m = menageDB.getMenageById(usagerMenage.getMenageId());
+                        if(m.isActif()){
+                            menage = m;
+                            Local l = localDB.getLocalById(m.getLocalId());
+                            Habitat h = habitatDB.getHabitatFromID(l.getHabitatId());
+                            if(h.isActif()){
+                                habitat = h;
+                                local = l;
+                            }
+                            break;
+                        }
+
+                    }
+                    if(menage.isActif()) {
+                        ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine3.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine4.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine5.setVisibility(View.VISIBLE);
                         ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-                        ndTextViewLine6Title.setText("Nb dépôt restant");
-                        ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
-                    }
-                    else{
-                        ndLinearLayoutLine6.setVisibility(View.GONE);
-                    }
-                    if(accountSetting.isDecompteUDD()){
                         ndLinearLayoutLine7.setVisibility(View.VISIBLE);
-                        ndTextViewLine7Title.setText("Apport restant");
-                        ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + (accountSetting.getUnitePoint()==null? "" : accountSetting.getUnitePoint()));
-                    }
-                    else{
-                        ndLinearLayoutLine7.setVisibility(View.GONE);
+                        ndTextViewLine1Title.setText("Nom");
+                        String nom = menage.getNom();
+                        ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
+                        ndTextViewLine2Title.setText("Prénom");
+                        String prenom = menage.getPrenom();
+                        ndTextViewLine2Value.setText((prenom == null || prenom.isEmpty())? "-" : prenom);
+                        ndTextViewLine3Title.setText("Type d'usager");
+                        ndTextViewLine3Value.setText("Particulier");
+                        if(habitat.isActif()) {
+                            ndTextViewLine4Title.setText("Adresse");
+                            ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                                    + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
+                        }
+                        else{
+                            ndLinearLayoutLine4.setVisibility(View.GONE);
+                        }
+                        ndTextViewLine5Title.setText("Carte");
+                        String typeCarte = dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom();
+                        String numCarte = carte.getNumCarte();
+                        ndTextViewLine5Value.setText(( (typeCarte == null || typeCarte.isEmpty()) ? "-\n" : typeCarte + "\n")
+                                + ((numCarte == null || numCarte.isEmpty()) ? "N° -" : "N° " + numCarte));
+                        if (accountSetting.isDecompteDepot()) {
+                            ndTextViewLine6Title.setText("Nb dépôt restant");
+                            ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
+                        } else {
+                            ndLinearLayoutLine6.setVisibility(View.GONE);
+                        }
+                        if (accountSetting.isDecompteUDD()) {
+                            ndTextViewLine7Title.setText("Apport restant");
+                            String unitePoint = accountSetting.getUnitePoint();
+                            ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : unitePoint));
+                        } else {
+                            ndLinearLayoutLine7.setVisibility(View.GONE);
+                        }
                     }
                 }
                 //case 3
                 else{
-
+                    ndLinearLayoutLine2.setVisibility(View.GONE);
+                    ndLinearLayoutLine3.setVisibility(View.GONE);
+                    ndLinearLayoutLine4.setVisibility(View.GONE);
+                    ndLinearLayoutLine5.setVisibility(View.GONE);
+                    ndLinearLayoutLine6.setVisibility(View.GONE);
+                    ndLinearLayoutLine7.setVisibility(View.GONE);
+                    ndTextViewLine1Title.setText("Nom");
+                    ndTextViewLine1Value.setText(usager.getNom());
                 }
             }
         }

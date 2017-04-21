@@ -1174,10 +1174,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         //add habitat into BDD
         habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4));
         habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2));
-        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",true,null,null,null,1));
-        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",true,null,null,null,1));
-        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",true,null,null,null,4));
-        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",true,null,null,null,2));
+        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1));
+        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1));
+        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4));
+        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2));
         habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4));
         habitatDB.close();
 
@@ -1187,24 +1187,30 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",0,true,"0605040302","M",3));
         menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,0,true,"0345678991","M",3));
         menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,0,true,"0634217690","M",2));
-        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,0,true,"0123456789","M",1));
-        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,0,true,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,0,false,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,0,false,"0123456789","M",1));
         menageDB.close();
 
         //add local into DBB
-        localDB.insertLocal(new Local(1,3,null,null,null,null,null));
+        localDB.insertLocal(new Local(1,6,null,null,null,null,null));
         localDB.insertLocal(new Local(2,2,null,null,null,null,null));
-        localDB.insertLocal(new Local(3,5,null,null,null,null,null));
+        localDB.insertLocal(new Local(3,2,null,null,null,null,null));
         localDB.close();
 
         //add usagerHabitat into BDD
-        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));//habitat1 actif
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,4));//habitat4 not actif
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,5));//habitat5 not actif
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
         //usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
+
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
         usagerHabitatDB.close();
 
         //add usagerMenage into BDD
-        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,3));
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,3));//menage3 habitat2 actif
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,6));//menage6 habitat3 not actif
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,7));//menage7 habitat6 not actif
         usagerMenageDB.close();
     }
 

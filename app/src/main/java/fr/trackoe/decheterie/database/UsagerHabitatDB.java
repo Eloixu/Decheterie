@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 
 /**
@@ -43,6 +45,14 @@ public class UsagerHabitatDB extends MyDb {
         return usagerHabitat;
     }
 
+    public ArrayList<UsagerHabitat> getListUsagerHabitatByUsagerId(int usagerId) {
+        ArrayList<UsagerHabitat> usagerHabitatList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId;
+        Cursor cursor = db.rawQuery(query, null);
+        usagerHabitatList = cursorToListUsagerHabitat(cursor);
+        return usagerHabitatList;
+    }
+
     private UsagerHabitat cursorToUsagerHabitat(Cursor c){
         if(c.moveToFirst()){
             UsagerHabitat u = new UsagerHabitat();
@@ -56,6 +66,22 @@ public class UsagerHabitatDB extends MyDb {
             return null;
         }
 
+    }
+
+    private ArrayList<UsagerHabitat> cursorToListUsagerHabitat(Cursor c) {
+        ArrayList<UsagerHabitat> usagerHabitatList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                UsagerHabitat u = new UsagerHabitat();
+                u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
+                u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
+                usagerHabitatList.add(u);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return usagerHabitatList;
     }
 
 

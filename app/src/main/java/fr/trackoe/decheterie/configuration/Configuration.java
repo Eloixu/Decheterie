@@ -50,6 +50,14 @@ public abstract class Configuration {
         return params.getString(Const.NAME_DECHETERIE, "");
     }
 
+    public static void saveLastNumCard(String numCarte) {
+        params.edit().putString(Const.LAST_NUM_CARD, numCarte).commit();
+    }
+
+    public static String getLastNumCard() {
+        return params.getString(Const.LAST_NUM_CARD, "");
+    }
+
     public static Boolean getIsOuiClicked() {
         return params.getBoolean(Const.IS_OUI_CLICKED, false);
     }

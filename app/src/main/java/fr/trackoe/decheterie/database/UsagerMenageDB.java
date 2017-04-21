@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 
 /**
@@ -43,18 +45,42 @@ Vider la table
         return usagerMenage;
     }
 
+    public ArrayList<UsagerMenage> getListUsagerMenageByUsagerId(int usagerId) {
+        ArrayList<UsagerMenage> usagerMenageList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerMenage.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerMenage.ID_USAGER + "=" + usagerId;
+        Cursor cursor = db.rawQuery(query, null);
+        usagerMenageList = cursorToListUsagerMenage(cursor);
+        return usagerMenageList;
+    }
+
     private UsagerMenage cursorToUsagerMenage(Cursor c){
-        if(c.getCount() == 0) {
+        if(c.moveToFirst()) {
+            UsagerMenage u = new UsagerMenage();
+            u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerMenage.NUM_ID_USAGER));
+            u.setMenageId(c.getInt(DecheterieDatabase.TableUsagerMenage.NUM_ID_MENAGE));
+            c.close();
+            return u;
+        }
+        else{
+            c.close();
             return null;
         }
-        c.moveToFirst();
-        UsagerMenage u = new UsagerMenage();
-        u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerMenage.NUM_ID_USAGER));
-        u.setMenageId(c.getInt(DecheterieDatabase.TableUsagerMenage.NUM_ID_MENAGE));
+    }
 
-        c.close();
+    private ArrayList<UsagerMenage> cursorToListUsagerMenage(Cursor c) {
+        ArrayList<UsagerMenage> usagerMenageList = new ArrayList<>();
 
-        return u;
+        if (c.moveToFirst()) {
+            do {
+                UsagerMenage u = new UsagerMenage();
+                u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerMenage.NUM_ID_USAGER));
+                u.setMenageId(c.getInt(DecheterieDatabase.TableUsagerMenage.NUM_ID_MENAGE));
+                usagerMenageList.add(u);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return usagerMenageList;
     }
 
 
