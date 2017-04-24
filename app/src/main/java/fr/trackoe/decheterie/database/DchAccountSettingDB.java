@@ -32,6 +32,7 @@ public class DchAccountSettingDB extends MyDb {
         values.put(DecheterieDatabase.TableDchAccountSetting.PAGE_SIGNATURE, accountSetting.isPageSignature());
         values.put(DecheterieDatabase.TableDchAccountSetting.COUT_UDD_PR_POINT, accountSetting.getCoutUDDPrPoint());
         values.put(DecheterieDatabase.TableDchAccountSetting.COUT_POINT, accountSetting.getCoutPoint());
+        values.put(DecheterieDatabase.TableDchAccountSetting.UNITE_POINT, accountSetting.getUnitePoint());
         values.put(DecheterieDatabase.TableDchAccountSetting.DATE_DEBUT_PARAM, accountSetting.getDateDebutParam());
         values.put(DecheterieDatabase.TableDchAccountSetting.DATE_FIN_PARAM, accountSetting.getDateFinParam());
         values.put(DecheterieDatabase.TableDchAccountSetting.DCH_CHOIX_DECOMPTE_TOTAL_ID, accountSetting.getDchChoixDecompteTotalId());
@@ -67,6 +68,7 @@ public class DchAccountSettingDB extends MyDb {
             a.setPageSignature(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_PAGE_SIGNATURE) == 1);
             a.setCoutUDDPrPoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_COUT_UDD_PR_POINT));
             a.setCoutPoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_COUT_POINT));
+            a.setUnitePoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_UNITE_POINT));
             a.setDateDebutParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_DEBUT_PARAM));
             a.setDateFinParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_FIN_PARAM));
             a.setDchChoixDecompteTotalId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID));
@@ -90,6 +92,7 @@ public class DchAccountSettingDB extends MyDb {
                 a.setPageSignature(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_PAGE_SIGNATURE) == 1);
                 a.setCoutUDDPrPoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_COUT_UDD_PR_POINT));
                 a.setCoutPoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_COUT_POINT));
+                a.setUnitePoint(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_UNITE_POINT));
                 a.setDateDebutParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_DEBUT_PARAM));
                 a.setDateFinParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_FIN_PARAM));
                 a.setDchChoixDecompteTotalId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID));

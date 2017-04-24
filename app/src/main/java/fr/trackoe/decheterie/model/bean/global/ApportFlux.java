@@ -7,24 +7,27 @@ package fr.trackoe.decheterie.model.bean.global;
 public class ApportFlux {
     private long depotId;
     private int fluxId;
-    private float qtyApporte;
+    private float qtyComptage;
+    private float qtyUDD;
     private boolean isSent;
 
     public ApportFlux() {
 
     }
 
-    public ApportFlux(long depotId, int fluxId, float qtyApporte, boolean isSent) {
+    public ApportFlux(long depotId, int fluxId, float qtyComptage, float qtyUDD, boolean isSent) {
         this.depotId = depotId;
         this.fluxId = fluxId;
-        this.qtyApporte = qtyApporte;
+        this.qtyComptage = qtyComptage;
+        this.qtyUDD = qtyUDD;
         this.isSent = isSent;
     }
 
-    public ApportFlux(long depotId, int fluxId, float qtyApporte) {
+    public ApportFlux(long depotId, int fluxId, float qtyComptage, float qtyUDD) {
         this.depotId = depotId;
         this.fluxId = fluxId;
-        this.qtyApporte = qtyApporte;
+        this.qtyComptage = qtyComptage;
+        this.qtyUDD = qtyUDD;
     }
 
     public long getDepotId() {
@@ -43,12 +46,20 @@ public class ApportFlux {
         this.fluxId = fluxId;
     }
 
-    public float getQtyApporte() {
-        return qtyApporte;
+    public float getQtyComptage() {
+        return qtyComptage;
     }
 
-    public void setQtyApporte(float qtyApporte) {
-        this.qtyApporte = qtyApporte;
+    public void setQtyComptage(float qtyComptage) {
+        this.qtyComptage = qtyComptage;
+    }
+
+    public float getQtyUDD() {
+        return qtyUDD;
+    }
+
+    public void setQtyUDD(float qtyUDD) {
+        this.qtyUDD = qtyUDD;
     }
 
     public boolean isSent() {

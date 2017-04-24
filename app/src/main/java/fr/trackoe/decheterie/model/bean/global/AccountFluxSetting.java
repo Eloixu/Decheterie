@@ -8,16 +8,20 @@ public class AccountFluxSetting {
     private int dchAccountSettingId;
     private int dchFluxId;
     private boolean convertComptagePrUDD;
+    private boolean decompteUDD;
+    private boolean decompteComptage;
     private String coutUCPrPoint;
 
     public AccountFluxSetting() {
 
     }
 
-    public AccountFluxSetting(int dchAccountSettingId, int dchFluxId, boolean convertComptagePrUDD, String coutUCPrPoint) {
+    public AccountFluxSetting(int dchAccountSettingId, int dchFluxId, boolean convertComptagePrUDD, boolean decompteUDD, boolean decompteComptage, String coutUCPrPoint) {
         this.dchAccountSettingId = dchAccountSettingId;
         this.dchFluxId = dchFluxId;
         this.convertComptagePrUDD = convertComptagePrUDD;
+        this.decompteUDD = decompteUDD;
+        this.decompteComptage = decompteComptage;
         this.coutUCPrPoint = coutUCPrPoint;
     }
 
@@ -43,6 +47,22 @@ public class AccountFluxSetting {
 
     public void setConvertComptagePrUDD(boolean convertComptagePrUDD) {
         this.convertComptagePrUDD = convertComptagePrUDD;
+    }
+
+    public boolean isDecompteUDD() {
+        return decompteUDD;
+    }
+
+    public void setDecompteUDD(boolean decompteUDD) {
+        this.decompteUDD = decompteUDD;
+    }
+
+    public boolean isDecompteComptage() {
+        return decompteComptage;
+    }
+
+    public void setDecompteComptage(boolean decompteComptage) {
+        this.decompteComptage = decompteComptage;
     }
 
     public String getCoutUCPrPoint() {

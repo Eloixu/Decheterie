@@ -1143,19 +1143,19 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,null,null,null,"170101","171230",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,null,"170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,null,"170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,null,"170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,null,null,"unitePoint1","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,"unitePoint2","170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,"unitePoint3","170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,"unitePoint4","170101","171230",0,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,false,false,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,false,false,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,false,false,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,false,false,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,false,false,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,false,false,false,null));
         dchAccountFluxSettingDB.close();
 
         //add unite into BDD

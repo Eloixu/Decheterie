@@ -255,14 +255,20 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_DCH_FLUX_ID = 1;
         public static final String CONVERT_COMPTAGE_PR_UDD = "convert_comptage_pr_UDD";
         public static final int NUM_CONVERT_COMPTAGE_PR_UDD = 2;
+        public static final String DECOMPTE_UDD = "decompte_UDD";
+        public static final int NUM_DECOMPTE_UDD = 3;
+        public static final String DECOMPTE_COMPTAGE = "decompte_comptage";
+        public static final int NUM_DECOMPTE_COMPTAGE = 4;
         public static final String COUT_UC_PR_POINT = "cout_UC_pr_point";
-        public static final int NUM_COUT_UC_PR_POINT = 3;
+        public static final int NUM_COUT_UC_PR_POINT = 5;
     }
 
     public static final String CREATE_TABLE_DCH_ACCOUNT_FLUX_SETTING = "CREATE TABLE IF NOT EXISTS " + TableDchAccountFluxSetting.TABLE_NAME + " ("
             + TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountFluxSetting.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountFluxSetting.DECOMPTE_UDD + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountFluxSetting.DECOMPTE_COMPTAGE + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountFluxSetting.COUT_UC_PR_POINT + TEXT_TYPE + " )" ;
 
     private static final String DELETE_TABLE_DCH_ACCOUNT_FLUX_SETTING = "DROP TABLE IF EXISTS " + TableDchAccountFluxSetting.TABLE_NAME;
@@ -384,17 +390,20 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_DCH_DEPOT_ID = 0;
         public static final String DCH_FLUX_ID = "dch_flux_id";
         public static final int NUM_DCH_FLUX_ID = 1;
-        public static final String QTY_APPORTE = "qty_apporte";
-        public static final int NUM_QTY_APPORTE = 2;
+        public static final String QTY_COMPTAGE = "qty_comptage";
+        public static final int NUM_QTY_COMPTAGE = 2;
+        public static final String QTY_UDD = "qty_UDD";
+        public static final int NUM_QTY_UDD = 3;
         public static final String IS_SENT = "is_sent";
-        public static final int NUM_IS_SENT = 3;
+        public static final int NUM_IS_SENT = 4;
 
     }
 
     public static final String CREATE_TABLE_DCH_APPORT_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchApportFlux.TABLE_DCH_APPORT_FLUX + " ("
             + TableDchApportFlux.DCH_DEPOT_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchApportFlux.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
-            + TableDchApportFlux.QTY_APPORTE + FLOAT_TYPE + COMMA_SEP
+            + TableDchApportFlux.QTY_COMPTAGE + FLOAT_TYPE + COMMA_SEP
+            + TableDchApportFlux.QTY_UDD + FLOAT_TYPE + COMMA_SEP
             + TableDchApportFlux.IS_SENT + INTEGER_TYPE + COMMA_SEP
             + "CONSTRAINT PK PRIMARY KEY (dch_depot_id, dch_flux_id)" + " )" ;
 

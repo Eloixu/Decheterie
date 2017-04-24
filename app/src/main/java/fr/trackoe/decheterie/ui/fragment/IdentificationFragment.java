@@ -218,11 +218,11 @@ public class IdentificationFragment extends Fragment {
                     } else {
                         CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
                         if (carteActive == null) {
-                            //pop-up2
+                            //pop-up3
                             CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                            builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
+                            builder.setMessage("\nCette carte n'est pas associée à aucun d'usager.");
                             builder.setTitle("Information");
-                            builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton("Distribuer", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                     //设置你的操作事项
