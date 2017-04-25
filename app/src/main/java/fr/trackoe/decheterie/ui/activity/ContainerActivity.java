@@ -1046,28 +1046,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         iconDB.close();
 
         //add flux into DBB
-        dchFluxDB.insertFlux(new Flux("Amiante", 1));
-        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2));
-        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3));
-        dchFluxDB.insertFlux(new Flux("Carton + papier", 4));
-        dchFluxDB.insertFlux(new Flux("Carton", 5));
-        dchFluxDB.insertFlux(new Flux("DEEE", 6));
-        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7));
-        dchFluxDB.insertFlux(new Flux("Encombrants", 8));
-        dchFluxDB.insertFlux(new Flux("Feuilles", 9));
-        dchFluxDB.insertFlux(new Flux("Gaz", 10));
-        dchFluxDB.insertFlux(new Flux("Journaux", 11));
-        dchFluxDB.insertFlux(new Flux("Metal", 12));
-        dchFluxDB.insertFlux(new Flux("Meuble", 13));
-        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14));
-        dchFluxDB.insertFlux(new Flux("Plastique", 15));
-        dchFluxDB.insertFlux(new Flux("Pneu", 16));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18));
-        dchFluxDB.insertFlux(new Flux("Sac plastique", 19));
-        dchFluxDB.insertFlux(new Flux("Sac", 20));
-        dchFluxDB.insertFlux(new Flux("Verre", 21));
-        dchFluxDB.insertFlux(new Flux("Vêtements", 22));
+        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3));
+        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3));
+        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3));
+        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3));
+        dchFluxDB.insertFlux(new Flux("Carton", 5, 3));
+        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3));
+        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3));
+        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3));
+        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3));
+        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3));
+        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3));
+        dchFluxDB.insertFlux(new Flux("Metal", 12, 3));
+        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3));
+        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3));
+        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3));
+        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3));
+        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3));
+        dchFluxDB.insertFlux(new Flux("Sac", 20, 3));
+        dchFluxDB.insertFlux(new Flux("Verre", 21, 3));
+        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3));
         dchFluxDB.close();
 
         //add dechetrie_flux into DBB
@@ -1150,17 +1150,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,false,false,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,false,false,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,false,false,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,false,false,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,false,false,false,null));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,false,false,false,null));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,false,true,0));//line 1
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,0,true,false,0));//line 2
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,0,true,true,0));//line 1 line 2
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,0,false,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,0,false,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,0,false,false,0));
         dchAccountFluxSettingDB.close();
 
         //add unite into BDD
         dchUniteDB.insertUnite(new Unite(1,"m3"));
         dchUniteDB.insertUnite(new Unite(2,"kg"));
+        dchUniteDB.insertUnite(new Unite(3,"uniteApp"));
         dchUniteDB.close();
 
         //add typeHabitat into BDD

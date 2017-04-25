@@ -27,7 +27,9 @@ public class DchFluxDB extends MyDb {
 
         //values.put(DecheterieDatabase.TableDchFlux.ID, flux.getId());
         values.put(DecheterieDatabase.TableDchFlux.NOM, flux.getNom());
-        values.put(DecheterieDatabase.TableDchFlux.ICON_ID, flux.getIcon_id());
+        values.put(DecheterieDatabase.TableDchFlux.ICON_ID, flux.getIconId());
+        values.put(DecheterieDatabase.TableDchFlux.UNITE_COMPTAGE_ID, flux.getUniteComptageId());
+
 
         return db.insertOrThrow(DecheterieDatabase.TableDchFlux.TABLE_DCH_FLUX, null, values);
     }
@@ -81,7 +83,8 @@ public class DchFluxDB extends MyDb {
         Flux f = new Flux();
         f.setId(c.getInt(DecheterieDatabase.TableDchFlux.NUM_ID));
         f.setNom(c.getString(DecheterieDatabase.TableDchFlux.NUM_NOM));
-        f.setIcon_id(c.getInt(DecheterieDatabase.TableDchFlux.NUM_ICON_ID));
+        f.setIconId(c.getInt(DecheterieDatabase.TableDchFlux.NUM_ICON_ID));
+        f.setUniteComptageId(c.getInt(DecheterieDatabase.TableDchFlux.NUM_UNITE_COMPTAGE_ID));
 
         c.close();
 
@@ -96,7 +99,8 @@ public class DchFluxDB extends MyDb {
                 Flux f = new Flux();
                 f.setId(c.getInt(DecheterieDatabase.TableDchFlux.NUM_ID));
                 f.setNom(c.getString(DecheterieDatabase.TableDchFlux.NUM_NOM));
-                f.setIcon_id(c.getInt(DecheterieDatabase.TableDchFlux.NUM_ICON_ID));
+                f.setIconId(c.getInt(DecheterieDatabase.TableDchFlux.NUM_ICON_ID));
+                f.setUniteComptageId(c.getInt(DecheterieDatabase.TableDchFlux.NUM_UNITE_COMPTAGE_ID));
                 fluxList.add(f);
             } while (c.moveToNext());
 

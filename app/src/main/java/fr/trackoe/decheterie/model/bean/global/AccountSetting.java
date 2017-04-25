@@ -8,7 +8,7 @@ public class AccountSetting {
     private int id;
     private int dchAccountId;
     private int dchTypeCarteId;
-    private int dchUniteId;
+    private int uniteDepotDecheterieId;
     private boolean decompteDepot;
     private boolean decompteUDD;
     private boolean pageSignature;
@@ -24,11 +24,11 @@ public class AccountSetting {
 
     }
 
-    public AccountSetting(int id, int dchAccountId, int dchTypeCarteId, int dchUniteId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, String coutUDDPrPoint, String coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant) {
+    public AccountSetting(int id, int dchAccountId, int dchTypeCarteId, int uniteDepotDecheterieId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, String coutUDDPrPoint, String coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant) {
         this.id = id;
         this.dchAccountId = dchAccountId;
         this.dchTypeCarteId = dchTypeCarteId;
-        this.dchUniteId = dchUniteId;
+        this.uniteDepotDecheterieId = uniteDepotDecheterieId;
         this.decompteDepot = decompteDepot;
         this.decompteUDD = decompteUDD;
         this.pageSignature = pageSignature;
@@ -65,12 +65,12 @@ public class AccountSetting {
         this.dchTypeCarteId = dchTypeCarteId;
     }
 
-    public int getDchUniteId() {
-        return dchUniteId;
+    public int getUniteDepotDecheterieId() {
+        return uniteDepotDecheterieId;
     }
 
-    public void setDchUniteId(int dchUniteId) {
-        this.dchUniteId = dchUniteId;
+    public void setUniteDepotDecheterieId(int uniteDepotDecheterieId) {
+        this.uniteDepotDecheterieId = uniteDepotDecheterieId;
     }
 
     public boolean isDecompteDepot() {

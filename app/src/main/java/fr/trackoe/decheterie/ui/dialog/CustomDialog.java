@@ -32,23 +32,36 @@ public class CustomDialog extends Dialog {
         private Context context;
         private String title;
         private String message;
+        private LinearLayout dialogLinearlayoutLine1;
+        private LinearLayout dialogLinearlayoutLine2;
+        private LinearLayout dialogLinearlayoutLine3;
+        private boolean visibilityLine1;
+        private boolean visibilityLine2;
+        private boolean visibilityLine3;
         private String positiveButtonText;
         private String negativeButtonText;
         private String iconName;
-        private EditText editTextQuantiteFlux;
-        private String editTextQtyFlux;
+        private EditText editTextQuantiteApporte;
+        private String editTextQtyApporte;
+        private EditText editTextQuantiteDecompte;
+        private String editTextQtyDecompte;
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
-        private String uniteFlux;
+        private String uniteApporte;
+        private String uniteDecompte;
 
         public Builder(Context context) {
             this.context = context;
         }
 
 
-        public EditText getEditTextQuantiteFlux() {
-            return editTextQuantiteFlux;
+        public EditText getEditTextQuantiteApporte() {
+            return editTextQuantiteApporte;
+        }
+
+        public EditText getEditTextQuantiteDecompte() {
+            return editTextQuantiteDecompte;
         }
 
         public Builder setIconName(String iconName) {
@@ -56,20 +69,40 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
-        public Builder setEditTextQtyFlux(String editTextQtyFlux) {
-            this.editTextQtyFlux = editTextQtyFlux;
+        public Builder setEditTextQtyApporte(String editTextQtyApporte) {
+            this.editTextQtyApporte = editTextQtyApporte;
             return this;
         }
 
+        public Builder setEditTextQtyDecompte(String editTextQtyDecompte) {
+            this.editTextQtyDecompte = editTextQtyDecompte;
+            return this;
+        }
 
+        public void setVisibilityLine1(boolean visibilityLine1) {
+            this.visibilityLine1 = visibilityLine1;
+        }
+
+        public void setVisibilityLine2(boolean visibilityLine2) {
+            this.visibilityLine2 = visibilityLine2;
+        }
+
+        public void setVisibilityLine3(boolean visibilityLine3) {
+            this.visibilityLine3 = visibilityLine3;
+        }
 
         public Builder setMessage(String message) {
             this.message = message;
             return this;
         }
 
-        public Builder setUniteFlux(String uniteFlux) {
-            this.uniteFlux = uniteFlux;
+        public Builder setUniteApporte(String uniteApporte) {
+            this.uniteApporte = uniteApporte;
+            return this;
+        }
+
+        public Builder setUniteDecompte(String uniteDecompte) {
+            this.uniteDecompte = uniteDecompte;
             return this;
         }
 
@@ -151,15 +184,29 @@ public class CustomDialog extends Dialog {
             dialog.addContentView(layout, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
             ((TextView) layout.findViewById(R.id.title)).setText(title);
-            editTextQuantiteFlux = ((EditText) layout.findViewById(R.id.editText_quantite_flux));
-            editTextQuantiteFlux.setText(editTextQtyFlux);
+            editTextQuantiteApporte = ((EditText) layout.findViewById(R.id.editText_quantite_apporte));
+            editTextQuantiteDecompte = ((EditText) layout.findViewById(R.id.editText_quantite_decompte));
+            editTextQuantiteApporte.setText(editTextQtyApporte);
+            editTextQuantiteDecompte.setText(editTextQtyDecompte);
+            dialogLinearlayoutLine1 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line1);
+            if(!visibilityLine1) dialogLinearlayoutLine1.setVisibility(View.GONE);
+            dialogLinearlayoutLine2 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line2);
+            if(!visibilityLine2) dialogLinearlayoutLine2.setVisibility(View.GONE);
+            dialogLinearlayoutLine3 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line3);
+            if(!visibilityLine3) dialogLinearlayoutLine3.setVisibility(View.GONE);
+
             // set the icon image
             if(!iconName.isEmpty() && iconName != null)
             ((ImageView) layout.findViewById(R.id.imageView_flux_item_dialog)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
-            //set the unite flux
-            if(uniteFlux != null) {
-                if(!uniteFlux.isEmpty())
-                ((TextView) layout.findViewById(R.id.textView_unite_flux)).setText(uniteFlux);
+            //set the unite apporté
+            if(uniteApporte != null) {
+                if(!uniteApporte.isEmpty())
+                ((TextView) layout.findViewById(R.id.textView_unite_line1)).setText(uniteApporte);
+            }
+            //set the unite décompté
+            if(uniteDecompte != null) {
+                if(!uniteDecompte.isEmpty())
+                    ((TextView) layout.findViewById(R.id.textView_unite_line2)).setText(uniteDecompte);
             }
             // set the confirm button
             if (positiveButtonText != null) {

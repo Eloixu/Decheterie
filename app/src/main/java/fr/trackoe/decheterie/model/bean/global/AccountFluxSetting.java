@@ -7,16 +7,16 @@ package fr.trackoe.decheterie.model.bean.global;
 public class AccountFluxSetting {
     private int dchAccountSettingId;
     private int dchFluxId;
-    private boolean convertComptagePrUDD;
+    private float convertComptagePrUDD;
     private boolean decompteUDD;
     private boolean decompteComptage;
-    private String coutUCPrPoint;
+    private float coutUCPrPoint;
 
     public AccountFluxSetting() {
 
     }
 
-    public AccountFluxSetting(int dchAccountSettingId, int dchFluxId, boolean convertComptagePrUDD, boolean decompteUDD, boolean decompteComptage, String coutUCPrPoint) {
+    public AccountFluxSetting(int dchAccountSettingId, int dchFluxId, float convertComptagePrUDD, boolean decompteUDD, boolean decompteComptage, float coutUCPrPoint) {
         this.dchAccountSettingId = dchAccountSettingId;
         this.dchFluxId = dchFluxId;
         this.convertComptagePrUDD = convertComptagePrUDD;
@@ -41,11 +41,11 @@ public class AccountFluxSetting {
         this.dchFluxId = dchFluxId;
     }
 
-    public boolean isConvertComptagePrUDD() {
+    public float getConvertComptagePrUDD() {
         return convertComptagePrUDD;
     }
 
-    public void setConvertComptagePrUDD(boolean convertComptagePrUDD) {
+    public void setConvertComptagePrUDD(float convertComptagePrUDD) {
         this.convertComptagePrUDD = convertComptagePrUDD;
     }
 
@@ -65,11 +65,11 @@ public class AccountFluxSetting {
         this.decompteComptage = decompteComptage;
     }
 
-    public String getCoutUCPrPoint() {
+    public float getCoutUCPrPoint() {
         return coutUCPrPoint;
     }
 
-    public void setCoutUCPrPoint(String coutUCPrPoint) {
+    public void setCoutUCPrPoint(float coutUCPrPoint) {
         this.coutUCPrPoint = coutUCPrPoint;
     }
 }

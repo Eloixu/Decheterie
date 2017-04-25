@@ -7,21 +7,24 @@ package fr.trackoe.decheterie.model.bean.global;
 public class Flux {
     private int id;
     private String nom;
-    private int icon_id;
+    private int iconId;
+    private int uniteComptageId;
 
     public Flux() {
 
     }
 
-    public Flux(int id, String nom, int icon_id) {
+    public Flux(int id, String nom, int iconId, int uniteComptageId) {
         this.id = id;
         this.nom = nom;
-        this.icon_id = icon_id;
+        this.iconId = iconId;
+        this.uniteComptageId = uniteComptageId;
     }
 
-    public Flux(String nom, int icon_id) {
+    public Flux(String nom, int iconId, int uniteComptageId) {
         this.nom = nom;
-        this.icon_id = icon_id;
+        this.iconId = iconId;
+        this.uniteComptageId = uniteComptageId;
     }
 
     public int getId() {
@@ -40,11 +43,19 @@ public class Flux {
         this.nom = nom;
     }
 
-    public int getIcon_id() {
-        return icon_id;
+    public int getIconId() {
+        return iconId;
     }
 
-    public void setIcon_id(int icon_id) {
-        this.icon_id = icon_id;
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
+    }
+
+    public int getUniteComptageId() {
+        return uniteComptageId;
+    }
+
+    public void setUniteComptageId(int uniteComptageId) {
+        this.uniteComptageId = uniteComptageId;
     }
 }

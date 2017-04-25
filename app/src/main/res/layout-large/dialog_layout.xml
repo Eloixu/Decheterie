@@ -49,6 +49,7 @@
                 android:layout_marginStart="110dp"/>
 
             <LinearLayout
+                android:id="@+id/dialog_linearlayout_line1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -58,8 +59,8 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:id="@+id/textView_quantite_flux"
-                    android:text="Quantité:   "
+                    android:id="@+id/textView_quantite_apporte"
+                    android:text="Quantité apporté:   "
                     style="@style/text_16_666666"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -68,7 +69,7 @@
                     android:layout_weight="0.4"/>
 
                 <EditText
-                    android:id="@+id/editText_quantite_flux"
+                    android:id="@+id/editText_quantite_apporte"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -78,10 +79,10 @@
                     android:ems="10"
                     android:layout_gravity="left"
                     android:layout_marginEnd="15dp"
-                    android:layout_weight="0.4"/>
+                    android:layout_weight="0.23"/>
 
                 <TextView
-                    android:id="@+id/textView_unite_flux"
+                    android:id="@+id/textView_unite_line1"
                     android:text="unite"
                     style="@style/text_16_666666"
                     android:layout_width="0dp"
@@ -89,17 +90,71 @@
                     android:gravity="left|center"
                     android:layout_weight="0.2"/>
 
-                <Button
-                    android:id="@+id/negativeButton"
-                    style="@style/text_15_666666_sdw"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/delete"
-                    android:gravity="right"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="200dp"
-                    android:layout_marginEnd="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dialog_linearlayout_line2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/textView_quantite_decompte"
+                    android:text="Quantité décompté:   "
+                    style="@style/text_16_666666"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_marginStart="110dp"
+                    android:layout_weight="0.4"/>
+
+                <EditText
+                    android:id="@+id/editText_quantite_decompte"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""
+                    android:inputType="numberDecimal"
+                    android:maxLength="7"
+                    android:ems="10"
+                    android:layout_gravity="left"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="0.23"/>
+
+                <TextView
+                    android:id="@+id/textView_unite_line2"
+                    android:text="unite"
+                    style="@style/text_16_666666"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_weight="0.2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dialog_linearlayout_line3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:id="@+id/textView_line3"
+                    android:text="La quantité décompté est "
+                    style="@style/text_16_666666"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_marginStart="110dp"/>
+
             </LinearLayout>
 
 
@@ -112,6 +167,17 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="3dp"
                 android:layout_gravity="left" />
+
+            <Button
+                android:id="@+id/negativeButton"
+                style="@style/text_15_666666_sdw"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/delete"
+                android:layout_gravity="right|bottom"
+                android:textColor="@color/white"
+                android:layout_marginStart="200dp"
+                android:layout_marginEnd="10dp"/>
         </FrameLayout>
 
         <View

@@ -23,7 +23,7 @@ public class DchAccountFluxSettingDB extends MyDb {
         ContentValues values = new ContentValues();
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID, accountFluxSetting.getDchAccountSettingId());
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.DCH_FLUX_ID, accountFluxSetting.getDchFluxId());
-        values.put(DecheterieDatabase.TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD, accountFluxSetting.isConvertComptagePrUDD()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD, accountFluxSetting.getConvertComptagePrUDD());
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.DECOMPTE_UDD, accountFluxSetting.isDecompteUDD()? 1 : 0);
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.DECOMPTE_COMPTAGE, accountFluxSetting.isDecompteComptage()? 1 : 0);
         values.put(DecheterieDatabase.TableDchAccountFluxSetting.COUT_UC_PR_POINT, accountFluxSetting.getCoutUCPrPoint());
@@ -51,10 +51,10 @@ public class DchAccountFluxSettingDB extends MyDb {
         if(c.moveToFirst()) {
             a.setDchAccountSettingId(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DCH_ACCOUNT_SETTING_ID));
             a.setDchFluxId(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DCH_FLUX_ID));
-            a.setConvertComptagePrUDD(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_CONVERT_COMPTAGE_PR_UDD) == 1);
+            a.setConvertComptagePrUDD(c.getFloat(DecheterieDatabase.TableDchAccountFluxSetting.NUM_CONVERT_COMPTAGE_PR_UDD));
             a.setDecompteUDD(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DECOMPTE_UDD) == 1);
             a.setDecompteComptage(c.getInt(DecheterieDatabase.TableDchAccountFluxSetting.NUM_DECOMPTE_COMPTAGE) == 1);
-            a.setCoutUCPrPoint(c.getString(DecheterieDatabase.TableDchAccountFluxSetting.NUM_COUT_UC_PR_POINT));
+            a.setCoutUCPrPoint(c.getFloat(DecheterieDatabase.TableDchAccountFluxSetting.NUM_COUT_UC_PR_POINT));
             return a;
         }
         else{

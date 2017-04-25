@@ -26,7 +26,7 @@ public class DchAccountSettingDB extends MyDb {
         values.put(DecheterieDatabase.TableDchAccountSetting.ID, accountSetting.getId());
         values.put(DecheterieDatabase.TableDchAccountSetting.DCH_ACCOUNT_ID, accountSetting.getDchAccountId());
         values.put(DecheterieDatabase.TableDchAccountSetting.DCH_TYPE_CARTE_ID, accountSetting.getDchTypeCarteId());
-        values.put(DecheterieDatabase.TableDchAccountSetting.DCH_UNITE_ID, accountSetting.getDchUniteId());
+        values.put(DecheterieDatabase.TableDchAccountSetting.UNITE_DEPOT_DECHETERIE_ID, accountSetting.getUniteDepotDecheterieId());
         values.put(DecheterieDatabase.TableDchAccountSetting.DECOMPTE_DEPOT, accountSetting.isDecompteDepot());
         values.put(DecheterieDatabase.TableDchAccountSetting.DECOMPTE_UDD, accountSetting.isDecompteUDD());
         values.put(DecheterieDatabase.TableDchAccountSetting.PAGE_SIGNATURE, accountSetting.isPageSignature());
@@ -62,7 +62,7 @@ public class DchAccountSettingDB extends MyDb {
             a.setId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_ID));
             a.setDchAccountId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_ACCOUNT_ID));
             a.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_TYPE_CARTE_ID));
-            a.setDchUniteId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_UNITE_ID));
+            a.setUniteDepotDecheterieId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_UNITE_DEPOT_DECHETERIE_ID));
             a.setDecompteDepot(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DECOMPTE_DEPOT) == 1);
             a.setDecompteUDD(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DECOMPTE_UDD) == 1);
             a.setPageSignature(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_PAGE_SIGNATURE) == 1);
@@ -86,7 +86,7 @@ public class DchAccountSettingDB extends MyDb {
                 a.setId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_ID));
                 a.setDchAccountId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_ACCOUNT_ID));
                 a.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_TYPE_CARTE_ID));
-                a.setDchUniteId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_UNITE_ID));
+                a.setUniteDepotDecheterieId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_UNITE_DEPOT_DECHETERIE_ID));
                 a.setDecompteDepot(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DECOMPTE_DEPOT) == 1);
                 a.setDecompteUDD(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DECOMPTE_UDD) == 1);
                 a.setPageSignature(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_PAGE_SIGNATURE) == 1);

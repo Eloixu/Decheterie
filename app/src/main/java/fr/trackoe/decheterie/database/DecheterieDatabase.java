@@ -100,12 +100,15 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_NOM = 1;
         public static final String ICON_ID = "icon_id";
         public static final int NUM_ICON_ID = 2;
+        public static final String UNITE_COMPTAGE_ID = "unite_comptage_id";
+        public static final int NUM_UNITE_COMPTAGE_ID = 3;
     }
 
     public static final String CREATE_TABLE_DCH_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchFlux.TABLE_DCH_FLUX + " ("
             + TableDchFlux.ID + INTEGER_TYPE + " PRIMARY KEY, "
             + TableDchFlux.NOM + TEXT_TYPE + COMMA_SEP
-            + TableDchFlux.ICON_ID + INTEGER_TYPE + " )" ;
+            + TableDchFlux.ICON_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchFlux.UNITE_COMPTAGE_ID + INTEGER_TYPE + " )" ;
             //+ FOREIGN_KEY + "(" + TableDchFlux.ICON_ID + ")" + REFERENCES + TableIcon.TABLE_ICON + "(" + TableIcon.ID + "))" ;
 
     private static final String DELETE_TABLE_DCH_FLUX = "DROP TABLE IF EXISTS " + TableDchFlux.TABLE_DCH_FLUX;
@@ -204,8 +207,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_DCH_ACCOUNT_ID = 1;
         public static final String DCH_TYPE_CARTE_ID = "dch_type_carte_id";
         public static final int NUM_DCH_TYPE_CARTE_ID = 2;
-        public static final String DCH_UNITE_ID = "dch_unite_id";
-        public static final int NUM_DCH_UNITE_ID = 3;
+        public static final String UNITE_DEPOT_DECHETERIE_ID = "unite_depot_decheterie_id";
+        public static final int NUM_UNITE_DEPOT_DECHETERIE_ID = 3;
         public static final String DECOMPTE_DEPOT = "decompte_depot";
         public static final int NUM_DECOMPTE_DEPOT = 4;
         public static final String DECOMPTE_UDD = "decompte_udd";
@@ -232,7 +235,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableDchAccountSetting.ID + INTEGER_TYPE + " PRIMARY KEY, "
             + TableDchAccountSetting.DCH_ACCOUNT_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountSetting.DCH_TYPE_CARTE_ID + INTEGER_TYPE + COMMA_SEP
-            + TableDchAccountSetting.DCH_UNITE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.UNITE_DEPOT_DECHETERIE_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountSetting.DECOMPTE_DEPOT + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountSetting.DECOMPTE_UDD + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountSetting.PAGE_SIGNATURE + INTEGER_TYPE + COMMA_SEP
@@ -266,10 +269,10 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_DCH_ACCOUNT_FLUX_SETTING = "CREATE TABLE IF NOT EXISTS " + TableDchAccountFluxSetting.TABLE_NAME + " ("
             + TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountFluxSetting.DCH_FLUX_ID + INTEGER_TYPE + COMMA_SEP
-            + TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD + FLOAT_TYPE + COMMA_SEP
             + TableDchAccountFluxSetting.DECOMPTE_UDD + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountFluxSetting.DECOMPTE_COMPTAGE + INTEGER_TYPE + COMMA_SEP
-            + TableDchAccountFluxSetting.COUT_UC_PR_POINT + TEXT_TYPE + " )" ;
+            + TableDchAccountFluxSetting.COUT_UC_PR_POINT + FLOAT_TYPE + " )" ;
 
     private static final String DELETE_TABLE_DCH_ACCOUNT_FLUX_SETTING = "DROP TABLE IF EXISTS " + TableDchAccountFluxSetting.TABLE_NAME;
 
