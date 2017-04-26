@@ -26,8 +26,8 @@ public class DchApportFluxDB extends MyDb {
 
         values.put(DecheterieDatabase.TableDchApportFlux.DCH_DEPOT_ID, apportFlux.getDepotId());
         values.put(DecheterieDatabase.TableDchApportFlux.DCH_FLUX_ID, apportFlux.getFluxId());
-        values.put(DecheterieDatabase.TableDchApportFlux.QTY_COMPTAGE, apportFlux.getQtyComptage());
-        values.put(DecheterieDatabase.TableDchApportFlux.QTY_UDD, apportFlux.getQtyUDD());
+        values.put(DecheterieDatabase.TableDchApportFlux.QTY_COMPTAGE, apportFlux.getQtyComptage() == -1 ? null : apportFlux.getQtyComptage());
+        values.put(DecheterieDatabase.TableDchApportFlux.QTY_UDD, apportFlux.getQtyUDD() == -1 ? null : apportFlux.getQtyUDD());
         values.put(DecheterieDatabase.TableDchApportFlux.IS_SENT, apportFlux.isSent()? 1 : 0);
 
         return db.insertOrThrow(DecheterieDatabase.TableDchApportFlux.TABLE_DCH_APPORT_FLUX, null, values);

@@ -7,6 +7,10 @@ package fr.trackoe.decheterie.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -15,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import fr.trackoe.decheterie.R;
 
@@ -41,10 +47,13 @@ public class CustomDialog extends Dialog {
         private String positiveButtonText;
         private String negativeButtonText;
         private String iconName;
+        private float CCPU;
         private EditText editTextQuantiteApporte;
         private String editTextQtyApporte;
         private EditText editTextQuantiteDecompte;
         private String editTextQtyDecompte;
+        private TextView textViewQuantiteCalculLine3;
+        private String textViewQtyCalculLine3;
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
         private DialogInterface.OnClickListener negativeButtonClickListener;
@@ -64,6 +73,11 @@ public class CustomDialog extends Dialog {
             return editTextQuantiteDecompte;
         }
 
+        public TextView getTextViewQuantiteCalculLine3() {
+            return textViewQuantiteCalculLine3;
+        }
+
+
         public Builder setIconName(String iconName) {
             this.iconName = iconName;
             return this;
@@ -79,6 +93,11 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
+        public Builder setTextViewQtyCalculLine3(String textViewQtyCalculLine3) {
+            this.textViewQtyCalculLine3 = textViewQtyCalculLine3;
+            return this;
+        }
+
         public void setVisibilityLine1(boolean visibilityLine1) {
             this.visibilityLine1 = visibilityLine1;
         }
@@ -89,6 +108,11 @@ public class CustomDialog extends Dialog {
 
         public void setVisibilityLine3(boolean visibilityLine3) {
             this.visibilityLine3 = visibilityLine3;
+        }
+
+        public Builder setCCPU(float CCPU) {
+            this.CCPU = CCPU;
+            return this;
         }
 
         public Builder setMessage(String message) {
@@ -186,6 +210,7 @@ public class CustomDialog extends Dialog {
             ((TextView) layout.findViewById(R.id.title)).setText(title);
             editTextQuantiteApporte = ((EditText) layout.findViewById(R.id.editText_quantite_apporte));
             editTextQuantiteDecompte = ((EditText) layout.findViewById(R.id.editText_quantite_decompte));
+            textViewQuantiteCalculLine3 = ((TextView) layout.findViewById(R.id.textView_qty_calcul_line3));
             editTextQuantiteApporte.setText(editTextQtyApporte);
             editTextQuantiteDecompte.setText(editTextQtyDecompte);
             dialogLinearlayoutLine1 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line1);
@@ -200,14 +225,19 @@ public class CustomDialog extends Dialog {
             ((ImageView) layout.findViewById(R.id.imageView_flux_item_dialog)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
             //set the unite apporté
             if(uniteApporte != null) {
-                if(!uniteApporte.isEmpty())
-                ((TextView) layout.findViewById(R.id.textView_unite_line1)).setText(uniteApporte);
+                if(!uniteApporte.isEmpty()) {
+                    ((TextView) layout.findViewById(R.id.textView_unite_line1)).setText(uniteApporte);
+                }
             }
             //set the unite décompté
             if(uniteDecompte != null) {
                 if(!uniteDecompte.isEmpty())
                     ((TextView) layout.findViewById(R.id.textView_unite_line2)).setText(uniteDecompte);
+                    ((TextView) layout.findViewById(R.id.textView_unite_line3)).setText("   " + uniteDecompte);
+
             }
+            //set textView line3
+            if(textViewQtyCalculLine3 != null) ((TextView) layout.findViewById(R.id.textView_qty_calcul_line3)).setText(textViewQtyCalculLine3);
             // set the confirm button
             if (positiveButtonText != null) {
                 ((Button) layout.findViewById(R.id.positiveButton))
@@ -255,6 +285,34 @@ public class CustomDialog extends Dialog {
                 ((LinearLayout) layout.findViewById(R.id.content))
                         .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
             }
+
+
+            TextWatcher listenerMailValide = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    float qtyApporte = 0;
+                    if(editTextQuantiteApporte.getText().toString() != null && !editTextQuantiteApporte.getText().toString().isEmpty()) qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
+                    float qtyCalcul = qtyApporte * CCPU;
+                    textViewQuantiteCalculLine3.setText("" + qtyCalcul);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            };
+            editTextQuantiteApporte.addTextChangedListener(listenerMailValide);
+
+
+
+
+
+
             dialog.setContentView(layout);
             dialog.setCanceledOnTouchOutside(false);
             return dialog;

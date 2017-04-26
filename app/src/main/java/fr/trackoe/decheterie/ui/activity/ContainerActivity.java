@@ -578,6 +578,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 DepotFragment depotFragment = DepotFragment.newInstance(((ApportProFragment) getCurrentFragment()).getDepotId());
                 changeMainFragment(depotFragment, true);
             }
+            else if( getCurrentFragment() instanceof LoginFragment) {
+                finish();
+            }
             else{
                 super.onBackPressed();
             }
@@ -1152,7 +1155,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         //add accountFluxSetting into BDD
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,false,true,0));//line 1
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,0,true,false,0));//line 2
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,0,true,true,0));//line 1 line 2
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,1,true,true,0));//line 1 line 3
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,0,false,false,0));
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,0,false,false,0));
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,0,false,false,0));

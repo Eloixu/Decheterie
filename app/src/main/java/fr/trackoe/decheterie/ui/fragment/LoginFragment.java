@@ -54,6 +54,12 @@ public class LoginFragment extends Fragment {
         return login_vg;
     }
 
+    @Override
+    public void onDestroy() {
+        System.out.println("LoginFragment --> onDestroy()");
+        super.onDestroy();
+    }
+
     /*
 	 * Init Actionbar
 	 */
