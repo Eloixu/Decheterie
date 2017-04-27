@@ -1,8 +1,5 @@
 package fr.trackoe.decheterie.ui.fragment;
 
-/**
- * Created by Trackoe on 14/03/2017.
- */
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,7 +24,7 @@ import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 /**
- * Created by Trackoe on 13/03/2017.
+ * Created by Haocheng on 14/03/2017.
  */
 
 public class DecheterieFragment extends Fragment {

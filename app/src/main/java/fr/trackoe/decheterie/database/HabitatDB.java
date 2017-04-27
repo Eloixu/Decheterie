@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.usager.Habitat;
 
 /**
@@ -48,6 +50,14 @@ public class HabitatDB extends MyDb {
         return cursorToHabitat(cursor);
     }
 
+    public ArrayList<Habitat> getHabitatListByAdresse(String adresse) {
+        ArrayList<Habitat> habitatList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.ADRESSE  + " LIKE " + "'%" + adresse + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+        habitatList = cursorToListeHabitat(cursor);
+        return habitatList;
+    }
+
     public Habitat cursorToHabitat(Cursor c){
         Habitat h = new Habitat();
         if(c.moveToFirst()) {
@@ -69,8 +79,44 @@ public class HabitatDB extends MyDb {
             h.setAdresse2(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE_2));
             h.setRemarque(c.getString(DecheterieDatabase.TableHabitat.NUM_REMARQUE));
             h.setIdTypeHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_TYPE_HABITAT));
+            return h;
         }
-        return h;
+        else{
+            return null;
+        }
+
+    }
+
+    private ArrayList<Habitat> cursorToListeHabitat(Cursor c) {
+        ArrayList<Habitat> habitatList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                Habitat h = new Habitat();
+                h.setIdHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_HABITAT));
+                h.setAdresse(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE));
+                h.setCp(c.getString(DecheterieDatabase.TableHabitat.NUM_CP));
+                h.setVille(c.getString(DecheterieDatabase.TableHabitat.NUM_VILLE));
+                h.setNbLgt(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_LGT));
+                h.setNbHabitant(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_HABITANT));
+                h.setNom(c.getString(DecheterieDatabase.TableHabitat.NUM_NOM));
+                h.setReference(c.getString(DecheterieDatabase.TableHabitat.NUM_REFERENCE));
+                h.setCoordonneesX(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_X));
+                h.setCoordonneesY(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_Y));
+                h.setComplement(c.getString(DecheterieDatabase.TableHabitat.NUM_COMPLEMENT));
+                h.setDernierMaj(c.getString(DecheterieDatabase.TableHabitat.NUM_DERNIER_MAJ));
+                h.setNumero(c.getString(DecheterieDatabase.TableHabitat.NUM_NUMERO));
+                h.setActif((c.getInt(DecheterieDatabase.TableHabitat.NUM_IS_ACTIF) == 1) ? true : false);
+                h.setActivites(c.getString(DecheterieDatabase.TableHabitat.NUM_ACTIVITES));
+                h.setAdresse2(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE_2));
+                h.setRemarque(c.getString(DecheterieDatabase.TableHabitat.NUM_REMARQUE));
+                h.setIdTypeHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_TYPE_HABITAT));
+                habitatList.add(h);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return habitatList;
     }
 
     /*

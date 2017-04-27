@@ -188,6 +188,17 @@ public class AccueilFragment extends Fragment {
             }
         });
 
+        //set listener for button "Rechercher d'un usager sans carte"
+        accueil_vg.findViewById(R.id.btn_recherche).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new RechercherUsagerFragment(), true);
+                }
+            }
+        });
+
+        //long click on the button "changer déchèterie" to save the BD file
         accueil_vg.findViewById(R.id.btn_changer).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -195,6 +206,8 @@ public class AccueilFragment extends Fragment {
                 return true;
             }
         });
+
+
 
 
     }

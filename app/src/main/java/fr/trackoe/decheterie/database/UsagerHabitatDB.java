@@ -45,6 +45,14 @@ public class UsagerHabitatDB extends MyDb {
         return usagerHabitat;
     }
 
+    public UsagerHabitat getUsagerHabitatByHabitatActiveId(int habitatActiveId) {
+        UsagerHabitat usagerHabitat;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_HABITAT + "=" + habitatActiveId;
+        Cursor cursor = db.rawQuery(query, null);
+        usagerHabitat = cursorToUsagerHabitat(cursor);
+        return usagerHabitat;
+    }
+
     public ArrayList<UsagerHabitat> getListUsagerHabitatByUsagerId(int usagerId) {
         ArrayList<UsagerHabitat> usagerHabitatList;
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId;

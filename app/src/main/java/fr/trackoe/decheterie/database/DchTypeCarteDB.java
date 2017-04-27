@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.global.TypeCarte;
 
 /**
@@ -33,6 +35,20 @@ public class DchTypeCarteDB extends MyDb {
         return cursorToTypeCarte(cursor);
     }
 
+    public TypeCarte getTypeCarteByName(String nom) {
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchTypeCarte.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchTypeCarte.NOM + " = " + "'" + nom + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursorToTypeCarte(cursor);
+    }
+
+    public ArrayList<TypeCarte> getAllTypeCarte() {
+        ArrayList<TypeCarte> typeCarteList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchTypeCarte.TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+        typeCarteList = cursorToListeTypeCarte(cursor);
+        return typeCarteList;
+    }
+
     public TypeCarte cursorToTypeCarte(Cursor c){
         TypeCarte t = new TypeCarte();
         if(c.moveToFirst()) {
@@ -40,6 +56,22 @@ public class DchTypeCarteDB extends MyDb {
             t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
         }
         return t;
+    }
+
+    public ArrayList<TypeCarte> cursorToListeTypeCarte(Cursor c){
+        ArrayList<TypeCarte> typeCarteList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                TypeCarte t = new TypeCarte();
+                t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
+                t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
+                typeCarteList.add(t);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return typeCarteList;
     }
 
     /*

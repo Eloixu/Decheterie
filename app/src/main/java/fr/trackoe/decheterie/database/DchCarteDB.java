@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.global.Carte;
 
 /**
@@ -43,6 +45,14 @@ public class DchCarteDB extends MyDb {
         return cursorToCarte(cursor);
     }
 
+    public ArrayList<Carte> getCarteListByTypeCarteId(int typeCarteId) {
+        ArrayList<Carte> carteList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarte.TABLE_DCH_CARTE + " WHERE " + DecheterieDatabase.TableDchCarte.DCH_TYPE_CARTE_ID  + "=" + typeCarteId ;
+        Cursor cursor = db.rawQuery(query, null);
+        carteList = cursorToListeCarte(cursor);
+        return carteList;
+    }
+
     public Carte cursorToCarte(Cursor c){
         Carte carte = new Carte();
         if(c.moveToFirst()) {
@@ -57,6 +67,25 @@ public class DchCarteDB extends MyDb {
             return null;
         }
 
+    }
+
+    private ArrayList<Carte> cursorToListeCarte(Cursor c) {
+        ArrayList<Carte> carteList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                Carte carte = new Carte();
+                carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));
+                carte.setNumCarte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
+                carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
+                carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
+                carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+                carteList.add(carte);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return carteList;
     }
 
     /*

@@ -39,6 +39,14 @@ public class UsagerDB extends MyDb {
         return cursorToUsager(cursor);
     }
 
+    public ArrayList<Usager> getUsagerListByName(String nom) {
+        ArrayList<Usager> usagerList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsager.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsager.NOM + " LIKE " + "'%" + nom + "%'" +  ";";
+        Cursor cursor = db.rawQuery(query, null);
+        usagerList = cursorToListeUsager(cursor);
+        return usagerList;
+    }
+
     public Usager cursorToUsager(Cursor c){
         Usager u = new Usager();
         if(c.moveToFirst()) {
@@ -48,6 +56,24 @@ public class UsagerDB extends MyDb {
             u.setDateMaj(c.getString(DecheterieDatabase.TableUsager.NUM_DATE_MAJ));
         }
         return u;
+    }
+
+    private ArrayList<Usager> cursorToListeUsager(Cursor c) {
+        ArrayList<Usager> usagerList = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                Usager u = new Usager();
+                u.setId(c.getInt(DecheterieDatabase.TableUsager.NUM_ID_USAGER));
+                u.setIdAccount(c.getInt(DecheterieDatabase.TableUsager.NUM_ID_ACCOUNT));
+                u.setNom(c.getString(DecheterieDatabase.TableUsager.NUM_NOM));
+                u.setDateMaj(c.getString(DecheterieDatabase.TableUsager.NUM_DATE_MAJ));
+                usagerList.add(u);
+            } while (c.moveToNext());
+
+            c.close();
+        }
+        return usagerList;
     }
 
     /*

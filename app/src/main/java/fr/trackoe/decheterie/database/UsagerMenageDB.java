@@ -45,6 +45,14 @@ Vider la table
         return usagerMenage;
     }
 
+    public UsagerMenage getUsagerMenageByMenageActiveId(int menageActiveId) {
+        UsagerMenage usagerMenage;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerMenage.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerMenage.ID_MENAGE + "=" + menageActiveId;
+        Cursor cursor = db.rawQuery(query, null);
+        usagerMenage = cursorToUsagerMenage(cursor);
+        return usagerMenage;
+    }
+
     public ArrayList<UsagerMenage> getListUsagerMenageByUsagerId(int usagerId) {
         ArrayList<UsagerMenage> usagerMenageList;
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerMenage.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerMenage.ID_USAGER + "=" + usagerId;

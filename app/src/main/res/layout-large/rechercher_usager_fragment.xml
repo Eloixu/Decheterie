@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_ru_top"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_ru_filtre_total"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8">
+            <LinearLayout
+                android:id="@+id/linearLayout_ru_line1"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/linearLayout_ru_filtre1"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_ru_filtre1"
+                        android:text="Nom :"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textSize="@dimen/general_txt_size"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edittext_ru_filtre1"
+                        style="@style/TkEditText"
+                        android:layout_width="182dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue"
+                        android:singleLine="true"
+                        android:maxLength="80"
+                        android:gravity="top" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_ru_filtre2"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp">
+
+                    <TextView
+                        android:id="@+id/textView_ru_filtre2"
+                        android:text="Type Carte :"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textSize="@dimen/general_txt_size"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinner_ru_filtre2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_ru_line2"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/linearLayout_ru_filtre3"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView_ru_filtre3"
+                        android:text="Adresse :"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textSize="@dimen/general_txt_size"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edittext_ru_filtre3"
+                        style="@style/TkEditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue"
+                        android:singleLine="true"
+                        android:maxLength="80"
+                        android:gravity="top" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_ru_top_right"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_ru_rechercher"
+                android:text="rechercher"
+                android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/button"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_ru_bottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7">
+        <ListView
+            android:id="@+id/listView_ru_usager"
+            android:layout_width="614dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:divider="#ffffff"
+            android:dividerHeight="3dp"
+            ></ListView>
+    </LinearLayout>
+</LinearLayout>

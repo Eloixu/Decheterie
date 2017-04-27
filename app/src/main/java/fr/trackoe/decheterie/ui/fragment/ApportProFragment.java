@@ -38,6 +38,11 @@ import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
+/**
+ * Created by Haocheng.
+ */
+
+
 public class ApportProFragment extends Fragment {
     private ViewGroup apf_vg;
     ContainerActivity parentActivity;

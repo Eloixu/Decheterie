@@ -1848,7 +1848,8 @@ public class DepotFragment extends Fragment {
     private ModulesDB modulesDB;
     private UsagerDB usagerDB;
     private UsagerHabitatDB usagerHabitatDB;
-    private UsagerMenageDB usagerMenageDB;*/
+    private UsagerMenageDB usagerMenageDB;
+    private TypeHabitatDB typeHabitatDB;*/
 
     public void initAllDB(){
         dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
