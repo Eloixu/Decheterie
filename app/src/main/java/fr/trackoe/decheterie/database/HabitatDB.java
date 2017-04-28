@@ -58,6 +58,38 @@ public class HabitatDB extends MyDb {
         return habitatList;
     }
 
+    public ArrayList<Habitat> getHabitatListByCP(String cp) {
+        ArrayList<Habitat> habitatList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.CP  + " LIKE " + "'%" + cp + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+        habitatList = cursorToListeHabitat(cursor);
+        return habitatList;
+    }
+
+    public ArrayList<Habitat> getHabitatListByVille(String ville) {
+        ArrayList<Habitat> habitatList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.VILLE  + " LIKE " + "'%" + ville + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+        habitatList = cursorToListeHabitat(cursor);
+        return habitatList;
+    }
+
+    public ArrayList<Habitat> getHabitatListByComplement(String complement) {
+        ArrayList<Habitat> habitatList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.COMPLEMENT  + " LIKE " + "'%" + complement + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+        habitatList = cursorToListeHabitat(cursor);
+        return habitatList;
+    }
+
+    public ArrayList<Habitat> getHabitatListByNumero(String numero) {
+        ArrayList<Habitat> habitatList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.NUMERO  + " LIKE " + "'%" + numero + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+        habitatList = cursorToListeHabitat(cursor);
+        return habitatList;
+    }
+
     public Habitat cursorToHabitat(Cursor c){
         Habitat h = new Habitat();
         if(c.moveToFirst()) {

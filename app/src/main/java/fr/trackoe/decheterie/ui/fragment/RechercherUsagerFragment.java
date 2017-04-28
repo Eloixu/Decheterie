@@ -2,9 +2,13 @@ package fr.trackoe.decheterie.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,15 +47,20 @@ import fr.trackoe.decheterie.model.bean.usager.Habitat;
 import fr.trackoe.decheterie.model.bean.usager.Local;
 import fr.trackoe.decheterie.model.bean.usager.Menage;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.R;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * Created by Haocheng on 27/04/2017.
@@ -71,7 +80,7 @@ public class RechercherUsagerFragment extends Fragment {
     private Button btnRechercher;
     //listView
     private ListView listView;
-    private ArrayList<Usager> usagerList;
+    private ArrayList<Usager> usagerListFinal;
     //DB
     private DchAccountFluxSettingDB dchAccountFluxSettingDB;
     private DchAccountSettingDB dchAccountSettingDB;
@@ -150,6 +159,7 @@ public class RechercherUsagerFragment extends Fragment {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
+        RU_vg.findViewById(R.id.btn_ru_rechercher).setVisibility(View.GONE);
 
         //set spinner data
         data_list = new ArrayList<String>();
@@ -159,11 +169,27 @@ public class RechercherUsagerFragment extends Fragment {
         }
 
         //适配器 adapter
-        arr_adapter= new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, data_list);
+        arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, data_list);
         //设置样式 set style
-        arr_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        arr_adapter.setDropDownViewResource(R.layout.spinner_item);
         //加载适配器 load the adapter
         spinner.setAdapter(arr_adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                Object item = adapterView.getItemAtPosition(position);
+
+                RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
 
     }
@@ -201,7 +227,8 @@ public class RechercherUsagerFragment extends Fragment {
                     }
                     //usager list filtered by adresse
                     ArrayList<Usager> usagerList3 = new ArrayList();
-                    ArrayList<Habitat> habitatList = habitatDB.getHabitatListByAdresse(adresse);
+                    //ArrayList<Habitat> habitatList = habitatDB.getHabitatListByAdresse(adresse);
+                    ArrayList<Habitat> habitatList = getHabitatistByAdresseTotal(adresse);
                     ArrayList<Habitat> habitatActiveList = new ArrayList<Habitat>();
                     for(Habitat habitat: habitatList){
                         if(habitat.isActif()){
@@ -235,20 +262,43 @@ public class RechercherUsagerFragment extends Fragment {
                         }
                     }
 
-                    //combine usagerList 1 2 3 to usagerListTotal
-                    ArrayList<Usager> usagerListTotal = new ArrayList();
-                    usagerListTotal.addAll(usagerList1);
-                    usagerListTotal.addAll(usagerList2);
-                    usagerListTotal.addAll(usagerList3);
+                    //transfer the 3 list to arrayList<int>
+                    ArrayList<Integer> usagerIdListA = new ArrayList();
+                    ArrayList<Integer> usagerIdListB = new ArrayList();
+                    ArrayList<Integer> usagerIdListC = new ArrayList();
+                    for(Usager usager: usagerList1){
+                        usagerIdListA.add(usager.getId());
+                    }
+                    for(Usager usager: usagerList2){
+                        usagerIdListB.add(usager.getId());
+                    }
+                    for(Usager usager: usagerList3){
+                        usagerIdListC.add(usager.getId());
+                    }
+                    //remove the repeated elements in each list
+                    usagerIdListA = removeRepeatedElements(usagerIdListA);
+                    usagerIdListB = removeRepeatedElements(usagerIdListB);
+                    usagerIdListC = removeRepeatedElements(usagerIdListC);
+                    //get the common elements among the three list
+                    ArrayList<Integer> usagerIdListABCCommon = new ArrayList(usagerIdListC);
+                    ArrayList<Integer> usagerIdListABCommon = new ArrayList(usagerIdListB);
+                    usagerIdListABCommon.retainAll(usagerIdListA);
+                    usagerIdListABCCommon.retainAll(usagerIdListABCommon);
+                    //get the final usagerListFinal
+                    usagerListFinal = new ArrayList<>();
+                    for(int usagerId: usagerIdListABCCommon){
+                        usagerListFinal.add(usagerDB.getUsagerFromID(usagerId));
+                    }
+                    if(usagerListFinal.size() == 0){
+                        Toast.makeText(getContext(), "Aucun usager trouvé.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-
-                    /*//show listView
-                    usagerList = new ArrayList<>();
-                    usagerList = usagerList1;
+                    //show listView
                     listView.setAdapter(new BaseAdapter() {
                         @Override
                         public int getCount() {
-                            return usagerList.size();
+                            return usagerListFinal.size();
                         }
 
                         @Override
@@ -271,9 +321,45 @@ public class RechercherUsagerFragment extends Fragment {
                                 view = convertView;
                             }
 
-                            final Usager usager = usagerList.get(position);
+                            openAllDB();
+
+                            final Usager usager = usagerListFinal.get(position);
                             final TextView textViewUsagerName = (TextView)view.findViewById(R.id.textView_usager_name);
-                            textViewUsagerName.setText(usager.getNom());
+                            final TextView textViewUsagerId = (TextView) view.findViewById(R.id.textView_usager_id);
+                            Habitat habitat = null;
+                            String adresse = null;
+                            if(usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId()).size() != 0){
+                                ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId());
+                                for(UsagerHabitat usagerHabitat: usagerHabitatList){
+                                    Habitat h = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
+                                    if(h.isActif()){
+                                        habitat = h;
+                                        adresse = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse() + ", ")
+                                                + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
+                                    }
+                                }
+                            }
+                            else if(usagerMenageDB.getListUsagerMenageByUsagerId(usager.getId()).size() != 0){
+                                ArrayList<UsagerMenage> usagerMenageList = usagerMenageDB.getListUsagerMenageByUsagerId(usager.getId());
+                                Menage menage = null;
+                                for(UsagerMenage usagerMenage: usagerMenageList){
+                                    Menage m = menageDB.getMenageById(usagerMenage.getMenageId());
+                                    if(m.isActif()) menage = m;
+                                }
+                                Local local = null;
+                                if(menage != null) local = localDB.getLocalById(menage.getLocalId());
+                                Habitat h = null;
+                                if(local != null) h = habitatDB.getHabitatFromID(local.getHabitatId());
+                                if(h != null){
+                                    if(h.isActif()) habitat = h;
+                                    adresse = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse() + ", ")
+                                            + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
+                                }
+
+                            }
+
+                            textViewUsagerName.setText(Html.fromHtml("<font color='#000000'><big>" + usager.getNom() + "</big></font><br> " + (adresse==null? "" : "\n" + adresse)));
+                            textViewUsagerId.setText(usager.getId() + "");
                             textViewUsagerName.setOnClickListener(new View.OnClickListener() {
 
                                 @Override
@@ -286,14 +372,94 @@ public class RechercherUsagerFragment extends Fragment {
                                 }
                             });
 
+                            closeAllDB();
                             return view;
                         }
-                    });*/
+                    });
                 }
             closeAllDB();
             }
         });
 
+        TextWatcher listener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        editTextNom.addTextChangedListener(listener);
+        editTextAdresse.addTextChangedListener(listener);
+
+    }
+    //1,3,7,7,9,9,9 ---> 1,3,7,9
+    public ArrayList<Integer> removeRepeatedElements(ArrayList<Integer> al){
+        Set<Integer> hs = new HashSet<>();
+        hs.addAll(al);
+        al.clear();
+        al.addAll(hs);
+
+        return al;
+    }
+
+    //[1,2,3,4,5] [1,3,5,7,9] --->[1,3,5]
+    public ArrayList<Integer> getCommonElementsBetweenTwoList(ArrayList<Integer> a1, ArrayList<Integer> a2){
+        ArrayList<Integer> usagerIdListCommon = new ArrayList(a2);
+        usagerIdListCommon.retainAll(a1);
+
+        return usagerIdListCommon;
+    }
+
+    public ArrayList<Habitat> getHabitatistByAdresseTotal(String adresseTotal){
+        ArrayList<Habitat> habitatList =new ArrayList<>();
+        ArrayList<Integer> habitatIdList = new ArrayList<>();
+        String adresses[] = adresseTotal.split(" ");
+        Integer count = 1;
+        for(String adresse: adresses){
+            ArrayList<Integer> hl =new ArrayList<>();
+
+            for(Habitat habitat: habitatDB.getHabitatListByAdresse(adresse)){
+                hl.add(habitat.getIdHabitat());
+            }
+            for(Habitat habitat: habitatDB.getHabitatListByCP(adresse)){
+                hl.add(habitat.getIdHabitat());
+            }
+            for(Habitat habitat: habitatDB.getHabitatListByVille(adresse)){
+                hl.add(habitat.getIdHabitat());
+            }
+            for(Habitat habitat: habitatDB.getHabitatListByNumero(adresse)){
+                hl.add(habitat.getIdHabitat());
+            }
+            for(Habitat habitat: habitatDB.getHabitatListByComplement(adresse)){
+                hl.add(habitat.getIdHabitat());
+            }
+
+            hl = removeRepeatedElements(hl);
+            if(count == 1){
+                habitatIdList = hl;
+            }
+            else if(count > 1){
+                habitatIdList = getCommonElementsBetweenTwoList(habitatIdList,hl);
+            }
+            count ++;
+        }
+
+
+        for(Integer habitatId: habitatIdList){
+            habitatList.add(habitatDB.getHabitatFromID(habitatId));
+        }
+
+        return habitatList;
     }
 
     public void initAllDB(){
