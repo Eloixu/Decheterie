@@ -19,6 +19,8 @@
     <color name="redphoto">#ff8787</color>
     <color name="bluedeep">#ff17457a</color>
     <color name="ac_orange">#FF9F40</color>
+    <color name="navigation_view_background">#aec6cf</color>
+    <color name="ancienne_carte_fragment_line3_title_textView_textColor">#fe8f8f</color>
 
     <!--Ecran tablette-->
     <color name="tablette_hint">#9A9A9A</color>

@@ -11,44 +11,44 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/accueil_fragment_linearLayout1_layout_height">
-    <TextView
-        android:id="@+id/textView"
-        android:text="@string/accueil_fragment_textView_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
-        android:layout_marginTop="@dimen/accueil_fragment_textView_layout_marginTop"
-        android:textSize="@dimen/general_txt_size"
-        android:layout_weight="0.11" />
+        <TextView
+            android:id="@+id/acceuil_fragment_nom_decheterie_textView"
+            android:text="@string/accueil_fragment_textView_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+            android:layout_marginTop="@dimen/accueil_fragment_textView_layout_marginTop"
+            android:textSize="@dimen/general_txt_size"
+            android:layout_weight="0.11" />
 
-    <TextView
-        android:id="@+id/textView_nom_decheterie"
-        android:text="NOM Déchètrie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/accueil_fragment_textView_nom_decheterie_layout_marginTop"
-        android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
-        android:textStyle="bold"
-        android:textColor="@color/bluedeep"
-        android:layout_weight="1" />
+        <TextView
+            android:id="@+id/textView_nom_decheterie"
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/accueil_fragment_textView_nom_decheterie_layout_marginTop"
+            android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
+            android:textStyle="bold"
+            android:textColor="@color/bluedeep"
+            android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btn_changer"
-        android:text="@string/accueil_fragment_btn_changer_text"
-        android:layout_width="@dimen/accueil_fragment_btn_changer_layout_width"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/accueil_fragment_btn_changer_layout_marginBottom"
-        android:textColor="@color/white"
-        android:background="@drawable/button"
-        android:textSize="18sp"
-        android:layout_marginTop="@dimen/accueil_fragment_btn_changer_layout_marginTop"
-        android:layout_marginRight="@dimen/accueil_fragment_btn_changer_layout_marginRight"
+        <Button
+            android:id="@+id/btn_changer"
+            android:text="@string/accueil_fragment_btn_changer_text"
+            android:layout_width="@dimen/accueil_fragment_btn_changer_layout_width"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/accueil_fragment_btn_changer_layout_marginBottom"
+            android:textColor="@color/white"
+            android:background="@drawable/button"
+            android:textSize="@dimen/accueil_fragment_btn_changer_textSize"
+            android:layout_marginTop="@dimen/accueil_fragment_btn_changer_layout_marginTop"
+            android:layout_marginRight="@dimen/accueil_fragment_btn_changer_layout_marginRight"
 
-        android:paddingBottom="8dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="8dp"
-        />
+            android:paddingBottom="@dimen/accueil_fragment_btn_changer_paddingBottom"
+            android:paddingLeft="@dimen/accueil_fragment_btn_changer_paddingLeft"
+            android:paddingRight="@dimen/accueil_fragment_btn_changer_paddingRight"
+            android:paddingTop="@dimen/accueil_fragment_btn_changer_paddingTop"
+            />
 
     </LinearLayout>
 
@@ -71,14 +71,14 @@
             android:textColor="@color/white"
             android:drawableEnd="@drawable/barcode2"
             android:background="@drawable/button_blue"
-            android:paddingEnd="20dp"
+            android:paddingEnd="@dimen/accueil_fragment_btn_identification_paddingEnd"
             android:layout_weight="0.13" />
 
         <Button
             android:id="@+id/btn_recherche"
             android:text="@string/accueil_fragment_btn_recherche_text"
-            android:textSize="23sp"
-            android:layout_width="400dp"
+            android:textSize="@dimen/accueil_fragment_btn_recherche_textSize"
+            android:layout_width="@dimen/accueil_fragment_btn_recherche_layout_width"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/accueil_fragment_btn_recherche_layout_marginBottom"
             android:textColor="@color/white"
@@ -88,7 +88,7 @@
         <Button
             android:id="@+id/btn_liste"
             android:text="@string/accueil_fragment_btn_liste_text"
-            android:layout_width="252dp"
+            android:layout_width="@dimen/accueil_fragment_btn_liste_layout_width"
             android:layout_height="@dimen/accueil_fragment_btn_liste_layout_height"
             android:textColor="@color/white"
             android:textSize="@dimen/accueil_fragment_btn_liste_textSize"

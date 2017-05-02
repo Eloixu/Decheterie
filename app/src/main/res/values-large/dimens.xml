@@ -214,29 +214,52 @@
     <dimen name="rmf_style_btn_padding">28dp</dimen>
     <dimen name="mrf_title2_size">16sp</dimen>
 
+    <!--ContainerActivity-->
+    <dimen name="contianer_activity_navigation_view_layout_width">400dp</dimen>
+    <dimen name="container_activity_textView_paddingStart">20dp</dimen>
 
+    <!--AccueilFragment-->
     <dimen name="accueil_fragment_linearLayout1_layout_height">175dp</dimen>
     <dimen name="accueil_fragment_textView_paddingStart">20dp</dimen>
     <dimen name="accueil_fragment_textView_layout_marginTop">15dp</dimen>
     <dimen name="accueil_fragment_textView_nom_decheterie_layout_marginTop">15dp</dimen>
     <dimen name="accueil_fragment_textView_nom_decheterie_textSize">25sp</dimen>
     <dimen name="accueil_fragment_btn_changer_layout_width">218dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_textSize">18sp</dimen>
     <dimen name="accueil_fragment_btn_changer_layout_marginTop">20dp</dimen>
     <dimen name="accueil_fragment_btn_changer_layout_marginRight">10dp</dimen>
     <dimen name="accueil_fragment_btn_changer_layout_marginBottom">15dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_paddingBottom">8dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_paddingLeft">25dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_paddingRight">25dp</dimen>
+    <dimen name="accueil_fragment_btn_changer_paddingTop">8dp</dimen>
     <dimen name="accueil_fragment_btn_identification_textSize">23sp</dimen>
-
     <dimen name="accueil_fragment_btn_identification_layout_width">400dp</dimen>
     <dimen name="accueil_fragment_btn_identification_layout_marginBottom">30dp</dimen>
-    <dimen name="accueil_fragment_btn_recherche_layout_width">360dp</dimen>
+    <dimen name="accueil_fragment_btn_identification_paddingEnd">20dp</dimen>
+    <dimen name="accueil_fragment_btn_recherche_layout_width">400dp</dimen>
+    <dimen name="accueil_fragment_btn_recherche_textSize">23sp</dimen>
     <dimen name="accueil_fragment_btn_recherche_layout_marginBottom">35dp</dimen>
-    <dimen name="accueil_fragment_btn_liste_layout_width">206dp</dimen>
+    <dimen name="accueil_fragment_btn_liste_layout_width">252dp</dimen>
     <dimen name="accueil_fragment_btn_liste_layout_height">56dp</dimen>
     <dimen name="accueil_fragment_btn_liste_textSize">15sp</dimen>
 
-    <!--AncienneCarteFragment-->
-    <dimen name="ancienne_carte_fragment_txt_size">30.0sp</dimen>
 
+    <!--AncienneCarteFragment-->
+    <dimen name="ancienne_carte_linearLayout_paddingTop">60dp</dimen>
+    <dimen name="ancienne_carte_linearLayout_paddingLeft">150dp</dimen>
+    <dimen name="ancienne_carte_fragment_txt_size">30.0sp</dimen>
+    <dimen name="ancienne_carte_linearLayout_marginBottom">20dp</dimen>
+    <dimen name="ancienne_carte_fragment_changement_button_textSize">23sp</dimen>
+    <dimen name="ancienne_carte_fragment_changement_button_layout_width">400dp</dimen>
+    <dimen name="ancienne_carte_fragment_changement_button_layout_height">70dp</dimen>
+    <dimen name="ancienne_carte_fragment_changement_button_layout_marginTop">10dp</dimen>
+    <dimen name="ancienne_carte_fragment_changement_button_layout_marginBottom">30dp</dimen>
+    <dimen name="ancienne_carte_fragment_changement_button_paddingEnd">25dp</dimen>
+    <dimen name="ancienne_carte_fragment_retour_scanner_button_layout_width">400dp</dimen>
+    <dimen name="ancienne_carte_fragment_retour_scanner_button_layout_height">70dp</dimen>
+    <dimen name="ancienne_carte_fragment_retour_scanner_button_textSize">23sp</dimen>
+    <dimen name="ancienne_carte_fragment_retour_scanner_button_layout_marginBottom">30dp</dimen>
     <!--NavigationDrawerLineMargin-->
     <dimen name="navigation_drawer_line_margin">10dp</dimen>
 

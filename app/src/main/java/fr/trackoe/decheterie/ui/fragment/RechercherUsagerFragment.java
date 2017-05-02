@@ -1,5 +1,6 @@
 package fr.trackoe.decheterie.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -8,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -207,8 +209,30 @@ public class RechercherUsagerFragment extends Fragment {
                     String adresse = editTextAdresse.getText().toString();
                     String typeCarte = spinner.getSelectedItem().toString();
 
-                    //usager list filtered by name
-                    ArrayList<Usager> usagerList1 = usagerDB.getUsagerListByName(nom);
+                    //usager list filtered by name "usagerList1"
+                    //ArrayList<Usager> usagerList1 = usagerDB.getUsagerListByName(nom);
+                    ArrayList<Usager> usagerList1 = new ArrayList();
+                    ArrayList<Integer> usagerIdList = new ArrayList();
+                    String nameList[] = nom.split(" ");
+                    int count = 1;
+                    for(String name: nameList){
+                        ArrayList<Usager> ul = usagerDB.getUsagerListByName(name);
+                        ArrayList<Integer> usagerIdListCopy = new ArrayList();
+                        for(Usager usager: ul){
+                            usagerIdListCopy.add(usager.getId());
+                        }
+                        usagerIdListCopy = removeRepeatedElements(usagerIdListCopy);
+                        if(count == 1){
+                            usagerIdList = usagerIdListCopy;
+                        }
+                        else if(count > 1){
+                            usagerIdList = getCommonElementsBetweenTwoList(usagerIdList,usagerIdListCopy);
+                        }
+                        count ++;
+                    }
+                    for(Integer usagerId: usagerIdList){
+                        usagerList1.add(usagerDB.getUsagerFromID(usagerId));
+                    }
                     //usager list filtered by typeCarte
                     ArrayList<Usager> usagerList2 = new ArrayList();
                     ArrayList<Carte> listCarte = dchCarteDB.getCarteListByTypeCarteId(dchTypeCarteDB.getTypeCarteByName(typeCarte).getId());
@@ -228,8 +252,8 @@ public class RechercherUsagerFragment extends Fragment {
                     //usager list filtered by adresse
                     ArrayList<Usager> usagerList3 = new ArrayList();
                     //ArrayList<Habitat> habitatList = habitatDB.getHabitatListByAdresse(adresse);
-                    ArrayList<Habitat> habitatList = getHabitatistByAdresseTotal(adresse);
-                    ArrayList<Habitat> habitatActiveList = new ArrayList<Habitat>();
+                    ArrayList<Habitat> habitatList = getHabitatListByAdresseTotal(adresse);
+                    ArrayList<Habitat> habitatActiveList = new ArrayList();
                     for(Habitat habitat: habitatList){
                         if(habitat.isActif()){
                             habitatActiveList.add(habitat);
@@ -251,7 +275,7 @@ public class RechercherUsagerFragment extends Fragment {
                                 Menage menage = menageDB.getMenageByLocalId(local.getIdLocal());
                                 if(menage != null) menageList.add(menage);
                             }
-                            ArrayList<Menage> menageActiveList = new ArrayList<Menage>();
+                            ArrayList<Menage> menageActiveList = new ArrayList();
                             for(Menage menage: menageList){
                                 if(menage.isActif()) menageActiveList.add(menage);
                             }
@@ -372,6 +396,7 @@ public class RechercherUsagerFragment extends Fragment {
                                 }
                             });
 
+
                             closeAllDB();
                             return view;
                         }
@@ -381,7 +406,7 @@ public class RechercherUsagerFragment extends Fragment {
             }
         });
 
-        TextWatcher listener = new TextWatcher() {
+        TextWatcher listener1 = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -390,6 +415,11 @@ public class RechercherUsagerFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+                //close the keyboard when there is nothoing in the editText
+                if(s.toString().isEmpty()){
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editTextNom.getWindowToken(), 0) ;
+                }
             }
 
             @Override
@@ -398,8 +428,30 @@ public class RechercherUsagerFragment extends Fragment {
             }
         };
 
-        editTextNom.addTextChangedListener(listener);
-        editTextAdresse.addTextChangedListener(listener);
+        editTextNom.addTextChangedListener(listener1);
+
+        TextWatcher listener3 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+                //close the keyboard when there is nothoing in the editText
+                if(s.toString().isEmpty()){
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editTextAdresse.getWindowToken(), 0) ;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        editTextAdresse.addTextChangedListener(listener3);
 
     }
     //1,3,7,7,9,9,9 ---> 1,3,7,9
@@ -420,7 +472,7 @@ public class RechercherUsagerFragment extends Fragment {
         return usagerIdListCommon;
     }
 
-    public ArrayList<Habitat> getHabitatistByAdresseTotal(String adresseTotal){
+    public ArrayList<Habitat> getHabitatListByAdresseTotal(String adresseTotal){
         ArrayList<Habitat> habitatList =new ArrayList<>();
         ArrayList<Integer> habitatIdList = new ArrayList<>();
         String adresses[] = adresseTotal.split(" ");

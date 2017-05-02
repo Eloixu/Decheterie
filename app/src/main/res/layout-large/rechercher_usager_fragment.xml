@@ -44,6 +44,7 @@
                         style="@style/TkEditText"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
+                        android:inputType="textNoSuggestions"
                         android:textColor="@color/blue"
                         android:singleLine="true"
                         android:maxLength="80"
@@ -64,15 +65,36 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textSize="@dimen/general_txt_size"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginEnd="10dp"/>
 
-                    <Spinner
-                        android:id="@+id/spinner_ru_filtre2"
-                        android:spinnerMode="dropdown"
-                        android:textSize="19sp"
+
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="70dp"
+                        android:background="@drawable/border_spinner"
+                        android:orientation="horizontal">
+                    <Spinner
+                        android:id="@+id/spinner_ru_filtre2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:spinnerMode="dropdown" />
                         />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/drop" />
+
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -103,6 +125,7 @@
                         style="@style/TkEditText"
                         android:layout_width="483dp"
                         android:layout_height="40dp"
+                        android:inputType="textNoSuggestions"
                         android:textColor="@color/blue"
                         android:singleLine="true"
                         android:maxLength="80"
