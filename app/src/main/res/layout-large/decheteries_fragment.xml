@@ -6,45 +6,45 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/decheterie_fragment_filtre_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="123dp"
-        android:paddingTop="15dp"
+        android:layout_height="@dimen/decheterie_fragment_filtre_linearLayout_layout_height"
+        android:paddingTop="@dimen/decheterie_fragment_filtre_linearLayout_paddingTop"
         android:weightSum="1">
 
         <TextView
-            android:id="@+id/textView_filtre"
-            android:text="Filtre :"
+            android:id="@+id/decheterie_fragment_filtre_textView"
+            android:text="@string/decheterie_fragment_filtre_textView_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/decheterie_fragment_filtre_textView_layout_margin"
             android:textSize="@dimen/general_txt_size"
             android:textStyle="bold"
             android:layout_weight="0.60" />
 
         <EditText
-            android:id="@+id/edittext_filtre"
+            android:id="@+id/decheterie_fragment_filtre_editText"
             style="@style/TkEditText"
-            android:layout_width="182dp"
+            android:layout_width="@dimen/decheterie_fragment_filtre_editText_layout_width"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:singleLine="true"
             android:maxLength="80"
             android:gravity="top"
-            android:layout_marginEnd="150dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginEnd="@dimen/decheterie_fragment_filtre_editText_layout_marginEnd"
+            android:layout_marginTop="@dimen/decheterie_fragment_filtre_editText_layout_marginTop" />
 
 
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listView"
-        android:layout_width="614dp"
+        android:id="@+id/decheterie_fragment_listView"
+        android:layout_width="@dimen/decheterie_fragment_listView_layout_width"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:divider="#ffffff"
-        android:dividerHeight="3dp"
+        android:dividerHeight="@dimen/decheterie_fragment_listView_dividerHeight"
         ></ListView>
 </LinearLayout>

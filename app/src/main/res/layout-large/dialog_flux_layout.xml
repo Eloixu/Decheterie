@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="20.0dip" >
+
+    <LinearLayout
+        android:id="@+id/dialog_flux_layout_global_linearLayout"
+        android:layout_width="@dimen/dialog_flux_layout_global_linearLayout_layout_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_bombbox"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/dialog_flux_layout_title"
+            style="@style/text_18_ffffff"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dialog_flux_layout_title_layout_height"
+            android:gravity="center"
+            android:text="@string/dialog_flux_layout_title_text"
+            android:textSize="@dimen/dialog_flux_layout_title_textSize"
+            android:paddingTop="@dimen/dialog_flux_layout_title_paddingTop"
+            android:visibility="visible" />
+
+        <FrameLayout
+            android:id="@+id/dialog_flux_layout_content_frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/dialog_flux_layout_content_linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+            <TextView
+                android:id="@+id/dialog_flux_layout_message"
+                style="@style/text_16_666666"
+                android:text="@string/dialog_flux_layout_message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dialog_flux_layout_message_layout_height"
+                android:gravity="left|center"
+                android:lineSpacingMultiplier="1.5"
+                android:minHeight="@dimen/dialog_flux_layout_message_minHeight"
+                android:paddingTop="@dimen/dialog_flux_layout_message_paddingTop"
+                android:layout_marginStart="@dimen/dialog_flux_layout_message_layout_marginStart"/>
+
+            <LinearLayout
+                android:id="@+id/dialog_flux_layout_line1_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_quantite_apporte_textView"
+                    android:text="@string/dialog_flux_layout_quantite_apporte_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="@dimen/dialog_flux_layout_quantite_apporte_textView_layout_width"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_marginStart="@dimen/dialog_flux_layout_quantite_apporte_textView_layout_marginStart"
+                    android:layout_weight="0.4"/>
+
+                <EditText
+                    android:id="@+id/dialog_flux_layout_quantite_apporte_editText"
+                    android:layout_width="@dimen/dialog_flux_layout_quantite_apporte_editText_layout_width"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="7"
+                    android:ems="10"
+                    android:layout_gravity="left"
+                    android:layout_marginEnd="@dimen/dialog_flux_layout_quantite_apporte_editText_layout_marginEnd"
+                    android:layout_weight="0.23"/>
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_unite_line1_textView"
+                    android:text="@string/dialog_flux_layout_unite_line1_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="@dimen/dialog_flux_layout_unite_line1_textView_layout_width"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_weight="0.2"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dialog_flux_layout_line2_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_quantite_decompte_textView"
+                    android:text="@string/dialog_flux_layout_quantite_decompte_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="@dimen/dialog_flux_layout_quantite_decompte_textView_layout_width"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_marginStart="@dimen/dialog_flux_layout_quantite_decompte_textView_layout_marginStart"
+                    android:layout_weight="0.4"/>
+
+                <EditText
+                    android:id="@+id/dialog_flux_layout_quantite_decompte_editText"
+                    android:layout_width="@dimen/dialog_flux_layout_quantite_decompte_editText_layout_width"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="7"
+                    android:ems="10"
+                    android:layout_gravity="left"
+                    android:layout_marginEnd="@dimen/dialog_flux_layout_quantite_decompte_editText_layout_marginEnd"
+                    android:layout_weight="0.23"/>
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_unite_line2_textView"
+                    android:text="@string/dialog_flux_layout_unite_line2_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="@dimen/dialog_flux_layout_unite_line2_textView_layout_width"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_weight="0.2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dialog_flux_layout_line3_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/dialog_flux_layout_line3_linearlayout_layout_marginBottom"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_line3_textView"
+                    android:text="@string/dialog_flux_layout_line3_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_marginStart="@dimen/dialog_flux_layout_line3_textView_layout_marginStart"/>
+                <TextView
+                    android:id="@+id/dialog_flux_layout_qty_calcul_textView"
+                    android:text="@string/dialog_flux_layout_qty_calcul_textView_text"
+                    android:textSize="@dimen/dialog_flux_layout_qty_calcul_textView_textSize"
+                    android:textColor="@color/dialog_flux_layout_qty_calcul_textView_textColor"
+                    android:layout_marginStart="@dimen/dialog_flux_layout_qty_calcul_textView_layout_marginStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"/>
+                <TextView
+                    android:id="@+id/dialog_flux_layout_unite_line3_textView"
+                    android:text="@string/dialog_flux_layout_unite_line3_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"/>
+                <TextView
+                    android:id="@+id/dialog_flux_layout_point_line3_textView"
+                    android:text="@string/dialog_flux_layout_point_line3_textView_text"
+                    style="@style/text_16_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/dialog_flux_layout_flux_item_imageView"
+                android:layout_width="@dimen/dialog_flux_layout_flux_item_imageView_layout_width"
+                android:layout_height="@dimen/dialog_flux_layout_flux_item_imageView_layout_height"
+                android:layout_marginTop="@dimen/dialog_flux_layout_flux_item_imageView_layout_marginTop"
+                android:layout_marginStart="@dimen/dialog_flux_layout_flux_item_imageView_layout_marginStart"
+                android:layout_gravity="left" />
+
+            <Button
+                android:id="@+id/dialog_flux_layout_negative_button"
+                style="@style/text_15_666666_sdw"
+                android:layout_width="@dimen/dialog_flux_layout_negative_button_layout_width"
+                android:layout_height="@dimen/dialog_flux_layout_negative_button_layout_height"
+                android:background="@drawable/delete"
+                android:layout_gravity="right|bottom"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/dialog_flux_layout_negative_button_layout_marginStart"
+                android:layout_marginEnd="@dimen/dialog_flux_layout_negative_button_layout_marginEnd"
+                android:layout_marginBottom="@dimen/dialog_flux_layout_negative_button_layout_marginBottom"/>
+        </FrameLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:background="#ffd0d0d0" />
+
+        <LinearLayout
+            android:id="@+id/dialog_flux_layout_bottom_linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dialog_flux_layout_bottom_linearLayout_layout_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/dialog_bottom_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/dialog_flux_layout_positive_button"
+                style="@style/text_15_ffffff_sdw"
+                android:layout_width="@dimen/dialog_flux_layout_positive_button_layout_width"
+                android:layout_height="@dimen/dialog_flux_layout_positive_button_layout_height"
+                android:background="@drawable/button"
+                android:gravity="center"
+                android:text="@string/dialog_flux_layout_positive_button_text"
+                android:textColor="@color/white"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

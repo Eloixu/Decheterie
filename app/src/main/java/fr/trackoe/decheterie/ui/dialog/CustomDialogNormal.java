@@ -133,11 +133,11 @@ public class CustomDialogNormal extends Dialog {
             return this;
         }
 
-        public CustomDialog create() {
+        public CustomDialogFlux create() {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
-            final CustomDialog dialog = new CustomDialog(context,R.style.Dialog);
+            final CustomDialogFlux dialog = new CustomDialogFlux(context,R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_normal_layout, null);
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));

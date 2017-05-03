@@ -898,7 +898,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             if(data != null) {
                 IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                 String contents = data.getStringExtra("SCAN_RESULT");
-                ((EditText) findViewById(R.id.editText_barcode)).setText(contents);
+                ((EditText) findViewById(R.id.identification_fragment_barcode_editText)).setText(contents);
             }
         }
     }
@@ -1358,7 +1358,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 String idCardInformation[] = dumpTagData(tag).split(":");
                 idCard = idCardInformation[1];
 
-                ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
+                ((EditText) findViewById(R.id.identification_fragment_barcode_editText)).setText(idCard.replace(" ", ""));
 
             }
 

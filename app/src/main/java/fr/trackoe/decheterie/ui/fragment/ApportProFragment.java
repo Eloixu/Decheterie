@@ -58,7 +58,7 @@ public class ApportProFragment extends Fragment {
         apf_vg = (ViewGroup) inflater.inflate(R.layout.apport_pro_fragment, container, false);
 
         //FrameLayout frameLayout = (FrameLayout) accueil_vg.findViewById(R.id.frameLayout_bottom_right_down);
-        linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.linearLayout_signature);
+        linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.apport_pro_fragment_signature_linearLayout);
 
         // Init Actionbar
         //initActionBar();
@@ -132,7 +132,7 @@ public class ApportProFragment extends Fragment {
     Init Listeners
      */
     public void initListeners() {
-        ImageView imageViewClear = (ImageView) apf_vg.findViewById(R.id.imageView_clear);
+        ImageView imageViewClear = (ImageView) apf_vg.findViewById(R.id.apport_pro_fragment_clear_imageView);
         imageViewClear.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -141,7 +141,7 @@ public class ApportProFragment extends Fragment {
             }
         });
 
-        Button btnValider = (Button) apf_vg.findViewById(R.id.btn_valider);
+        Button btnValider = (Button) apf_vg.findViewById(R.id.apport_pro_fragment_valider_button);
         btnValider.setOnClickListener(new View.OnClickListener() {
 
             @Override

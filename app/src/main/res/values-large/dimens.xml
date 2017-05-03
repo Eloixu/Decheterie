@@ -260,6 +260,127 @@
     <dimen name="ancienne_carte_fragment_retour_scanner_button_layout_height">70dp</dimen>
     <dimen name="ancienne_carte_fragment_retour_scanner_button_textSize">23sp</dimen>
     <dimen name="ancienne_carte_fragment_retour_scanner_button_layout_marginBottom">30dp</dimen>
+
+    <!--Apport Pro Fragment-->
+    <dimen name="apport_pro_fragment_top_linearLayout_layout_height">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_linearLayout_padding">10dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line1_linearLayout">10dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line1_linearLayout_paddingStart">10dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line1_title_textView_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line1_title_textView_paddingStart">20dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line1_value_textView_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line1_value_textView_textSize">25sp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line2_linearLayout_paddingStart">10dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line2_title_textView_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line2_title_textView_paddingStart">20dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line2_value_textView_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line2_value_textView_textSize">25sp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line3_linearLayout_paddingStart">10dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line3_title_textView_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line3_title_textView_paddingStart">20dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line3_value_textView_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_top_up_line3_value_textView_textSize">25sp</dimen>
+    <dimen name="apport_pro_fragment_bottom_linearLayout_layout_height">0dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_linearLayout_padding">10dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_linearLayout_layout_width">10dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_up_linearLayout_layout_height">0dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_up_line1_linearLayout_paddingStart">10dp</dimen>
+    <dimen name="apport_pro_fragment_left_up_line1_value_textView_paddingEnd">10dp</dimen>
+    <dimen name="apport_pro_fragment_left_up_line1_value_textView_textSize">25sp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_up_line2_linearLayout_paddingStart">10dp</dimen>
+    <dimen name="apport_pro_fragment_left_up_line2_value_textView_paddingEnd">10dp</dimen>
+    <dimen name="apport_pro_fragment_left_up_line2_value_textView_textSize">25sp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_up_line3_linearLayout_paddingStart">10dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_up_line3_value_textView_paddingEnd">10dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_up_line3_value_textView_textSize">25sp</dimen>
+    <dimen name="apport_pro_fragment_left_up_information_textView_layout_marginTop">7dp</dimen>
+    <dimen name="apport_pro_fragment_left_up_information_textView_textSize">19sp</dimen>
+    <dimen name="apport_pro_fragment_bottom_left_down_linearLayout_layout_height">0dp</dimen>
+    <dimen name="apport_pro_fragment_valider_button_textSize">23sp</dimen>
+    <dimen name="apport_pro_fragment_valider_button_layout_width">130dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_right_linearLayout_layout_width">0dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_right_linearLayout_layout_marginStart">20dp</dimen>
+    <dimen name="apport_pro_fragment_bottom_right_up_linearLayout_layout_height">0dp</dimen>
+    <dimen name="apport_pro_fragment_signature_information_textView_paddingStart">20dp</dimen>
+    <dimen name="apport_pro_fragment_signature_information_textView_textSize">21sp</dimen>
+    <dimen name="apport_pro_fragment_bottom_right_down_frameLayout_layout_height">0dp</dimen>
+    <dimen name="apport_pro_fragment_clear_imageView_layout_width">30dp</dimen>
+    <dimen name="apport_pro_fragment_clear_imageView_layout_height">30dp</dimen>
+
+    <!--Decheterie Fragment-->
+    <dimen name="decheterie_fragment_filtre_linearLayout_layout_height">123dp</dimen>
+    <dimen name="decheterie_fragment_filtre_linearLayout_paddingTop">15dp</dimen>
+    <dimen name="decheterie_fragment_filtre_textView_layout_margin">20dp</dimen>
+    <dimen name="decheterie_fragment_filtre_editText_layout_width">182dp</dimen>
+    <dimen name="decheterie_fragment_filtre_editText_layout_marginEnd">150dp</dimen>
+    <dimen name="decheterie_fragment_filtre_editText_layout_marginTop">20dp</dimen>
+    <dimen name="decheterie_fragment_listView_layout_width">614dp</dimen>
+    <dimen name="decheterie_fragment_listView_dividerHeight">3dp</dimen>
+    <dimen name="decheteries_fragment_listView_item_dechetrie_name_textView_textSize">25sp</dimen>
+    <dimen name="decheteries_fragment_listView_item_dechetrie_name_textView_layout_height">60dp</dimen>
+
+    <!--Depot Fragment-->
+    <dimen name="depot_fragment_top_horizontalScrollView_layout_height">0dp</dimen>
+    <dimen name="depot_fragment_bottom_horizontalScrollView_layout_height">0dp</dimen>
+    <dimen name="depot_fragment_volume_total_textView_paddingStart">20dp</dimen>
+    <dimen name="depot_fragment_volume_total_textView_layout_marginTop">15dp</dimen>
+    <dimen name="depot_fragment_valider_button_textSize">23sp</dimen>
+    <dimen name="depot_fragment_valider_button_layout_width">200dp</dimen>
+    <dimen name="depot_fragment_valider_button_layout_marginTop">30dp</dimen>
+    <dimen name="depot_fragment_flux_item_imageView_layout_width">100dp</dimen>
+    <dimen name="depot_fragment_flux_item_imageView_layout_height">100dp</dimen>
+    <dimen name="depot_fragment_flux_item_imageView_layout_margin">13dp</dimen>
+    <dimen name="depot_fragment_flux_item_textView_layout_width">100dp</dimen>
+    <dimen name="depot_fragment_flux_item_textView_layout_marginStart">13dp</dimen>
+
+    <!--Dialog Flux-->
+    <dimen name="dialog_flux_layout_global_linearLayout_layout_width">600dp</dimen>
+    <dimen name="dialog_flux_layout_title_layout_height">40.0dip</dimen>
+    <dimen name="dialog_flux_layout_title_textSize">23dip</dimen>
+    <dimen name="dialog_flux_layout_title_paddingTop">10.0dip</dimen>
+    <dimen name="dialog_flux_layout_message_layout_height">58dp</dimen>
+    <dimen name="dialog_flux_layout_message_minHeight">120.0dip</dimen>
+    <dimen name="dialog_flux_layout_message_paddingTop">25.0dip</dimen>
+    <dimen name="dialog_flux_layout_message_layout_marginStart">110dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_apporte_textView_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_apporte_textView_layout_marginStart">110dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_apporte_editText_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_apporte_editText_layout_marginEnd">15dp</dimen>
+    <dimen name="dialog_flux_layout_unite_line1_textView_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_decompte_textView_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_decompte_textView_layout_marginStart">110dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_decompte_editText_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_decompte_editText_layout_marginEnd">15dp</dimen>
+    <dimen name="dialog_flux_layout_unite_line2_textView_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_line3_linearlayout_layout_marginBottom">10dp</dimen>
+    <dimen name="dialog_flux_layout_line3_textView_layout_marginStart">110dp</dimen>
+    <dimen name="dialog_flux_layout_qty_calcul_textView_textSize">23dip</dimen>
+    <dimen name="dialog_flux_layout_qty_calcul_textView_layout_marginStart">13dp</dimen>
+    <dimen name="dialog_flux_layout_flux_item_imageView_layout_width">85dp</dimen>
+    <dimen name="dialog_flux_layout_flux_item_imageView_layout_height">85dp</dimen>
+    <dimen name="dialog_flux_layout_flux_item_imageView_layout_marginTop">25dp</dimen>
+    <dimen name="dialog_flux_layout_flux_item_imageView_layout_marginStart">3dp</dimen>
+    <dimen name="dialog_flux_layout_negative_button_layout_width">25dp</dimen>
+    <dimen name="dialog_flux_layout_negative_button_layout_height">25dp</dimen>
+    <dimen name="dialog_flux_layout_negative_button_layout_marginStart">200dp</dimen>
+    <dimen name="dialog_flux_layout_negative_button_layout_marginEnd">10dp</dimen>
+    <dimen name="dialog_flux_layout_negative_button_layout_marginBottom">13dp</dimen>
+    <dimen name="dialog_flux_layout_bottom_linearLayout_layout_height">60dip</dimen>
+    <dimen name="dialog_flux_layout_positive_button_layout_width">0dp</dimen>
+    <dimen name="dialog_flux_layout_positive_button_layout_height">40dip</dimen>
+
+    <!--Identification Fragment-->
+    <dimen name="identification_fragment_top_linearLayout_layout_marginTop">15dp</dimen>
+    <dimen name="identification_fragment_top_linearLayout_layout_marginBottom">15dp</dimen>
+    <dimen name="identification_fragment_barcode_editText_layout_width">300dp</dimen>
+    <dimen name="identification_fragment_barcode_editText_layout_height">63dp</dimen>
+    <dimen name="identification_fragment_barcode_editText_layout_marginStart">100dp</dimen>
+    <dimen name="identification_fragment_suivant_button_textSize">23sp</dimen>
+    <dimen name="identification_fragment_suivant_button_layout_width">130dp</dimen>
+
+
+
+
     <!--NavigationDrawerLineMargin-->
     <dimen name="navigation_drawer_line_margin">10dp</dimen>
 

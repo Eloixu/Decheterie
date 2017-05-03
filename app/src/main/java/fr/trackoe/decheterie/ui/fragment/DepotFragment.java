@@ -65,7 +65,7 @@ import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
-import fr.trackoe.decheterie.ui.dialog.CustomDialog;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogFlux;
 
 public class DepotFragment extends Fragment {
     private ViewGroup depot_vg;
@@ -149,7 +149,7 @@ public class DepotFragment extends Fragment {
 
         depot_vg = (ViewGroup) inflater.inflate(R.layout.depot_fragment, container, false);
         parentActivity = (ContainerActivity ) getActivity();
-        textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.textView_volume_total);
+        textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
 
         initAllDB();
         openAllDB();
@@ -332,8 +332,8 @@ public class DepotFragment extends Fragment {
         parentActivity.showHamburgerButton();
         parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
-        galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux);
-        galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux_choisi);
+        galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
+        galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_choisi_linearLayout);
 
         final long depotId = this.depotId;
 
@@ -377,8 +377,8 @@ public class DepotFragment extends Fragment {
         {
             final View view = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
             final View viewCopy = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.imageView_flux_item);
-            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.imageView_flux_item);
+            final ImageView img = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
 
             final Icon currentIcon = iconList.get(i);
             final String iconName = currentIcon.getNom();
@@ -386,8 +386,8 @@ public class DepotFragment extends Fragment {
 
             img.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-            TextView txt = (TextView) view.findViewById(R.id.textView_flux_item);
-            TextView txtCopy = (TextView) viewCopy.findViewById(R.id.textView_flux_item);
+            TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
+            TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
             txt.setText(iconList.get(i).getNom());
             txtCopy.setText(iconList.get(i).getNom());
             img.setOnClickListener(new View.OnClickListener() {
@@ -405,7 +405,7 @@ public class DepotFragment extends Fragment {
 
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
-                    final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                    final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
                     builder.setMessage("Vous avez sélectionné flux " + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
@@ -543,7 +543,7 @@ public class DepotFragment extends Fragment {
 
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-                            final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                            final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
                             builder.setMessage("Vous avez sélectionné flux " + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
@@ -707,8 +707,8 @@ public class DepotFragment extends Fragment {
         parentActivity.showHamburgerButton();
         parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
-        galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux);
-        galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.id_gallery_flux_choisi);
+        galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
+        galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_choisi_linearLayout);
 
 
         final long depotId = this.depotId;
@@ -794,8 +794,8 @@ public class DepotFragment extends Fragment {
         {
             final View view = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
             final View viewCopy = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.imageView_flux_item);
-            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.imageView_flux_item);
+            final ImageView img = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
 
             final Icon currentIcon = iconListOfGalleryFlux.get(i);
             final String iconName = currentIcon.getNom();
@@ -803,8 +803,8 @@ public class DepotFragment extends Fragment {
 
             img.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-            TextView txt = (TextView) view.findViewById(R.id.textView_flux_item);
-            TextView txtCopy = (TextView) viewCopy.findViewById(R.id.textView_flux_item);
+            TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
+            TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
             txt.setText(iconListOfGalleryFlux.get(i).getNom());
             txtCopy.setText(iconListOfGalleryFlux.get(i).getNom());
             img.setOnClickListener(new View.OnClickListener() {
@@ -822,7 +822,7 @@ public class DepotFragment extends Fragment {
 
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
-                    final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                    final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
                     builder.setMessage("Vous avez sélectionné flux " + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
@@ -955,7 +955,7 @@ public class DepotFragment extends Fragment {
 
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-                            final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                            final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
                             builder.setMessage("Vous avez sélectionné flux " + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
@@ -1101,8 +1101,8 @@ public class DepotFragment extends Fragment {
         for (int i = 0; i < iconListOfGalleryFluxChoisi.size(); i++){
             final View view = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
             final View viewCopy = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.imageView_flux_item);
-            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.imageView_flux_item);
+            final ImageView img = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
 
             final Icon currentIcon = iconListOfGalleryFluxChoisi.get(i);
             final String iconName = currentIcon.getNom();
@@ -1111,8 +1111,8 @@ public class DepotFragment extends Fragment {
 
             img.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-            TextView txt = (TextView) view.findViewById(R.id.textView_flux_item);
-            TextView txtCopy = (TextView) viewCopy.findViewById(R.id.textView_flux_item);
+            TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
+            TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
             txt.setText(iconListOfGalleryFluxChoisi.get(i).getNom());
             txtCopy.setText(iconListOfGalleryFluxChoisi.get(i).getNom());
 
@@ -1128,7 +1128,7 @@ public class DepotFragment extends Fragment {
                     dchUniteDB.open();
 
 
-                    final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                    final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
                     builder.setMessage("Vous avez sélectionné flux " + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
@@ -1273,7 +1273,7 @@ public class DepotFragment extends Fragment {
                             galleryFluxChoisi.addView(view);
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-                            final CustomDialog.Builder builder = new CustomDialog.Builder(getContext());
+                            final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
                             builder.setMessage("Vous avez sélectionné flux " + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
@@ -1430,15 +1430,9 @@ public class DepotFragment extends Fragment {
     Init Listeners
      */
     public void initListeners(ViewGroup container) {
-        final ImageView imgFinger = (ImageView) depot_vg.findViewById(R.id.imageView_finger);
-        Button btnValider = (Button) depot_vg.findViewById(R.id.btn_valider);
+        Button btnValider = (Button) depot_vg.findViewById(R.id.depot_fragment_valider_button);
         parentActivity = (ContainerActivity ) getActivity();
-        imgFinger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                parentActivity.openDrawer();
-            }
-        });
+
         //set the listener of the button "valider"
         btnValider.setOnClickListener(new View.OnClickListener() {
             @Override

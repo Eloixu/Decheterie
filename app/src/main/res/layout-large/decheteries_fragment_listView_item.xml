@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/dechetrie_name"
-        android:text="Name"
-        android:textSize="25sp"
+        android:id="@+id/decheteries_fragment_listView_item_dechetrie_name_textView"
+        android:text="@string/decheteries_fragment_listView_item_dechetrie_name_textView_text"
+        android:textSize="@dimen/decheteries_fragment_listView_item_dechetrie_name_textView_textSize"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/decheteries_fragment_listView_item_dechetrie_name_textView_layout_height"
         android:layout_weight="1"
         android:background="@drawable/button_blue_shallow"
         android:gravity="center"/>

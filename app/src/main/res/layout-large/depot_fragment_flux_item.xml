@@ -8,18 +8,18 @@
     android:weightSum="1">
 
     <ImageView
-        android:id="@+id/imageView_flux_item"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="13dp"
+        android:id="@+id/depot_fragment_flux_item_imageView"
+        android:layout_width="@dimen/depot_fragment_flux_item_imageView_layout_width"
+        android:layout_height="@dimen/depot_fragment_flux_item_imageView_layout_height"
+        android:layout_margin="@dimen/depot_fragment_flux_item_imageView_layout_margin"
         android:background="@mipmap/logo_etoile_bleu" />
 
     <TextView
-        android:id="@+id/textView_flux_item"
-        android:text="TextView"
-        android:layout_width="100dp"
+        android:id="@+id/depot_fragment_flux_item_textView"
+        android:text="@string/depot_fragment_flux_item_textView_text"
+        android:layout_width="@dimen/depot_fragment_flux_item_textView_layout_width"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
+        android:layout_marginStart="@dimen/depot_fragment_flux_item_textView_layout_marginStart"
         android:gravity="center"
          />
 </LinearLayout>

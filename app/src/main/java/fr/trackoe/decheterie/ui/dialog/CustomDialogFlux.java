@@ -7,10 +7,8 @@ package fr.trackoe.decheterie.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -20,17 +18,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import fr.trackoe.decheterie.R;
 
-public class CustomDialog extends Dialog {
+public class CustomDialogFlux extends Dialog {
 
-    public CustomDialog(Context context) {
+    public CustomDialogFlux(Context context) {
         super(context);
     }
 
-    public CustomDialog(Context context, int theme) {
+    public CustomDialogFlux(Context context, int theme) {
         super(context, theme);
     }
 
@@ -200,50 +196,50 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
-        public CustomDialog create() {
+        public CustomDialogFlux create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
-            final CustomDialog dialog = new CustomDialog(context,R.style.Dialog);
-            View layout = inflater.inflate(R.layout.dialog_layout, null);
+            final CustomDialogFlux dialog = new CustomDialogFlux(context,R.style.Dialog);
+            View layout = inflater.inflate(R.layout.dialog_flux_layout, null);
             dialog.addContentView(layout, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
-            ((TextView) layout.findViewById(R.id.title)).setText(title);
-            editTextQuantiteApporte = ((EditText) layout.findViewById(R.id.editText_quantite_apporte));
-            editTextQuantiteDecompte = ((EditText) layout.findViewById(R.id.editText_quantite_decompte));
-            textViewQuantiteCalculLine3 = ((TextView) layout.findViewById(R.id.textView_qty_calcul_line3));
+            ((TextView) layout.findViewById(R.id.dialog_flux_layout_title)).setText(title);
+            editTextQuantiteApporte = ((EditText) layout.findViewById(R.id.dialog_flux_layout_quantite_apporte_editText));
+            editTextQuantiteDecompte = ((EditText) layout.findViewById(R.id.dialog_flux_layout_quantite_decompte_editText));
+            textViewQuantiteCalculLine3 = ((TextView) layout.findViewById(R.id.dialog_flux_layout_qty_calcul_textView));
             editTextQuantiteApporte.setText(editTextQtyApporte);
             editTextQuantiteDecompte.setText(editTextQtyDecompte);
-            dialogLinearlayoutLine1 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line1);
+            dialogLinearlayoutLine1 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line1_linearlayout);
             if(!visibilityLine1) dialogLinearlayoutLine1.setVisibility(View.GONE);
-            dialogLinearlayoutLine2 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line2);
+            dialogLinearlayoutLine2 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line2_linearlayout);
             if(!visibilityLine2) dialogLinearlayoutLine2.setVisibility(View.GONE);
-            dialogLinearlayoutLine3 = (LinearLayout) layout.findViewById(R.id.dialog_linearlayout_line3);
+            dialogLinearlayoutLine3 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line3_linearlayout);
             if(!visibilityLine3) dialogLinearlayoutLine3.setVisibility(View.GONE);
 
             // set the icon image
             if(!iconName.isEmpty() && iconName != null)
-            ((ImageView) layout.findViewById(R.id.imageView_flux_item_dialog)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
+            ((ImageView) layout.findViewById(R.id.dialog_flux_layout_flux_item_imageView)).setBackgroundResource(context.getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
             //set the unite apporté
             if(uniteApporte != null) {
                 if(!uniteApporte.isEmpty()) {
-                    ((TextView) layout.findViewById(R.id.textView_unite_line1)).setText(uniteApporte);
+                    ((TextView) layout.findViewById(R.id.dialog_flux_layout_unite_line1_textView)).setText(uniteApporte);
                 }
             }
             //set the unite décompté
             if(uniteDecompte != null) {
                 if(!uniteDecompte.isEmpty())
-                    ((TextView) layout.findViewById(R.id.textView_unite_line2)).setText(uniteDecompte);
-                    ((TextView) layout.findViewById(R.id.textView_unite_line3)).setText("   " + uniteDecompte);
+                    ((TextView) layout.findViewById(R.id.dialog_flux_layout_unite_line2_textView)).setText(uniteDecompte);
+                    ((TextView) layout.findViewById(R.id.dialog_flux_layout_unite_line3_textView)).setText("   " + uniteDecompte);
 
             }
             //set textView line3
-            if(textViewQtyCalculLine3 != null) ((TextView) layout.findViewById(R.id.textView_qty_calcul_line3)).setText(textViewQtyCalculLine3);
+            if(textViewQtyCalculLine3 != null) ((TextView) layout.findViewById(R.id.dialog_flux_layout_qty_calcul_textView)).setText(textViewQtyCalculLine3);
             // set the confirm button
             if (positiveButtonText != null) {
-                ((Button) layout.findViewById(R.id.positiveButton))
+                ((Button) layout.findViewById(R.id.dialog_flux_layout_positive_button))
                         .setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.positiveButton))
+                    ((Button) layout.findViewById(R.id.dialog_flux_layout_positive_button))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     positiveButtonClickListener.onClick(dialog,
@@ -253,15 +249,15 @@ public class CustomDialog extends Dialog {
                 }
             } else {
                 // if no confirm button just set the visibility to GONE
-                layout.findViewById(R.id.positiveButton).setVisibility(
+                layout.findViewById(R.id.dialog_flux_layout_positive_button).setVisibility(
                         View.GONE);
             }
             // set the cancel button
             if (negativeButtonText != null) {
-                ((Button) layout.findViewById(R.id.negativeButton))
+                ((Button) layout.findViewById(R.id.dialog_flux_layout_negative_button))
                         .setText(negativeButtonText);
                 if (negativeButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.negativeButton))
+                    ((Button) layout.findViewById(R.id.dialog_flux_layout_negative_button))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     negativeButtonClickListener.onClick(dialog,
@@ -271,18 +267,18 @@ public class CustomDialog extends Dialog {
                 }
             } else {
                 // if no confirm button just set the visibility to GONE
-                layout.findViewById(R.id.negativeButton).setVisibility(
+                layout.findViewById(R.id.dialog_flux_layout_negative_button).setVisibility(
                         View.GONE);
             }
             // set the content message
             if (message != null) {
-                ((TextView) layout.findViewById(R.id.message)).setText(message);
+                ((TextView) layout.findViewById(R.id.dialog_flux_layout_message)).setText(message);
             } else if (contentView != null) {
                 // if no message set
                 // add the contentView to the dialog body
-                ((LinearLayout) layout.findViewById(R.id.content))
+                ((LinearLayout) layout.findViewById(R.id.dialog_flux_layout_content_linearLayout))
                         .removeAllViews();
-                ((LinearLayout) layout.findViewById(R.id.content))
+                ((LinearLayout) layout.findViewById(R.id.dialog_flux_layout_content_linearLayout))
                         .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
             }
 

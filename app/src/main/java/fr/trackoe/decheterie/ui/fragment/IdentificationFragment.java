@@ -76,9 +76,9 @@ public class IdentificationFragment extends Fragment {
         System.out.println("IdentificationFragment-->onCreateView()");
         identification_vg = (ViewGroup) inflater.inflate(R.layout.identification_fragment, container, false);
 
-        editText_barcode = (EditText)  identification_vg.findViewById(R.id.editText_barcode);
-        scanner = (ImageView) identification_vg.findViewById(R.id.imageView_scanner);
-        suivant = (Button) identification_vg.findViewById(R.id.btn_suivant);
+        editText_barcode = (EditText)  identification_vg.findViewById(R.id.identification_fragment_barcode_editText);
+        scanner = (ImageView) identification_vg.findViewById(R.id.identification_fragment_scanner_imageView);
+        suivant = (Button) identification_vg.findViewById(R.id.identification_fragment_suivant_button);
 
 
         // Init Actionbar

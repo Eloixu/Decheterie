@@ -8,8 +8,8 @@
     >
 
     <TextView
-        android:id="@+id/textView_line1_title"
-        android:text="@string/textView_line1_title"
+        android:id="@+id/identification_fragment_line1_title_textView"
+        android:text="@string/identification_fragment_line1_title_textView_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/general_txt_size"
@@ -18,25 +18,25 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout_top"
+        android:id="@+id/identification_fragment_top_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="@dimen/identification_fragment_top_linearLayout_layout_marginTop"
+        android:layout_marginBottom="@dimen/identification_fragment_top_linearLayout_layout_marginBottom"
         android:gravity="center">
 
         <EditText
-            android:id="@+id/editText_barcode"
-            android:layout_width="300dp"
-            android:layout_height="63dp"
+            android:id="@+id/identification_fragment_barcode_editText"
+            android:layout_width="@dimen/identification_fragment_barcode_editText_layout_width"
+            android:layout_height="@dimen/identification_fragment_barcode_editText_layout_height"
             android:singleLine="true"
             android:ems="10"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="@dimen/identification_fragment_barcode_editText_layout_marginStart"
             android:background="@drawable/edit_bg" />
 
         <ImageView
-            android:id="@+id/imageView_scanner"
+            android:id="@+id/identification_fragment_scanner_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/barcode_scan"
@@ -48,10 +48,10 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_suivant"
-        android:text="Suivant"
-        android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
-        android:layout_width="130dp"
+        android:id="@+id/identification_fragment_suivant_button"
+        android:text="@string/identification_fragment_suivant_button_text"
+        android:textSize="@dimen/identification_fragment_suivant_button_textSize"
+        android:layout_width="@dimen/identification_fragment_suivant_button_layout_width"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/white"

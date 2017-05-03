@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
 import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchApportFluxDB;
@@ -59,7 +58,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -116,11 +114,11 @@ public class RechercherUsagerFragment extends Fragment {
         openAllDB();
 
         RU_vg = (ViewGroup) inflater.inflate(R.layout.rechercher_usager_fragment, container, false);
-        spinner = (Spinner) RU_vg.findViewById(R.id.spinner_ru_filtre2);
-        editTextNom = (EditText) RU_vg.findViewById(R.id.edittext_ru_filtre1);
-        editTextAdresse = (EditText) RU_vg.findViewById(R.id.edittext_ru_filtre3);
-        btnRechercher = (Button) RU_vg.findViewById(R.id.btn_ru_rechercher);
-        listView = (ListView) RU_vg.findViewById(R.id.listView_ru_usager);
+        editTextNom = (EditText) RU_vg.findViewById(R.id.rechercher_usager_fragment_filtre1_editText);
+        spinner = (Spinner) RU_vg.findViewById(R.id.rechercher_usager_fragment_filtre2_spinner);
+        editTextAdresse = (EditText) RU_vg.findViewById(R.id.rechercher_usager_fragment_filtre3_editText);
+        btnRechercher = (Button) RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button);
+        listView = (ListView) RU_vg.findViewById(R.id.rechercher_usager_fragment_usager_listView);
 
         // Init Actionbar
         //initActionBar();
@@ -161,7 +159,7 @@ public class RechercherUsagerFragment extends Fragment {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
-        RU_vg.findViewById(R.id.btn_ru_rechercher).setVisibility(View.GONE);
+        RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).setVisibility(View.GONE);
 
         //set spinner data
         data_list = new ArrayList<String>();
@@ -183,7 +181,7 @@ public class RechercherUsagerFragment extends Fragment {
                                        int position, long id) {
                 Object item = adapterView.getItemAtPosition(position);
 
-                RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+                RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).callOnClick();
             }
 
             @Override
@@ -200,7 +198,7 @@ public class RechercherUsagerFragment extends Fragment {
     Init Listeners
      */
     public void initListeners() {
-        RU_vg.findViewById(R.id.btn_ru_rechercher).setOnClickListener(new View.OnClickListener() {
+        RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openAllDB();
@@ -339,7 +337,7 @@ public class RechercherUsagerFragment extends Fragment {
                         public View getView(int position, View convertView, ViewGroup parent) {
                             View view;
                             if(convertView==null){
-                                view = View.inflate(getContext(),R.layout.rechercher_usager_listview_item,null);
+                                view = View.inflate(getContext(),R.layout.rechercher_usager_fragment_listview_item,null);
                             }
                             else{
                                 view = convertView;
@@ -414,7 +412,7 @@ public class RechercherUsagerFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+                RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).callOnClick();
                 //close the keyboard when there is nothoing in the editText
                 if(s.toString().isEmpty()){
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -438,7 +436,7 @@ public class RechercherUsagerFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                RU_vg.findViewById(R.id.btn_ru_rechercher).callOnClick();
+                RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).callOnClick();
                 //close the keyboard when there is nothoing in the editText
                 if(s.toString().isEmpty()){
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
