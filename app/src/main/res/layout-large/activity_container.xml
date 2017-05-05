@@ -22,13 +22,13 @@
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/navigation_view"
-                android:layout_width="400dp"
+                android:layout_width="@dimen/contianer_activity_navigation_view_layout_width"
                 android:layout_height="match_parent"
                 android:layout_gravity="start">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#aec6cf"
+                    android:background="@color/navigation_view_background"
                     android:orientation="vertical"
                     >
 
@@ -41,16 +41,16 @@
                         >
                         <TextView
                             android:id="@+id/textView_line1_title"
-                            android:text="NOM"
+                            android:text=""
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/general_txt_size"
                             android:layout_weight="0.5" />
 
                         <TextView
                             android:id="@+id/textView_line1_value"
-                            android:text="NOM USER"
+                            android:text=""
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
@@ -68,16 +68,16 @@
                         >
                         <TextView
                             android:id="@+id/textView_line2_title"
-                            android:text="Prénom"
+                            android:text=""
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/general_txt_size"
                             android:layout_weight="0.5" />
 
                         <TextView
                             android:id="@+id/textView_line2_value"
-                            android:text="Prénom USER"
+                            android:text=""
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
@@ -95,17 +95,17 @@
                         >
                         <TextView
                             android:id="@+id/textView_line3_title"
-                            android:text="Type d'usager"
+                            android:text=""
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:layout_marginBottom="5dp"
                             android:textSize="@dimen/general_txt_size"
                             android:layout_weight="0.5" />
 
                         <TextView
                             android:id="@+id/textView_line3_value"
-                            android:text="Type"
+                            android:text=""
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -125,10 +125,10 @@
                         >
                         <TextView
                             android:id="@+id/textView_line4_title"
-                            android:text="Adresse"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -136,10 +136,10 @@
 
                         <TextView
                             android:id="@+id/textView_line4_value"
-                            android:text="xxx"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/general_txt_size"
                             android:textColor="@color/bluedeep"
                             android:layout_weight="0.5" />
@@ -154,10 +154,10 @@
                         >
                         <TextView
                             android:id="@+id/textView_line5_title"
-                            android:text="Carte"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -165,10 +165,10 @@
 
                         <TextView
                             android:id="@+id/textView_line5_value"
-                            android:text="xxx"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/general_txt_size"
                             android:textColor="@color/bluedeep"
                             android:layout_weight="0.5" />
@@ -183,10 +183,10 @@
                         >
                         <TextView
                             android:id="@+id/textView_line6_title"
-                            android:text="Nb dépôt restant"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -194,10 +194,10 @@
 
                         <TextView
                             android:id="@+id/textView_line6_value"
-                            android:text="xxx"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/general_txt_size"
                             android:textColor="@color/bluedeep"
                             android:layout_weight="0.5" />
@@ -212,10 +212,10 @@
                         >
                         <TextView
                             android:id="@+id/textView_line7_title"
-                            android:text="Apport restant"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/accueil_fragment_textView_nom_decheterie_textSize"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -223,10 +223,10 @@
 
                         <TextView
                             android:id="@+id/textView_line7_value"
-                            android:text="xxx"
+                            android:text=""
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:paddingStart="@dimen/accueil_fragment_textView_paddingStart"
+                            android:paddingStart="@dimen/container_activity_textView_paddingStart"
                             android:textSize="@dimen/general_txt_size"
                             android:textColor="@color/bluedeep"
                             android:layout_weight="0.5" />

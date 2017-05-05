@@ -19,6 +19,10 @@
     <color name="redphoto">#ff8787</color>
     <color name="bluedeep">#ff17457a</color>
     <color name="ac_orange">#FF9F40</color>
+    <color name="navigation_view_background">#aec6cf</color>
+    <color name="ancienne_carte_fragment_line3_title_textView_textColor">#fe8f8f</color>
+    <color name="depot_fragment_top_horizontalScrollViewb_backgroundColor">#aec6cf</color>
+    <color name="dialog_flux_layout_qty_calcul_textView_textColor">#0f0f0f</color>
 
     <color name="splash_color">#5877B5</color>
 

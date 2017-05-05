@@ -1267,7 +1267,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             if(data != null) {
                 IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                 String contents = data.getStringExtra("SCAN_RESULT");
-                ((EditText) findViewById(R.id.editText_barcode)).setText(contents);
+                ((EditText) findViewById(R.id.identification_fragment_barcode_editText)).setText(contents);
             }
         }
     }
@@ -1452,16 +1452,22 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchDecheterieFluxDB.close();
 
         //add usager into DBB
-        usagerDB.insertUsager(new Usager(1,0,"Adèle",null));
-        usagerDB.insertUsager(new Usager(2,0,"Armelle",null));
-        usagerDB.insertUsager(new Usager(3,0,"Bécassine",null));
-        usagerDB.insertUsager(new Usager(4,0,"Bibi",null));
-        usagerDB.insertUsager(new Usager(5,0,"Carine",null));
-        usagerDB.insertUsager(new Usager(6,0,"Carolane",null));
-        usagerDB.insertUsager(new Usager(7,0,"Danielle",null));
-        usagerDB.insertUsager(new Usager(8,0,"Delphine",null));
-        usagerDB.insertUsager(new Usager(9,0,"Edmée",null));
-        usagerDB.insertUsager(new Usager(10,0,"Emilie ",null));
+        usagerDB.insertUsager(new Usager(1,0,"Michael Jordan",null));
+        usagerDB.insertUsager(new Usager(2,0,"Sir Isaac Newton",null));
+        usagerDB.insertUsager(new Usager(3,0,"Jeanne Moreau",null));
+        usagerDB.insertUsager(new Usager(4,0,"Stephen King",null));
+        usagerDB.insertUsager(new Usager(5,0,"J.K. Rowling",null));
+        usagerDB.insertUsager(new Usager(6,0,"Winston Churchill",null));
+        usagerDB.insertUsager(new Usager(7,0,"Thomas Edison",null));
+        usagerDB.insertUsager(new Usager(8,0,"Oprah Winfrey",null));
+        usagerDB.insertUsager(new Usager(9,0,"Walt Disney",null));
+        usagerDB.insertUsager(new Usager(10,0,"Steven Spielberg",null));
+        usagerDB.insertUsager(new Usager(11,0,"Harrison Ford",null));
+        usagerDB.insertUsager(new Usager(12,0,"Theodor Seuss Geisel",null));
+        usagerDB.insertUsager(new Usager(13,0,"Charles Darwin",null));
+        usagerDB.insertUsager(new Usager(14,0,"Richard Feloni ",null));
+        usagerDB.insertUsager(new Usager(15,0,"R.H. Macy",null));
+
         usagerDB.close();
 
         //add comptePrepaye into DBB
@@ -1475,6 +1481,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(8,6,35,3));
         dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(9,6,15,3));
         dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(10,6,13,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(11,11,100,10));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(12,12,50,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(13,13,35,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(14,14,15,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(15,15,13,3));
         dchComptePrepayeDB.close();
 
         //add typeCarte into DBB
@@ -1494,6 +1505,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,1,0));
         dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,3,0));
         dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,1,0));
+        dchCarteDB.insertCarte(new Carte(11,"nqsjncisjq",null,1,0));
+        dchCarteDB.insertCarte(new Carte(12,"cjdsnfiqeq",null,1,0));
+        dchCarteDB.insertCarte(new Carte(13,"xcvfjdns",null,1,0));
+        dchCarteDB.insertCarte(new Carte(14,"fjdsnfj",null,3,0));
+        dchCarteDB.insertCarte(new Carte(15,"vnjsdjfhdsb",null,3,0));
         dchCarteDB.close();
 
         //add carteActive into DBB
@@ -1506,6 +1522,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteActiveDB.insertCarteActive(new CarteActive(8,null,null,3,true,6));
         dchCarteActiveDB.insertCarteActive(new CarteActive(9,null,null,3,true,7));
         dchCarteActiveDB.insertCarteActive(new CarteActive(10,null,null,3,true,9));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(11,null,null,2,true,11));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(12,null,null,2,true,12));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(13,null,null,3,true,13));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(14,null,null,3,true,14));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(15,null,null,3,true,15));
         dchCarteActiveDB.close();
 
         //add carteEtatRaison into BDD
@@ -1552,6 +1573,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4));
         habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2));
         habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4));
+        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1));
+        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1));
+        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4));
+        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2));
+        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4));
         habitatDB.close();
 
         //add menage into BDD
@@ -1576,6 +1602,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,5));//habitat5 not actif
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
         //usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(11,8));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(12,9));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(13,10));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(14,11));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(15,12));
 
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
         usagerHabitatDB.close();
@@ -1696,7 +1727,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 String idCardInformation[] = dumpTagData(tag).split(":");
                 idCard = idCardInformation[1];
 
-                ((EditText) findViewById(R.id.editText_barcode)).setText(idCard.replace(" ", ""));
+                ((EditText) findViewById(R.id.identification_fragment_barcode_editText)).setText(idCard.replace(" ", ""));
 
             }
 

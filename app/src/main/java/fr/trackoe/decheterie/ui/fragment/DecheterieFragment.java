@@ -37,7 +37,7 @@ public class DecheterieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         decheterie_vg = (ViewGroup) inflater.inflate(R.layout.decheteries_fragment, container, false);
-        listView = (ListView) decheterie_vg.findViewById(R.id.listView);
+        listView = (ListView) decheterie_vg.findViewById(R.id.decheterie_fragment_listView);
         // Init Actionbar
         //initActionBar();
 
@@ -104,14 +104,14 @@ public class DecheterieFragment extends Fragment {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view;
                 if(convertView==null){
-                    view = View.inflate(getContext(),R.layout.item,null);
+                    view = View.inflate(getContext(),R.layout.decheteries_fragment_listview_item,null);
                 }
                 else{
                     view = convertView;
                 }
 
                 final Decheterie decheterie = decheterieList.get(position);
-                final TextView name = (TextView)view.findViewById(R.id.dechetrie_name);
+                final TextView name = (TextView)view.findViewById(R.id.decheteries_fragment_listView_item_dechetrie_name_textView);
                 name.setText(decheterie.getNom());
                 name.setOnClickListener(new View.OnClickListener() {
 
@@ -140,7 +140,7 @@ public class DecheterieFragment extends Fragment {
      */
     public void initListeners() {
         System.out.println("DecheterieFragment initListeners()");
-        EditText edittext_filtre = (EditText) decheterie_vg.findViewById(R.id.edittext_filtre);
+        EditText edittext_filtre = (EditText) decheterie_vg.findViewById(R.id.decheterie_fragment_filtre_editText);
         listView.setItemsCanFocus(false);
         TextWatcher listener = new TextWatcher() {
             @Override
@@ -176,14 +176,14 @@ public class DecheterieFragment extends Fragment {
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view;
                         if(convertView==null){
-                            view = View.inflate(getContext(),R.layout.item,null);
+                            view = View.inflate(getContext(),R.layout.decheteries_fragment_listview_item,null);
                         }
                         else{
                             view = convertView;
                         }
 
                         final Decheterie decheterie = decheteries.get(position);
-                        final TextView name = (TextView)view.findViewById(R.id.dechetrie_name);
+                        final TextView name = (TextView)view.findViewById(R.id.decheteries_fragment_listView_item_dechetrie_name_textView);
                         name.setText(decheterie.getNom());
                         name.setOnClickListener(new View.OnClickListener() {
 

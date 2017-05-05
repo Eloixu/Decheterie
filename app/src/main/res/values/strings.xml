@@ -39,8 +39,59 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
+    <!--Container Activity-->
+
+
+    <!--Ancienne carte Fragment-->
+    <string name="ancienne_carte_fragment_line1_title_textView_text">N° de carte: </string>
+    <string name="ancienne_carte_fragment_line2_title_textView_text">Usager: </string>
+    <string name="ancienne_carte_fragment_line3_title_textView_text">Ancienne carte: </string>
+    <string name="ancienne_carte_fragment_line4_value_textView_text">pour cet usager</string>
+    <string name="ancienne_carte_fragment_changement_button_text">Changement de carte</string>
+    <string name="ancienne_carte_fragment_retour_scanner_button_text">Retour et scanner une nouvelle carte</string>
+
+    <!--Apport Pro Fragment-->
+    <string name="apport_pro_fragment_top_up_line1_title_textView_text">Raison sociale:</string>
+    <string name="apport_pro_fragment_top_up_line1_value_textView_text">NOM RAISON SOCIALE</string>
+    <string name="apport_pro_fragment_top_up_line2_title_textView_text">Adresse:</string>
+    <string name="apport_pro_fragment_top_up_line2_value_textView_text">ADRESSE</string>
+    <string name="apport_pro_fragment_top_up_line3_title_textView_text">N° de carte:</string>
+    <string name="apport_pro_fragment_top_up_line3_value_textView_text">NUMERO DE CARTE</string>
+    <string name="apport_pro_fragment_left_up_line1_title_textView_text">Volume prépayés avant décompte:</string>
+    <string name="apport_pro_fragment_left_up_line1_value_textView_text">X.XX m3</string>
+    <string name="apport_pro_fragment_left_up_line2_title_textView_text">Volume apporté et décompté:</string>
+    <string name="apport_pro_fragment_left_up_line2_value_textView_text">X.XX m3</string>
+    <string name="apport_pro_fragment_bottom_left_up_line3_title_textView_text">Compte prépayés après décomptes:</string>
+    <string name="apport_pro_fragment_bottom_left_up_line3_value_textView_text">X.XX m3</string>
+    <string name="apport_pro_fragment_left_up_information_textView_text">Par ma signature je reconnais avoir pris connaissance et confirmé le décompte des apports.</string>
+    <string name="apport_pro_fragment_valider_button_text">valider</string>
+    <string name="apport_pro_fragment_signature_information_textView_text">Fait à la déchèterie de XXX, le JJ/MM/AAAA \nSignature</string>
+
+    <!--Decheterie Fragment-->
+    <string name="decheterie_fragment_filtre_textView_text">Filtre :</string>
+    <string name="decheteries_fragment_listView_item_dechetrie_name_textView_text">Name</string>
+
+    <!--Depot Fragment-->
+    <string name="depot_fragment_volume_total_textView_text">Volume total : </string>
+    <string name="depot_fragment_valider_button_text">valider</string>
+    <string name="depot_fragment_flux_item_textView_text">fluxNom</string>
+
+    <!--Dialog Flux-->
+    <string name="dialog_flux_layout_title_text">Information</string>
+    <string name="dialog_flux_layout_message_text">Vous avez sélectionné flux carton_plus_papier</string>
+    <string name="dialog_flux_layout_quantite_apporte_textView_text">Quantité apportée:   </string>
+    <string name="dialog_flux_layout_unite_line1_textView_text">unite</string>
+    <string name="dialog_flux_layout_quantite_decompte_textView_text">Quantité décomptée:   </string>
+    <string name="dialog_flux_layout_unite_line2_textView_text">unite</string>
+    <string name="dialog_flux_layout_line3_textView_text">La quantité décomptée est</string>
+    <string name="dialog_flux_layout_qty_calcul_textView_text">0.0</string>
+    <string name="dialog_flux_layout_unite_line3_textView_text">   unite</string>
+    <string name="dialog_flux_layout_point_line3_textView_text">.</string>
+    <string name="dialog_flux_layout_positive_button_text">ok</string>
+
     <!--Identification Fragment-->
-    <string name="textView_line1_title">Veuillez scanner le barcode</string>
+    <string name="identification_fragment_line1_title_textView_text">Veuillez scanner le barcode</string>
+    <string name="identification_fragment_suivant_button_text">Suivant</string>
 
     <!--  Error message -->
     <string name="error_btn_ok">OK</string>

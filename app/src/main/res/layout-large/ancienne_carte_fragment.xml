@@ -4,26 +4,26 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="60dp"
-    android:paddingLeft="150dp">
+    android:paddingTop="@dimen/ancienne_carte_linearLayout_paddingTop"
+    android:paddingLeft="@dimen/ancienne_carte_linearLayout_paddingLeft">
 
     <LinearLayout
-        android:id="@+id/linearLayout_line1"
+        android:id="@+id/ancienne_carte_fragment_line1_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/ancienne_carte_linearLayout_marginBottom"
         >
         <TextView
-            android:id="@+id/textView_line1_title"
-            android:text="N° de carte: "
+            android:id="@+id/ancienne_carte_fragment_line1_title_textView"
+            android:text="@string/ancienne_carte_fragment_line1_title_textView_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"/>
 
         <TextView
-            android:id="@+id/textView_line1_value"
-            android:text="XXXXXX"
+            android:id="@+id/ancienne_carte_fragment_line1_value_textView"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"
@@ -32,22 +32,22 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout_line2"
+        android:id="@+id/ancienne_carte_fragment_line2_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/ancienne_carte_linearLayout_marginBottom"
         >
         <TextView
-            android:id="@+id/textView_line2_title"
-            android:text="Usager: "
+            android:id="@+id/ancienne_carte_fragment_line2_title_textView"
+            android:text="@string/ancienne_carte_fragment_line2_title_textView_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size" />
 
         <TextView
-            android:id="@+id/textView_top_up_line2_value"
-            android:text="XXXXXX"
+            android:id="@+id/ancienne_carte_fragment_line2_value_textView"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"
@@ -56,39 +56,39 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout_line3"
+        android:id="@+id/ancienne_carte_fragment_line3_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/ancienne_carte_linearLayout_marginBottom"
 
         >
         <TextView
-            android:id="@+id/textView_line3_title"
-            android:text="Ancienne carte: "
+            android:id="@+id/ancienne_carte_fragment_line3_title_textView"
+            android:text="@string/ancienne_carte_fragment_line3_title_textView_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"
             android:textStyle="bold"
-            android:textColor="#fe8f8f" />
+            android:textColor="@color/ancienne_carte_fragment_line3_title_textView_textColor" />
 
         <TextView
-            android:id="@+id/textView_line3_value"
-            android:text="La carte a été désactivée"
+            android:id="@+id/ancienne_carte_fragment_line3_value_textView"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout_line4"
+        android:id="@+id/ancienne_carte_fragment_line4_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/ancienne_carte_linearLayout_marginBottom"
         >
         <TextView
-            android:id="@+id/textView_line4_title"
+            android:id="@+id/ancienne_carte_fragment_line4_title_textView"
             android:text="Aucune carte active "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,33 +97,33 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView_line4_value"
-            android:text="pour cet usager"
+            android:id="@+id/ancienne_carte_fragment_line4_value_textView"
+            android:text="@string/ancienne_carte_fragment_line4_value_textView_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"/>
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_changement"
-        android:text="Changement de carte"
-        android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
-        android:layout_width="@dimen/accueil_fragment_btn_identification_layout_width"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="@dimen/accueil_fragment_btn_identification_layout_marginBottom"
+        android:id="@+id/ancienne_carte_fragment_changement_button"
+        android:text="@string/ancienne_carte_fragment_changement_button_text"
+        android:textSize="@dimen/ancienne_carte_fragment_changement_button_textSize"
+        android:layout_width="@dimen/ancienne_carte_fragment_changement_button_layout_width"
+        android:layout_height="@dimen/ancienne_carte_fragment_changement_button_layout_height"
+        android:layout_marginTop="@dimen/ancienne_carte_fragment_changement_button_layout_marginTop"
+        android:layout_marginBottom="@dimen/ancienne_carte_fragment_changement_button_layout_marginBottom"
         android:textColor="@color/white"
         android:drawableEnd="@drawable/refresh2"
         android:background="@drawable/button_blue"
-        android:paddingEnd="25dp" />
+        android:paddingEnd="@dimen/ancienne_carte_fragment_changement_button_paddingEnd" />
 
     <Button
-        android:id="@+id/btn_retour_scanner"
-        android:text="Retour et scanner une nouvelle carte"
-        android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
-        android:layout_width="@dimen/accueil_fragment_btn_identification_layout_width"
-        android:layout_height="70dp"
-        android:layout_marginBottom="@dimen/accueil_fragment_btn_identification_layout_marginBottom"
+        android:id="@+id/ancienne_carte_fragment_retour_scanner_button"
+        android:text="@string/ancienne_carte_fragment_retour_scanner_button_text"
+        android:textSize="@dimen/ancienne_carte_fragment_retour_scanner_button_textSize"
+        android:layout_width="@dimen/ancienne_carte_fragment_retour_scanner_button_layout_width"
+        android:layout_height="@dimen/ancienne_carte_fragment_retour_scanner_button_layout_height"
+        android:layout_marginBottom="@dimen/ancienne_carte_fragment_retour_scanner_button_layout_marginBottom"
         android:textColor="@color/white"
         android:background="@drawable/button_blue" />
 
