@@ -20,6 +20,8 @@
     <color name="bluedeep">#ff17457a</color>
     <color name="ac_orange">#FF9F40</color>
 
+    <color name="splash_color">#5877B5</color>
+
     <!--Ecran tablette-->
     <color name="tablette_hint">#9A9A9A</color>
 

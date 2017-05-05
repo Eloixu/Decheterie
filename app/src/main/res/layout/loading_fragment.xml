@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/load_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/splash_color" >
+
+    <ImageView
+        android:id="@+id/load_img_header"
+        android:layout_width="@dimen/tablette_img_width"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_trackoe"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="@dimen/tablette_img_margin"
+        android:layout_marginEnd="@dimen/tablette_img_margin"
+        android:layout_marginTop="@dimen/tablette_img_margin" />
+
+    <TextView
+        android:id="@+id/load_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/load_img_header"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="@string/load_title"
+        android:textSize="@dimen/title_txt_size"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/load_title"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/load_text_spe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Chargement des utilisateurs :"
+            android:textSize="@dimen/general_txt_size"
+            android:layout_marginTop="@dimen/margin_16"/>
+
+
+        <ProgressBar
+            android:id="@+id/load_spe_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="256dp"
+            android:layout_height="28dp"
+            android:progress="75"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_28"
+            android:layout_marginStart="@dimen/margin_28"
+            android:layout_marginLeft="@dimen/margin_28"
+            android:layout_marginEnd="@dimen/margin_28"
+            android:layout_marginRight="@dimen/margin_28">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
+
+                        <ImageView
+                            android:id="@+id/load_habitat_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_habitat_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_habitat_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_habitat"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
+
+                        <ImageView
+                            android:id="@+id/load_local_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_local_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_local_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_local"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
+
+                        <ImageView
+                            android:id="@+id/load_menage_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_menage_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_menage_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_menage"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
+
+                        <ImageView
+                            android:id="@+id/load_usager_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_usager_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_usager_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_usager"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
+
+                        <ImageView
+                            android:id="@+id/load_usager_habitat_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_usager_habitat_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_usager_habitat_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_usager_habitat"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
+
+                        <ImageView
+                            android:id="@+id/load_usager_menage_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_usager_menage_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_usager_menage_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_usager_menage"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

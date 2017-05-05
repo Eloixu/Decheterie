@@ -11,7 +11,6 @@ public class Menage {
     private String email;
     private int nbHabitants;
     private String reference;
-    private int habitatId;
     private boolean actif;
     private String telephone;
     private String civilite;
@@ -21,14 +20,13 @@ public class Menage {
 
     }
 
-    public Menage(int id, String nom, String prenom, String email, int nbHabitants, String reference, int habitatId, boolean actif, String telephone, String civilite,int localId) {
+    public Menage(int id, String nom, String prenom, String email, int nbHabitants, String reference, boolean actif, String telephone, String civilite,int localId) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.nbHabitants = nbHabitants;
         this.reference = reference;
-        this.habitatId = habitatId;
         this.actif = actif;
         this.telephone = telephone;
         this.civilite = civilite;
@@ -81,14 +79,6 @@ public class Menage {
 
     public void setReference(String reference) {
         this.reference = reference;
-    }
-
-    public int getHabitatId() {
-        return habitatId;
-    }
-
-    public void setHabitatId(int habitatId) {
-        this.habitatId = habitatId;
     }
 
     public boolean isActif() {

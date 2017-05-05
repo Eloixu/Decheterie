@@ -210,5 +210,22 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--Ecran loading -->
+    <string name="load_title">Veuillez patienter pendant le chargement des informations :</string>
+    <string name="load_text_all">Avancement :</string>
+    <string name="load_habitat">• Habitats / Type habitat</string>
+    <string name="load_habitat_tv">Chargement des habitats</string>
+    <string name="load_local">• Locaux</string>
+    <string name="load_local_tv">Chargement des locaux</string>
+    <string name="load_menage">• Ménages</string>
+    <string name="load_menage_tv">Chargement des ménages</string>
+    <string name="load_usager">• Usagers</string>
+    <string name="load_usager_tv">Chargement des usagers</string>
+    <string name="load_usager_habitat">• Liaison Usager/Habitat</string>
+    <string name="load_usager_habitat_tv">Chargement des liaisons usager/habitat</string>
+    <string name="load_usager_menage">• Liaison Usager/Ménage</string>
+    <string name="load_usager_menage_tv">Chargement des liaisons usager/ménage</string>
+    <string name="chargement_success">Chargement réalisé avec succès!</string>
+
 
 </resources>

@@ -11,6 +11,7 @@ public class Habitat {
     private String ville;
     private int nbLgt;
     private int nbHabitant;
+    private int idAccount;
     private String nom;
     private String reference;
     private String coordonneesX;
@@ -35,6 +36,28 @@ public class Habitat {
         this.ville = ville;
         this.nbLgt = nbLgt;
         this.nbHabitant = nbHabitant;
+        this.nom = nom;
+        this.reference = reference;
+        this.coordonneesX = coordonneesX;
+        this.coordonneesY = coordonneesY;
+        this.complement = complement;
+        this.dernierMaj = dernierMaj;
+        this.numero = numero;
+        this.isActif = isActif;
+        this.activites = activites;
+        this.adresse2 = adresse2;
+        this.remarque = remarque;
+        this.idTypeHabitat = idTypeHabitat;
+    }
+
+    public Habitat(int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitant, int idAccount, String nom, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String activites, String adresse2, String remarque, int idTypeHabitat) {
+        this.idHabitat = idHabitat;
+        this.adresse = adresse;
+        this.cp = cp;
+        this.ville = ville;
+        this.nbLgt = nbLgt;
+        this.nbHabitant = nbHabitant;
+        this.idAccount = idAccount;
         this.nom = nom;
         this.reference = reference;
         this.coordonneesX = coordonneesX;
@@ -191,5 +214,13 @@ public class Habitat {
 
     public void setIdTypeHabitat(int idTypeHabitat) {
         this.idTypeHabitat = idTypeHabitat;
+    }
+
+    public int getIdAccount() {
+        return idAccount;
+    }
+
+    public void setIdAccount(int idAccount) {
+        this.idAccount = idAccount;
     }
 }

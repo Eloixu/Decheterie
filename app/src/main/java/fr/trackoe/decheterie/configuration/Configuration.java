@@ -66,6 +66,14 @@ public abstract class Configuration {
         params.edit().putBoolean(Const.IS_OUI_CLICKED, IsOuiClicked).commit();
     }
 
+    public static int getIdAccount() {
+//        return params.getInt(Const.ID_ACCOUNT, -1);
+        return 119;
+    }
+
+    public static void saveIdAccount(int idAccount) {
+        params.edit().putInt(Const.ID_ACCOUNT, idAccount).commit();
+    }
 
     public static void saveIdUser(int idUser) {
         params.edit().putInt(Const.ID_USER, idUser).commit();
@@ -141,10 +149,6 @@ public abstract class Configuration {
 
     public static void saveIdOpCl(int idOpCl) {
         params.edit().putInt(Const.ID_OP_CL, idOpCl).commit();
-    }
-
-    public static void saveIdAccount(int idAccount) {
-        params.edit().putInt(Const.ID_ACCOUNT, idAccount).commit();
     }
 
     public static String getDateMAJ() {
@@ -267,7 +271,8 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://contenant.trackoe.fr/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+        return "http://localhost:8080/dev/ws/";
+//        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 
     //    Récupération des users
@@ -386,6 +391,34 @@ public abstract class Configuration {
     //    Test Url
     public String getTestUrl(Context ctx, int value) {
         return getWebServiceContenantHost(ctx) + "ws_load_value.php?value=" + value;
+    }
+
+    public String getTypeHabitatUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsTypeHabitat";
+    }
+
+    public String getAllHabitatUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllHabitat?idAccount=" + idAccount;
+    }
+
+    public String getAllLocalUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllLocal?idAccount=" + idAccount;
+    }
+
+    public String getAllMenageUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllMenage?idAccount=" + idAccount;
+    }
+
+    public String getAllUsagerUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllUsager?idAccount=" + idAccount;
+    }
+
+    public String getAllUsagerHabitatUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllUsagerHabitat?idAccount=" + idAccount;
+    }
+
+    public String getAllUsagerMenageUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllUsagerMenage?idAccount=" + idAccount;
     }
 
     public String getEncodedParam(String param) {

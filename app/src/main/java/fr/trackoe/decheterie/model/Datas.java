@@ -6,24 +6,34 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
-import java.util.ArrayList;
-
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Modules;
-import fr.trackoe.decheterie.model.bean.global.Rues;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
+import fr.trackoe.decheterie.model.bean.global.TypeHabitats;
 import fr.trackoe.decheterie.model.bean.global.Users;
-import fr.trackoe.decheterie.model.bean.global.Ville;
-import fr.trackoe.decheterie.model.bean.global.Villes;
+import fr.trackoe.decheterie.model.bean.usager.Habitats;
+import fr.trackoe.decheterie.model.bean.usager.Locaux;
+import fr.trackoe.decheterie.model.bean.usager.Menages;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMenages;
+import fr.trackoe.decheterie.model.bean.usager.Usagers;
 import fr.trackoe.decheterie.service.cache.CacheConst;
 import fr.trackoe.decheterie.service.cache.URCache;
+import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.parser.ApkInfosParser;
+import fr.trackoe.decheterie.service.parser.HabitatsParser;
 import fr.trackoe.decheterie.service.parser.InfosParser;
+import fr.trackoe.decheterie.service.parser.LocalParser;
+import fr.trackoe.decheterie.service.parser.MenageParser;
 import fr.trackoe.decheterie.service.parser.ModulesParser;
 import fr.trackoe.decheterie.service.parser.OptaeParser;
+import fr.trackoe.decheterie.service.parser.TypeHabitatParser;
+import fr.trackoe.decheterie.service.parser.UsagerHabitatParser;
+import fr.trackoe.decheterie.service.parser.UsagerMenageParser;
+import fr.trackoe.decheterie.service.parser.UsagerParser;
 import fr.trackoe.decheterie.service.parser.UsersParser;
 
 /**
@@ -83,6 +93,48 @@ public class Datas {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    // Récupération des types habitats
+    public static void loadTypeHabitat(Context ctx, DataAndErrorCallback<TypeHabitats> callback) {
+        String url = Configuration.getInstance(ctx).getTypeHabitatUrl(ctx);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new TypeHabitatParser());
+    }
+
+    // Récupération des habitats
+    public static void loadAllHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllHabitatUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatsParser());
+    }
+
+    // Récupération des locaux
+    public static void loadAllLocal(Context ctx, DataAndErrorCallback<Locaux> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllLocalUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new LocalParser());
+    }
+
+    // Récupération des ménages
+    public static void loadAllMenage(Context ctx, DataAndErrorCallback<Menages> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllMenageUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new MenageParser());
+    }
+
+    // Récupération des usagers
+    public static void loadAllUsager(Context ctx, DataAndErrorCallback<Usagers> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllUsagerUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerParser());
+    }
+
+    // Récupération de la liaison usager habitat
+    public static void loadAllUsagerHabitat(Context ctx, DataAndErrorCallback<UsagerHabitats> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllUsagerHabitatUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerHabitatParser());
+    }
+
+    // Récupération de la liaison usager ménage
+    public static void loadAllUsagerMenage(Context ctx, DataAndErrorCallback<UsagerMenages> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllUsagerMenageUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerMenageParser());
     }
 
 }

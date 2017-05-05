@@ -6,7 +6,13 @@
 
     <!--General-->
     <dimen name="general_txt_size">20sp</dimen>
+    <dimen name="title_txt_size">24sp</dimen>
     <dimen name="formulaire_pav_txt_size">18sp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
 
     <!-- ActionBar -->
     <dimen name="actionbar_txt_size">16sp</dimen>
@@ -217,6 +223,9 @@
     <dimen name="mrf_margin_listview">12dp</dimen>
     <dimen name="rmf_style_btn_padding">20dp</dimen>
     <dimen name="mrf_title2_size">16sp</dimen>
+
+    <!--Ecran Loading-->
+    <dimen name="load_avance_general_size">350dp</dimen>
 
 
 </resources>

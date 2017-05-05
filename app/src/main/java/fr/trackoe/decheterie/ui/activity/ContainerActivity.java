@@ -102,13 +102,20 @@ import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
+import fr.trackoe.decheterie.model.bean.usager.Habitats;
 import fr.trackoe.decheterie.model.bean.global.Icon;
+import fr.trackoe.decheterie.model.bean.usager.Locaux;
+import fr.trackoe.decheterie.model.bean.usager.Menages;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.TypeCarte;
 import fr.trackoe.decheterie.model.bean.global.TypeHabitat;
+import fr.trackoe.decheterie.model.bean.global.TypeHabitats;
 import fr.trackoe.decheterie.model.bean.global.Unite;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMenages;
+import fr.trackoe.decheterie.model.bean.usager.Usagers;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.model.bean.usager.Habitat;
 import fr.trackoe.decheterie.model.bean.usager.Local;
@@ -116,15 +123,16 @@ import fr.trackoe.decheterie.model.bean.usager.Menage;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
+import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
-import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.ApportProFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
+import fr.trackoe.decheterie.ui.fragment.LoadingFragment;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
@@ -215,18 +223,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
-            /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
-            fragmentTransaction.commit();*/
 
         } else {
             //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-            /*fragmentTransaction=getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container,new AccueilFragment());
-            fragmentTransaction.commit();*/
         }
 
+//        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -242,18 +245,15 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             //Handle some NFC initialization here
             Toast.makeText(this, "NFC available on this device",
                     Toast.LENGTH_SHORT).show();
+            if (!mNfcAdapter.isEnabled())
+            {
+                Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+            }
         }
         else {
             Toast.makeText(this, "NFC not available on this device",
                     Toast.LENGTH_SHORT).show();}
-
-        if (!mNfcAdapter.isEnabled())
-        {
-            Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-        }
-
-
 
     }
 
@@ -449,7 +449,376 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         }
     }
 
+    // Récupération des habitats
+    public void loadTypeHabitat() {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadTypeHabitat(activity, new DataAndErrorCallback<TypeHabitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    // TODO
+                }
 
+                @Override
+                public void dataLoaded(TypeHabitats data) {
+                    if (activity != null) {
+                        if (data.ismSuccess()) {
+                            try {
+                                TypeHabitatDB thdb = new TypeHabitatDB(activity);
+                                thdb.open();
+                                thdb.clearTypeHabitat();
+                                for (TypeHabitat th : data.getListTypeHabitat()) {
+                                    thdb.insertTypeHabitat(th);
+                                }
+                                thdb.close();
+                            } catch (Exception e) {
+                            }
+                        } else {
+                        }
+                    }
+                }
+            });
+
+        }
+    }
+
+    public void loadHabitat(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllHabitat(activity, new DataAndErrorCallback<Habitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    // TODO
+                }
+
+                @Override
+                public void dataLoaded(final Habitats data) {
+                    try {
+                        final HabitatDB hdb = new HabitatDB(activity);
+                        hdb.open();
+                        hdb.clearHabitat();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListHabitat().size());
+                        }
+                        hdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    hdb.open();
+                                    for(int i = 0; i < data.getListHabitat().size(); i++) {
+                                        hdb.insertHabitat(data.getListHabitat().get(i));
+                                        if(getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                    hdb.close();
+
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).launchLocalAction();
+                                            }
+                                        });
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadLocal(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllLocal(activity, new DataAndErrorCallback<Locaux>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Locaux data) {
+                    try {
+                        final LocalDB ldb = new LocalDB(activity);
+                        ldb.open();
+                        ldb.clearLocal();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListLocal().size());
+                        }
+                        ldb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ldb.open();
+                                for(int i = 0; i < data.getListLocal().size(); i++) {
+                                    ldb.insertLocal(data.getListLocal().get(i));
+                                    if( getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                ldb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchMenageAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+
+        }
+    }
+
+    public void loadMenage(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllMenage(activity, new DataAndErrorCallback<Menages>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Menages data) {
+                    try {
+                        final MenageDB mdb = new MenageDB(activity);
+                        mdb.open();
+                        mdb.clearMenage();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListMenage().size());
+                        }
+                        mdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mdb.open();
+                                for(int i = 0; i < data.getListMenage().size(); i++) {
+                                    mdb.insertMenage(data.getListMenage().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                mdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchUsagerAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadUsager(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllUsager(activity, new DataAndErrorCallback<Usagers>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Usagers data) {
+                    try {
+                        final UsagerDB udb = new UsagerDB(activity);
+                        udb.open();
+                        udb.clearUsager();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListUsager().size());
+                        }
+                        udb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                for(int i = 0; i < data.getListUsager().size(); i++) {
+                                    udb.insertUsager(data.getListUsager().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                udb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchUsagerHabitatAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadUsagerHabitat(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllUsagerHabitat(activity, new DataAndErrorCallback<UsagerHabitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final UsagerHabitats data) {
+                    try {
+                        final UsagerHabitatDB udb = new UsagerHabitatDB(activity);
+                        udb.open();
+                        udb.clearUsagerHabitat();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListUsagerHabitat().size());
+                        }
+                        udb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                for(int i = 0; i < data.getListUsagerHabitat().size(); i++) {
+                                    udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                udb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchUsagerMenageAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+
+        }
+    }
+
+    public void loadUsagerMenage(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllUsagerMenage(activity, new DataAndErrorCallback<UsagerMenages>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final UsagerMenages data) {
+                    try {
+                        final UsagerMenageDB udb = new UsagerMenageDB(activity);
+                        udb.open();
+                        udb.clearUsagerMenage();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListUsagerMenage().size());
+                        }
+                        udb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                for(int i = 0; i < data.getListUsagerMenage().size(); i++) {
+                                    udb.insertUsagerMenage(data.getListUsagerMenage().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                udb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+
+        }
+    }
 
     public Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentByTag(CURRENT_FRAG_TAG);
@@ -1186,13 +1555,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         habitatDB.close();
 
         //add menage into BDD
-        menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",0,true,"0123456789","M",1));
-        menageDB.insertMenage(new Menage(2,"COQUET","Remi","rcoquet@trackoe.fr",3,"124AD",0,true,"0776583366","M",2));
-        menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",0,true,"0605040302","M",3));
-        menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,0,true,"0345678991","M",3));
-        menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,0,true,"0634217690","M",2));
-        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,0,false,"0123456789","M",1));
-        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,0,false,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",true,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(2,"COQUET","Remi","rcoquet@trackoe.fr",3,"124AD",true,"0776583366","M",2));
+        menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",true,"0605040302","M",3));
+        menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,true,"0345678991","M",3));
+        menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,true,"0634217690","M",2));
+        menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,false,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,false,"0123456789","M",1));
         menageDB.close();
 
         //add local into DBB
