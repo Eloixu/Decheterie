@@ -37,13 +37,19 @@ public class DchComptePrepayeDB extends MyDb {
 
     public ComptePrepaye cursorToComptePrepaye(Cursor c){
         ComptePrepaye cp = new ComptePrepaye();
-        if(c.moveToFirst()) {
-            cp.setId(c.getLong(DecheterieDatabase.TableDchComptePrepaye.NUM_ID));
-            cp.setDchUsagerId(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_DCH_USAGER_ID));
-            cp.setQtyPoint(c.getFloat(DecheterieDatabase.TableDchComptePrepaye.NUM_QTY_POINT));
-            cp.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_NB_DEPOT_RESTANT));
+        try {
+            if (c.moveToFirst()) {
+                cp.setId(c.getLong(DecheterieDatabase.TableDchComptePrepaye.NUM_ID));
+                cp.setDchUsagerId(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_DCH_USAGER_ID));
+                cp.setQtyPoint(c.getFloat(DecheterieDatabase.TableDchComptePrepaye.NUM_QTY_POINT));
+                cp.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_NB_DEPOT_RESTANT));
+            }
+            return cp;
+
+        }catch(Exception e){
+            return cp;
         }
-        return cp;
+
     }
 
 

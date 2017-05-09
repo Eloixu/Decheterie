@@ -39,17 +39,20 @@ public class DchCarteActiveDB extends MyDb {
 
     public CarteActive cursorToCarteActive(Cursor c){
         CarteActive ca = new CarteActive();
-        if(c.moveToFirst()) {
-            ca.setDchCarteId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ID));
-            ca.setDateActivation(c.getString(DecheterieDatabase.TableDchCarteActive.NUM_DATE_ACTIVATION));
-            ca.setDateDernierMotif(c.getString(DecheterieDatabase.TableDchCarteActive.NUM_DATE_DERNIER_MOTIF));
-            ca.setDchCarteEtatRaisonId(c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ETAT_RAISON_ID));
-            ca.setActive((c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_IS_ACTIVE) == 1)? true : false);
-            ca.setDchComptePrepayeId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_COMPTE_PREPAYE_ID));
+        try {
+            if (c.moveToFirst()) {
+                ca.setDchCarteId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ID));
+                ca.setDateActivation(c.getString(DecheterieDatabase.TableDchCarteActive.NUM_DATE_ACTIVATION));
+                ca.setDateDernierMotif(c.getString(DecheterieDatabase.TableDchCarteActive.NUM_DATE_DERNIER_MOTIF));
+                ca.setDchCarteEtatRaisonId(c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ETAT_RAISON_ID));
+                ca.setActive((c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_IS_ACTIVE) == 1) ? true : false);
+                ca.setDchComptePrepayeId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_COMPTE_PREPAYE_ID));
+                return ca;
+            } else {
+                return null;
+            }
+        }catch(Exception e){
             return ca;
-        }
-        else{
-            return null;
         }
 
     }

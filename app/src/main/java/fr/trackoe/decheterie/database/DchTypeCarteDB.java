@@ -51,27 +51,34 @@ public class DchTypeCarteDB extends MyDb {
 
     public TypeCarte cursorToTypeCarte(Cursor c){
         TypeCarte t = new TypeCarte();
-        if(c.moveToFirst()) {
-            t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
-            t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
+        try {
+            if (c.moveToFirst()) {
+                t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
+                t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
+            }
+            return t;
+        }catch(Exception e){
+            return t;
         }
-        return t;
     }
 
     public ArrayList<TypeCarte> cursorToListeTypeCarte(Cursor c){
         ArrayList<TypeCarte> typeCarteList = new ArrayList<>();
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    TypeCarte t = new TypeCarte();
+                    t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
+                    t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
+                    typeCarteList.add(t);
+                } while (c.moveToNext());
 
-        if (c.moveToFirst()) {
-            do {
-                TypeCarte t = new TypeCarte();
-                t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
-                t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
-                typeCarteList.add(t);
-            } while (c.moveToNext());
-
-            c.close();
+                c.close();
+            }
+            return typeCarteList;
+        }catch(Exception e){
+            return typeCarteList;
         }
-        return typeCarteList;
     }
 
     /*

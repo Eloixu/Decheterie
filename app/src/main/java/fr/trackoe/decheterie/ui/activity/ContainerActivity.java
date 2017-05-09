@@ -202,7 +202,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         activity = this;
         initSharedPreference(activity);
         //initActionBar();
-        parametres = (Button) findViewById(R.id.toolbar_parametres);
+        parametres = (Button) findViewById(R.id.toolbar_parametres_button);
         parametres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

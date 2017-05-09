@@ -72,6 +72,7 @@
             android:drawableEnd="@drawable/barcode2"
             android:background="@drawable/button_blue"
             android:paddingEnd="@dimen/accueil_fragment_btn_identification_paddingEnd"
+            android:paddingRight="@dimen/accueil_fragment_btn_identification_paddingEnd"
             android:layout_weight="0.13" />
 
         <Button

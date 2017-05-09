@@ -55,37 +55,43 @@ public class DchCarteDB extends MyDb {
 
     public Carte cursorToCarte(Cursor c){
         Carte carte = new Carte();
-        if(c.moveToFirst()) {
-            carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));
-            carte.setNumCarte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
-            carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
-            carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
-            carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+        try {
+            if (c.moveToFirst()) {
+                carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));
+                carte.setNumCarte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
+                carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
+                carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
+                carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+                return carte;
+            } else {
+                return null;
+            }
+        }catch(Exception e){
             return carte;
-        }
-        else{
-            return null;
         }
 
     }
 
     private ArrayList<Carte> cursorToListeCarte(Cursor c) {
         ArrayList<Carte> carteList = new ArrayList<>();
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    Carte carte = new Carte();
+                    carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));
+                    carte.setNumCarte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
+                    carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
+                    carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
+                    carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
+                    carteList.add(carte);
+                } while (c.moveToNext());
 
-        if (c.moveToFirst()) {
-            do {
-                Carte carte = new Carte();
-                carte.setId(c.getLong(DecheterieDatabase.TableDchCarte.NUM_ID));
-                carte.setNumCarte(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_CARTE));
-                carte.setNumRFID(c.getString(DecheterieDatabase.TableDchCarte.NUM_NUM_RFID));
-                carte.setDchTypeCarteId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_TYPE_CARTE_ID));
-                carte.setDchAccountId(c.getInt(DecheterieDatabase.TableDchCarte.NUM_DCH_ACCOUNT_ID));
-                carteList.add(carte);
-            } while (c.moveToNext());
-
-            c.close();
+                c.close();
+            }
+            return carteList;
+        }catch(Exception e){
+            return carteList;
         }
-        return carteList;
     }
 
     /*

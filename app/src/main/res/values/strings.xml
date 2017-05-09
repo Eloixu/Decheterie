@@ -43,9 +43,10 @@
 
 
     <!--Ancienne carte Fragment-->
-    <string name="ancienne_carte_fragment_line1_title_textView_text">N° de carte: </string>
-    <string name="ancienne_carte_fragment_line2_title_textView_text">Usager: </string>
-    <string name="ancienne_carte_fragment_line3_title_textView_text">Ancienne carte: </string>
+    <string name="ancienne_carte_fragment_line1_title_textView_text">N° de carte:&#160;</string>
+    <string name="ancienne_carte_fragment_line2_title_textView_text">Usager:&#160;</string>
+    <string name="ancienne_carte_fragment_line3_title_textView_text">Ancienne carte:&#160;</string>
+    <string name="ancienne_carte_fragment_line4_title_textView_text">Aucune carte active&#160;</string>
     <string name="ancienne_carte_fragment_line4_value_textView_text">pour cet usager</string>
     <string name="ancienne_carte_fragment_changement_button_text">Changement de carte</string>
     <string name="ancienne_carte_fragment_retour_scanner_button_text">Retour et scanner une nouvelle carte</string>
@@ -78,8 +79,26 @@
 
     <!--Dialog Flux-->
     <string name="dialog_flux_layout_title_text">Information</string>
+    <string name="dialog_normal_layout_positive_button_text">Oui</string>
+    <string name="dialog_normal_layout_negative_button_text">Non</string>
+
+    <!--Dialog Normal-->
+    <string name="dialog_normal_layout_title_textView_text">Information</string>
     <string name="dialog_flux_layout_message_text">Vous avez sélectionné flux carton_plus_papier</string>
     <string name="dialog_flux_layout_quantite_apporte_textView_text">Quantité apportée:   </string>
+    <string name="dialog_flux_layout_unite_line1_textView_text">unite</string>
+    <string name="dialog_flux_layout_quantite_decompte_textView_text">Quantité décomptée:   </string>
+    <string name="dialog_flux_layout_unite_line2_textView_text">unite</string>
+    <string name="dialog_flux_layout_line3_textView_text">La quantité décomptée est</string>
+    <string name="dialog_flux_layout_qty_calcul_textView_text">0.0</string>
+    <string name="dialog_flux_layout_unite_line3_textView_text">   unite</string>
+    <string name="dialog_flux_layout_point_line3_textView_text">.</string>
+    <string name="dialog_flux_layout_positive_button_text">ok</string>
+
+    <!--Dialog Onbackpressed-->
+    <string name="dialog_onbackpressed_layout_title_textView_text">Information</string>
+    <string name="dialog_onbackpressed_layout_positive_button_text">Oui</string>
+    <string name="dialog_onbackpressed_layout_negative_button_text">Non</string>
     <string name="dialog_flux_layout_unite_line1_textView_text">unite</string>
     <string name="dialog_flux_layout_quantite_decompte_textView_text">Quantité décomptée:   </string>
     <string name="dialog_flux_layout_unite_line2_textView_text">unite</string>
@@ -92,6 +111,16 @@
     <!--Identification Fragment-->
     <string name="identification_fragment_line1_title_textView_text">Veuillez scanner le barcode</string>
     <string name="identification_fragment_suivant_button_text">Suivant</string>
+
+    <!--Rechercher Usager Fragment-->
+    <string name="rechercher_usager_fragment_filtre1_textView_text">Nom :</string>
+    <string name="rechercher_usager_fragment_filtre2_textView_text">Type Carte :</string>
+    <string name="rechercher_usager_fragment_filtre3_textView_text">Adresse :</string>
+    <string name="rechercher_usager_fragment_listview_item_usager_name_textView_text">Usager</string>
+    <string name="rechercher_usager_fragment_listview_item_usager_id_textView">1</string>
+
+    <!--Toolbar-->
+    <string name="toolbar_parametres_button_text">Paramètres&#160;&#160;&#160;</string>
 
     <!--  Error message -->
     <string name="error_btn_ok">OK</string>

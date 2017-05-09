@@ -8,7 +8,7 @@
         android:id="@+id/rechercher_usager_fragment_top_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/rechercher_usager_fragment_top_linearLayout_layout_height"
         android:layout_weight="0.3">
 
         <LinearLayout
@@ -16,12 +16,12 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="185dp">
+            android:layout_marginStart="@dimen/rechercher_usager_fragment_filtre_total_linearLayout_layout_marginStart">
             <LinearLayout
                 android:id="@+id/rechercher_usager_fragment_line1_linearLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/rechercher_usager_fragment_line1_linearLayout_layout_height"
                 android:layout_marginTop="20dp"
                 android:layout_weight="0.5">
                 <LinearLayout
@@ -32,9 +32,10 @@
 
                     <TextView
                         android:id="@+id/rechercher_usager_fragment_filtre1_textView"
-                        android:text="Nom :         "
+                        android:text="@string/rechercher_usager_fragment_filtre1_textView_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/rechercher_usager_fragment_filtre1_textView_layout_marginEnd"
                         android:gravity="right"
                         android:textSize="@dimen/general_txt_size"
                         android:textStyle="bold" />
@@ -42,8 +43,8 @@
                     <EditText
                         android:id="@+id/rechercher_usager_fragment_filtre1_editText"
                         style="@style/TkEditText"
-                        android:layout_width="200dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/rechercher_usager_fragment_filtre1_editText_layout_width"
+                        android:layout_height="@dimen/rechercher_usager_fragment_filtre1_editText_layout_height"
                         android:inputType="textNoSuggestions"
                         android:textColor="@color/blue"
                         android:singleLine="true"
@@ -56,44 +57,45 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="50dp">
+                    android:layout_marginStart="@dimen/rechercher_usager_fragment_filtre2_linearLayout_layout_marginStart">
 
                     <TextView
                         android:id="@+id/rechercher_usager_fragment_filtre2_textView"
-                        android:text="Type Carte :"
+                        android:text="@string/rechercher_usager_fragment_filtre2_textView_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textSize="@dimen/general_txt_size"
                         android:textStyle="bold"
-                        android:layout_marginEnd="10dp"/>
+                        android:layout_marginEnd="@dimen/rechercher_usager_fragment_filtre2_textView_layout_marginEnd"/>
 
 
                     <RelativeLayout
+                        android:id="@+id/rechercher_usager_fragment_filtre2_relativeLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="70dp"
+                        android:layout_marginRight="@dimen/rechercher_usager_fragment_filtre2_relativeLayout_layout_marginRight"
                         android:background="@drawable/border_spinner"
                         android:orientation="horizontal">
-                    <Spinner
-                        android:id="@+id/rechercher_usager_fragment_filtre2_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:spinnerMode="dropdown" />
-                        />
-                    <ImageView
-                        android:id="@+id/rechercher_usager_fragment_filtre2_imageView"
-                        android:layout_width="50dp"
-                        android:layout_height="35dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/drop" />
+                        <Spinner
+                            android:id="@+id/rechercher_usager_fragment_filtre2_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/rechercher_usager_fragment_filtre2_spinner_layout_marginLeft"
+                            android:spinnerMode="dropdown" />
+                            />
+                        <ImageView
+                            android:id="@+id/rechercher_usager_fragment_filtre2_imageView"
+                            android:layout_width="@dimen/rechercher_usager_fragment_filtre2_imageView_layout_width"
+                            android:layout_height="@dimen/rechercher_usager_fragment_filtre2_imageView_layout_height"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/drop" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -103,7 +105,7 @@
                 android:id="@+id/rechercher_usager_fragment_line2_linearLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/rechercher_usager_fragment_line2_linearLayout_layout_height"
                 android:gravity="center_vertical"
                 android:layout_weight="0.5">
                 <LinearLayout
@@ -114,9 +116,10 @@
 
                     <TextView
                         android:id="@+id/rechercher_usager_fragment_filtre3_textView"
-                        android:text="Adresse :   "
+                        android:text="@string/rechercher_usager_fragment_filtre3_textView_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/rechercher_usager_fragment_filtre3_textVie_layout_marginEnd"
                         android:gravity="right|center"
                         android:textSize="@dimen/general_txt_size"
                         android:textStyle="bold" />
@@ -124,8 +127,8 @@
                     <EditText
                         android:id="@+id/rechercher_usager_fragment_filtre3_editText"
                         style="@style/TkEditText"
-                        android:layout_width="483dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/rechercher_usager_fragment_filtre3_editText_layout_width"
+                        android:layout_height="@dimen/rechercher_usager_fragment_filtre3_editText_layout_height"
                         android:inputType="textNoSuggestions"
                         android:textColor="@color/blue"
                         android:singleLine="true"
@@ -138,16 +141,16 @@
         <LinearLayout
             android:id="@+id/rechercher_usager_fragment_top_right_linearLayout"
             android:orientation="vertical"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/rechercher_usager_fragment_top_right_linearLayout_layout_width"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
             android:gravity="center"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_weight="0.2">
             <Button
                 android:id="@+id/rechercher_usager_fragment_rechercher_button"
                 android:text="rechercher"
                 android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
-                android:layout_width="130dp"
+                android:layout_width="@dimen/rechercher_usager_fragment_rechercher_button_layout_width"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -161,16 +164,16 @@
         android:id="@+id/rechercher_usager_fragment_bottom_linearLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/rechercher_usager_fragment_bottom_linearLayout_layout_height"
         android:layout_weight="0.7"
         android:gravity="center">
         <ListView
             android:id="@+id/rechercher_usager_fragment_usager_listView"
-            android:layout_width="614dp"
+            android:layout_width="@dimen/rechercher_usager_fragment_usager_listView_layout_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:divider="#ffffff"
-            android:dividerHeight="3dp"
+            android:divider="@color/rechercher_usager_fragment_usager_listView_divider"
+            android:dividerHeight="@dimen/rechercher_usager_fragment_usager_listView_dividerHeight"
             ></ListView>
     </LinearLayout>
 </LinearLayout>

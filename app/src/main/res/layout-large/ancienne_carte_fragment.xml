@@ -89,7 +89,7 @@
         >
         <TextView
             android:id="@+id/ancienne_carte_fragment_line4_title_textView"
-            android:text="Aucune carte active "
+            android:text="@string/ancienne_carte_fragment_line4_title_textView_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/ancienne_carte_fragment_txt_size"

@@ -129,13 +129,13 @@ public class CustomDialogOnBackPressed extends Dialog {
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
-            ((TextView) layout.findViewById(R.id.title)).setText(title);
+            ((TextView) layout.findViewById(R.id.dialog_onbackpressed_layout_title_textView)).setText(title);
             // set the confirm button
             if (positiveButtonText != null) {
-                ((Button) layout.findViewById(R.id.positiveButton))
+                ((Button) layout.findViewById(R.id.dialog_onbackpressed_layout_positive_button))
                         .setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.positiveButton))
+                    ((Button) layout.findViewById(R.id.dialog_onbackpressed_layout_positive_button))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     positiveButtonClickListener.onClick(dialog,
@@ -145,15 +145,15 @@ public class CustomDialogOnBackPressed extends Dialog {
                 }
             } else {
                 // if no confirm button just set the visibility to GONE
-                layout.findViewById(R.id.positiveButton).setVisibility(
+                layout.findViewById(R.id.dialog_onbackpressed_layout_positive_button).setVisibility(
                         View.GONE);
             }
             // set the cancel button
             if (negativeButtonText != null) {
-                ((Button) layout.findViewById(R.id.negativeButton))
+                ((Button) layout.findViewById(R.id.dialog_onbackpressed_layout_negative_button))
                         .setText(negativeButtonText);
                 if (negativeButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.negativeButton))
+                    ((Button) layout.findViewById(R.id.dialog_onbackpressed_layout_negative_button))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     negativeButtonClickListener.onClick(dialog,
@@ -163,21 +163,21 @@ public class CustomDialogOnBackPressed extends Dialog {
                 }
             } else {
                 // if no confirm button just set the visibility to GONE
-                layout.findViewById(R.id.negativeButton).setVisibility(
+                layout.findViewById(R.id.dialog_onbackpressed_layout_negative_button).setVisibility(
                         View.GONE);
             }
             // set the content message
             if (message != null) {
-                ((TextView) layout.findViewById(R.id.message)).setText(message);
+                ((TextView) layout.findViewById(R.id.dialog_onbackpressed_layout_message_textView)).setText(message);
                 if(messageGravity != 0) {
-                    ((TextView) layout.findViewById(R.id.message)).setGravity(messageGravity);
+                    ((TextView) layout.findViewById(R.id.dialog_onbackpressed_layout_message_textView)).setGravity(messageGravity);
                 }
             } else if (contentView != null) {
                 // if no message set
                 // add the contentView to the dialog body
-                ((LinearLayout) layout.findViewById(R.id.content))
+                ((LinearLayout) layout.findViewById(R.id.dialog_onbackpressed_layout_content_linearLayout))
                         .removeAllViews();
-                ((LinearLayout) layout.findViewById(R.id.content))
+                ((LinearLayout) layout.findViewById(R.id.dialog_onbackpressed_layout_content_linearLayout))
                         .addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
             }
             dialog.setContentView(layout);

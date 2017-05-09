@@ -231,7 +231,7 @@ public class RechercherUsagerFragment extends Fragment {
                     for(Integer usagerId: usagerIdList){
                         usagerList1.add(usagerDB.getUsagerFromID(usagerId));
                     }
-                    //usager list filtered by typeCarte
+                    //usager list filtered by typeCarte "usagerList2"
                     ArrayList<Usager> usagerList2 = new ArrayList();
                     ArrayList<Carte> listCarte = dchCarteDB.getCarteListByTypeCarteId(dchTypeCarteDB.getTypeCarteByName(typeCarte).getId());
                     ArrayList<CarteActive> listCarteActive = new ArrayList();
@@ -312,8 +312,8 @@ public class RechercherUsagerFragment extends Fragment {
                         usagerListFinal.add(usagerDB.getUsagerFromID(usagerId));
                     }
                     if(usagerListFinal.size() == 0){
-                        Toast.makeText(getContext(), "Aucun usager trouvé.",
-                                Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(getContext(), "Aucun usager trouvé.",
+                                Toast.LENGTH_SHORT).show();*/
                     }
 
                     //show listView
@@ -346,8 +346,8 @@ public class RechercherUsagerFragment extends Fragment {
                             openAllDB();
 
                             final Usager usager = usagerListFinal.get(position);
-                            final TextView textViewUsagerName = (TextView)view.findViewById(R.id.textView_usager_name);
-                            final TextView textViewUsagerId = (TextView) view.findViewById(R.id.textView_usager_id);
+                            final TextView textViewUsagerName = (TextView)view.findViewById(R.id.rechercher_usager_fragment_listview_item_usager_name_textView);
+                            final TextView textViewUsagerId = (TextView) view.findViewById(R.id.rechercher_usager_fragment_listview_item_usager_id_textView);
                             Habitat habitat = null;
                             String adresse = null;
                             if(usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId()).size() != 0){
@@ -510,6 +510,11 @@ public class RechercherUsagerFragment extends Fragment {
         }
 
         return habitatList;
+    }
+
+    //take the usagerList,
+    public void initAllLists(){
+
     }
 
     public void initAllDB(){

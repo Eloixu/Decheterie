@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:id="@+id/dialog_normal_layout_frameLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:clickable="true"
     android:orientation="vertical"
-    android:padding="20.0dip" >
+    android:padding="@dimen/dialog_normal_layout_frameLayout_padding" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -14,66 +16,68 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/dialog_normal_layout_title_textView"
             style="@style/text_18_ffffff"
             android:layout_width="fill_parent"
-            android:layout_height="40.0dip"
+            android:layout_height="@dimen/dialog_normal_layout_title_textView_layout_height"
             android:gravity="center"
-            android:text="Information"
+            android:text="@string/dialog_normal_layout_title_textView_text"
             android:visibility="visible" />
 
         <LinearLayout
-            android:id="@+id/content"
+            android:id="@+id/dialog_normal_layout_content_linearLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center" >
 
 
             <TextView
-                android:id="@+id/message"
+                android:id="@+id/dialog_normal_layout_message_textView"
                 style="@style/text_16_666666"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
                 android:lineSpacingMultiplier="1.5"
-                android:minHeight="120.0dip"
-                android:paddingBottom="15.0dip"
-                android:paddingLeft="20.0dip"
-                android:paddingRight="20.0dip"
-                android:paddingTop="15.0dip" />
+                android:minHeight="@dimen/dialog_normal_layout_message_textView_minHeight"
+                android:paddingBottom="@dimen/dialog_normal_layout_message_textView_paddingBottom"
+                android:paddingLeft="@dimen/dialog_normal_layout_message_textView_paddingLeft"
+                android:paddingRight="@dimen/dialog_normal_layout_message_textView_paddingRight"
+                android:paddingTop="@dimen/dialog_normal_layout_message_textView_paddingTop" />
         </LinearLayout>
 
         <View
+            android:id="@+id/dialog_normal_layout_view"
             android:layout_width="fill_parent"
-            android:layout_height="1.0px"
+            android:layout_height="@dimen/dialog_normal_layout_view_layout_height"
             android:background="#ffd0d0d0" />
 
         <LinearLayout
+            android:id="@+id/dialog_normal_layout_bottom_linearLayout"
             android:layout_width="fill_parent"
-            android:layout_height="60.0dip"
+            android:layout_height="@dimen/dialog_normal_layout_bottom_linearLayout_layout_height"
             android:layout_gravity="bottom"
             android:background="@drawable/dialog_bottom_bg"
             android:gravity="center"
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/positiveButton"
+                android:id="@+id/dialog_normal_layout_positive_button"
                 style="@style/text_15_ffffff_sdw"
-                android:layout_width="114.0dip"
-                android:layout_height="40.0dip"
+                android:layout_width="@dimen/dialog_normal_layout_positive_button_layout_width"
+                android:layout_height="@dimen/dialog_normal_layout_positive_button_layout_height"
                 android:background="@drawable/button"
-                android:layout_marginRight="20.0dip"
+                android:layout_marginRight="@dimen/dialog_normal_layout_positive_button_layout_marginRight"
                 android:gravity="center"
-                android:text="Oui" />
+                android:text="@string/dialog_normal_layout_positive_button_text" />
 
             <Button
-                android:id="@+id/negativeButton"
+                android:id="@+id/dialog_normal_layout_negative_button"
                 style="@style/text_15_ffffff_sdw"
-                android:layout_width="114.0dip"
-                android:layout_height="40.0dip"
+                android:layout_width="@dimen/dialog_normal_layout_negative_button_layout_width"
+                android:layout_height="@dimen/dialog_normal_layout_negative_button_layout_height"
                 android:background="@drawable/button"
                 android:gravity="center"
-                android:text="Non" />
+                android:text="@string/dialog_normal_layout_negative_button_text" />
         </LinearLayout>
     </LinearLayout>
 

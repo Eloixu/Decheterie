@@ -62,16 +62,19 @@ public class UsagerHabitatDB extends MyDb {
     }
 
     private UsagerHabitat cursorToUsagerHabitat(Cursor c){
-        if(c.moveToFirst()){
-            UsagerHabitat u = new UsagerHabitat();
-            u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
-            u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
-            c.close();
+        UsagerHabitat u = new UsagerHabitat();
+        try {
+            if (c.moveToFirst()) {
+                u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
+                u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
+                c.close();
+                return u;
+            } else {
+                c.close();
+                return null;
+            }
+        }catch(Exception e){
             return u;
-        }
-        else{
-            c.close();
-            return null;
         }
 
     }
