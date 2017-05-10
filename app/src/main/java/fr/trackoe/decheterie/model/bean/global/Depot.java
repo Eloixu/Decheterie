@@ -11,7 +11,7 @@ public class Depot {
     private byte[] signature;
     private int decheterieId;
     private long carteActiveCarteId;
-    private int comptePrepayeId;
+    private long comptePrepayeId;
     private float qtyTotalUDD;
     private int statut;
     private boolean isSent;
@@ -81,11 +81,11 @@ public class Depot {
         this.carteActiveCarteId = carteActiveCarteId;
     }
 
-    public int getComptePrepayeId() {
+    public long getComptePrepayeId() {
         return comptePrepayeId;
     }
 
-    public void setComptePrepayeId(int comptePrepayeId) {
+    public void setComptePrepayeId(long comptePrepayeId) {
         this.comptePrepayeId = comptePrepayeId;
     }
 

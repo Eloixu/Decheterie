@@ -386,11 +386,33 @@ public class RechercherUsagerFragment extends Fragment {
 
                                 @Override
                                 public void onClick(View v) {
-
+                                    openAllDB();
                                     String usagerName = usager.getNom();
-                                    if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                                        //((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                                    String typeCarte = spinner.getSelectedItem().toString();
+                                    int typeCarteId = dchTypeCarteDB.getTypeCarteByName(typeCarte).getId();
+                                    //detect if the is_active of the usager's carteActives
+                                    int accountId = -1;
+                                    ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usager.getId());
+                                    ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(comptePrepaye.getId());
+                                    for(CarteActive ca: carteActiveList){
+                                        if(ca.isActive()){
+                                            Carte carte = dchCarteDB.getCarteFromID(ca.getDchCarteId());
+                                            accountId = carte.getDchAccountId();
+                                            break;
+                                        }
                                     }
+                                    if(accountId == -1){
+                                        //pop-up
+                                        Toast.makeText(getContext(), "Cet usager n'a aucune carte qui est active",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                                            DepotFragment depotFragment = DepotFragment.newInstance(usager.getId(), typeCarteId, accountId, true);
+                                            ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
+                                        }
+                                    }
+                                    closeAllDB();
                                 }
                             });
 

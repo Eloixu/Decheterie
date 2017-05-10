@@ -76,6 +76,11 @@ public class DepotFragment extends Fragment {
     private Carte carte;
     private boolean pageSignature = false;
     private AccountSetting accountSetting;
+    //parameters from rechercherUsagerFragment
+    private boolean isComeFromRechercherUsagerFragment = false;
+    private int usagerIdFromRUF;
+    private int typeCarteIdFromRUF;
+    private int accountIdFromRUF;
     //private boolean CCPU;
     private String nomUniteDecompte;
     ContainerActivity parentActivity;
@@ -158,12 +163,14 @@ public class DepotFragment extends Fragment {
         getNumCarteFromIdentificationFragment();
         //get the depotId sent From ApportProFragment
         getDepotIdFromApportProFragment();
+        //get usagerId sent from RechercherUsagerFragment
+        getUsagerIdAndIsComeFromRUFFromRechercherUsagerFragment();
 
 //        initViewsNavigationDrawer(inflater,container);
 
         //detect if "oui" is clicked
         //the case that we continue to edit the depot incompleted
-        if(Configuration.getIsOuiClicked()){
+        if(Configuration.getIsOuiClicked() && !isComeFromRechercherUsagerFragment){
             //get the depot on "statut en_cours"
             System.out.println("oui is clicked");
             depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
@@ -188,14 +195,14 @@ public class DepotFragment extends Fragment {
 
         }
         //the most normal case
-        else if(!Configuration.getIsOuiClicked() && depotId == 0){
+        else if(!Configuration.getIsOuiClicked() && depotId == 0 && !isComeFromRechercherUsagerFragment){
             //create a new depot
             System.out.println("oui isn't clicked");
             depotId = parentActivity.generateCodeFromDateAndNumTablette();
             String dateTime = "";
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
             long carteActiveCarteId = carte.getId();
-            int comptePrepayeId = 0;
+            long comptePrepayeId = dchCarteActiveDB.getCarteActiveFromDchCarteId(carteActiveCarteId).getDchComptePrepayeId();
             float qtyTotalUDD = 0;
             String depotNom = "";
             int statut = getResources().getInteger(R.integer.statut_en_cours);
@@ -228,7 +235,7 @@ public class DepotFragment extends Fragment {
             initViews(inflater, container);
         }
         //the case when click "back" in ApportProFragment
-        else if(!Configuration.getIsOuiClicked() && depotId != 0){
+        else if(!Configuration.getIsOuiClicked() && depotId != 0 && !isComeFromRechercherUsagerFragment){
             depot = dchDepotDB.getDepotByIdentifiant(depotId);
             carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
             setPageSignatureFromCarte();
@@ -238,6 +245,46 @@ public class DepotFragment extends Fragment {
 
             //initViews
             initViewsNotNormal(inflater,container);
+        }
+        //the case rechercherUsagerFragment ---> DepotFragment
+        else if(isComeFromRechercherUsagerFragment){
+            //create a new depot
+            System.out.println("oui isn't clicked");
+            depotId = parentActivity.generateCodeFromDateAndNumTablette();
+            String dateTime = null;
+            int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
+            long carteActiveCarteId = -1;
+            long comptePrepayeId = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usagerIdFromRUF).getId();
+            float qtyTotalUDD = 0;
+            String depotNom = null;
+            int statut = getResources().getInteger(R.integer.statut_en_cours);
+            Boolean isSent = false;
+
+            depot = new Depot();
+            depot.setId(depotId);
+            //depot.setDateHeure(dateTime);
+            depot.setDecheterieId(decheterieId);
+            depot.setCarteActiveCarteId(carteActiveCarteId);
+            depot.setComptePrepayeId(comptePrepayeId);
+            //depot.setQtyTotalUDD(qtyTotalUDD);
+            depot.setNom(depotNom);
+            depot.setStatut(statut);
+            depot.setSent(isSent);
+
+            //detect if the current depot existe in the BDD
+            if(dchDepotDB.getDepotByIdentifiant(depotId) == null) {
+                //add depot into BDD
+                dchDepotDB.insertDepot(depot);
+            }
+            else{
+                //update depot in BDD
+            }
+
+            //set nomUniteDecompte
+            nomUniteDecompte = dchUniteDB.getUniteFromID(accountSetting.getUniteDepotDecheterieId()).getNom();
+
+            //initViews
+            initViews(inflater, container);
         }
 
         //init the views of the navigation drawer
@@ -1530,6 +1577,17 @@ public class DepotFragment extends Fragment {
         return depotFragment;
     }
 
+    public static DepotFragment newInstance(int usagerId, int typeCarteId,int accountIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment) {
+        DepotFragment depotFragment = new DepotFragment();
+        Bundle args = new Bundle();
+        args.putInt("usagerIdFromRechercherUsagerFragment", usagerId);
+        args.putInt("typeCarteIdFromRechercherUsagerFragment", typeCarteId);
+        args.putInt("accountIdFromRechercherUsagerFragment", accountIdFromRechercherUsagerFragment);
+        args.putBoolean("isComeFromRechercherUsagerFragment", isComeFromRechercherUsagerFragment);
+        depotFragment.setArguments(args);
+        return depotFragment;
+    }
+
     public void getDepotIdFromApportProFragment(){
         if (getArguments() != null) {
             depotId = getArguments().getLong("depotId");
@@ -1552,6 +1610,38 @@ public class DepotFragment extends Fragment {
             }
 
             dchCarteDB.close();
+        }
+    }
+
+    public void getUsagerIdAndIsComeFromRUFFromRechercherUsagerFragment(){
+        if (getArguments() != null) {
+            int usagerId = getArguments().getInt("usagerIdFromRechercherUsagerFragment");
+            int typeCarteId = getArguments().getInt("typeCarteIdFromRechercherUsagerFragment");
+            int accountId = getArguments().getInt("accountIdFromRechercherUsagerFragment");
+            boolean  isComeFromRechercherUsagerFragment = getArguments().getBoolean("isComeFromRechercherUsagerFragment");
+            if(usagerId != 0 && typeCarteId != 0 && isComeFromRechercherUsagerFragment == true){
+                this.isComeFromRechercherUsagerFragment = isComeFromRechercherUsagerFragment;
+                this.usagerIdFromRUF = usagerId;
+                this.typeCarteIdFromRUF = typeCarteId;
+                this.accountIdFromRUF = accountId;
+
+                //set the object accountSetting
+                Date d = new Date();
+                SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+                int date = Integer.parseInt(df.format(d));
+                ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountId, typeCarteId);
+                if (accountSettingList != null) {
+                    for (AccountSetting as : accountSettingList) {
+                        int dateDebut = Integer.parseInt(as.getDateDebutParam());
+                        int dateFin = Integer.parseInt(as.getDateFinParam());
+                        if (date >= dateDebut && date <= dateFin) {
+                            accountSetting = as;
+                            pageSignature = accountSetting.isPageSignature();
+                        }
+
+                    }
+                }
+            }
         }
     }
 
@@ -1691,6 +1781,10 @@ public class DepotFragment extends Fragment {
             Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
             ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId());
 
+            //save the comptePrepayeId into DB
+            depot.setComptePrepayeId(carteActive.getDchComptePrepayeId());
+            dchDepotDB.updateDepot(depot);
+
             //case 1
             if(usagerHabitatList.size() != 0){
                 Habitat habitat = new Habitat();
@@ -1816,6 +1910,10 @@ public class DepotFragment extends Fragment {
                     ndTextViewLine1Value.setText(usager.getNom());
                 }
             }
+        }
+        //RechercherUsagerFragment ---> DepotFragment
+        else{
+
         }
 
 

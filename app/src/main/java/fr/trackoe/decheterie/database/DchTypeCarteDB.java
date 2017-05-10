@@ -55,6 +55,7 @@ public class DchTypeCarteDB extends MyDb {
             if (c.moveToFirst()) {
                 t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
                 t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
+                c.close();
             }
             return t;
         }catch(Exception e){

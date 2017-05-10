@@ -34,6 +34,12 @@ public class DchComptePrepayeDB extends MyDb {
         return cursorToComptePrepaye(cursor);
     }
 
+    public ComptePrepaye getComptePrepayeFromUsagerId(int usagerId) {
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " WHERE " + DecheterieDatabase.TableDchComptePrepaye.DCH_USAGER_ID + " = " + usagerId;
+        Cursor cursor = db.rawQuery(query, null);
+        return cursorToComptePrepaye(cursor);
+    }
+
 
     public ComptePrepaye cursorToComptePrepaye(Cursor c){
         ComptePrepaye cp = new ComptePrepaye();

@@ -27,8 +27,8 @@ public class DchDepotDB extends MyDb {
         values.put(DecheterieDatabase.TableDchDepot.DATEHEURE, depot.getDateHeure());
         values.put(DecheterieDatabase.TableDchDepot.SIGNATURE, depot.getSignature());
         values.put(DecheterieDatabase.TableDchDepot.DCH_DECHETERIE_ID, depot.getDecheterieId());
-        values.put(DecheterieDatabase.TableDchDepot.DCH_CARTE_ACTIVE_DCH_CARTE_ID, depot.getCarteActiveCarteId());
-        values.put(DecheterieDatabase.TableDchDepot.DCH_COMPTE_PREPAYE_ID, depot.getComptePrepayeId());
+        values.put(DecheterieDatabase.TableDchDepot.DCH_CARTE_ACTIVE_DCH_CARTE_ID, (depot.getCarteActiveCarteId() == -1 || depot.getCarteActiveCarteId() == 0)? null : depot.getCarteActiveCarteId());
+        values.put(DecheterieDatabase.TableDchDepot.DCH_COMPTE_PREPAYE_ID, depot.getComptePrepayeId() == -1? null : depot.getComptePrepayeId());
         values.put(DecheterieDatabase.TableDchDepot.QTY_TOTAL_UDD, depot.getQtyTotalUDD());
         values.put(DecheterieDatabase.TableDchDepot.NOM, depot.getNom());
         values.put(DecheterieDatabase.TableDchDepot.STATUT, depot.getStatut());

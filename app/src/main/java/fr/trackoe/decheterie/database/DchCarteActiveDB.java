@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
 
 /**
@@ -37,6 +39,14 @@ public class DchCarteActiveDB extends MyDb {
         return cursorToCarteActive(cursor);
     }
 
+    public ArrayList<CarteActive> getCarteActiveListByComptePrepayeId(long comptePrepayeId) {
+        ArrayList<CarteActive> carteActiveList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE + " WHERE " + DecheterieDatabase.TableDchCarteActive.DCH_COMPTE_PREPAYE_ID  + "=" + comptePrepayeId ;
+        Cursor cursor = db.rawQuery(query, null);
+        carteActiveList = cursorToListeCarteActive(cursor);
+        return carteActiveList;
+    }
+
     public CarteActive cursorToCarteActive(Cursor c){
         CarteActive ca = new CarteActive();
         try {
@@ -55,6 +65,29 @@ public class DchCarteActiveDB extends MyDb {
             return ca;
         }
 
+    }
+
+    private ArrayList<CarteActive> cursorToListeCarteActive(Cursor c) {
+        ArrayList<CarteActive> carteActiveList = new ArrayList<>();
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    CarteActive ca = new CarteActive();
+                    ca.setDchCarteId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ID));
+                    ca.setDateActivation(c.getString(DecheterieDatabase.TableDchCarteActive.NUM_DATE_ACTIVATION));
+                    ca.setDateDernierMotif(c.getString(DecheterieDatabase.TableDchCarteActive.NUM_DATE_DERNIER_MOTIF));
+                    ca.setDchCarteEtatRaisonId(c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ETAT_RAISON_ID));
+                    ca.setActive((c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_IS_ACTIVE) == 1) ? true : false);
+                    ca.setDchComptePrepayeId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_COMPTE_PREPAYE_ID));
+                    carteActiveList.add(ca);
+                } while (c.moveToNext());
+
+                c.close();
+            }
+            return carteActiveList;
+        }catch(Exception e){
+            return carteActiveList;
+        }
     }
 
     /*

@@ -99,14 +99,6 @@
     <string name="dialog_onbackpressed_layout_title_textView_text">Information</string>
     <string name="dialog_onbackpressed_layout_positive_button_text">Oui</string>
     <string name="dialog_onbackpressed_layout_negative_button_text">Non</string>
-    <string name="dialog_flux_layout_unite_line1_textView_text">unite</string>
-    <string name="dialog_flux_layout_quantite_decompte_textView_text">Quantité décomptée:   </string>
-    <string name="dialog_flux_layout_unite_line2_textView_text">unite</string>
-    <string name="dialog_flux_layout_line3_textView_text">La quantité décomptée est</string>
-    <string name="dialog_flux_layout_qty_calcul_textView_text">0.0</string>
-    <string name="dialog_flux_layout_unite_line3_textView_text">   unite</string>
-    <string name="dialog_flux_layout_point_line3_textView_text">.</string>
-    <string name="dialog_flux_layout_positive_button_text">ok</string>
 
     <!--Identification Fragment-->
     <string name="identification_fragment_line1_title_textView_text">Veuillez scanner le barcode</string>
