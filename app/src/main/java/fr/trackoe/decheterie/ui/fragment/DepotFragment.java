@@ -76,15 +76,25 @@ public class DepotFragment extends Fragment {
     private Carte carte;
     private boolean pageSignature = false;
     private AccountSetting accountSetting;
+    ContainerActivity parentActivity;
+    private TextView textViewVolumeTotal;
+
+    //parameters from apportProFragment
+    private boolean isComeFromApportProFragment = false;
+    private boolean isComeFromRUFInApportProFragment = false;
+    private int usagerIdFromRUFInApportProFragment;
+    private int typeCarteIdFromRUFInApportProFragment;
+    private int accountIdFromRUFInApportProFragment;
+
     //parameters from rechercherUsagerFragment
     private boolean isComeFromRechercherUsagerFragment = false;
     private int usagerIdFromRUF;
     private int typeCarteIdFromRUF;
     private int accountIdFromRUF;
+
     //private boolean CCPU;
     private String nomUniteDecompte;
-    ContainerActivity parentActivity;
-    private TextView textViewVolumeTotal;
+
 
     //DB
     private DchAccountFluxSettingDB dchAccountFluxSettingDB;
@@ -159,17 +169,22 @@ public class DepotFragment extends Fragment {
         initAllDB();
         openAllDB();
 
+        initAllIsComeFrom();
+
         //get the numCarte sent From IdentifigationFragment
         getNumCarteFromIdentificationFragment();
         //get the depotId sent From ApportProFragment
-        getDepotIdFromApportProFragment();
+        if(isComeFromApportProFragment) getDepotIdFromApportProFragment();
         //get usagerId sent from RechercherUsagerFragment
-        getUsagerIdAndIsComeFromRUFFromRechercherUsagerFragment();
+        if(isComeFromRechercherUsagerFragment) getUsagerIdAndIsComeFromRUFFromRechercherUsagerFragment();
+        //get usagerIdFromRUF, typeCarteIdFromRUF, accountIdFromRUF, isComeFromRechercherUsagerFragment sent from ApportProFragment
+        if(isComeFromApportProFragment) getAllInformationsOfRUFFromApportProFragment();
 
 //        initViewsNavigationDrawer(inflater,container);
 
         //detect if "oui" is clicked
         //the case that we continue to edit the depot incompleted
+        //*** pop-up ---> DepotFragment ***
         if(Configuration.getIsOuiClicked() && !isComeFromRechercherUsagerFragment){
             //get the depot on "statut en_cours"
             System.out.println("oui is clicked");
@@ -195,6 +210,7 @@ public class DepotFragment extends Fragment {
 
         }
         //the most normal case
+        // *** "Idendification d'une carte" ---> DepotFragment ***
         else if(!Configuration.getIsOuiClicked() && depotId == 0 && !isComeFromRechercherUsagerFragment){
             //create a new depot
             System.out.println("oui isn't clicked");
@@ -235,10 +251,18 @@ public class DepotFragment extends Fragment {
             initViews(inflater, container);
         }
         //the case when click "back" in ApportProFragment
+        // *** ApportProFragment ---> DepotFragment ***
         else if(!Configuration.getIsOuiClicked() && depotId != 0 && !isComeFromRechercherUsagerFragment){
             depot = dchDepotDB.getDepotByIdentifiant(depotId);
-            carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
-            setPageSignatureFromCarte();
+
+            if(!isComeFromRUFInApportProFragment){
+                carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
+                setPageSignatureFromCarte();
+            }
+            //RechercherUsagerFragment ---> DepotFragment ---> ApportProFragment ---> DepotFragment
+            else{
+                setPageSignatureWithoutCarte();
+            }
 
             //set nomUniteDecompte
             nomUniteDecompte = dchUniteDB.getUniteFromID(accountSetting.getUniteDepotDecheterieId()).getNom();
@@ -246,7 +270,8 @@ public class DepotFragment extends Fragment {
             //initViews
             initViewsNotNormal(inflater,container);
         }
-        //the case rechercherUsagerFragment ---> DepotFragment
+        //the case
+        // *** rechercherUsagerFragment ---> DepotFragment ***
         else if(isComeFromRechercherUsagerFragment){
             //create a new depot
             System.out.println("oui isn't clicked");
@@ -1496,9 +1521,23 @@ public class DepotFragment extends Fragment {
 
                 //detect the pageSignature
                 if(pageSignature) {
-                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                        ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId);
-                        ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
+                    if(isComeFromRechercherUsagerFragment && !isComeFromRUFInApportProFragment){
+                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUF,typeCarteIdFromRUF,accountIdFromRUF,isComeFromRechercherUsagerFragment);
+                            ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
+                        }
+                    }
+                    else if(!isComeFromRechercherUsagerFragment && isComeFromRUFInApportProFragment){
+                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUFInApportProFragment,typeCarteIdFromRUFInApportProFragment,accountIdFromRUFInApportProFragment,isComeFromRUFInApportProFragment);
+                            ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
+                        }
+                    }
+                    else{
+                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId);
+                            ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
+                        }
                     }
                 }
                 else{
@@ -1577,6 +1616,15 @@ public class DepotFragment extends Fragment {
         return depotFragment;
     }
 
+    public static DepotFragment newInstance(long depotId, boolean isComeFromApportProFragment) {
+        DepotFragment depotFragment = new DepotFragment();
+        Bundle args = new Bundle();
+        args.putLong("depotId", depotId);
+        args.putBoolean("isComeFromApportProFragment", isComeFromApportProFragment);
+        depotFragment.setArguments(args);
+        return depotFragment;
+    }
+
     public static DepotFragment newInstance(int usagerId, int typeCarteId,int accountIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment) {
         DepotFragment depotFragment = new DepotFragment();
         Bundle args = new Bundle();
@@ -1584,6 +1632,19 @@ public class DepotFragment extends Fragment {
         args.putInt("typeCarteIdFromRechercherUsagerFragment", typeCarteId);
         args.putInt("accountIdFromRechercherUsagerFragment", accountIdFromRechercherUsagerFragment);
         args.putBoolean("isComeFromRechercherUsagerFragment", isComeFromRechercherUsagerFragment);
+        depotFragment.setArguments(args);
+        return depotFragment;
+    }
+
+    public static DepotFragment newInstance(long depotId, int usagerIdFromRUFInApportProFragment, int typeCarteIdFromRUFInApportProFragment,int accountIdFromRUFInApportProFragment, boolean isComeFromRUFInApportProFragment, boolean isComeFromApportProFragment) {
+        DepotFragment depotFragment = new DepotFragment();
+        Bundle args = new Bundle();
+        args.putLong("depotId", depotId);
+        args.putInt("usagerIdFromRUFInApportProFragment", usagerIdFromRUFInApportProFragment);
+        args.putInt("typeCarteIdFromRUFInApportProFragment", typeCarteIdFromRUFInApportProFragment);
+        args.putInt("accountIdFromRUFInApportProFragment", accountIdFromRUFInApportProFragment);
+        args.putBoolean("isComeFromRUFInApportProFragment", isComeFromRUFInApportProFragment);
+        args.putBoolean("isComeFromApportProFragment", isComeFromApportProFragment);
         depotFragment.setArguments(args);
         return depotFragment;
     }
@@ -1645,6 +1706,15 @@ public class DepotFragment extends Fragment {
         }
     }
 
+    public void getAllInformationsOfRUFFromApportProFragment(){
+        if (getArguments().getBoolean("isComeFromRUFInApportProFragment")) {
+            isComeFromRUFInApportProFragment = true;
+            usagerIdFromRUFInApportProFragment = getArguments().getInt("usagerIdFromRUFInApportProFragment");
+            typeCarteIdFromRUFInApportProFragment = getArguments().getInt("typeCarteIdFromRUFInApportProFragment");
+            accountIdFromRUFInApportProFragment = getArguments().getInt("accountIdFromRUFInApportProFragment");
+        }
+    }
+
     public void setPageSignatureFromCarte(){
         DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
         dchAccountSettingDB.open();
@@ -1656,6 +1726,31 @@ public class DepotFragment extends Fragment {
             SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
             int date = Integer.parseInt(df.format(d));
             ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountId, typeCarteId);
+            if (accountSettingList != null) {
+                for (AccountSetting as : accountSettingList) {
+                    int dateDebut = Integer.parseInt(as.getDateDebutParam());
+                    int dateFin = Integer.parseInt(as.getDateFinParam());
+                    if (date >= dateDebut && date <= dateFin) {
+                        accountSetting = as;
+                        pageSignature = accountSetting.isPageSignature();
+                    }
+
+                }
+            }
+        }
+
+        dchAccountSettingDB.close();
+    }
+
+    public void setPageSignatureWithoutCarte(){
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
+        dchAccountSettingDB.open();
+
+        if(carte == null){
+            Date d = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+            int date = Integer.parseInt(df.format(d));
+            ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountIdFromRUFInApportProFragment, typeCarteIdFromRUFInApportProFragment);
             if (accountSettingList != null) {
                 for (AccountSetting as : accountSettingList) {
                     int dateDebut = Integer.parseInt(as.getDateDebutParam());
@@ -1913,10 +2008,182 @@ public class DepotFragment extends Fragment {
         }
         //RechercherUsagerFragment ---> DepotFragment
         else{
+            ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+            ndLinearLayoutLine3.setVisibility(View.VISIBLE);
+            ndLinearLayoutLine4.setVisibility(View.VISIBLE);
+            ndLinearLayoutLine5.setVisibility(View.VISIBLE);
+            ndLinearLayoutLine6.setVisibility(View.VISIBLE);
+            ndLinearLayoutLine7.setVisibility(View.VISIBLE);
 
+            ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usagerIdFromRUF == 0? usagerIdFromRUFInApportProFragment: usagerIdFromRUF);
+            Usager usager = usagerDB.getUsagerFromID(usagerIdFromRUF == 0? usagerIdFromRUFInApportProFragment: usagerIdFromRUF);
+            ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId());
+
+            //save the comptePrepayeId into DB
+            depot.setComptePrepayeId(comptePrepaye.getId());
+            dchDepotDB.updateDepot(depot);
+
+            //case 1
+            if(usagerHabitatList.size() != 0){
+                Habitat habitat = new Habitat();
+                //find the habitat who is actif
+                for(UsagerHabitat usagerHabitat: usagerHabitatList ){
+                    Habitat h = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
+                    if(h.isActif()){
+                        habitat = h;
+                        break;
+                    }
+                }
+                if(habitat.isActif()) {
+                    ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine3.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine4.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine5.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine6.setVisibility(View.VISIBLE);
+                    ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                    ndTextViewLine1Title.setText("Nom");
+                    String nom = habitat.getNom();
+                    ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
+                    ndLinearLayoutLine2.setVisibility(View.GONE);
+                    ndTextViewLine3Title.setText("Type d'usager");
+                    String type = typeHabitatDB.getTypeHabitatFromID(habitat.getIdTypeHabitat()).getType();
+                    ndTextViewLine3Value.setText((type == null || type.isEmpty())? "-" : type);
+                    ndTextViewLine4Title.setText("Adresse");
+                    ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                            + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
+                    ndTextViewLine5Title.setText("Carte");
+                    String typeCarte = dchTypeCarteDB.getTypeCarteFromID(typeCarteIdFromRUF == 0? typeCarteIdFromRUFInApportProFragment: typeCarteIdFromRUF).getNom();
+                    String numCarte = "";
+                    ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(comptePrepaye.getId());
+                    for(CarteActive ca: carteActiveList){
+                        if(ca.isActive()){
+                            Carte carte = dchCarteDB.getCarteFromID(ca.getDchCarteId());
+                            if(numCarte.isEmpty()||numCarte==null) {
+                                numCarte = "N° " + carte.getNumCarte() + "   active";
+                            }
+                            else{
+                                numCarte = numCarte + "\n" + "N° " + carte.getNumCarte() + "   active";
+                            }
+                        }
+                    }
+                    ndTextViewLine5Value.setText(( (typeCarte == null || typeCarte.isEmpty()) ? "-\n" : typeCarte + "\n")
+                            + ((numCarte == null || numCarte.isEmpty()) ? "N° -" : numCarte));
+                    if (accountSetting.isDecompteDepot()) {
+                        ndTextViewLine6Title.setText("Nb dépôt restant");
+                        ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
+                    } else {
+                        ndLinearLayoutLine6.setVisibility(View.GONE);
+                    }
+                    if (accountSetting.isDecompteUDD()) {
+                        ndTextViewLine7Title.setText("Apport restant");
+                        String unitePoint = accountSetting.getUnitePoint();
+                        ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
+                    } else {
+                        ndLinearLayoutLine7.setVisibility(View.GONE);
+                    }
+                }
+            }
+            //case 2
+            else {
+                ArrayList<UsagerMenage> usagerMenageList = usagerMenageDB.getListUsagerMenageByUsagerId(usager.getId());
+                if(usagerMenageList.size() != 0){
+                    Habitat habitat = new Habitat();
+                    Menage menage = new Menage();
+                    Local local = new Local();
+                    //find the menage actif then the habitat actif
+                    for(UsagerMenage usagerMenage: usagerMenageList ){
+                        Menage m = menageDB.getMenageById(usagerMenage.getMenageId());
+                        if(m.isActif()){
+                            menage = m;
+                            Local l = localDB.getLocalById(m.getLocalId());
+                            Habitat h = habitatDB.getHabitatFromID(l.getHabitatId());
+                            if(h.isActif()){
+                                habitat = h;
+                                local = l;
+                            }
+                            break;
+                        }
+
+                    }
+                    if(menage.isActif()) {
+                        ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine3.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine4.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine5.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine6.setVisibility(View.VISIBLE);
+                        ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                        ndTextViewLine1Title.setText("Nom");
+                        String nom = menage.getNom();
+                        ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
+                        ndTextViewLine2Title.setText("Prénom");
+                        String prenom = menage.getPrenom();
+                        ndTextViewLine2Value.setText((prenom == null || prenom.isEmpty())? "-" : prenom);
+                        ndTextViewLine3Title.setText("Type d'usager");
+                        ndTextViewLine3Value.setText("Particulier");
+                        if(habitat.isActif()) {
+                            ndTextViewLine4Title.setText("Adresse");
+                            ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                                    + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
+                        }
+                        else{
+                            ndLinearLayoutLine4.setVisibility(View.GONE);
+                        }
+                        ndTextViewLine5Title.setText("Carte");
+                        String typeCarte = dchTypeCarteDB.getTypeCarteFromID(typeCarteIdFromRUF == 0? typeCarteIdFromRUFInApportProFragment: typeCarteIdFromRUF).getNom();
+                        String numCarte = "";
+                        ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(comptePrepaye.getId());
+                        for(CarteActive ca: carteActiveList){
+                            if(ca.isActive()){
+                                Carte carte = dchCarteDB.getCarteFromID(ca.getDchCarteId());
+                                if(numCarte.isEmpty()||numCarte==null) {
+                                    numCarte = "N° " + carte.getNumCarte() + "   active";
+                                }
+                                else{
+                                    numCarte = numCarte + "\n" + "N° " + carte.getNumCarte() + "   active";
+                                }
+                            }
+                        }
+                        ndTextViewLine5Value.setText(( (typeCarte == null || typeCarte.isEmpty()) ? "-\n" : typeCarte + "\n")
+                                + ((numCarte == null || numCarte.isEmpty()) ? "N° -" : numCarte));
+                        if (accountSetting.isDecompteDepot()) {
+                            ndTextViewLine6Title.setText("Nb dépôt restant");
+                            ndTextViewLine6Value.setText(comptePrepaye.getNbDepotRestant() + "");
+                        } else {
+                            ndLinearLayoutLine6.setVisibility(View.GONE);
+                        }
+                        if (accountSetting.isDecompteUDD()) {
+                            ndTextViewLine7Title.setText("Apport restant");
+                            String unitePoint = accountSetting.getUnitePoint();
+                            ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
+                        } else {
+                            ndLinearLayoutLine7.setVisibility(View.GONE);
+                        }
+                    }
+                }
+                //case 3
+                else{
+                    ndLinearLayoutLine2.setVisibility(View.GONE);
+                    ndLinearLayoutLine3.setVisibility(View.GONE);
+                    ndLinearLayoutLine4.setVisibility(View.GONE);
+                    ndLinearLayoutLine5.setVisibility(View.GONE);
+                    ndLinearLayoutLine6.setVisibility(View.GONE);
+                    ndLinearLayoutLine7.setVisibility(View.GONE);
+                    ndTextViewLine1Title.setText("Nom");
+                    ndTextViewLine1Value.setText(usager.getNom());
+                }
+            }
         }
 
 
+    }
+
+    public void initAllIsComeFrom(){
+        if (getArguments() != null && getArguments().getBoolean("isComeFromApportProFragment")){
+            this.isComeFromApportProFragment = true;
+        }
+        if (getArguments() != null && getArguments().getBoolean("isComeFromRechercherUsagerFragment")){
+            this.isComeFromRechercherUsagerFragment = true;
+        }
     }
 
     /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;

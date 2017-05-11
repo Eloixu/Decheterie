@@ -148,7 +148,7 @@ public class CustomDialogNormal extends Dialog {
                 ((Button) layout.findViewById(R.id.dialog_normal_layout_positive_button))
                         .setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {
-                    ((Button) layout.findViewById(R.id.dialog_normal_layout_negative_button))
+                    ((Button) layout.findViewById(R.id.dialog_normal_layout_positive_button))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     positiveButtonClickListener.onClick(dialog,

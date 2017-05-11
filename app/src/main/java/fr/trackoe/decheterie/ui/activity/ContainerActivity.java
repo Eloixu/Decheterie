@@ -944,8 +944,17 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 builder.create().show();
             }
             else if( getCurrentFragment() instanceof ApportProFragment) {
-                DepotFragment depotFragment = DepotFragment.newInstance(((ApportProFragment) getCurrentFragment()).getDepotId());
-                changeMainFragment(depotFragment, true);
+                ApportProFragment apportProFragment = (ApportProFragment) getCurrentFragment();
+
+                if(((ApportProFragment) getCurrentFragment()).isComeFromRUFInApportProFragment()){
+                    DepotFragment depotFragment = DepotFragment.newInstance(apportProFragment.getDepotId(),apportProFragment.getUsagerIdFromRUFInApportProFragment(),apportProFragment.getTypeCarteIdFromRUFInApportProFragment(),apportProFragment.getAccountIdFromRUFInApportProFragment(),apportProFragment.isComeFromRUFInApportProFragment(), true);
+                    changeMainFragment(depotFragment, true);
+                }
+                else{
+                    DepotFragment depotFragment = DepotFragment.newInstance(apportProFragment.getDepotId(),true);
+                    changeMainFragment(depotFragment, true);
+                }
+
             }
             else if( getCurrentFragment() instanceof LoginFragment) {
                 finish();
@@ -1467,7 +1476,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         usagerDB.insertUsager(new Usager(13,0,"Charles Darwin",null));
         usagerDB.insertUsager(new Usager(14,0,"Richard Feloni ",null));
         usagerDB.insertUsager(new Usager(15,0,"R.H. Macy",null));
-
         usagerDB.close();
 
         //add comptePrepaye into DBB
@@ -1597,9 +1605,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         localDB.close();
 
         //add usagerHabitat into BDD
-        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));//habitat1 actif
-        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,4));//habitat4 not actif
-        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,5));//habitat5 not actif
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));//habitat1(actif)
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,4));//habitat4(not actif)
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,5));//habitat5(not actif)
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
         //usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
         usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(11,8));
@@ -1612,9 +1620,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         usagerHabitatDB.close();
 
         //add usagerMenage into BDD
-        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,3));//menage3 habitat2 actif
-        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,6));//menage6 habitat3 not actif
-        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,7));//menage7 habitat6 not actif
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,3));//menage3 habitat2(actif)
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,6));//menage6 habitat3(not actif)
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,7));//menage7 habitat6(not actif)
         usagerMenageDB.close();
     }
 

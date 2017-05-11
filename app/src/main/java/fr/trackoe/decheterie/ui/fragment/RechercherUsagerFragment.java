@@ -266,22 +266,22 @@ public class RechercherUsagerFragment extends Fragment {
                         }
                         //case 2: usager---usager_menage---menage---local---habitat
                         //case 3: neither case 1 nor case 2
-                        else{
-                            ArrayList<Local> localList = localDB.getLocalListByHabitatId(habitat.getIdHabitat());
-                            ArrayList<Menage> menageList = new ArrayList();
-                            for(Local local: localList){
-                                Menage menage = menageDB.getMenageByLocalId(local.getIdLocal());
-                                if(menage != null) menageList.add(menage);
-                            }
-                            ArrayList<Menage> menageActiveList = new ArrayList();
-                            for(Menage menage: menageList){
-                                if(menage.isActif()) menageActiveList.add(menage);
-                            }
-                            for(Menage menageActive: menageActiveList){
-                                UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByMenageActiveId(menageActive.getId());
-                                if(usagerMenage != null) usagerList3.add(usagerDB.getUsagerFromID(usagerMenage.getDchUsagerId()));
-                            }
+
+                        ArrayList<Local> localList = localDB.getLocalListByHabitatId(habitat.getIdHabitat());
+                        ArrayList<Menage> menageList = new ArrayList();
+                        for(Local local: localList){
+                            Menage menage = menageDB.getMenageByLocalId(local.getIdLocal());
+                            if(menage != null) menageList.add(menage);
                         }
+                        ArrayList<Menage> menageActiveList = new ArrayList();
+                        for(Menage menage: menageList){
+                            if(menage.isActif()) menageActiveList.add(menage);
+                        }
+                        for(Menage menageActive: menageActiveList){
+                            UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByMenageActiveId(menageActive.getId());
+                            if(usagerMenage != null) usagerList3.add(usagerDB.getUsagerFromID(usagerMenage.getDchUsagerId()));
+                        }
+
                     }
 
                     //transfer the 3 list to arrayList<int>

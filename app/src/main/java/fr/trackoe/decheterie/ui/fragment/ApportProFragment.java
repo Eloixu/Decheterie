@@ -48,9 +48,17 @@ public class ApportProFragment extends Fragment {
     ContainerActivity parentActivity;
     private ImageView imageSign;
     private PaintView mView;
-    private long depotId;
     private Depot depot;
     private LinearLayout linearLayoutSignature;
+    private long depotId;
+
+    //parameters from rechercherUsagerFragment
+    private boolean isComeFromRUFInApportProFragment = false;
+    private int usagerIdFromRUFInApportProFragment;
+    private int typeCarteIdFromRUFInApportProFragment;
+    private int accountIdFromRUFInApportProFragment;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,6 +115,17 @@ public class ApportProFragment extends Fragment {
             Toast.makeText(getContext(), "depotId: " + depotId,
                     Toast.LENGTH_SHORT).show();
             depot =  dchDepotDB.getDepotByIdentifiant(depotId);
+
+            int usagerId = getArguments().getInt("usagerIdFromRechercherUsagerFragment");
+            int typeCarteId = getArguments().getInt("typeCarteIdFromRechercherUsagerFragment");
+            int accountId = getArguments().getInt("accountIdFromRechercherUsagerFragment");
+            boolean  isComeFromRechercherUsagerFragment = getArguments().getBoolean("isComeFromRechercherUsagerFragment");
+            if(usagerId != 0 && typeCarteId != 0 && isComeFromRechercherUsagerFragment == true){
+                this.isComeFromRUFInApportProFragment = isComeFromRechercherUsagerFragment;
+                this.usagerIdFromRUFInApportProFragment = usagerId;
+                this.typeCarteIdFromRUFInApportProFragment = typeCarteId;
+                this.accountIdFromRUFInApportProFragment = accountId;
+            }
 
             dchDepotDB.close();
         }
@@ -296,6 +315,18 @@ public class ApportProFragment extends Fragment {
         return apportProFragment;
     }
 
+    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment,int accountIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment) {
+        ApportProFragment apportProFragment = new ApportProFragment();
+        Bundle args = new Bundle();
+        args.putLong("depotId", depotId);
+        args.putInt("usagerIdFromRechercherUsagerFragment", usagerIdFromRechercherUsagerFragment);
+        args.putInt("typeCarteIdFromRechercherUsagerFragment", typeCarteIdFromRechercherUsagerFragment);
+        args.putInt("accountIdFromRechercherUsagerFragment", accountIdFromRechercherUsagerFragment);
+        args.putBoolean("isComeFromRechercherUsagerFragment", isComeFromRechercherUsagerFragment);
+        apportProFragment.setArguments(args);
+        return apportProFragment;
+    }
+
     public Drawable changeToDrawable(Bitmap bp)
      {
          Bitmap bm=bp;
@@ -315,7 +346,19 @@ public class ApportProFragment extends Fragment {
         return dateHeure;
     }
 
+    public boolean isComeFromRUFInApportProFragment() {
+        return isComeFromRUFInApportProFragment;
+    }
 
+    public int getUsagerIdFromRUFInApportProFragment() {
+        return usagerIdFromRUFInApportProFragment;
+    }
 
+    public int getTypeCarteIdFromRUFInApportProFragment() {
+        return typeCarteIdFromRUFInApportProFragment;
+    }
 
+    public int getAccountIdFromRUFInApportProFragment() {
+        return accountIdFromRUFInApportProFragment;
+    }
 }
