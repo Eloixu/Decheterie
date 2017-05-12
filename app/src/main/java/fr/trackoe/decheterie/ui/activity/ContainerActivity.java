@@ -134,6 +134,7 @@ import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
 import fr.trackoe.decheterie.ui.fragment.LoadingFragment;
 import fr.trackoe.decheterie.ui.fragment.LoginFragment;
+import fr.trackoe.decheterie.ui.fragment.RechercherUsagerFragment;
 import fr.trackoe.decheterie.ui.fragment.SettingsFragment;
 import fr.trackoe.decheterie.ui.fragment.TabletteFragment;
 import fr.trackoe.decheterie.widget.WriteUsersTask;
@@ -229,7 +230,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }
 
-//        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
+        //changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -894,14 +895,19 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             DchDepotDB dchDepotDB = new DchDepotDB(activity);
                             dchDepotDB.open();
                             dialog.dismiss();
-                            //delete the current depot and the flux associated
-                            //TODO: delete the current depot and the flux associated
+
                             Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
                             dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(),getResources().getInteger(R.integer.statut_annuler));
 
                             Configuration.setIsOuiClicked(false);
 
-                            changeMainFragment(new IdentificationFragment(), true);
+                            if(((DepotFragment) getCurrentFragment()).isComeFromRechercherUsagerFragment() ||((DepotFragment) getCurrentFragment()).isComeFromRUFInApportProFragment() ){
+                                changeMainFragment(new RechercherUsagerFragment(), true);
+                            }
+                            else{
+                                changeMainFragment(new IdentificationFragment(), true);
+                            }
+
 
                             dchDepotDB.close();
                         }
@@ -958,6 +964,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             }
             else if( getCurrentFragment() instanceof LoginFragment) {
                 finish();
+            }
+            else if( getCurrentFragment() instanceof RechercherUsagerFragment) {
+                changeMainFragment(new AccueilFragment(), true);
             }
             else{
                 super.onBackPressed();

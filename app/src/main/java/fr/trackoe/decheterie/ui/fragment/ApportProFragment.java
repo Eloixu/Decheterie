@@ -52,6 +52,30 @@ public class ApportProFragment extends Fragment {
     private LinearLayout linearLayoutSignature;
     private long depotId;
 
+    //the views
+    private TextView apportProFragmentTopUpLine1TitleTextView;
+    private TextView apportProFragmentTopUpLine2TitleTextView;
+    private TextView apportProFragmentTopUpLine3TitleTextView;
+    private TextView apportProFragmentBottomLeftUpLine1TitleTextView;
+    private TextView apportProFragmentBottomLeftUpLine2TitleTextView;
+    private TextView apportProFragmentBottomLeftUpLine3TitleTextView;
+    private TextView apportProFragmentTopUpLine1ValueTextView;
+    private TextView apportProFragmentTopUpLine2ValueTextView;
+    private TextView apportProFragmentTopUpLine3ValueTextView;
+    private TextView apportProFragmentBottomLeftUpLine1ValueTextView;
+    private TextView apportProFragmentBottomLeftUpLine2ValueTextView;
+    private TextView apportProFragmentBottomLeftUpLine3ValueTextView;
+
+
+    //parameters in NavagationDrawer(totalDecompte in DepotFragment) from DepotFragment
+    private String nomInND;
+    private boolean isUsagerMenageInND;
+    private String adresseInND;
+    private String numeroCarteInND;
+    private float apportRestantInND;
+    private String uniteApportRestantInND;
+    private float totalDecompte;
+
     //parameters from rechercherUsagerFragment
     private boolean isComeFromRUFInApportProFragment = false;
     private int usagerIdFromRUFInApportProFragment;
@@ -67,6 +91,7 @@ public class ApportProFragment extends Fragment {
 
         //FrameLayout frameLayout = (FrameLayout) accueil_vg.findViewById(R.id.frameLayout_bottom_right_down);
         linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.apport_pro_fragment_signature_linearLayout);
+
 
         // Init Actionbar
         //initActionBar();
@@ -104,6 +129,19 @@ public class ApportProFragment extends Fragment {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
+
+        apportProFragmentTopUpLine1TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_title_textView);
+        apportProFragmentTopUpLine2TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_title_textView);
+        apportProFragmentTopUpLine3TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_title_textView);
+        apportProFragmentBottomLeftUpLine1TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line1_title_textView);
+        apportProFragmentBottomLeftUpLine2TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line2_title_textView);
+        apportProFragmentBottomLeftUpLine3TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line3_title_textView);
+        apportProFragmentTopUpLine1ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_value_textView);
+        apportProFragmentTopUpLine2ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_value_textView);
+        apportProFragmentTopUpLine3ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_value_textView);
+        apportProFragmentBottomLeftUpLine1ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line1_value_textView);
+        apportProFragmentBottomLeftUpLine2ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line2_value_textView);
+        apportProFragmentBottomLeftUpLine3ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line3_value_textView);
 
         //get the depotId sent From DepotFragment
         if (getArguments() != null) {
@@ -144,6 +182,14 @@ public class ApportProFragment extends Fragment {
             linearLayoutSignature.addView(mView);
             mView.requestFocus();*/
         }
+
+        //set values
+        apportProFragmentTopUpLine1ValueTextView.setText(nomInND);
+        apportProFragmentTopUpLine2ValueTextView.setText(adresseInND);
+        apportProFragmentTopUpLine3ValueTextView.setText(numeroCarteInND);
+        apportProFragmentBottomLeftUpLine1ValueTextView.setText(apportRestantInND + " " + uniteApportRestantInND);
+        apportProFragmentBottomLeftUpLine2ValueTextView.setText(totalDecompte + "");
+        apportProFragmentBottomLeftUpLine3ValueTextView.setText((totalDecompte - apportRestantInND) + "");
 
     }
 
@@ -307,10 +353,19 @@ public class ApportProFragment extends Fragment {
         }
     }
 
-    public static ApportProFragment newInstance(long depotId) {
+
+    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong("depotId", depotId);
+        args.putString("nomInND", nomInND);
+        args.putBoolean("isUsagerMenageInND", isUsagerMenageInND);
+        args.putString("adresseInND", adresseInND);
+        args.putString("numeroCarteInND", numeroCarteInND);
+        args.putFloat("apportRestantInND", apportRestantInND);
+        args.putString("uniteApportRestantInND", uniteApportRestantInND);
+        args.putFloat("totalDecompte", totalDecompte);
+
         apportProFragment.setArguments(args);
         return apportProFragment;
     }

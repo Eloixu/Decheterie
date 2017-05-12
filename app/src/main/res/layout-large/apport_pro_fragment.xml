@@ -140,14 +140,14 @@
                     android:paddingStart="@dimen/apport_pro_fragment_bottom_left_up_line1_linearLayout_paddingStart"
                     >
                     <TextView
-                        android:id="@+id/apport_pro_fragment_left_up_line1_title_textView"
+                        android:id="@+id/apport_pro_fragment_bottom_left_up_line1_title_textView"
                         android:text="@string/apport_pro_fragment_left_up_line1_title_textView_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/general_txt_size" />
 
                     <TextView
-                        android:id="@+id/apport_pro_fragment_left_up_line1_value_textView"
+                        android:id="@+id/apport_pro_fragment_bottom_left_up_line1_value_textView"
                         android:text="@string/apport_pro_fragment_left_up_line1_value_textView_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -166,14 +166,14 @@
                     android:paddingStart="@dimen/apport_pro_fragment_bottom_left_up_line2_linearLayout_paddingStart"
                     >
                     <TextView
-                        android:id="@+id/apport_pro_fragment_left_up_line2_title_textView"
+                        android:id="@+id/apport_pro_fragment_bottom_left_up_line2_title_textView"
                         android:text="@string/apport_pro_fragment_left_up_line2_title_textView_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/general_txt_size" />
 
                     <TextView
-                        android:id="@+id/apport_pro_fragment_left_up_line2_value_textView"
+                        android:id="@+id/apport_pro_fragment_bottom_left_up_line2_value_textView"
                         android:text="@string/apport_pro_fragment_left_up_line2_value_textView_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/apport_pro_fragment_left_up_information_textView"
+                    android:id="@+id/apport_pro_fragment_bottom_left_up_information_textView"
                     android:text="@string/apport_pro_fragment_left_up_information_textView_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

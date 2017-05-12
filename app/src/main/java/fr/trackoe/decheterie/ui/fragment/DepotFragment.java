@@ -79,6 +79,16 @@ public class DepotFragment extends Fragment {
     ContainerActivity parentActivity;
     private TextView textViewVolumeTotal;
 
+    //parameters in NavagationDrawer(totalDecompte in DepotFragment)
+    private String nomInND;
+    private boolean isUsagerMenageInND;
+    private String adresseInND;
+    private String numeroCarteInND;
+    private float apportRestantInND;
+    private String uniteApportRestantInND;
+    private float totalDecompte;
+
+
     //parameters from apportProFragment
     private boolean isComeFromApportProFragment = false;
     private boolean isComeFromRUFInApportProFragment = false;
@@ -1535,7 +1545,7 @@ public class DepotFragment extends Fragment {
                     }
                     else{
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId);
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,nomInND,isUsagerMenageInND,adresseInND,numeroCarteInND,apportRestantInND,uniteApportRestantInND,totalDecompte);
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
                     }
@@ -1900,17 +1910,21 @@ public class DepotFragment extends Fragment {
                     ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                     ndTextViewLine1Title.setText("Nom");
                     String nom = habitat.getNom();
+                    nomInND = nom;
                     ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                     ndLinearLayoutLine2.setVisibility(View.GONE);
                     ndTextViewLine3Title.setText("Type d'usager");
                     String type = typeHabitatDB.getTypeHabitatFromID(habitat.getIdTypeHabitat()).getType();
                     ndTextViewLine3Value.setText((type == null || type.isEmpty())? "-" : type);
                     ndTextViewLine4Title.setText("Adresse");
+                    adresseInND = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                            + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
                     ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
                             + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
                     ndTextViewLine5Title.setText("Carte");
                     String typeCarte = dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom();
                     String numCarte = carte.getNumCarte();
+                    numeroCarteInND = numCarte;
                     ndTextViewLine5Value.setText(( (typeCarte == null || typeCarte.isEmpty()) ? "-\n" : typeCarte + "\n")
                                                 + ((numCarte == null || numCarte.isEmpty()) ? "N° -" : "N° " + numCarte));
                     if (accountSetting.isDecompteDepot()) {
@@ -1922,6 +1936,8 @@ public class DepotFragment extends Fragment {
                     if (accountSetting.isDecompteUDD()) {
                         ndTextViewLine7Title.setText("Apport restant");
                         String unitePoint = accountSetting.getUnitePoint();
+                        apportRestantInND = comptePrepaye.getQtyPoint();
+                        uniteApportRestantInND = unitePoint;
                         ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                     } else {
                         ndLinearLayoutLine7.setVisibility(View.GONE);
@@ -1959,14 +1975,18 @@ public class DepotFragment extends Fragment {
                         ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                         ndTextViewLine1Title.setText("Nom");
                         String nom = menage.getNom();
+                        nomInND = nom;
                         ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                         ndTextViewLine2Title.setText("Prénom");
                         String prenom = menage.getPrenom();
+                        isUsagerMenageInND = true;
                         ndTextViewLine2Value.setText((prenom == null || prenom.isEmpty())? "-" : prenom);
                         ndTextViewLine3Title.setText("Type d'usager");
                         ndTextViewLine3Value.setText("Particulier");
                         if(habitat.isActif()) {
                             ndTextViewLine4Title.setText("Adresse");
+                            adresseInND = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                                    + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
                             ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
                                     + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
                         }
@@ -1976,6 +1996,7 @@ public class DepotFragment extends Fragment {
                         ndTextViewLine5Title.setText("Carte");
                         String typeCarte = dchTypeCarteDB.getTypeCarteFromID(carte.getDchTypeCarteId()).getNom();
                         String numCarte = carte.getNumCarte();
+                        numeroCarteInND = numCarte;
                         ndTextViewLine5Value.setText(( (typeCarte == null || typeCarte.isEmpty()) ? "-\n" : typeCarte + "\n")
                                 + ((numCarte == null || numCarte.isEmpty()) ? "N° -" : "N° " + numCarte));
                         if (accountSetting.isDecompteDepot()) {
@@ -1987,6 +2008,8 @@ public class DepotFragment extends Fragment {
                         if (accountSetting.isDecompteUDD()) {
                             ndTextViewLine7Title.setText("Apport restant");
                             String unitePoint = accountSetting.getUnitePoint();
+                            apportRestantInND = comptePrepaye.getQtyPoint();
+                            uniteApportRestantInND = unitePoint;
                             ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                         } else {
                             ndLinearLayoutLine7.setVisibility(View.GONE);
@@ -2184,6 +2207,14 @@ public class DepotFragment extends Fragment {
         if (getArguments() != null && getArguments().getBoolean("isComeFromRechercherUsagerFragment")){
             this.isComeFromRechercherUsagerFragment = true;
         }
+    }
+
+    public boolean isComeFromRechercherUsagerFragment() {
+        return isComeFromRechercherUsagerFragment;
+    }
+
+    public boolean isComeFromRUFInApportProFragment() {
+        return isComeFromRUFInApportProFragment;
     }
 
     /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
