@@ -221,16 +221,16 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         launchOnlineAction();
 
-        // Si on a déja un numéro de tablette on affiche directement l'écran de login
+        /*// Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
 
         } else {
             //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-        }
+        }*/
 
-        //changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
+        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -1553,10 +1553,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,null,null,"unitePoint1","170101","171230",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,"unitePoint2","170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,"unitePoint3","170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,"unitePoint4","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,null,null,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,"m3","170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,"m3","170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,"m3","170101","171230",0,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
@@ -1571,7 +1571,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         //add unite into BDD
         dchUniteDB.insertUnite(new Unite(1,"m3"));
         dchUniteDB.insertUnite(new Unite(2,"kg"));
-        dchUniteDB.insertUnite(new Unite(3,"uniteApp"));
+        dchUniteDB.insertUnite(new Unite(3,"kg")); //unité Apporté
         dchUniteDB.close();
 
         //add typeHabitat into BDD

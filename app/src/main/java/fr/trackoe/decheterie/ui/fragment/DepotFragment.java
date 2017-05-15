@@ -565,6 +565,7 @@ public class DepotFragment extends Fragment {
                             depot.setQtyTotalUDD(qtyDecompteTotal);
                             dchDepotDB.updateDepot(depot);
 
+                            totalDecompte = qtyDecompteTotal;
                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                             dchFluxDB.close();
@@ -600,6 +601,8 @@ public class DepotFragment extends Fragment {
                                     }
                                     depot.setQtyTotalUDD(qtyDecompteTotal);
                                     dchDepotDB.updateDepot(depot);
+
+                                    totalDecompte = qtyDecompteTotal;
                                     textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                                     dchFluxDB.close();
@@ -708,6 +711,8 @@ public class DepotFragment extends Fragment {
                                     }
                                     depot.setQtyTotalUDD(qtyDecompteTotal);
                                     dchDepotDB.updateDepot(depot);
+
+                                    totalDecompte = qtyDecompteTotal;
                                     textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
 
@@ -743,6 +748,8 @@ public class DepotFragment extends Fragment {
                                             }
                                             depot.setQtyTotalUDD(qtyDecompteTotal);
                                             dchDepotDB.updateDepot(depot);
+
+                                            totalDecompte = qtyDecompteTotal;
                                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                                             dchFluxDB.close();
@@ -816,6 +823,8 @@ public class DepotFragment extends Fragment {
             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> 0.0 </big></big></font> " + nomUniteDecompte));
         }
         else{
+            totalDecompte = depot.getQtyTotalUDD();
+
             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + depot.getQtyTotalUDD() + " </big></big></font> " + nomUniteDecompte));
         }
 
@@ -979,6 +988,8 @@ public class DepotFragment extends Fragment {
                             depot.setQtyTotalUDD(qtyDecompteTotal);
                             dchDepotDB.updateDepot(depot);
 
+                            totalDecompte = qtyDecompteTotal;
+
                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                             dchFluxDB.close();
@@ -1012,6 +1023,8 @@ public class DepotFragment extends Fragment {
                                     }
                                     depot.setQtyTotalUDD(qtyDecompteTotal);
                                     dchDepotDB.updateDepot(depot);
+
+                                    totalDecompte = qtyDecompteTotal;
 
                                     textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
@@ -1119,6 +1132,8 @@ public class DepotFragment extends Fragment {
                                     depot.setQtyTotalUDD(qtyDecompteTotal);
                                     dchDepotDB.updateDepot(depot);
 
+                                    totalDecompte = qtyDecompteTotal;
+
                                     textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                                     dchApportFluxDB.close();
@@ -1153,6 +1168,8 @@ public class DepotFragment extends Fragment {
                                             }
                                             depot.setQtyTotalUDD(qtyDecompteTotal);
                                             dchDepotDB.updateDepot(depot);
+
+                                            totalDecompte = qtyDecompteTotal;
 
                                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
@@ -1294,6 +1311,8 @@ public class DepotFragment extends Fragment {
                             depot.setQtyTotalUDD(qtyDecompteTotal);
                             dchDepotDB.updateDepot(depot);
 
+                            totalDecompte = qtyDecompteTotal;
+
                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                             dchApportFluxDB.close();
@@ -1326,6 +1345,8 @@ public class DepotFragment extends Fragment {
                             }
                             depot.setQtyTotalUDD(qtyDecompteTotal);
                             dchDepotDB.updateDepot(depot);
+
+                            totalDecompte = qtyDecompteTotal;
 
                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
@@ -1423,6 +1444,8 @@ public class DepotFragment extends Fragment {
                                     depot.setQtyTotalUDD(qtyDecompteTotal);
                                     dchDepotDB.updateDepot(depot);
 
+                                    totalDecompte = qtyDecompteTotal;
+
                                     textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
                                     dchApportFluxDB.close();
@@ -1457,6 +1480,8 @@ public class DepotFragment extends Fragment {
                                             }
                                             depot.setQtyTotalUDD(qtyDecompteTotal);
                                             dchDepotDB.updateDepot(depot);
+
+                                            totalDecompte = qtyDecompteTotal;
 
                                             textViewVolumeTotal.setText(Html.fromHtml("Total décompté: <font color='#000000'><big><big> " + qtyDecompteTotal + " </big></big></font> " + nomUniteDecompte));
 
@@ -1528,6 +1553,7 @@ public class DepotFragment extends Fragment {
 
 
                 Configuration.setIsOuiClicked(false);
+
 
                 //detect the pageSignature
                 if(pageSignature) {

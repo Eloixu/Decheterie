@@ -271,7 +271,7 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
+        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
 //        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 

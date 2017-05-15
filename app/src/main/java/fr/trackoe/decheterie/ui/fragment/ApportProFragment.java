@@ -168,6 +168,17 @@ public class ApportProFragment extends Fragment {
             dchDepotDB.close();
         }
 
+        //get the nomInND, isUsagerMenageInND, adresseInND, numeroCarteInND, apportRestantInND, uniteApportRestantInND, totalDecompte sent from DepotFragment
+        if (getArguments() != null) {
+            nomInND = getArguments().getString("nomInND");
+            isUsagerMenageInND = getArguments().getBoolean("isUsagerMenageInND");
+            adresseInND = getArguments().getString("adresseInND");
+            numeroCarteInND = getArguments().getString("numeroCarteInND");
+            apportRestantInND = getArguments().getFloat("apportRestantInND");
+            uniteApportRestantInND = getArguments().getString("uniteApportRestantInND");
+            totalDecompte = getArguments().getFloat("totalDecompte");
+        }
+
         //detect if the signature picture has already existed
         if (depot.getSignature() == null){
             mView = new PaintView(getContext());
@@ -184,12 +195,18 @@ public class ApportProFragment extends Fragment {
         }
 
         //set values
+        if(isUsagerMenageInND) {
+            apportProFragmentTopUpLine1TitleTextView.setText("NOM");
+        }
+        else{
+            apportProFragmentTopUpLine1TitleTextView.setText("Raison Social:");
+        }
         apportProFragmentTopUpLine1ValueTextView.setText(nomInND);
         apportProFragmentTopUpLine2ValueTextView.setText(adresseInND);
         apportProFragmentTopUpLine3ValueTextView.setText(numeroCarteInND);
         apportProFragmentBottomLeftUpLine1ValueTextView.setText(apportRestantInND + " " + uniteApportRestantInND);
-        apportProFragmentBottomLeftUpLine2ValueTextView.setText(totalDecompte + "");
-        apportProFragmentBottomLeftUpLine3ValueTextView.setText((totalDecompte - apportRestantInND) + "");
+        apportProFragmentBottomLeftUpLine2ValueTextView.setText(totalDecompte + " " + uniteApportRestantInND);
+        apportProFragmentBottomLeftUpLine3ValueTextView.setText((apportRestantInND - totalDecompte) + " " + uniteApportRestantInND);
 
     }
 
