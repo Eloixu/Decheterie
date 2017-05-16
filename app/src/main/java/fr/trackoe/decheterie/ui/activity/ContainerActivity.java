@@ -456,7 +456,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Datas.loadTypeHabitat(activity, new DataAndErrorCallback<TypeHabitats>() {
                 @Override
                 public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-                    // TODO
+                    Toast.makeText(activity, "typeHabitat loading failed",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -487,7 +488,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Datas.loadAllHabitat(activity, new DataAndErrorCallback<Habitats>() {
                 @Override
                 public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-                    // TODO
+                    Toast.makeText(activity, "habitat loading failed",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -510,12 +512,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                         hdb.insertHabitat(data.getListHabitat().get(i));
                                         if(getCurrentFragment() instanceof LoadingFragment) {
                                             final int finalI = i;
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                                }
-                                            });
+                                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
 
                                         }
                                     }
@@ -1583,18 +1580,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         typeHabitatDB.close();
 
         //add habitat into BDD
-        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4));
-        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2));
-        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1));
-        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1));
-        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4));
-        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2));
-        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4));
-        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1));
-        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1));
-        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4));
-        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2));
-        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4));
+        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4,1));
+        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2,1));
+        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1,1));
+        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1,1));
+        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4,1));
+        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2,1));
+        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4,1));
+        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1,1));
+        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1,1));
+        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4,1));
+        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2,1));
+        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4,1));
         habitatDB.close();
 
         //add menage into BDD

@@ -32,7 +32,6 @@ public class HabitatsParser extends JSONParser<Habitats> {
                     String ville        = jobj.has("ville")         ? jobj.getString("ville") : "";
                     int nbLgt           = jobj.has("nb_lgts")       ? jobj.getInt("nb_lgts") : -1;
                     int nbHabitant      = jobj.has("nb_habitants")  ? jobj.getInt("nb_habitants") : -1;
-                    int idAccount       = jobj.has("id_account")    ? jobj.getInt("id_account") : -1;
                     String nom          = jobj.has("nom")           ? jobj.getString("nom") : "";
                     String reference    = jobj.has("reference")     ? jobj.getString("reference") : "";
                     String coordonneesX = jobj.has("coordonneesX")  ? jobj.getString("coordonneesX") : "";
@@ -45,9 +44,10 @@ public class HabitatsParser extends JSONParser<Habitats> {
                     String adresse2     = jobj.has("adresse2")      ? jobj.getString("adresse2") : "";
                     String remarque     = jobj.has("remarque")      ? jobj.getString("remarque") : "";
                     int idTypeHabitat   = jobj.has("id_type_habitat") ? jobj.getInt("id_type_habitat") : 1;
+                    int idAccount       = jobj.has("id_account")    ? jobj.getInt("id_account") : -1;
 
-                    h.addHabitat(idHabitat, adresse, cp, ville, nbLgt,nbHabitant, idAccount, nom, reference, coordonneesX, coordonneesY,
-                            complement, dernierMaj, numero, isActif, activites, adresse2, remarque, idTypeHabitat);
+                    h.addHabitat(idHabitat, adresse, cp, ville, nbLgt,nbHabitant, nom, reference, coordonneesX, coordonneesY,
+                            complement, dernierMaj, numero, isActif, activites, adresse2, remarque, idTypeHabitat, idAccount);
                 }
             }
         }

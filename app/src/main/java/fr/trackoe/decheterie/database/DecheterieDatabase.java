@@ -807,6 +807,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_REMARQUE = 16;
         public static final String ID_TYPE_HABITAT = "id_type_habitat";
         public static final int NUM_ID_TYPE_HABITAT = 17;
+        public static final String ID_ACCOUNT = "id_account";
+        public static final int NUM_ID_ACCOUNT = 18;
     }
 
     public static final String CREATE_TABLE_HABITAT = "CREATE TABLE IF NOT EXISTS " + TableHabitat.TABLE_NAME + " ("
@@ -827,7 +829,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableHabitat.ACTIVITES + TEXT_TYPE + COMMA_SEP
             + TableHabitat.ADRESSE_2 + TEXT_TYPE + COMMA_SEP
             + TableHabitat.REMARQUE + TEXT_TYPE + COMMA_SEP
-            + TableHabitat.ID_TYPE_HABITAT + INTEGER_TYPE + " )" ;
+            + TableHabitat.ID_TYPE_HABITAT + INTEGER_TYPE + COMMA_SEP
+            + TableHabitat.ID_ACCOUNT + INTEGER_TYPE + " )" ;
 
     public static final String DELETE_TABLE_HABITAT = "DROP TABLE IF EXISTS " + TableHabitat.TABLE_NAME;
 

@@ -40,7 +40,7 @@ public class HabitatDB extends MyDb {
         values.put(DecheterieDatabase.TableHabitat.ADRESSE_2, habitat.getAdresse2());
         values.put(DecheterieDatabase.TableHabitat.REMARQUE, habitat.getRemarque());
         values.put(DecheterieDatabase.TableHabitat.ID_TYPE_HABITAT, habitat.getIdTypeHabitat());
-
+        values.put(DecheterieDatabase.TableHabitat.ID_ACCOUNT, habitat.getIdAccount());
         return db.insertOrThrow(DecheterieDatabase.TableHabitat.TABLE_NAME, null, values);
     }
 
@@ -112,6 +112,7 @@ public class HabitatDB extends MyDb {
                 h.setAdresse2(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE_2));
                 h.setRemarque(c.getString(DecheterieDatabase.TableHabitat.NUM_REMARQUE));
                 h.setIdTypeHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_TYPE_HABITAT));
+                h.setIdAccount(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_ACCOUNT));
                 return h;
             }
             else{
@@ -148,6 +149,7 @@ public class HabitatDB extends MyDb {
                     h.setAdresse2(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE_2));
                     h.setRemarque(c.getString(DecheterieDatabase.TableHabitat.NUM_REMARQUE));
                     h.setIdTypeHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_TYPE_HABITAT));
+                    h.setIdAccount(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_ACCOUNT));
                     habitatList.add(h);
                 } while (c.moveToNext());
 
