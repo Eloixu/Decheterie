@@ -11,6 +11,7 @@ public class UsagerMenages extends ContenantBean {
     private ArrayList<UsagerMenage> listUsagerMenage;
 
     public UsagerMenages() {
+        this.listUsagerMenage = new ArrayList<>();
     }
 
     public ArrayList<UsagerMenage> getListUsagerMenage() {

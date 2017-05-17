@@ -182,7 +182,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
 
-        initDB();
+        //initDB();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -221,16 +221,16 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         launchOnlineAction();
 
-        /*// Si on a déja un numéro de tablette on affiche directement l'écran de login
+        // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
 
         } else {
             //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-        }*/
+        }
 
-        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
+        //changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -545,7 +545,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Datas.loadAllLocal(activity, new DataAndErrorCallback<Locaux>() {
                 @Override
                 public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
+                    Toast.makeText(activity, "local loading failed",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
