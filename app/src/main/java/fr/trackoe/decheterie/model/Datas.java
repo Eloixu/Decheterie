@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
+import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.TypeHabitats;
@@ -24,6 +25,7 @@ import fr.trackoe.decheterie.service.cache.URCache;
 import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.parser.ApkInfosParser;
+import fr.trackoe.decheterie.service.parser.DecheterieParser;
 import fr.trackoe.decheterie.service.parser.HabitatsParser;
 import fr.trackoe.decheterie.service.parser.InfosParser;
 import fr.trackoe.decheterie.service.parser.LocalParser;
@@ -135,6 +137,12 @@ public class Datas {
     public static void loadAllUsagerMenage(Context ctx, DataAndErrorCallback<UsagerMenages> callback, int idAccount) {
         String url = Configuration.getInstance(ctx).getAllUsagerMenageUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerMenageParser());
+    }
+
+    // Récupération des déchèteries
+    public static void loadAllDecheterie(Context ctx, DataAndErrorCallback<Decheteries> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllDecheterieUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new DecheterieParser());
     }
 
 }

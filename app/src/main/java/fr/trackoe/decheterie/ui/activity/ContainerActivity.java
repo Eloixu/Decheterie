@@ -81,6 +81,7 @@ import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
 import fr.trackoe.decheterie.database.DchTypeCarteDB;
 import fr.trackoe.decheterie.database.DchUniteDB;
+import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.database.HabitatDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.LocalDB;
@@ -100,6 +101,7 @@ import fr.trackoe.decheterie.model.bean.global.CarteActive;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
+import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.usager.Habitats;
@@ -221,16 +223,16 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         launchOnlineAction();
 
-        // Si on a déja un numéro de tablette on affiche directement l'écran de login
+        /*// Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
 
         } else {
             //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-        }
+        }*/
 
-        //changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
+        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -804,7 +806,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                            ((LoadingFragment) getCurrentFragment()).launchDecheterieAction();
                                         }
                                     });
                                 }
@@ -816,6 +818,62 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 }
             }, idAccount);
 
+        }
+    }
+
+    public void loadDecheterie(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllDecheterie(activity, new DataAndErrorCallback<Decheteries>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "déchèterie loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final Decheteries data) {
+                    try {
+                        final DecheterieDB ddb = new DecheterieDB(activity);
+                        ddb.open();
+                        ddb.clearDecheterie();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListDecheterie().size());
+                        }
+                        ddb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ddb.open();
+                                for(int i = 0; i < data.getListDecheterie().size(); i++) {
+                                    ddb.insertDecheterie(data.getListDecheterie().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                ddb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
         }
     }
 

@@ -158,7 +158,7 @@ public class URCache {
      * @param bypassCache  Forcer le noCache
      * @param callback     le DataCallback<Objet Metier> qui recevra les notification de progression de la requete
      * @param parser       le parser qui permettra de transformer le flux JSON en l'objet metier souhaité
-     * @param extraHeaders le header à utiliser
+     * @param extraHeaders le header à utiliserrr
      */
     public static void getFlux(Context ctx, String url, final long elemDelay, boolean bypassCache, final DataCallback callback, JSONParser parser, Map<String, String> extraHeaders) {
         getElement(ctx, url, elemDelay, callback, bypassCache, new AfterProcesser.JSONAfterProcesser(callback, parser), extraHeaders);

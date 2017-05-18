@@ -79,7 +79,6 @@ public class DecheterieFragment extends Fragment {
             dt.setConsigneComptage("");
             dt.setConsigneAvSignature("");
             dt.setApportFlux(true);
-            dt.setUniteTotal("");
             decheterieDB.insertDecheterie(dt);
         }
 

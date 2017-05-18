@@ -129,10 +129,23 @@ public class LoadingFragment extends Fragment {
         }
     }
 
+    public void launchDecheterieAction() {
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_usager_menage_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_usager_menage_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_decheterie_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadDecheterie(Configuration.getIdAccount());
+            }
+        }
+    }
+
     public void endDownload() {
         if(main_vg != null) {
-            main_vg.findViewById(R.id.load_usager_habitat_progressbar).setVisibility(View.GONE);
-            main_vg.findViewById(R.id.load_usager_habitat_img_check).setVisibility(View.VISIBLE);
+            main_vg.findViewById(R.id.load_decheterie_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_decheterie_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));

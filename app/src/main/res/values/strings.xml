@@ -297,6 +297,8 @@
     <string name="load_usager_habitat_tv">Chargement des liaisons usager/habitat</string>
     <string name="load_usager_menage">• Liaison Usager/Ménage</string>
     <string name="load_usager_menage_tv">Chargement des liaisons usager/ménage</string>
+    <string name="load_decheterie">• Déchèteries</string>
+    <string name="load_decheterie_tv">Chargement des déchèteries</string>
     <string name="chargement_success">Chargement réalisé avec succès!</string>
 
 

@@ -421,6 +421,10 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllUsagerMenage?idAccount=" + idAccount;
     }
 
+    public String getAllDecheterieUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllDecheterie?idAccount=" + idAccount;
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {

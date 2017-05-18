@@ -31,7 +31,6 @@ public class DecheterieDB extends MyDb {
         values.put(DecheterieDatabase.TableDchDecheterie.CONSIGNE_COMPTAGE, decheterie.getConsigneComptage());
         values.put(DecheterieDatabase.TableDchDecheterie.CONSIGNE_AV_SIGNATURE, decheterie.getConsigneAvSignature());
         values.put(DecheterieDatabase.TableDchDecheterie.APPORT_FLUX, decheterie.isApportFlux()? 1 : 0);
-        values.put(DecheterieDatabase.TableDchDecheterie.UNITE_TOTAL, decheterie.getUniteTotal());
 
         return db.insertOrThrow(DecheterieDatabase.TableDchDecheterie.TABLE_DCH_DECHETERIE, null, values);
     }
@@ -89,7 +88,6 @@ public class DecheterieDB extends MyDb {
         d.setConsigneComptage(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_COMPTAGE));
         d.setConsigneAvSignature(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_AV_SIGNATURE));
         d.setApportFlux((c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_APPORT_FLUX) == 1)? true : false);
-        d.setUniteTotal(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_UNITE_TOTAL));
 
         c.close();
 
@@ -108,7 +106,6 @@ public class DecheterieDB extends MyDb {
                 d.setConsigneComptage(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_COMPTAGE));
                 d.setConsigneAvSignature(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_CONSIGNE_AV_SIGNATURE));
                 d.setApportFlux((c.getInt(DecheterieDatabase.TableDchDecheterie.NUM_APPORT_FLUX) == 1)? true : false);
-                d.setUniteTotal(c.getString(DecheterieDatabase.TableDchDecheterie.NUM_UNITE_TOTAL));
                 decheterieList.add(d);
             } while (c.moveToNext());
 

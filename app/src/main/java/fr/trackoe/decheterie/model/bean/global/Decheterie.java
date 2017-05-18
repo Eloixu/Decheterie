@@ -11,20 +11,18 @@ public class Decheterie {
     private String consigneComptage;
     private String consigneAvSignature;
     private boolean apportFlux;
-    private String uniteTotal;
 
     public Decheterie() {
 
     }
 
-    public Decheterie(int id, int idAccount, String nom, String consigneComptage, String consigneAvSignature, boolean apportFlux, String uniteTotal) {
+    public Decheterie(int id, int idAccount, String nom, String consigneComptage, String consigneAvSignature, boolean apportFlux) {
         this.id = id;
         this.idAccount = idAccount;
         this.nom = nom;
         this.consigneComptage = consigneComptage;
         this.consigneAvSignature = consigneAvSignature;
         this.apportFlux = apportFlux;
-        this.uniteTotal = uniteTotal;
     }
 
     public int getId() {
@@ -75,11 +73,4 @@ public class Decheterie {
         this.apportFlux = apportFlux;
     }
 
-    public String getUniteTotal() {
-        return uniteTotal;
-    }
-
-    public void setUniteTotal(String uniteTotal) {
-        this.uniteTotal = uniteTotal;
-    }
 }

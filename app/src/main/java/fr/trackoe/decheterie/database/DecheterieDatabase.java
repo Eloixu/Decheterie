@@ -54,8 +54,6 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_CONSIGNE_AV_SIGNATURE = 4;
         public static final String APPORT_FLUX= "apport_flux";
         public static final int NUM_APPORT_FLUX = 5;
-        public static final String UNITE_TOTAL = "unite_total";
-        public static final int NUM_UNITE_TOTAL = 6;
     }
 
     public static final String CREATE_TABLE_DCH_DECHETERIE = "CREATE TABLE IF NOT EXISTS " + TableDchDecheterie.TABLE_DCH_DECHETERIE + " ("
@@ -64,8 +62,7 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableDchDecheterie.NOM + TEXT_TYPE + NOT_NULL + COMMA_SEP
             + TableDchDecheterie.CONSIGNE_COMPTAGE + TEXT_TYPE  + COMMA_SEP
             + TableDchDecheterie.CONSIGNE_AV_SIGNATURE + TEXT_TYPE + COMMA_SEP
-            + TableDchDecheterie.APPORT_FLUX + INTEGER_TYPE + COMMA_SEP
-            + TableDchDecheterie.UNITE_TOTAL + TEXT_TYPE + " )" ;
+            + TableDchDecheterie.APPORT_FLUX + INTEGER_TYPE + " )" ;
 
     private static final String DELETE_TABLE_DCH_DECHETERIE = "DROP TABLE IF EXISTS " + TableDchDecheterie.TABLE_DCH_DECHETERIE;
 
