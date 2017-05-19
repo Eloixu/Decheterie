@@ -99,11 +99,13 @@ import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
+import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
+import fr.trackoe.decheterie.model.bean.global.TypeCartes;
 import fr.trackoe.decheterie.model.bean.usager.Habitats;
 import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.usager.Locaux;
@@ -858,6 +860,110 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     }
                                 }
                                 ddb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadTypeCarte() {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadTypeCarte(activity, new DataAndErrorCallback<TypeCartes>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "typeCarte loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final TypeCartes data) {
+                    try {
+                        final DchTypeCarteDB tcdb = new DchTypeCarteDB(activity);
+                        tcdb.open();
+                        tcdb.clearTypeCarte();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListTypeCarte().size());
+                        }
+                        tcdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tcdb.open();
+                                for(int i = 0; i < data.getListTypeCarte().size(); i++) {
+                                    tcdb.insertTypeCarte(data.getListTypeCarte().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                tcdb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    public void loadCarte(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllCarte(activity, new DataAndErrorCallback<Cartes>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "carte loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final Cartes data) {
+                    try {
+                        final DchCarteDB cdb = new DchCarteDB(activity);
+                        cdb.open();
+                        cdb.clearCarte();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListCarte().size());
+                        }
+                        cdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cdb.open();
+                                for(int i = 0; i < data.getListCarte().size(); i++) {
+                                    cdb.insertCarte(data.getListCarte().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                cdb.close();
 
                                 if(getCurrentFragment() instanceof LoadingFragment) {
                                     runOnUiThread(new Runnable() {

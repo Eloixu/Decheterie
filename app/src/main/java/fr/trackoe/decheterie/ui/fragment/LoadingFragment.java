@@ -8,6 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
@@ -52,7 +62,9 @@ public class LoadingFragment extends Fragment {
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
-        launchHabitatAction();
+        //launchHabitatAction();
+        //getJson();
+        launchCarteAction();
     }
 
     public void launchHabitatAction() {
@@ -142,10 +154,24 @@ public class LoadingFragment extends Fragment {
         }
     }
 
-    public void endDownload() {
+    public void launchCarteAction() {
         if(main_vg != null) {
             main_vg.findViewById(R.id.load_decheterie_progressbar).setVisibility(View.GONE);
             main_vg.findViewById(R.id.load_decheterie_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_carte_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadTypeCarte();
+                ((ContainerActivity) getActivity()).loadCarte(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void endDownload() {
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_carte_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_carte_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));
@@ -155,6 +181,53 @@ public class LoadingFragment extends Fragment {
 
 
     }
+
+    //TODO 用getJson同样可以从服务器获得JSONObject，为什么还要用那么繁琐的方法?
+    public void getJson(){
+        String parsedString = "";
+
+        try {
+
+            URL url = new URL("http://192.168.1.38:8080/ws/"+"wsTypeCarte");
+            URLConnection conn = url.openConnection();
+
+            HttpURLConnection httpConn = (HttpURLConnection) conn;
+            httpConn.setAllowUserInteraction(false);
+            httpConn.setInstanceFollowRedirects(true);
+            httpConn.setRequestMethod("GET");
+            httpConn.connect();
+
+            InputStream is = httpConn.getInputStream();
+            parsedString = convertinputStreamToString(is);
+            JSONObject jo = new JSONObject(parsedString);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String convertinputStreamToString(InputStream ists)
+            throws IOException {
+        if (ists != null) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+
+            try {
+                BufferedReader r1 = new BufferedReader(new InputStreamReader(
+                        ists, "UTF-8"));
+                while ((line = r1.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+            } finally {
+                ists.close();
+            }
+            return sb.toString();
+        } else {
+            return "";
+        }
+    }
+
+
 
     public ProgressBar getProgressBar() {
         return progressBar;

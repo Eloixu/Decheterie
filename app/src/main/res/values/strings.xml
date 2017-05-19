@@ -299,6 +299,8 @@
     <string name="load_usager_menage_tv">Chargement des liaisons usager/ménage</string>
     <string name="load_decheterie">• Déchèteries</string>
     <string name="load_decheterie_tv">Chargement des déchèteries</string>
+    <string name="load_carte">• Cartes / Type carte</string>
+    <string name="load_carte_tv">Chargement des cartes</string>
     <string name="chargement_success">Chargement réalisé avec succès!</string>
 
 

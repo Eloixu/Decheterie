@@ -425,6 +425,14 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllDecheterie?idAccount=" + idAccount;
     }
 
+    public String getTypeCarteUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsTypeCarte";
+    }
+
+    public String getAllCarteUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllCarte?idAccount=" + idAccount;
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {
