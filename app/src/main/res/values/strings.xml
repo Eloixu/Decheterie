@@ -301,6 +301,10 @@
     <string name="load_decheterie_tv">Chargement des déchèteries</string>
     <string name="load_carte">• Cartes / Type carte</string>
     <string name="load_carte_tv">Chargement des cartes</string>
+    <string name="load_carte_active">• CarteActives / Carte Etat Raison</string>
+    <string name="load_carte_active_tv">Chargement des cartes</string>
+    <string name="load_compte_prepaye">• Compte Prépayé</string>
+    <string name="load_compte_prepaye_tv">Chargement des comptes prépayés</string>
     <string name="chargement_success">Chargement réalisé avec succès!</string>
 
 

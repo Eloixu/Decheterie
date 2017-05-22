@@ -8,7 +8,10 @@ import android.support.v4.app.ActivityCompat;
 
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.CarteActives;
+import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
 import fr.trackoe.decheterie.model.bean.global.Cartes;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Modules;
@@ -27,7 +30,10 @@ import fr.trackoe.decheterie.service.cache.URCache;
 import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.parser.ApkInfosParser;
+import fr.trackoe.decheterie.service.parser.CarteActiveParser;
+import fr.trackoe.decheterie.service.parser.CarteEtatRaisonParser;
 import fr.trackoe.decheterie.service.parser.CarteParser;
+import fr.trackoe.decheterie.service.parser.ComptePrepayeParser;
 import fr.trackoe.decheterie.service.parser.DecheterieParser;
 import fr.trackoe.decheterie.service.parser.HabitatsParser;
 import fr.trackoe.decheterie.service.parser.InfosParser;
@@ -160,5 +166,24 @@ public class Datas {
         String url = Configuration.getInstance(ctx).getAllCarteUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new CarteParser());
     }
+
+    // Récupération des carteActives
+    public static void loadAllCarteActive(Context ctx, DataAndErrorCallback<CarteActives> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllCarteActiveUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new CarteActiveParser());
+    }
+
+    // Récupération des carteEtatRaisons
+    public static void loadCarteEtatRaison(Context ctx, DataAndErrorCallback<CarteEtatRaisons> callback) {
+        String url = Configuration.getInstance(ctx).getCarteEtatRaisonUrl(ctx);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new CarteEtatRaisonParser());
+    }
+
+    // Récupération des compte prépayés
+    public static void loadAllComptePrepaye(Context ctx, DataAndErrorCallback<ComptePrepayes> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllComptePrepayeUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ComptePrepayeParser());
+    }
+
 
 }

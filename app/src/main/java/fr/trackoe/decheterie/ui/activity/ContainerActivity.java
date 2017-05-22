@@ -98,9 +98,12 @@ import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
+import fr.trackoe.decheterie.model.bean.global.CarteActives;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
+import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
 import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Depot;
@@ -865,7 +868,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                            ((LoadingFragment) getCurrentFragment()).launchCarteAction();
                                         }
                                     });
                                 }
@@ -964,6 +967,166 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     }
                                 }
                                 cdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchCarteActiveAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadCarteEtatRaison() {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadCarteEtatRaison(activity, new DataAndErrorCallback<CarteEtatRaisons>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "carte etat raison loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final CarteEtatRaisons data) {
+                    try {
+                        final DchCarteEtatRaisonDB cerdb = new DchCarteEtatRaisonDB(activity);
+                        cerdb.open();
+                        cerdb.clearCarteEtatRaison();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListCarteEtatRaison().size());
+                        }
+                        cerdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cerdb.open();
+                                for(int i = 0; i < data.getListCarteEtatRaison().size(); i++) {
+                                    cerdb.insertCarteEtatRaison(data.getListCarteEtatRaison().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                cerdb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    public void loadCarteActive(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllCarteActive(activity, new DataAndErrorCallback<CarteActives>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "carteActive loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final CarteActives data) {
+                    try {
+                        final DchCarteActiveDB cadb = new DchCarteActiveDB(activity);
+                        cadb.open();
+                        cadb.clearCarteActive();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListCarteActive().size());
+                        }
+                        cadb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cadb.open();
+                                for(int i = 0; i < data.getListCarteActive().size(); i++) {
+                                    cadb.insertCarteActive(data.getListCarteActive().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                cadb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchComptePrepayeAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadComptePrepaye(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllComptePrepaye(activity, new DataAndErrorCallback<ComptePrepayes>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "compte prépayé loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final ComptePrepayes data) {
+                    try {
+                        final DchComptePrepayeDB cpdb = new DchComptePrepayeDB(activity);
+                        cpdb.open();
+                        cpdb.clearComptePrepaye();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListComptePrepaye().size());
+                        }
+                        cpdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cpdb.open();
+                                for(int i = 0; i < data.getListComptePrepaye().size(); i++) {
+                                    cpdb.insertComptePrepaye(data.getListComptePrepaye().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                cpdb.close();
 
                                 if(getCurrentFragment() instanceof LoadingFragment) {
                                     runOnUiThread(new Runnable() {

@@ -168,10 +168,37 @@ public class LoadingFragment extends Fragment {
         }
     }
 
-    public void endDownload() {
+    public void launchCarteActiveAction(){
         if(main_vg != null) {
             main_vg.findViewById(R.id.load_carte_progressbar).setVisibility(View.GONE);
             main_vg.findViewById(R.id.load_carte_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_carte_active_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadCarteEtatRaison();
+                ((ContainerActivity) getActivity()).loadCarteActive(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void launchComptePrepayeAction(){
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_carte_active_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_carte_active_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_compte_prepaye_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadComptePrepaye(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void endDownload() {
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_compte_prepaye_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_compte_prepaye_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));

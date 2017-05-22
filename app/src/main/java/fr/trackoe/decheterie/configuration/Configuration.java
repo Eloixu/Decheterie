@@ -433,6 +433,18 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllCarte?idAccount=" + idAccount;
     }
 
+    public String getAllCarteActiveUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllCarteActive?idAccount=" + idAccount;
+    }
+
+    public String getCarteEtatRaisonUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsCarteEtatRaison";
+    }
+
+    public String getAllComptePrepayeUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllComptePrepaye?idAccount=" + idAccount;
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {
