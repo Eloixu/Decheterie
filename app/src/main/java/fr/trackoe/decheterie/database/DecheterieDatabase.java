@@ -99,13 +99,17 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_ICON_ID = 2;
         public static final String UNITE_COMPTAGE_ID = "unite_comptage_id";
         public static final int NUM_UNITE_COMPTAGE_ID = 3;
+        public static final String DCH_ACCOUNT_ID = "dch_account_id";
+        public static final int NUM_DCH_ACCOUNT_ID = 4;
     }
 
     public static final String CREATE_TABLE_DCH_FLUX = "CREATE TABLE IF NOT EXISTS " + TableDchFlux.TABLE_DCH_FLUX + " ("
             + TableDchFlux.ID + INTEGER_TYPE + " PRIMARY KEY, "
             + TableDchFlux.NOM + TEXT_TYPE + COMMA_SEP
             + TableDchFlux.ICON_ID + INTEGER_TYPE + COMMA_SEP
-            + TableDchFlux.UNITE_COMPTAGE_ID + INTEGER_TYPE + " )" ;
+            + TableDchFlux.UNITE_COMPTAGE_ID + INTEGER_TYPE + COMMA_SEP
+            + TableDchFlux.DCH_ACCOUNT_ID + INTEGER_TYPE + " )" ;
+
             //+ FOREIGN_KEY + "(" + TableDchFlux.ICON_ID + ")" + REFERENCES + TableIcon.TABLE_ICON + "(" + TableIcon.ID + "))" ;
 
     private static final String DELETE_TABLE_DCH_FLUX = "DROP TABLE IF EXISTS " + TableDchFlux.TABLE_DCH_FLUX;

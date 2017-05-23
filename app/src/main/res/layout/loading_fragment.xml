@@ -631,7 +631,7 @@
                         android:layout_height="@dimen/settings_frame_size">
 
                         <ImageView
-                            android:id="@+id/load_x_img_check"
+                            android:id="@+id/load_flux_img_check"
                             android:layout_width="@dimen/settings_ws_img_size"
                             android:layout_height="@dimen/settings_ws_img_size"
                             android:src="@drawable/check_mark_8_32"
@@ -639,7 +639,7 @@
                             android:layout_centerInParent="true"/>
 
                         <ImageView
-                            android:id="@+id/load_x_img_error"
+                            android:id="@+id/load_flux_img_error"
                             android:layout_width="@dimen/settings_ws_img_size"
                             android:layout_height="@dimen/settings_ws_img_size"
                             android:src="@drawable/x_mark_4_32"
@@ -647,7 +647,7 @@
                             android:layout_centerInParent="true"/>
 
                         <ProgressBar
-                            android:id="@+id/load_x_progressbar"
+                            android:id="@+id/load_flux_progressbar"
                             android:layout_width="@dimen/settings_ws_img_size"
                             android:layout_height="@dimen/settings_ws_img_size"
                             android:padding="@dimen/settings_ws_progressbar_padding"
@@ -661,7 +661,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="tableName"
+                        android:text="@string/load_flux"
                         android:textSize="@dimen/general_txt_size"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_16"
@@ -676,7 +676,48 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center">
+                    <RelativeLayout
+                        android:layout_width="@dimen/settings_frame_size"
+                        android:layout_height="@dimen/settings_frame_size">
 
+                        <ImageView
+                            android:id="@+id/load_decheterie_flux_img_check"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/check_mark_8_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ImageView
+                            android:id="@+id/load_decheterie_flux_img_error"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:src="@drawable/x_mark_4_32"
+                            android:visibility="gone"
+                            android:layout_centerInParent="true"/>
+
+                        <ProgressBar
+                            android:id="@+id/load_decheterie_flux_progressbar"
+                            android:layout_width="@dimen/settings_ws_img_size"
+                            android:layout_height="@dimen/settings_ws_img_size"
+                            android:padding="@dimen/settings_ws_progressbar_padding"
+                            style="@android:style/Widget.ProgressBar.Small.Inverse"
+                            android:visibility="visible"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/load_decheterie_flux"
+                        android:textSize="@dimen/general_txt_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginLeft="@dimen/margin_16"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginRight="@dimen/margin_16" />
 
 
                 </LinearLayout>

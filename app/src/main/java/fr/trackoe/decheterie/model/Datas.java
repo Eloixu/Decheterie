@@ -13,7 +13,9 @@ import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
 import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
+import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
+import fr.trackoe.decheterie.model.bean.global.Fluxs;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.TypeCartes;
@@ -34,7 +36,9 @@ import fr.trackoe.decheterie.service.parser.CarteActiveParser;
 import fr.trackoe.decheterie.service.parser.CarteEtatRaisonParser;
 import fr.trackoe.decheterie.service.parser.CarteParser;
 import fr.trackoe.decheterie.service.parser.ComptePrepayeParser;
+import fr.trackoe.decheterie.service.parser.DecheterieFluxParser;
 import fr.trackoe.decheterie.service.parser.DecheterieParser;
+import fr.trackoe.decheterie.service.parser.FluxParser;
 import fr.trackoe.decheterie.service.parser.HabitatsParser;
 import fr.trackoe.decheterie.service.parser.InfosParser;
 import fr.trackoe.decheterie.service.parser.LocalParser;
@@ -183,6 +187,18 @@ public class Datas {
     public static void loadAllComptePrepaye(Context ctx, DataAndErrorCallback<ComptePrepayes> callback, int idAccount) {
         String url = Configuration.getInstance(ctx).getAllComptePrepayeUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ComptePrepayeParser());
+    }
+
+    // Récupération des fluxs
+    public static void loadAllFlux(Context ctx, DataAndErrorCallback<Fluxs> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllFluxUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new FluxParser());
+    }
+
+    // Récupération des fluxs
+    public static void loadAllDecheterieFlux(Context ctx, DataAndErrorCallback<DecheterieFluxs> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllDecheterieFluxUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new DecheterieFluxParser());
     }
 
 

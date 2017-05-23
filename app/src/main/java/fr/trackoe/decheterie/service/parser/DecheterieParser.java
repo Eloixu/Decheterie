@@ -27,12 +27,12 @@ public class DecheterieParser extends JSONParser<Decheteries> {
 
                         JSONObject jobj = ((JSONObject) listeDecheterie.get(i));
 
-                        int id         = jobj.has("id")         ? jobj.getInt("id") : -1;
-                        int idAccount  = jobj.has("id_dch_account") ? jobj.getInt("id_dch_account") : -1;
-                        String nom     = jobj.has("nom")        ? jobj.getString("nom") : "";
-                        String consigneComptage = jobj.has("consigne_comptage")   ? jobj.getString("consigne_comptage") : "";
-                        String consigneAvSignature = jobj.has("consigne_av_signature")   ? jobj.getString("consigne_av_signature") : "";
-                        boolean apportFlux = jobj.has("apport_flux")   ? jobj.getBoolean("apport_flux") : false;
+                        int id                      = jobj.has("id")                        ? jobj.getInt("id") : -1;
+                        int idAccount               = jobj.has("id_dch_account")            ? jobj.getInt("id_dch_account") : -1;
+                        String nom                  = jobj.has("nom")                       ? jobj.getString("nom") : "";
+                        String consigneComptage     = jobj.has("consigne_comptage")         ? jobj.getString("consigne_comptage") : "";
+                        String consigneAvSignature  = jobj.has("consigne_av_signature")     ? jobj.getString("consigne_av_signature") : "";
+                        boolean apportFlux          = jobj.has("apport_flux")               ? jobj.getBoolean("apport_flux") : false;
 
                         d.addDecheterie(id, idAccount, nom, consigneComptage, consigneAvSignature, apportFlux);
                     }

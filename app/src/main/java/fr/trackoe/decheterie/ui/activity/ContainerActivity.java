@@ -105,9 +105,11 @@ import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
+import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
+import fr.trackoe.decheterie.model.bean.global.Fluxs;
 import fr.trackoe.decheterie.model.bean.global.TypeCartes;
 import fr.trackoe.decheterie.model.bean.usager.Habitats;
 import fr.trackoe.decheterie.model.bean.global.Icon;
@@ -1132,6 +1134,117 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchFluxAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadFlux(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllFlux(activity, new DataAndErrorCallback<Fluxs>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "flux loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final Fluxs data) {
+                    try {
+                        final DchFluxDB fdb = new DchFluxDB(activity);
+                        fdb.open();
+                        fdb.clearFlux();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListFlux().size());
+                        }
+                        fdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                fdb.open();
+                                for(int i = 0; i < data.getListFlux().size(); i++) {
+                                    fdb.insertFlux(data.getListFlux().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                fdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchDecheterieFluxAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadDecheterieFlux(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllDecheterieFlux(activity, new DataAndErrorCallback<DecheterieFluxs>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final DecheterieFluxs data) {
+                    try {
+                        final DchDecheterieFluxDB dfdb = new DchDecheterieFluxDB(activity);
+                        dfdb.open();
+                        dfdb.clearDecheterieFlux();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListDecheterieFlux().size());
+                        }
+                        dfdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dfdb.open();
+                                for(int i = 0; i < data.getListDecheterieFlux().size(); i++) {
+                                    dfdb.insertDecheterieFlux(data.getListDecheterieFlux().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                dfdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
                                             ((LoadingFragment) getCurrentFragment()).endDownload();
                                         }
                                     });
@@ -1143,6 +1256,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, idAccount);
+
         }
     }
 
@@ -1761,28 +1875,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         iconDB.close();
 
         //add flux into DBB
-        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3));
-        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3));
-        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3));
-        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3));
-        dchFluxDB.insertFlux(new Flux("Carton", 5, 3));
-        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3));
-        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3));
-        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3));
-        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3));
-        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3));
-        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3));
-        dchFluxDB.insertFlux(new Flux("Metal", 12, 3));
-        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3));
-        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3));
-        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3));
-        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3));
-        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3));
-        dchFluxDB.insertFlux(new Flux("Sac", 20, 3));
-        dchFluxDB.insertFlux(new Flux("Verre", 21, 3));
-        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3));
+        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Carton", 5, 3, 0));
+        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Metal", 12, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, 0));
         dchFluxDB.close();
 
         //add dechetrie_flux into DBB

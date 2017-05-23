@@ -305,6 +305,10 @@
     <string name="load_carte_active_tv">Chargement des cartes</string>
     <string name="load_compte_prepaye">• Compte Prépayé</string>
     <string name="load_compte_prepaye_tv">Chargement des comptes prépayés</string>
+    <string name="load_flux">• Flux</string>
+    <string name="load_flux_tv">Chargement des flux</string>
+    <string name="load_decheterie_flux">• Liaison Déchèterie/Flux</string>
+    <string name="load_decheterie_flux_tv">Chargement des liaisons déchèterie/flux</string>
     <string name="chargement_success">Chargement réalisé avec succès!</string>
 
 

@@ -62,9 +62,8 @@ public class LoadingFragment extends Fragment {
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
-        //launchHabitatAction();
+        launchHabitatAction();
         //getJson();
-        launchCarteAction();
     }
 
     public void launchHabitatAction() {
@@ -195,10 +194,36 @@ public class LoadingFragment extends Fragment {
         }
     }
 
-    public void endDownload() {
+    public void launchFluxAction(){
         if(main_vg != null) {
             main_vg.findViewById(R.id.load_compte_prepaye_progressbar).setVisibility(View.GONE);
             main_vg.findViewById(R.id.load_compte_prepaye_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_flux_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadFlux(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void launchDecheterieFluxAction(){
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_flux_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_flux_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_flux_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadDecheterieFlux(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void endDownload() {
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_decheterie_flux_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_decheterie_flux_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));

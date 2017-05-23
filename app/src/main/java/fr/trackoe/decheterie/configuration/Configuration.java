@@ -445,6 +445,14 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllComptePrepaye?idAccount=" + idAccount;
     }
 
+    public String getAllFluxUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllFlux?idAccount=" + idAccount;
+    }
+
+    public String getAllDecheterieFluxUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllDecheterieFlux?idAccount=" + idAccount;
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {
