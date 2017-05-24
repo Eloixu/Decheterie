@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.CarteActives;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
@@ -20,6 +21,7 @@ import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.TypeCartes;
 import fr.trackoe.decheterie.model.bean.global.TypeHabitats;
+import fr.trackoe.decheterie.model.bean.global.Unites;
 import fr.trackoe.decheterie.model.bean.global.Users;
 import fr.trackoe.decheterie.model.bean.usager.Habitats;
 import fr.trackoe.decheterie.model.bean.usager.Locaux;
@@ -31,6 +33,7 @@ import fr.trackoe.decheterie.service.cache.CacheConst;
 import fr.trackoe.decheterie.service.cache.URCache;
 import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
+import fr.trackoe.decheterie.service.parser.AccountSettingParser;
 import fr.trackoe.decheterie.service.parser.ApkInfosParser;
 import fr.trackoe.decheterie.service.parser.CarteActiveParser;
 import fr.trackoe.decheterie.service.parser.CarteEtatRaisonParser;
@@ -47,6 +50,7 @@ import fr.trackoe.decheterie.service.parser.ModulesParser;
 import fr.trackoe.decheterie.service.parser.OptaeParser;
 import fr.trackoe.decheterie.service.parser.TypeCarteParser;
 import fr.trackoe.decheterie.service.parser.TypeHabitatParser;
+import fr.trackoe.decheterie.service.parser.UniteParser;
 import fr.trackoe.decheterie.service.parser.UsagerHabitatParser;
 import fr.trackoe.decheterie.service.parser.UsagerMenageParser;
 import fr.trackoe.decheterie.service.parser.UsagerParser;
@@ -195,10 +199,22 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new FluxParser());
     }
 
-    // Récupération des fluxs
+    // Récupération de la liaison déchèterie flux
     public static void loadAllDecheterieFlux(Context ctx, DataAndErrorCallback<DecheterieFluxs> callback, int idAccount) {
         String url = Configuration.getInstance(ctx).getAllDecheterieFluxUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new DecheterieFluxParser());
+    }
+
+    // Récupération des fluxs
+    public static void loadAllUnite(Context ctx, DataAndErrorCallback<Unites> callback) {
+        String url = Configuration.getInstance(ctx).getAllUniteUrl(ctx);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UniteParser());
+    }
+
+    // Récupération des fluxs
+    public static void loadAllAccountSetting(Context ctx, DataAndErrorCallback<AccountSettings> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllAccountSettingUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new AccountSettingParser());
     }
 
 

@@ -62,7 +62,8 @@ public class LoadingFragment extends Fragment {
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
-        launchHabitatAction();
+        //launchHabitatAction();
+        launchCarteActiveAction();
         //getJson();
     }
 
@@ -220,13 +221,40 @@ public class LoadingFragment extends Fragment {
         }
     }
 
-    public void endDownload() {
+    public void launchUniteAction(){
         if(main_vg != null) {
             main_vg.findViewById(R.id.load_decheterie_flux_progressbar).setVisibility(View.GONE);
             main_vg.findViewById(R.id.load_decheterie_flux_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_unite_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadUnite();
+            }
+        }
+    }
+
+    public void launchAccountSettingAction(){
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_unite_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_unite_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_account_setting_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadAccountSetting(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void endDownload() {
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_account_setting_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_account_setting_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));
+                progressBar.setVisibility(View.GONE);
                 ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }
         }
@@ -234,7 +262,7 @@ public class LoadingFragment extends Fragment {
 
     }
 
-    //TODO 用getJson同样可以从服务器获得JSONObject，为什么还要用那么繁琐的方法?
+    //get JSON Object from server
     public void getJson(){
         String parsedString = "";
 

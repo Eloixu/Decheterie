@@ -12,8 +12,8 @@ public class AccountSetting {
     private boolean decompteDepot;
     private boolean decompteUDD;
     private boolean pageSignature;
-    private String coutUDDPrPoint;
-    private String coutPoint;
+    private float coutUDDPrPoint;
+    private float coutPoint;
     private String unitePoint;
     private String dateDebutParam;
     private String dateFinParam;
@@ -24,7 +24,7 @@ public class AccountSetting {
 
     }
 
-    public AccountSetting(int id, int dchAccountId, int dchTypeCarteId, int uniteDepotDecheterieId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, String coutUDDPrPoint, String coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant) {
+    public AccountSetting(int id, int dchAccountId, int dchTypeCarteId, int uniteDepotDecheterieId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, float coutUDDPrPoint, float coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant) {
         this.id = id;
         this.dchAccountId = dchAccountId;
         this.dchTypeCarteId = dchTypeCarteId;
@@ -97,19 +97,19 @@ public class AccountSetting {
         this.pageSignature = pageSignature;
     }
 
-    public String getCoutUDDPrPoint() {
+    public float getCoutUDDPrPoint() {
         return coutUDDPrPoint;
     }
 
-    public void setCoutUDDPrPoint(String coutUDDPrPoint) {
+    public void setCoutUDDPrPoint(float coutUDDPrPoint) {
         this.coutUDDPrPoint = coutUDDPrPoint;
     }
 
-    public String getCoutPoint() {
+    public float getCoutPoint() {
         return coutPoint;
     }
 
-    public void setCoutPoint(String coutPoint) {
+    public void setCoutPoint(float coutPoint) {
         this.coutPoint = coutPoint;
     }
 

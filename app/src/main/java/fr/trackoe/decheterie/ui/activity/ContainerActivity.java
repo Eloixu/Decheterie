@@ -95,6 +95,7 @@ import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
+import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
@@ -111,6 +112,7 @@ import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.global.Fluxs;
 import fr.trackoe.decheterie.model.bean.global.TypeCartes;
+import fr.trackoe.decheterie.model.bean.global.Unites;
 import fr.trackoe.decheterie.model.bean.usager.Habitats;
 import fr.trackoe.decheterie.model.bean.global.Icon;
 import fr.trackoe.decheterie.model.bean.usager.Locaux;
@@ -1245,7 +1247,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                            ((LoadingFragment) getCurrentFragment()).launchUniteAction();
                                         }
                                     });
                                 }
@@ -1257,6 +1259,118 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 }
             }, idAccount);
 
+        }
+    }
+
+    public void loadUnite() {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllUnite(activity, new DataAndErrorCallback<Unites>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "unité loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final Unites data) {
+                    try {
+                        final DchUniteDB udb = new DchUniteDB(activity);
+                        udb.open();
+                        udb.clearUnite();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListUnite().size());
+                        }
+                        udb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                for(int i = 0; i < data.getListUnite().size(); i++) {
+                                    udb.insertUnite(data.getListUnite().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                udb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchAccountSettingAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    public void loadAccountSetting(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllAccountSetting(activity, new DataAndErrorCallback<AccountSettings>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "account setting loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final AccountSettings data) {
+                    try {
+                        final DchAccountSettingDB asdb = new DchAccountSettingDB(activity);
+                        asdb.open();
+                        asdb.clearAccountSetting();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListAccountSetting().size());
+                        }
+                        asdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                asdb.open();
+                                for(int i = 0; i < data.getListAccountSetting().size(); i++) {
+                                    asdb.insertAccountSetting(data.getListAccountSetting().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                asdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
         }
     }
 
@@ -1992,10 +2106,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,null,null,"m3","170101","171230",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,null,null,"m3","170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,null,null,"m3","170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,null,null,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,0,0,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,0,0,"m3","170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,0,0,"m3","170101","170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,0,0,"m3","170101","171230",0,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD

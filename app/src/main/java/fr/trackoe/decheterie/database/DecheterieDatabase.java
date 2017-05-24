@@ -240,8 +240,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableDchAccountSetting.DECOMPTE_DEPOT + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountSetting.DECOMPTE_UDD + INTEGER_TYPE + COMMA_SEP
             + TableDchAccountSetting.PAGE_SIGNATURE + INTEGER_TYPE + COMMA_SEP
-            + TableDchAccountSetting.COUT_UDD_PR_POINT + TEXT_TYPE + COMMA_SEP
-            + TableDchAccountSetting.COUT_POINT + TEXT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.COUT_UDD_PR_POINT + FLOAT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.COUT_POINT + FLOAT_TYPE + COMMA_SEP
             + TableDchAccountSetting.UNITE_POINT + TEXT_TYPE + COMMA_SEP
             + TableDchAccountSetting.DATE_DEBUT_PARAM + TEXT_TYPE + COMMA_SEP
             + TableDchAccountSetting.DATE_FIN_PARAM + TEXT_TYPE + COMMA_SEP

@@ -453,6 +453,14 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllDecheterieFlux?idAccount=" + idAccount;
     }
 
+    public String getAllUniteUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsAllUnite";
+    }
+
+    public String getAllAccountSettingUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllAccountSetting?idAccount=" + idAccount;
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {
