@@ -68,8 +68,8 @@ public class DecheterieFragment extends Fragment {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         final View acceuilView = inflater.inflate(R.layout.accueil_fragment,container,false);
         decheterieDB = new DecheterieDB(getContext());
-        /*decheterieDB.open();
-        decheterieDB.clearDecheterie();
+        decheterieDB.open();
+        /*decheterieDB.clearDecheterie();
         String[] ds = {"Paris","Shanghai","Montpellier","Belfort","Paris France","Shanghai China","New York","New York City","San Francisco","Washington"};
         for(int i = 0; i < 10; i ++){
             Decheterie dt = new Decheterie();
