@@ -461,6 +461,10 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllAccountSetting?idAccount=" + idAccount;
     }
 
+    public String getChoixDecompteTotalUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsChoixDecompteTotal";
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {

@@ -29,8 +29,8 @@ public class TypeCarteParser extends JSONParser<TypeCartes> {
 
                     JSONObject jobj = ((JSONObject) listeTypeCarte.get(i));
 
-                    int id         = jobj.has("id")         ? jobj.getInt("id") : -1;
-                    String nom     = jobj.has("nom")        ? jobj.getString("nom") : "";
+                    int     id         = jobj.has("id")         ? jobj.getInt("id") : -1;
+                    String  nom        = jobj.has("nom")        ? jobj.getString("nom") : "";
 
                     tc.addTypeCarte(id, nom);
                 }

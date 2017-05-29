@@ -26,17 +26,16 @@ public class MenageParser extends JSONParser<Menages> {
 
                     JSONObject jobj = ((JSONObject) listeMenage.get(i));
 
-                    int id              = jobj.has("id")            ? jobj.getInt("id") : -1;
-                    int idLocal         = jobj.has("id_local")      ? jobj.getInt("id_local") : -1;
-                    String nom          = jobj.has("nom")           ? jobj.getString("nom") : "";
-                    String prenom       = jobj.has("prenom")        ? jobj.getString("prenom") : "";
-                    String email        = jobj.has("email")         ? jobj.getString("email") : "";
-                    String ville        = jobj.has("ville")         ? jobj.getString("ville") : "";
-                    int nbHabitant      = jobj.has("nb_habitants")  ? jobj.getInt("nb_habitants") : -1;
-                    String reference    = jobj.has("reference")     ? jobj.getString("reference") : "";
-                    boolean isActif     = jobj.has("actif")         ? jobj.getBoolean("actif") : true;
-                    String telephone    = jobj.has("telephone")     ? jobj.getString("telephone") : "";
-                    String civilite     = jobj.has("civilite")      ? jobj.getString("civilite") : "";
+                    int         id              = jobj.has("id")            ? jobj.getInt("id") : -1;
+                    int         idLocal         = jobj.has("id_local")      ? jobj.getInt("id_local") : -1;
+                    String      nom             = jobj.has("nom")           ? jobj.getString("nom") : "";
+                    String      prenom          = jobj.has("prenom")        ? jobj.getString("prenom") : "";
+                    String      email           = jobj.has("email")         ? jobj.getString("email") : "";
+                    int         nbHabitant      = jobj.has("nb_habitants")  ? jobj.getInt("nb_habitants") : -1;
+                    String      reference       = jobj.has("reference")     ? jobj.getString("reference") : "";
+                    boolean     isActif         = jobj.has("actif")         ? jobj.getBoolean("actif") : true;
+                    String      telephone       = jobj.has("telephone")     ? jobj.getString("telephone") : "";
+                    String      civilite        = jobj.has("civilite")      ? jobj.getString("civilite") : "";
 
                     m.addMenage(id, nom, prenom, email, nbHabitant, reference, isActif, telephone, civilite, idLocal);
                 }

@@ -28,7 +28,7 @@ public class DecheterieFluxParser extends JSONParser<DecheterieFluxs> {
                     JSONObject jobj = ((JSONObject) listeDecheterieFlux.get(i));
 
                     int idDecheterie   = jobj.has("decheterie_id")  ? jobj.getInt("decheterie_id") : -1;
-                    int idFlux        = jobj.has("flux_id")        ? jobj.getInt("flux_id") : -1;
+                    int idFlux         = jobj.has("flux_id")        ? jobj.getInt("flux_id") : -1;
 
                     df.addDecheterieFlux(idDecheterie, idFlux);
                 }

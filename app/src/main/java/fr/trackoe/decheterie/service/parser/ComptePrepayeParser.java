@@ -27,10 +27,10 @@ public class ComptePrepayeParser extends JSONParser<ComptePrepayes> {
 
                     JSONObject jobj = ((JSONObject) listeComptePrepaye.get(i));
 
-                    int id                  = jobj.has("id")                       ? jobj.getInt("id") : -1;
-                    int usagerId            = jobj.has("id_dch_usager")            ? jobj.getInt("id_dch_usager") : -1;
-                    int nbDepotRestant      = jobj.has("nb_depot_restant")         ? jobj.getInt("nb_depot_restant") : -1;
-                    float qtyPoint          = jobj.has("qty_point")                ? Float.parseFloat(jobj.getString("qty_point")) : -1;
+                    int     id                  = jobj.has("id")                       ? jobj.getInt("id") : -1;
+                    int     usagerId            = jobj.has("id_dch_usager")            ? jobj.getInt("id_dch_usager") : -1;
+                    int     nbDepotRestant      = jobj.has("nb_depot_restant")         ? jobj.getInt("nb_depot_restant") : -1;
+                    float   qtyPoint            = jobj.has("qty_point")                ? Float.parseFloat(jobj.getString("qty_point")) : -1;
 
                     cp.addComptePrepaye(id, usagerId, qtyPoint,nbDepotRestant);
                 }

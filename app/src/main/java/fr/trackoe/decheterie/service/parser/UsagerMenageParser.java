@@ -28,7 +28,7 @@ public class UsagerMenageParser extends JSONParser<UsagerMenages> {
                     JSONObject jobj = ((JSONObject) listeUsagerH.get(i));
 
                     int idUsager   = jobj.has("id_usager")  ? jobj.getInt("id_usager") : -1;
-                    int idMenage   = jobj.has("id_menage") ? jobj.getInt("id_menage") : -1;
+                    int idMenage   = jobj.has("id_menage")  ? jobj.getInt("id_menage") : -1;
 
                     u.addUsagerMenage(idUsager, idMenage);
                 }

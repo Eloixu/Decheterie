@@ -26,13 +26,13 @@ public class LocalParser extends JSONParser<Locaux> {
 
                     JSONObject jobj = ((JSONObject) listeLocal.get(i));
 
-                    int id                      = jobj.has("id")                    ? jobj.getInt("id") : -1;
-                    int idHabitat               = jobj.has("id_habitat")            ? jobj.getInt("id_habitat") : -1;
-                    String lot                  = jobj.has("lot")                   ? jobj.getString("lot") : "";
-                    String invariantDfip        = jobj.has("invariant_dfip")        ? jobj.getString("invariant_dfip") : "";
-                    String identifiantInterne   = jobj.has("identifiant_interne")   ? jobj.getString("identifiant_interne") : "";
-                    String batiment             = jobj.has("batiment")              ? jobj.getString("batiment") : "";
-                    String etagePorte           = jobj.has("etage_porte")           ? jobj.getString("etage_porte") : "";
+                    int         id                      = jobj.has("id")                    ? jobj.getInt("id") : -1;
+                    int         idHabitat               = jobj.has("id_habitat")            ? jobj.getInt("id_habitat") : -1;
+                    String      lot                     = jobj.has("lot")                   ? jobj.getString("lot") : "";
+                    String      invariantDfip           = jobj.has("invariant_dfip")        ? jobj.getString("invariant_dfip") : "";
+                    String      identifiantInterne      = jobj.has("identifiant_interne")   ? jobj.getString("identifiant_interne") : "";
+                    String      batiment                = jobj.has("batiment")              ? jobj.getString("batiment") : "";
+                    String      etagePorte              = jobj.has("etage_porte")           ? jobj.getString("etage_porte") : "";
 
                     l.addLocal(id, idHabitat, lot, invariantDfip, identifiantInterne, batiment, etagePorte);
                 }
