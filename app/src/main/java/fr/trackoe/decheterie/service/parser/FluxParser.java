@@ -27,11 +27,11 @@ public class FluxParser extends JSONParser<Fluxs> {
 
                     JSONObject jobj = ((JSONObject) listeFlux.get(i));
 
-                    int id                      = jobj.has("id")                        ? jobj.getInt("id") : -1;
-                    int idAccount               = jobj.has("id_dch_account")            ? jobj.getInt("id_dch_account") : -1;
-                    String nom                  = jobj.has("nom")                       ? jobj.getString("nom") : "";
-                    int idIcon                  = jobj.has("id_icon")                   ? jobj.getInt("id_icon") : -1;
-                    int idUniteComptage         = jobj.has("id_unite_comptage")         ? jobj.getInt("id_unite_comptage") : -1;
+                    int     id                      = jobj.has("id")                        ? jobj.getInt("id") : -1;
+                    int     idAccount               = jobj.has("id_dch_account")            ? jobj.getInt("id_dch_account") : -1;
+                    String  nom                     = jobj.has("nom")                       ? jobj.getString("nom") : "";
+                    int     idIcon                  = jobj.has("id_icon")                   ? jobj.getInt("id_icon") : -1;
+                    int     idUniteComptage         = jobj.has("id_unite_comptage")         ? jobj.getInt("id_unite_comptage") : -1;
 
                     f.addFlux(id, nom, idIcon, idUniteComptage, idAccount);
                 }

@@ -27,11 +27,11 @@ public class CarteParser extends JSONParser<Cartes> {
 
                     JSONObject jobj = ((JSONObject) listeCarte.get(i));
 
-                    int id                  = jobj.has("id")            ? jobj.getInt("id") : -1;
-                    String numCarte         = jobj.has("num_carte")     ? jobj.getString("num_carte") : "";
-                    String numRFID          = jobj.has("num_RFID")      ? jobj.getString("num_RFID") : "";
-                    int dchTypeCarteId      = jobj.has("type_carte_id") ? jobj.getInt("type_carte_id") : -1;
-                    int dchAccountId        = jobj.has("account_id")    ? jobj.getInt("account_id") : -1;
+                    int     id                  = jobj.has("id")            ? jobj.getInt("id") : -1;
+                    String numCarte             = jobj.has("num_carte")     ? jobj.getString("num_carte") : "";
+                    String numRFID              = jobj.has("num_RFID")      ? jobj.getString("num_RFID") : "";
+                    int    dchTypeCarteId       = jobj.has("type_carte_id") ? jobj.getInt("type_carte_id") : -1;
+                    int    dchAccountId         = jobj.has("account_id")    ? jobj.getInt("account_id") : -1;
 
                     c.addCarte(id, numCarte, numRFID, dchTypeCarteId, dchAccountId);
                 }

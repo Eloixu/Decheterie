@@ -12,6 +12,7 @@ import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.CarteActives;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
 import fr.trackoe.decheterie.model.bean.global.Cartes;
+import fr.trackoe.decheterie.model.bean.global.ChoixDecompteTotals;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
@@ -38,6 +39,7 @@ import fr.trackoe.decheterie.service.parser.ApkInfosParser;
 import fr.trackoe.decheterie.service.parser.CarteActiveParser;
 import fr.trackoe.decheterie.service.parser.CarteEtatRaisonParser;
 import fr.trackoe.decheterie.service.parser.CarteParser;
+import fr.trackoe.decheterie.service.parser.ChoixDecompteTotalParser;
 import fr.trackoe.decheterie.service.parser.ComptePrepayeParser;
 import fr.trackoe.decheterie.service.parser.DecheterieFluxParser;
 import fr.trackoe.decheterie.service.parser.DecheterieParser;
@@ -211,10 +213,16 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UniteParser());
     }
 
-    // Récupération des fluxs
+    // Récupération des account settings
     public static void loadAllAccountSetting(Context ctx, DataAndErrorCallback<AccountSettings> callback, int idAccount) {
         String url = Configuration.getInstance(ctx).getAllAccountSettingUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new AccountSettingParser());
+    }
+
+    // Récupération des ChoixDecompteTotals
+    public static void loadChoixDecompteTotal(Context ctx, DataAndErrorCallback<ChoixDecompteTotals> callback) {
+        String url = Configuration.getInstance(ctx).getChoixDecompteTotalUrl(ctx);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ChoixDecompteTotalParser());
     }
 
 

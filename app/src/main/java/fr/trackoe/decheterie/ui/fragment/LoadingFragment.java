@@ -252,6 +252,7 @@ public class LoadingFragment extends Fragment {
                 speTv.setText(getString(R.string.load_account_setting_tv));
                 progressBar.setProgress(0);
                 ((ContainerActivity) getActivity()).loadAccountSetting(Configuration.getIdAccount());
+                ((ContainerActivity) getActivity()).loadChoixDecompteTotal();
             }
         }
     }

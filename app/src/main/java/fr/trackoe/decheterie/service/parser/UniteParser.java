@@ -27,8 +27,8 @@ public class UniteParser extends JSONParser<Unites> {
 
                     JSONObject jobj = ((JSONObject) listeUnite.get(i));
 
-                    int id                      = jobj.has("id")                        ? jobj.getInt("id") : -1;
-                    String nom                  = jobj.has("nom")                       ? jobj.getString("nom") : "";
+                    int     id                      = jobj.has("id")                        ? jobj.getInt("id") : -1;
+                    String  nom                     = jobj.has("nom")                       ? jobj.getString("nom") : "";
 
                     u.addUnite(id, nom);
                 }

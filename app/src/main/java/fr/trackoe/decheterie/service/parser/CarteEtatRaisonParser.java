@@ -28,8 +28,8 @@ public class CarteEtatRaisonParser extends JSONParser<CarteEtatRaisons> {
 
                     JSONObject jobj = ((JSONObject) listeCarteEtatRaison.get(i));
 
-                    int id            = jobj.has("id")            ? jobj.getInt("id") : -1;
-                    String raison     = jobj.has("raison")        ? jobj.getString("raison") : "";
+                    int     id            = jobj.has("id")            ? jobj.getInt("id") : -1;
+                    String raison         = jobj.has("raison")        ? jobj.getString("raison") : "";
 
                     cer.addCarteEtatRaison(id, raison);
                 }

@@ -75,6 +75,7 @@ import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchCarteActiveDB;
 import fr.trackoe.decheterie.database.DchCarteDB;
 import fr.trackoe.decheterie.database.DchCarteEtatRaisonDB;
+import fr.trackoe.decheterie.database.DchChoixDecompteTotalDB;
 import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
@@ -103,6 +104,7 @@ import fr.trackoe.decheterie.model.bean.global.CarteActives;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
 import fr.trackoe.decheterie.model.bean.global.Cartes;
+import fr.trackoe.decheterie.model.bean.global.ChoixDecompteTotals;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
@@ -194,6 +196,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
         //initDB();
+        initDBTest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -1356,6 +1359,54 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                 }
                                 asdb.close();
 
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadChoixDecompteTotal() {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadChoixDecompteTotal(activity, new DataAndErrorCallback<ChoixDecompteTotals>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "ChoixDecompteTotal loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final ChoixDecompteTotals data) {
+                    try {
+                        final DchChoixDecompteTotalDB cdtdb = new DchChoixDecompteTotalDB(activity);
+                        cdtdb.open();
+                        cdtdb.clearChoixDecompteTotal();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListChoixDecompteTotal().size());
+                        }
+                        cdtdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cdtdb.open();
+                                for(int i = 0; i < data.getListChoixDecompteTotal().size(); i++) {
+                                    cdtdb.insertChoixDecompteTotal(data.getListChoixDecompteTotal().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                cdtdb.close();
+
                                 if(getCurrentFragment() instanceof LoadingFragment) {
                                     runOnUiThread(new Runnable() {
                                         @Override
@@ -1370,7 +1421,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                         e.printStackTrace();
                     }
                 }
-            }, idAccount);
+            });
         }
     }
 
@@ -2186,6 +2237,75 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,6));//menage6 habitat3(not actif)
         usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,7));//menage7 habitat6(not actif)
         usagerMenageDB.close();
+    }
+
+    public void initDBTest(){
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(this);
+        dchAccountSettingDB.open();
+        dchAccountSettingDB.clearAccountSetting();
+        DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(this);
+        dchAccountFluxSettingDB.open();
+        dchAccountFluxSettingDB.clearAccountFluxSetting();
+        IconDB iconDB = new IconDB(this);
+        iconDB.open();
+        iconDB.clearIcon();
+        DchFluxDB dchFluxDB = new DchFluxDB(this);
+        dchFluxDB.open();
+        dchFluxDB.clearFlux();
+
+        //add accountSetting into BDD
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,118,1,1,false,true,true,1,1,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,118,2,1,false,true,false,1,1,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,118,3,1,true,false,false,1,1,"m3","170101","171230",0,0));
+        dchAccountSettingDB.close();
+
+        //add accountFluxSetting into BDD
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,2,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,3,0,false,false,0));
+        dchAccountFluxSettingDB.close();
+
+        //add All icons into DBB
+        String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
+        for(int i = 0; i < icons.length; i ++){
+            Icon icon = new Icon();
+            icon.setNom(icons[i]);
+            icon.setDomaine("");
+            icon.setPath("");
+            iconDB.insertIcon(icon);
+        }
+        ArrayList<Icon> iconList = iconDB.getAllIcons();
+        for(int i = 0; i < iconList.size(); i ++){
+            System.out.println(iconList.get(i).getNom());
+        }
+        iconDB.close();
+
+        //add flux into DBB
+        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Carton", 5, 3, 118));
+        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Metal", 12, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, 118));
+        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, 118));
+        dchFluxDB.close();
+
+
     }
 
     @Override
