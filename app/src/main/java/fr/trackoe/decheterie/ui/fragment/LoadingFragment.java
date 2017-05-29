@@ -228,7 +228,7 @@ public class LoadingFragment extends Fragment {
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.load_flux_tv));
                 progressBar.setProgress(0);
-                ((ContainerActivity) getActivity()).loadFlux(Configuration.getIdAccount());
+                //((ContainerActivity) getActivity()).loadFlux(Configuration.getIdAccount());
             }
         }
     }
@@ -272,6 +272,10 @@ public class LoadingFragment extends Fragment {
                 ((ContainerActivity) getActivity()).loadChoixDecompteTotal();
             }
         }
+    }
+
+    public void launchAccountFluxSettingAction(){
+
     }
 
     public void endDownload() {

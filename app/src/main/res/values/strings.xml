@@ -314,6 +314,8 @@
     <string name="load_unite_tv">Chargement des unités</string>
     <string name="load_account_setting">• AccountSettings / Choix Décompte Total</string>
     <string name="load_account_setting_tv">Chargement des AccountSettings</string>
+    <string name="load_account_flux_setting">• AccountFluxSettings</string>
+    <string name="load_account_flux_setting_tv">Chargement des AccountFluxSettings</string>
     <string name="chargement_success">Chargement réalisé avec succès!</string>
 
 

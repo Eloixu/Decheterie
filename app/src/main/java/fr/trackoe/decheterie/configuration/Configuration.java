@@ -470,6 +470,10 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsAllAccountSetting?idAccount=" + idAccount;
     }
 
+    public String getAllAccountFluxSettingUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllAccountFluxSetting?idAccount=" + idAccount;
+    }
+
     public String getChoixDecompteTotalUrl(Context ctx) {
         return getWebServiceContenantHost(ctx) + "wsChoixDecompteTotal";
     }
