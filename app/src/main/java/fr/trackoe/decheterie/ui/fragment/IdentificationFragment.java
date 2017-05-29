@@ -194,7 +194,7 @@ public class IdentificationFragment extends Fragment {
                 else {
 
                     //check if the card existes in the DB
-                    Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(), 0);
+                    Carte carte = dchCarteDB.getCarteByNumCarteAndAccountId(editText_barcode.getText().toString(), Configuration.getIdAccount());
                     if (carte == null) {
                         //pop-up2
                         CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());

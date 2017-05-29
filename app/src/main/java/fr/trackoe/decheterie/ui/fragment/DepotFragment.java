@@ -1702,7 +1702,7 @@ public class DepotFragment extends Fragment {
             if(numCarte != null) {
                 Toast.makeText(getContext(), "numCarte: " + numCarte,
                         Toast.LENGTH_SHORT).show();
-                carte = dchCarteDB.getCarteByNumCarteAndAccountId(numCarte, 0);
+                carte = dchCarteDB.getCarteByNumCarteAndAccountId(numCarte, Configuration.getIdAccount());
                 setPageSignatureFromCarte();
             }
 
@@ -1724,7 +1724,7 @@ public class DepotFragment extends Fragment {
 
                 //set the object accountSetting
                 Date d = new Date();
-                SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+                SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
                 int date = Integer.parseInt(df.format(d));
                 ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountId, typeCarteId);
                 if (accountSettingList != null) {
@@ -1759,7 +1759,7 @@ public class DepotFragment extends Fragment {
             int typeCarteId = carte.getDchTypeCarteId();
             int accountId = carte.getDchAccountId();
             Date d = new Date();
-            SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
             int date = Integer.parseInt(df.format(d));
             ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountId, typeCarteId);
             if (accountSettingList != null) {
@@ -1784,7 +1784,7 @@ public class DepotFragment extends Fragment {
 
         if(carte == null){
             Date d = new Date();
-            SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
             int date = Integer.parseInt(df.format(d));
             ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(accountIdFromRUFInApportProFragment, typeCarteIdFromRUFInApportProFragment);
             if (accountSettingList != null) {

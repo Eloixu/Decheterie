@@ -2259,9 +2259,21 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,2,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,3,0,false,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,6,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,8,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,9,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,12,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,18,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,6,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,8,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,9,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,12,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,18,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,6,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,8,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,9,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,12,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,18,0,true,false,0));
         dchAccountFluxSettingDB.close();
 
         //add All icons into DBB
