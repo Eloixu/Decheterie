@@ -22,6 +22,7 @@ public class Const {
     public static final String DATE_MAJ_SERVEUR = "DATE_MAJ_SERVEUR";
     public static final String CHECKSUM_VILLE = "CHECKSUM_VILLE";
     public static final String CHECKSUM_RUE = "CHECKSUM_RUE";
+    public static final String DATE_MAJ = "DATE_MAJ";
 
     public static final String IS_WS_INFOS_TABLETTE_SUCCESS = "IS_WS_INFOS_TABLETTE_SUCCESS";
     public static final String IS_WS_INFOS_TABLETTE_LOADED = "IS_WS_INFOS_TABLETTE_LOADED";

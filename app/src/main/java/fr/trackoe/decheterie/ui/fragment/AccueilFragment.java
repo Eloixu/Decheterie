@@ -34,8 +34,7 @@ import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 
 import android.os.SerialPortServiceManager;
 
-
-
+import static fr.trackoe.decheterie.ui.activity.ContainerActivity.copyDatabaseToSDCard;
 
 
 /**
@@ -61,6 +60,8 @@ public class AccueilFragment extends Fragment {
 
         // Init des listeners
         initListeners();
+
+        ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
 
 
         return accueil_vg;
@@ -202,7 +203,7 @@ public class AccueilFragment extends Fragment {
         accueil_vg.findViewById(R.id.btn_changer).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                parentActivity.copyDatabaseToSDCard(getContext());
+                copyDatabaseToSDCard(getContext());
                 return true;
             }
         });

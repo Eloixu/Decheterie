@@ -17,6 +17,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
@@ -31,6 +33,7 @@ public class LoadingFragment extends Fragment {
     private ViewGroup main_vg;
     private ProgressBar progressBar;
     private TextView speTv;
+    private String dateMaj;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class LoadingFragment extends Fragment {
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
         launchHabitatAction();
+
+        initDateMaj();
+
         //launchCarteActiveAction();
         //getJson();
 
@@ -74,6 +80,16 @@ public class LoadingFragment extends Fragment {
             }
         });
 
+    }
+
+    public void initDateMaj() {
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.ws_date_format));
+        dateMaj = df.format(d);
+    }
+
+    public void saveDateMaj() {
+        Configuration.saveDateMaj(dateMaj);
     }
 
     public void launchHabitatAction() {
@@ -249,6 +265,7 @@ public class LoadingFragment extends Fragment {
             main_vg.findViewById(R.id.load_unite_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
+                endDownload();
                 speTv.setText(getString(R.string.load_account_setting_tv));
                 progressBar.setProgress(0);
                 ((ContainerActivity) getActivity()).loadAccountSetting(Configuration.getIdAccount());
@@ -266,6 +283,7 @@ public class LoadingFragment extends Fragment {
                 speTv.setText(getString(R.string.chargement_success));
                 progressBar.setVisibility(View.GONE);
                 launchAccueilFragment();
+                saveDateMaj();
                 ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }
         }

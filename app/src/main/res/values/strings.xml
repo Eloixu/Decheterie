@@ -8,6 +8,7 @@
     <string name="intervention_date_format_in">yyyy-MM-dd</string>
     <string name="email_date_format">dd/MM/yyyy</string>
     <string name="db_date_format">yyMMddHHmmss</string>
+    <string name="ws_date_format">yyyy-MM-dd-HH-mm-ss</string>
     <string name="intervention_reparation">Réparation de BAC</string>
     <string name="intervention_reparation_pav">Réparation de Colonne</string>
     <string name="intervention_reparation_title">BAC à Réparer</string>

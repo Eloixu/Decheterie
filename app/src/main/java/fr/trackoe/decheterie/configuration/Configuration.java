@@ -50,6 +50,14 @@ public abstract class Configuration {
         return params.getString(Const.NAME_DECHETERIE, "");
     }
 
+    public static void saveDateMaj(String dateMaj) {
+        params.edit().putString(Const.DATE_MAJ, dateMaj).commit();
+    }
+
+    public static String getDateMaj() {
+        return params.getString(Const.DATE_MAJ, "");
+    }
+
     public static void saveLastNumCard(String numCarte) {
         params.edit().putString(Const.LAST_NUM_CARD, numCarte).commit();
     }

@@ -502,8 +502,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Datas.loadAllHabitat(activity, new DataAndErrorCallback<Habitats>() {
                 @Override
                 public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-                    Toast.makeText(activity, "habitat loading failed",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "habitat loading failed", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
