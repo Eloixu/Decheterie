@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
 import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
 import fr.trackoe.decheterie.model.bean.global.CarteActives;
@@ -34,6 +35,7 @@ import fr.trackoe.decheterie.service.cache.CacheConst;
 import fr.trackoe.decheterie.service.cache.URCache;
 import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
+import fr.trackoe.decheterie.service.parser.AccountFluxSettingParser;
 import fr.trackoe.decheterie.service.parser.AccountSettingParser;
 import fr.trackoe.decheterie.service.parser.ApkInfosParser;
 import fr.trackoe.decheterie.service.parser.CarteActiveParser;
@@ -223,6 +225,12 @@ public class Datas {
     public static void loadChoixDecompteTotal(Context ctx, DataAndErrorCallback<ChoixDecompteTotals> callback) {
         String url = Configuration.getInstance(ctx).getChoixDecompteTotalUrl(ctx);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ChoixDecompteTotalParser());
+    }
+
+    // Récupération des account flux settings
+    public static void loadAllAccountFluxSetting(Context ctx, DataAndErrorCallback<AccountFluxSettings> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllAccountFluxSettingUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new AccountFluxSettingParser());
     }
 
 
