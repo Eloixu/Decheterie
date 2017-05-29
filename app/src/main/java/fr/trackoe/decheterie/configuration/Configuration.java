@@ -68,7 +68,7 @@ public abstract class Configuration {
 
     public static int getIdAccount() {
 //        return params.getInt(Const.ID_ACCOUNT, -1);
-        return 119;
+        return 118;
     }
 
     public static void saveIdAccount(int idAccount) {
@@ -271,8 +271,9 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
-//        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
+//        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
+//        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
+        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 
     //    Récupération des users

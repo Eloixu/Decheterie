@@ -62,9 +62,18 @@ public class LoadingFragment extends Fragment {
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
-        //launchHabitatAction();
-        launchCarteActiveAction();
+        launchHabitatAction();
+        //launchCarteActiveAction();
         //getJson();
+
+        main_vg.findViewById(R.id.load_img_header).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                launchAccueilFragment();
+                return false;
+            }
+        });
+
     }
 
     public void launchHabitatAction() {
@@ -255,6 +264,7 @@ public class LoadingFragment extends Fragment {
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));
                 progressBar.setVisibility(View.GONE);
+                launchAccueilFragment();
                 ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }
         }
@@ -307,6 +317,9 @@ public class LoadingFragment extends Fragment {
         }
     }
 
+    public void launchAccueilFragment() {
+        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+    }
 
 
     public ProgressBar getProgressBar() {
