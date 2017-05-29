@@ -1139,7 +1139,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).launchFluxAction();
+                                            ((LoadingFragment) getCurrentFragment()).launchDecheterieFluxAction();
                                         }
                                     });
                                 }
