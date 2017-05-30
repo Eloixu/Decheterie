@@ -78,6 +78,8 @@
     <string name="depot_fragment_valider_button_text">valider</string>
     <string name="depot_fragment_flux_item_textView_text">fluxNom</string>
 
+    <string name="pop_up_message1">Vous avez sélectionné flux&#160;</string>
+
     <!--Dialog Flux-->
     <string name="dialog_flux_layout_title_text">Information</string>
     <string name="dialog_normal_layout_positive_button_text">Oui</string>

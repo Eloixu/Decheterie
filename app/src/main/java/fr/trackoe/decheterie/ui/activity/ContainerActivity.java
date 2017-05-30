@@ -95,6 +95,7 @@ import fr.trackoe.decheterie.database.UsagerMenageDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
+import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
@@ -196,7 +197,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
         //initDB();
-        initDBTest();
+        //initDBTest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -1138,7 +1139,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).launchDecheterieFluxAction();
+                                            ((LoadingFragment) getCurrentFragment()).launchFluxAction();
                                         }
                                     });
                                 }
@@ -1410,7 +1411,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                            ((LoadingFragment) getCurrentFragment()).launchAccountFluxSettingAction();
                                         }
                                     });
                                 }
@@ -1423,6 +1424,65 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             });
         }
     }
+
+    public void loadAccountFluxSetting(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllAccountFluxSetting(activity, new DataAndErrorCallback<AccountFluxSettings>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "account flux setting loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final AccountFluxSettings data) {
+                    try {
+                        final DchAccountFluxSettingDB afsdb = new DchAccountFluxSettingDB(activity);
+                        afsdb.open();
+                        afsdb.clearAccountFluxSetting();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListAccountFluxSetting().size());
+                        }
+                        afsdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                afsdb.open();
+                                for(int i = 0; i < data.getListAccountFluxSetting().size(); i++) {
+                                    afsdb.insertAccountFluxSetting(data.getListAccountFluxSetting().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                afsdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).endDownload();
+                                        }
+                                    });
+                                }
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+
 
     public Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentByTag(CURRENT_FRAG_TAG);
