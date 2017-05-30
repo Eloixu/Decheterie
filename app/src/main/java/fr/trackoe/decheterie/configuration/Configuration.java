@@ -479,6 +479,14 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsChoixDecompteTotal";
     }
 
+    public String getAllPrepaiementUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllPrepaiement?idAccount=" + idAccount;
+    }
+
+    public String getModePaiementUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsModePaiement";
+    }
+
     public String getEncodedParam(String param) {
         String ret = "";
         if(param != null) {
