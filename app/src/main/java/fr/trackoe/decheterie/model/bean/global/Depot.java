@@ -20,7 +20,7 @@ public class Depot {
 
     }
 
-    public Depot(long id, String nom, String dateHeure, byte[] signature, int decheterieId, long carteActiveCarteId, int comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
+    public Depot(long id, String nom, String dateHeure, byte[] signature, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
         this.id = id;
         this.nom = nom;
         this.dateHeure = dateHeure;

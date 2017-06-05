@@ -1584,6 +1584,8 @@ public class DepotFragment extends Fragment {
                     }
                     depot.setDateHeure(getDateHeure());
                     dchDepotDB.updateDepot(depot);
+                    //TODO Send the depot to server
+
                 }
 
 

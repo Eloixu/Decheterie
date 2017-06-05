@@ -6,6 +6,14 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
 import fr.trackoe.decheterie.model.bean.global.AccountSettings;
@@ -247,6 +255,91 @@ public class Datas {
     public static void loadModePaiement(Context ctx, DataAndErrorCallback<ModePaiements> callback) {
         String url = Configuration.getInstance(ctx).getModePaiementUrl(ctx);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ModePaiementParser());
+    }
+
+    // Envoi de Depot
+    public static void uploadDepot(Context ctx, DataCallback<ContenantBean> callback, long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD) throws Exception {
+        String url = Configuration.getInstance(ctx).getDepotUrlSansSignature(ctx, id, nom, dateHeure, decheterieId, carteActiveCarteId, comptePrepayeId, qtyTotalUDD);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new OptaeParser());
+    }
+
+    public static int uploadFile(Context ctx, File sourceFile) {
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+
+        if (!sourceFile.isFile()) {
+            return 0;
+        }
+        else
+        {
+            try {
+                verifyPermissions(ctx);
+                // open a URL connection to the Servlet
+                FileInputStream fileInputStream = new FileInputStream(sourceFile);
+                URL url;
+                url = new URL(Configuration.getInstance(ctx).getUploadPhotoUrl(ctx));
+
+                // Open a HTTP  connection to  the URL
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setDoInput(true); // Allow Inputs
+                conn.setDoOutput(true); // Allow Outputs
+                conn.setUseCaches(false); // Don't use a Cached Copy
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                conn.setRequestProperty("uploaded_file", sourceFile.getName());
+
+                dos = new DataOutputStream(conn.getOutputStream());
+
+                dos.writeBytes(twoHyphens + boundary + lineEnd);
+                dos.writeBytes("Content-Disposition: form-data; name='uploaded_file';filename='"+sourceFile.getName()+"'"+lineEnd);
+                dos.writeBytes(lineEnd);
+
+                // create a buffer of  maximum size
+                bytesAvailable = fileInputStream.available();
+
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                buffer = new byte[bufferSize];
+
+                // read file and write it into form...
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                while (bytesRead > 0) {
+
+                    dos.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                }
+
+                // send multipart form data necesssary after file data...
+                dos.writeBytes(lineEnd);
+                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+                // Responses from the server (code and message)
+                String serverResponseMessage = conn.getResponseMessage();
+
+
+                //close the streams //
+                fileInputStream.close();
+                dos.flush();
+                dos.close();
+
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 200;
+        }
     }
 
 

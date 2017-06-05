@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,8 +36,11 @@ import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
+import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
+import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Depot;
+import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 /**
@@ -251,6 +256,8 @@ public class ApportProFragment extends Fragment {
 
                 dchDepotDB.close();
 
+                sendDepot(depot);
+
             }
         });
 
@@ -432,5 +439,31 @@ public class ApportProFragment extends Fragment {
 
     public int getAccountIdFromRUFInApportProFragment() {
         return accountIdFromRUFInApportProFragment;
+    }
+
+    public void sendDepot(Depot depot){
+        try {
+            //send Depot(with out signature) to server
+            Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
+                @Override
+                public void dataLoaded(ContenantBean data) {
+                    if (!data.ismSuccess()) {
+                        data.getmError();
+                    }
+                }
+            }, depot.getId(), depot.getNom(), depot.getDateHeure(), depot.getDecheterieId(), depot.getCarteActiveCarteId(), depot.getComptePrepayeId(), depot.getQtyTotalUDD());
+
+            //send the signature of depot to server
+            File f = new File(getContext().getCacheDir(), "signature");
+            f.createNewFile();
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(depot.getSignature());
+            fos.flush();
+            fos.close();
+            Datas.uploadFile(getContext(),f);
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

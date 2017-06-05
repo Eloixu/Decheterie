@@ -110,6 +110,7 @@ import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ChoixDecompteTotals;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
+import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
@@ -200,7 +201,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
 
-        //initDB();
+        initDB();
         //initDBTest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -249,7 +250,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
+        changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -2116,7 +2117,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         }
 
         Date d = new Date();
-        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.depot_id_date_format));
 
         String date = df.format(d);
 
@@ -2189,6 +2190,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         UsagerMenageDB usagerMenageDB = new UsagerMenageDB(this);
         usagerMenageDB.open();
         usagerMenageDB.clearUsagerMenage();
+        DecheterieDB decheterieDB = new DecheterieDB(this);
+        decheterieDB.open();
+        decheterieDB.clearDecheterie();
 
 
         //add All icons into DBB
@@ -2207,28 +2211,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         iconDB.close();
 
         //add flux into DBB
-        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Carton", 5, 3, 0));
-        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Metal", 12, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, 0));
-        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, 0));
+        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Carton", 5, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Metal", 12, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, Configuration.getIdAccount()));
         dchFluxDB.close();
 
         //add dechetrie_flux into DBB
@@ -2241,21 +2245,21 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchDecheterieFluxDB.close();
 
         //add usager into DBB
-        usagerDB.insertUsager(new Usager(1,0,"Michael Jordan",null));
-        usagerDB.insertUsager(new Usager(2,0,"Sir Isaac Newton",null));
-        usagerDB.insertUsager(new Usager(3,0,"Jeanne Moreau",null));
-        usagerDB.insertUsager(new Usager(4,0,"Stephen King",null));
-        usagerDB.insertUsager(new Usager(5,0,"J.K. Rowling",null));
-        usagerDB.insertUsager(new Usager(6,0,"Winston Churchill",null));
-        usagerDB.insertUsager(new Usager(7,0,"Thomas Edison",null));
-        usagerDB.insertUsager(new Usager(8,0,"Oprah Winfrey",null));
-        usagerDB.insertUsager(new Usager(9,0,"Walt Disney",null));
-        usagerDB.insertUsager(new Usager(10,0,"Steven Spielberg",null));
-        usagerDB.insertUsager(new Usager(11,0,"Harrison Ford",null));
-        usagerDB.insertUsager(new Usager(12,0,"Theodor Seuss Geisel",null));
-        usagerDB.insertUsager(new Usager(13,0,"Charles Darwin",null));
-        usagerDB.insertUsager(new Usager(14,0,"Richard Feloni ",null));
-        usagerDB.insertUsager(new Usager(15,0,"R.H. Macy",null));
+        usagerDB.insertUsager(new Usager(1,Configuration.getIdAccount(),"Michael Jordan",null));
+        usagerDB.insertUsager(new Usager(2,Configuration.getIdAccount(),"Sir Isaac Newton",null));
+        usagerDB.insertUsager(new Usager(3,Configuration.getIdAccount(),"Jeanne Moreau",null));
+        usagerDB.insertUsager(new Usager(4,Configuration.getIdAccount(),"Stephen King",null));
+        usagerDB.insertUsager(new Usager(5,Configuration.getIdAccount(),"J.K. Rowling",null));
+        usagerDB.insertUsager(new Usager(6,Configuration.getIdAccount(),"Winston Churchill",null));
+        usagerDB.insertUsager(new Usager(7,Configuration.getIdAccount(),"Thomas Edison",null));
+        usagerDB.insertUsager(new Usager(8,Configuration.getIdAccount(),"Oprah Winfrey",null));
+        usagerDB.insertUsager(new Usager(9,Configuration.getIdAccount(),"Walt Disney",null));
+        usagerDB.insertUsager(new Usager(10,Configuration.getIdAccount(),"Steven Spielberg",null));
+        usagerDB.insertUsager(new Usager(11,Configuration.getIdAccount(),"Harrison Ford",null));
+        usagerDB.insertUsager(new Usager(12,Configuration.getIdAccount(),"Theodor Seuss Geisel",null));
+        usagerDB.insertUsager(new Usager(13,Configuration.getIdAccount(),"Charles Darwin",null));
+        usagerDB.insertUsager(new Usager(14,Configuration.getIdAccount(),"Richard Feloni ",null));
+        usagerDB.insertUsager(new Usager(15,Configuration.getIdAccount(),"R.H. Macy",null));
         usagerDB.close();
 
         //add comptePrepaye into DBB
@@ -2283,21 +2287,21 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         typeCarteDB.close();
 
         //add carte into BDD
-        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,1,0));
-        dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,1,0));
-        dchCarteDB.insertCarte(new Carte(3,"2f4913f2",null,3,0));
-        dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,3,0));
-        dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,2,0));
+        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(3,"2f4913f2",null,3,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,3,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,2,Configuration.getIdAccount()));
         dchCarteDB.insertCarte(new Carte(6,"2f4913f3",null,3,1));
-        dchCarteDB.insertCarte(new Carte(7,"cdwfjnqe",null,3,0));
-        dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,1,0));
-        dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,3,0));
-        dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,1,0));
-        dchCarteDB.insertCarte(new Carte(11,"nqsjncisjq",null,1,0));
-        dchCarteDB.insertCarte(new Carte(12,"cjdsnfiqeq",null,1,0));
-        dchCarteDB.insertCarte(new Carte(13,"xcvfjdns",null,1,0));
-        dchCarteDB.insertCarte(new Carte(14,"fjdsnfj",null,3,0));
-        dchCarteDB.insertCarte(new Carte(15,"vnjsdjfhdsb",null,3,0));
+        dchCarteDB.insertCarte(new Carte(7,"cdwfjnqe",null,3,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(9,"dnvjidesqf",null,3,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(11,"nqsjncisjq",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(12,"cjdsnfiqeq",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(13,"xcvfjdns",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(14,"fjdsnfj",null,3,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(15,"vnjsdjfhdsb",null,3,Configuration.getIdAccount()));
         dchCarteDB.close();
 
         //add carteActive into DBB
@@ -2324,10 +2328,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,0,1,1,true,true,true,0,0,"m3","170101","171230",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,0,1,1,false,false,true,0,0,"m3","170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,0,3,2,false,false,true,0,0,"m3","170101","170410",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,0,3,2,false,false,false,0,0,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true,true,true,0,0,"m3","20170101","20171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true,0,0,"m3","20170101","20170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true,0,0,"m3","20170101","20170410",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,Configuration.getIdAccount(),3,2,false,false,false,0,0,"m3","20170101","20171230",0,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
@@ -2354,18 +2358,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         typeHabitatDB.close();
 
         //add habitat into BDD
-        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4,1));
-        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2,1));
-        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1,1));
-        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1,1));
-        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4,1));
-        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2,1));
-        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4,1));
-        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1,1));
-        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1,1));
-        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4,1));
-        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2,1));
-        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4,1));
+        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2,Configuration.getIdAccount()));
+        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4,Configuration.getIdAccount()));
         habitatDB.close();
 
         //add menage into BDD
@@ -2404,6 +2408,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,6));//menage6 habitat3(not actif)
         usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,7));//menage7 habitat6(not actif)
         usagerMenageDB.close();
+
+        //add decheterie into BDD
+        String[] ds = {"Paris","Shanghai","Montpellier","Belfort","Paris France","Shanghai China","New York","New York City","San Francisco","Washington"};
+        for(int i = 0; i < 10; i ++) {
+            Decheterie dt = new Decheterie();
+            //dt.setId(i + 1);
+            dt.setIdAccount(Configuration.getIdAccount());
+            dt.setNom(ds[i]);
+            dt.setConsigneComptage("");
+            dt.setConsigneAvSignature("");
+            dt.setApportFlux(true);
+            decheterieDB.insertDecheterie(dt);
+        }
+        decheterieDB.close();
     }
 
     public void initDBTest(){

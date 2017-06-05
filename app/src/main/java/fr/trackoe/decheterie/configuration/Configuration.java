@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.model.Const;
@@ -485,6 +488,15 @@ public abstract class Configuration {
 
     public String getModePaiementUrl(Context ctx) {
         return getWebServiceContenantHost(ctx) + "wsModePaiement";
+    }
+
+    // Url permettant de envoyer le depoot au serveur
+    public String getDepotUrlSansSignature(Context ctx, long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD)  throws Exception{
+        DateFormat fmt =new SimpleDateFormat(ctx.getString(R.string.db_date_format));
+        Date date = fmt.parse(dateHeure);
+        String dateHeureStr = new SimpleDateFormat(ctx.getString(R.string.ws_date_format)).format(date);
+
+        return getWebServiceHost(ctx) + "?id=" + id + "&nom=" + nom + "&dateHeure=" + dateHeureStr + "&decheterieId=" + decheterieId + "&carteActiveCarteId=" + carteActiveCarteId + "&comptePrepayeId=" + comptePrepayeId + "&qtyTotalUDD=" + qtyTotalUDD;
     }
 
     public String getEncodedParam(String param) {
