@@ -976,6 +976,54 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
 
     public static final String DELETE_TABLE_USAGER_MENAGE = "DROP TABLE IF EXISTS " + TableUsagerMenage.TABLE_NAME;
 
+    // Table dch_prepaiement
+    public static abstract class TableDchPrepaiement implements BaseColumns {
+        public static final String TABLE_NAME = "dch_prepaiement";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String DATE = "date";
+        public static final int NUM_DATE = 1;
+        public static final String QTY_POINT_PREPAYE = "qty_point_prepaye";
+        public static final int NUM_QTY_POINT_PREPAYE = 2;
+        public static final String COUTS_HT = "couts_ht";
+        public static final int NUM_COUTS_HT = 3;
+        public static final String COUTS_TVA = "couts_tva";
+        public static final int NUM_COUTS_TVA = 4;
+        public static final String COUTS_TTC = "couts_ttc";
+        public static final int NUM_COUTS_TTC = 5;
+        public static final String ID_MODE_PAIEMENT = "id_mode_paiement";
+        public static final int NUM_ID_MODE_PAIEMENT = 6;
+        public static final String ID_COMPTE_PREPAYE = "id_compte_prepaye";
+        public static final int NUM_ID_COMPTE_PREPAYE = 7;
+    }
+
+    public static final String CREATE_TABLE_DCH_PREPAIEMENT = "CREATE TABLE IF NOT EXISTS " + TableDchPrepaiement.TABLE_NAME + " ("
+            + TableDchPrepaiement.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableDchPrepaiement.DATE + TEXT_TYPE + COMMA_SEP
+            + TableDchPrepaiement.QTY_POINT_PREPAYE + FLOAT_TYPE + COMMA_SEP
+            + TableDchPrepaiement.COUTS_HT + FLOAT_TYPE + COMMA_SEP
+            + TableDchPrepaiement.COUTS_TVA + FLOAT_TYPE + COMMA_SEP
+            + TableDchPrepaiement.COUTS_TTC + FLOAT_TYPE + COMMA_SEP
+            + TableDchPrepaiement.ID_MODE_PAIEMENT + INTEGER_TYPE + COMMA_SEP
+            + TableDchPrepaiement.ID_COMPTE_PREPAYE + INTEGER_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_DCH_PREPAIEMENT = "DROP TABLE IF EXISTS " + TableDchPrepaiement.TABLE_NAME;
+
+    // Table mode_paiement
+    public static abstract class TableModePaiement implements BaseColumns {
+        public static final String TABLE_NAME = "mode_paiement";
+        public static final String ID = "id";
+        public static final int NUM_ID = 0;
+        public static final String MODE = "mode";
+        public static final int NUM_MODE = 1;
+    }
+
+    public static final String CREATE_TABLE_MODE_PAIEMENT = "CREATE TABLE IF NOT EXISTS " + TableModePaiement.TABLE_NAME + " ("
+            + TableModePaiement.ID + INTEGER_TYPE + " PRIMARY KEY, "
+            + TableModePaiement.MODE + TEXT_TYPE + " )" ;
+
+    public static final String DELETE_TABLE_MODE_PAIEMENT = "DROP TABLE IF EXISTS " + TableModePaiement.TABLE_NAME;
+
 
     //************************************************************************************************************************************
     public DecheterieDatabase(Context context) {
@@ -1020,6 +1068,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_DCH_UNITE);
         db.execSQL(CREATE_TABLE_DCH_ACCOUNT_SETTING);
         db.execSQL(CREATE_TABLE_DCH_ACCOUNT_FLUX_SETTING);
+        db.execSQL(CREATE_TABLE_DCH_PREPAIEMENT);
+        db.execSQL(CREATE_TABLE_MODE_PAIEMENT);
     }
 
     @Override
@@ -1059,6 +1109,8 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         db.execSQL(DELETE_TABLE_DCH_UNITE);
         db.execSQL(DELETE_TABLE_DCH_ACCOUNT_SETTING);
         db.execSQL(DELETE_TABLE_DCH_ACCOUNT_FLUX_SETTING);
+        db.execSQL(DELETE_TABLE_DCH_PREPAIEMENT);
+        db.execSQL(DELETE_TABLE_MODE_PAIEMENT);
         onCreate(db);
     }
 

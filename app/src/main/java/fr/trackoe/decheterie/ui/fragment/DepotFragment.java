@@ -173,7 +173,7 @@ public class DepotFragment extends Fragment {
         System.out.println("DepotFragment --> onCreateView()");
 
         depot_vg = (ViewGroup) inflater.inflate(R.layout.depot_fragment, container, false);
-        parentActivity = (ContainerActivity ) getActivity();
+        parentActivity = (ContainerActivity) getActivity();
         textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
 
         initAllDB();
@@ -203,7 +203,7 @@ public class DepotFragment extends Fragment {
             carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
             setPageSignatureFromCarte();
 
-            //detect if the current depot existe in the BDD
+            //detect if the current depot exist in the BDD
             if(dchDepotDB.getDepotByIdentifiant(depotId) == null) {
                 //add depot into BDD
                 dchDepotDB.insertDepot(depot);
@@ -488,7 +488,7 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage("Vous avez sélectionné flux " + iconName);
+                    builder.setMessage(parentActivity.getResources().getString(R.string.pop_up_message1) + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);

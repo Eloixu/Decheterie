@@ -19,7 +19,9 @@ import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Fluxs;
+import fr.trackoe.decheterie.model.bean.global.ModePaiements;
 import fr.trackoe.decheterie.model.bean.global.Modules;
+import fr.trackoe.decheterie.model.bean.global.Prepaiements;
 import fr.trackoe.decheterie.model.bean.global.TabletteInfos;
 import fr.trackoe.decheterie.model.bean.global.TypeCartes;
 import fr.trackoe.decheterie.model.bean.global.TypeHabitats;
@@ -50,8 +52,10 @@ import fr.trackoe.decheterie.service.parser.HabitatsParser;
 import fr.trackoe.decheterie.service.parser.InfosParser;
 import fr.trackoe.decheterie.service.parser.LocalParser;
 import fr.trackoe.decheterie.service.parser.MenageParser;
+import fr.trackoe.decheterie.service.parser.ModePaiementParser;
 import fr.trackoe.decheterie.service.parser.ModulesParser;
 import fr.trackoe.decheterie.service.parser.OptaeParser;
+import fr.trackoe.decheterie.service.parser.PrepaiementParser;
 import fr.trackoe.decheterie.service.parser.TypeCarteParser;
 import fr.trackoe.decheterie.service.parser.TypeHabitatParser;
 import fr.trackoe.decheterie.service.parser.UniteParser;
@@ -231,6 +235,18 @@ public class Datas {
     public static void loadAllAccountFluxSetting(Context ctx, DataAndErrorCallback<AccountFluxSettings> callback, int idAccount) {
         String url = Configuration.getInstance(ctx).getAllAccountFluxSettingUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new AccountFluxSettingParser());
+    }
+
+    // Récupération des prepaiements
+    public static void loadAllPrepaiement(Context ctx, DataAndErrorCallback<Prepaiements> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getAllPrepaiementUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new PrepaiementParser());
+    }
+
+    // Récupération des mode paiements
+    public static void loadModePaiement(Context ctx, DataAndErrorCallback<ModePaiements> callback) {
+        String url = Configuration.getInstance(ctx).getModePaiementUrl(ctx);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ModePaiementParser());
     }
 
 

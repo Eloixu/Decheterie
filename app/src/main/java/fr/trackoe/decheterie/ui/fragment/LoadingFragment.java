@@ -65,11 +65,10 @@ public class LoadingFragment extends Fragment {
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
-        launchHabitatAction();
-
+        //launchHabitatAction();
+        launchPrepaiementAction();
         initDateMaj();
 
-        //launchCarteActiveAction();
         //getJson();
 
         main_vg.findViewById(R.id.load_img_header).setOnLongClickListener(new View.OnLongClickListener() {
@@ -228,7 +227,7 @@ public class LoadingFragment extends Fragment {
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.load_flux_tv));
                 progressBar.setProgress(0);
-                //((ContainerActivity) getActivity()).loadFlux(Configuration.getIdAccount());
+                ((ContainerActivity) getActivity()).loadFlux(Configuration.getIdAccount());
             }
         }
     }
@@ -265,7 +264,6 @@ public class LoadingFragment extends Fragment {
             main_vg.findViewById(R.id.load_unite_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
-                endDownload();
                 speTv.setText(getString(R.string.load_account_setting_tv));
                 progressBar.setProgress(0);
                 ((ContainerActivity) getActivity()).loadAccountSetting(Configuration.getIdAccount());
@@ -275,18 +273,41 @@ public class LoadingFragment extends Fragment {
     }
 
     public void launchAccountFluxSettingAction(){
-
-    }
-
-    public void endDownload() {
         if(main_vg != null) {
             main_vg.findViewById(R.id.load_account_setting_progressbar).setVisibility(View.GONE);
             main_vg.findViewById(R.id.load_account_setting_img_check).setVisibility(View.VISIBLE);
 
             if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_account_setting_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadAccountFluxSetting(Configuration.getIdAccount());
+            }
+        }
+    }
+
+    public void launchPrepaiementAction(){
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_account_flux_setting_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_account_flux_setting_img_check).setVisibility(View.VISIBLE);;
+
+            if (getActivity() != null) {
+                speTv.setText(getString(R.string.load_prepaiement_tv));
+                progressBar.setProgress(0);
+                ((ContainerActivity) getActivity()).loadPrepaiement(Configuration.getIdAccount());
+                ((ContainerActivity) getActivity()).loadModePaiement();
+            }
+        }
+    }
+
+    public void endDownload() {
+        if(main_vg != null) {
+            main_vg.findViewById(R.id.load_prepaiement_progressbar).setVisibility(View.GONE);
+            main_vg.findViewById(R.id.load_prepaiement_img_check).setVisibility(View.VISIBLE);
+
+            if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));
                 progressBar.setVisibility(View.GONE);
-                launchAccueilFragment();
+                //launchAccueilFragment();
                 saveDateMaj();
                 ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }

@@ -80,6 +80,7 @@ import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDecheterieFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DchFluxDB;
+import fr.trackoe.decheterie.database.DchPrepaiementDB;
 import fr.trackoe.decheterie.database.DchTypeCarteDB;
 import fr.trackoe.decheterie.database.DchUniteDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
@@ -87,6 +88,7 @@ import fr.trackoe.decheterie.database.HabitatDB;
 import fr.trackoe.decheterie.database.IconDB;
 import fr.trackoe.decheterie.database.LocalDB;
 import fr.trackoe.decheterie.database.MenageDB;
+import fr.trackoe.decheterie.database.ModePaiementDB;
 import fr.trackoe.decheterie.database.ModulesDB;
 import fr.trackoe.decheterie.database.TypeHabitatDB;
 import fr.trackoe.decheterie.database.UsagerDB;
@@ -95,6 +97,7 @@ import fr.trackoe.decheterie.database.UsagerMenageDB;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
+import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
@@ -113,6 +116,8 @@ import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
 import fr.trackoe.decheterie.model.bean.global.Fluxs;
+import fr.trackoe.decheterie.model.bean.global.ModePaiements;
+import fr.trackoe.decheterie.model.bean.global.Prepaiements;
 import fr.trackoe.decheterie.model.bean.global.TypeCartes;
 import fr.trackoe.decheterie.model.bean.global.Unites;
 import fr.trackoe.decheterie.model.bean.usager.Habitats;
@@ -196,7 +201,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
         //initDB();
-        initDBTest();
+        //initDBTest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -1138,7 +1143,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).launchDecheterieFluxAction();
+                                            ((LoadingFragment) getCurrentFragment()).launchFluxAction();
                                         }
                                     });
                                 }
@@ -1410,6 +1415,167 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchAccountFluxSettingAction();
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    public void loadAccountFluxSetting(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllAccountFluxSetting(activity, new DataAndErrorCallback<AccountFluxSettings>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "account flux setting loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final AccountFluxSettings data) {
+                    try {
+                        final DchAccountFluxSettingDB afsdb = new DchAccountFluxSettingDB(activity);
+                        afsdb.open();
+                        afsdb.clearAccountFluxSetting();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListAccountFluxSetting().size());
+                        }
+                        afsdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                afsdb.open();
+                                for(int i = 0; i < data.getListAccountFluxSetting().size(); i++) {
+                                    afsdb.insertAccountFluxSetting(data.getListAccountFluxSetting().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                afsdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((LoadingFragment) getCurrentFragment()).launchPrepaiementAction();
+                                        }
+                                    });
+                                }
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadPrepaiement(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadAllPrepaiement(activity, new DataAndErrorCallback<Prepaiements>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "prepaiement loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final Prepaiements data) {
+                    try {
+                        final DchPrepaiementDB pdb = new DchPrepaiementDB(activity);
+                        pdb.open();
+                        pdb.clearPrepaiement();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListPrepaiement().size());
+                        }
+                        pdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pdb.open();
+                                for(int i = 0; i < data.getListPrepaiement().size(); i++) {
+                                    pdb.insertPrepaiement(data.getListPrepaiement().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                pdb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
+    public void loadModePaiement() {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadModePaiement(activity, new DataAndErrorCallback<ModePaiements>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "ModePaiement loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final ModePaiements data) {
+                    try {
+                        final ModePaiementDB mpdb = new ModePaiementDB(activity);
+                        mpdb.open();
+                        mpdb.clearModePaiement();
+                        if(getCurrentFragment() instanceof LoadingFragment) {
+                            ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListModePaiement().size());
+                        }
+                        mpdb.close();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mpdb.open();
+                                for(int i = 0; i < data.getListModePaiement().size(); i++) {
+                                    mpdb.insertModePaiement(data.getListModePaiement().get(i));
+                                    if(getCurrentFragment() instanceof LoadingFragment) {
+                                        final int finalI = i;
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                            }
+                                        });
+                                    }
+                                }
+                                mpdb.close();
+
+                                if(getCurrentFragment() instanceof LoadingFragment) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
                                             ((LoadingFragment) getCurrentFragment()).endDownload();
                                         }
                                     });
@@ -1423,6 +1589,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             });
         }
     }
+
+
 
     public Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentByTag(CURRENT_FRAG_TAG);

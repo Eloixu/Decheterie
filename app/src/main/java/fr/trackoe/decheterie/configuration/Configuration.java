@@ -76,7 +76,7 @@ public abstract class Configuration {
 
     public static int getIdAccount() {
 //        return params.getInt(Const.ID_ACCOUNT, -1);
-        return 118;
+        return 119;
     }
 
     public static void saveIdAccount(int idAccount) {
@@ -279,9 +279,10 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-//        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
-//        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
-        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
+        //return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
+        return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
+        //return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
+        //return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 
     //    Récupération des users
@@ -476,6 +477,14 @@ public abstract class Configuration {
 
     public String getChoixDecompteTotalUrl(Context ctx) {
         return getWebServiceContenantHost(ctx) + "wsChoixDecompteTotal";
+    }
+
+    public String getAllPrepaiementUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsAllPrepaiement?idAccount=" + idAccount;
+    }
+
+    public String getModePaiementUrl(Context ctx) {
+        return getWebServiceContenantHost(ctx) + "wsModePaiement";
     }
 
     public String getEncodedParam(String param) {
