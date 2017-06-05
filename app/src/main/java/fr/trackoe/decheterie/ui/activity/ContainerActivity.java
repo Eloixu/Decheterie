@@ -623,7 +623,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final MenageDB mdb = new MenageDB(activity);
                         mdb.open();
-                        mdb.clearMenage();
+                        //mdb.clearMenage();
                         if(getCurrentFragment() instanceof LoadingFragment) {
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListMenage().size());
                         }
@@ -2316,6 +2316,12 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, 118));
         dchFluxDB.close();
 
+        MenageDB menageDB = new MenageDB(this);
+        menageDB.open();
+        menageDB.clearMenage();
+        menageDB.insertMenage(new Menage(57, "Loumiere", "Delphine", "dloumiere@gmail.com", 3, "RJ57", true, "0698767706", "Mme",168));
+        menageDB.insertMenage(new Menage(58, "Ricquet", "Pierre", "priquet@gmail.com", 3, "RJ42", true, "0698768576", "Mr",169 ));
+        menageDB.close();
 
     }
 
