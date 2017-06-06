@@ -278,7 +278,8 @@ public abstract class Configuration {
     Définition de l'host pour appel aux Webservices
      */
     public String getWebServiceHost(Context ctx) {
-        return (isProd() || getIsProdEnvWS()) ? "http://trackoe.fr/android-ws/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+        //return (isProd() || getIsProdEnvWS()) ? "http://trackoe.fr/android-ws/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+        return "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
     }
 
     public String getWebServiceContenantHost(Context ctx) {
@@ -490,13 +491,13 @@ public abstract class Configuration {
         return getWebServiceContenantHost(ctx) + "wsModePaiement";
     }
 
-    // Url permettant de envoyer le depoot au serveur
+    // Url permettant de envoyer le depot au serveur
     public String getDepotUrlSansSignature(Context ctx, long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD)  throws Exception{
         DateFormat fmt =new SimpleDateFormat(ctx.getString(R.string.db_date_format));
         Date date = fmt.parse(dateHeure);
         String dateHeureStr = new SimpleDateFormat(ctx.getString(R.string.ws_date_format)).format(date);
 
-        return getWebServiceHost(ctx) + "?id=" + id + "&nom=" + nom + "&dateHeure=" + dateHeureStr + "&decheterieId=" + decheterieId + "&carteActiveCarteId=" + carteActiveCarteId + "&comptePrepayeId=" + comptePrepayeId + "&qtyTotalUDD=" + qtyTotalUDD;
+        return getWebServiceContenantHost(ctx) + "wsAllDepot" + "?depotId=" + id + "&nom=" + nom + "&dateHeure=" + dateHeureStr + "&decheterieId=" + decheterieId + "&carteActiveCarteId=" + carteActiveCarteId + "&comptePrepayeId=" + comptePrepayeId + "&qtyTotalUDD=" + qtyTotalUDD;
     }
 
     public String getEncodedParam(String param) {
@@ -517,8 +518,8 @@ public abstract class Configuration {
         return getWebServiceHost(ctx) + "ws_check_app_decheterie_update.php?version_code=" + versionCode;
     }
 
-    public String getUploadPhotoUrl(Context ctx) {
-        return getWebServiceHost(ctx) + "ws_upload_photo.php" ;
+    public String getUploadImgSignature(Context ctx) {
+        return getWebServiceHost(ctx) + "ws_upload_img_signature.php" ;
     }
 
 

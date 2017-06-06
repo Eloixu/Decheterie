@@ -48,12 +48,14 @@ import fr.trackoe.decheterie.database.TypeHabitatDB;
 import fr.trackoe.decheterie.database.UsagerDB;
 import fr.trackoe.decheterie.database.UsagerHabitatDB;
 import fr.trackoe.decheterie.database.UsagerMenageDB;
+import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
+import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Flux;
@@ -64,6 +66,7 @@ import fr.trackoe.decheterie.model.bean.usager.Menage;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
+import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogFlux;
 
@@ -1584,7 +1587,8 @@ public class DepotFragment extends Fragment {
                     }
                     depot.setDateHeure(getDateHeure());
                     dchDepotDB.updateDepot(depot);
-                    //TODO Send the depot to server
+                    //send the depot to server
+                    sendDepot(depot);
 
                 }
 
@@ -2244,6 +2248,42 @@ public class DepotFragment extends Fragment {
     public boolean isComeFromRUFInApportProFragment() {
         return isComeFromRUFInApportProFragment;
     }
+
+    public void sendDepot(Depot d){
+        try {
+            //send Depot(without signature) to server
+            Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
+                @Override
+                public void dataLoaded(ContenantBean data) {
+                    if (!data.ismSuccess()) {
+                        data.getmError();
+                        depot.setSent(false);
+                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                        dchDepotDB.open();
+
+                        dchDepotDB.updateDepot(depot);
+
+                        dchDepotDB.close();
+                    }
+                    else{
+                        depot.setSent(true);
+
+                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                        dchDepotDB.open();
+
+                        dchDepotDB.updateDepot(depot);
+
+                        dchDepotDB.close();
+                    }
+                }
+            }, d.getId(), d.getNom(), d.getDateHeure(), d.getDecheterieId(), d.getCarteActiveCarteId(), d.getComptePrepayeId(), d.getQtyTotalUDD());
+
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
     private DchAccountSettingDB dchAccountSettingDB;

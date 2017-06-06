@@ -252,11 +252,13 @@ public class ApportProFragment extends Fragment {
                     ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
                 }
                 depot.setDateHeure(getDateHeure());
+
                 dchDepotDB.updateDepot(depot);
+
+                sendDepot(depot);
 
                 dchDepotDB.close();
 
-                sendDepot(depot);
 
             }
         });
@@ -441,7 +443,7 @@ public class ApportProFragment extends Fragment {
         return accountIdFromRUFInApportProFragment;
     }
 
-    public void sendDepot(Depot depot){
+    public void sendDepot(Depot d){
         try {
             //send Depot(with out signature) to server
             Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
@@ -449,12 +451,29 @@ public class ApportProFragment extends Fragment {
                 public void dataLoaded(ContenantBean data) {
                     if (!data.ismSuccess()) {
                         data.getmError();
+                        depot.setSent(false);
+                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                        dchDepotDB.open();
+
+                        dchDepotDB.updateDepot(depot);
+
+                        dchDepotDB.close();
+                    }
+                    else{
+                        depot.setSent(true);
+
+                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                        dchDepotDB.open();
+
+                        dchDepotDB.updateDepot(depot);
+
+                        dchDepotDB.close();
                     }
                 }
-            }, depot.getId(), depot.getNom(), depot.getDateHeure(), depot.getDecheterieId(), depot.getCarteActiveCarteId(), depot.getComptePrepayeId(), depot.getQtyTotalUDD());
+            }, d.getId(), d.getNom(), d.getDateHeure(), d.getDecheterieId(), d.getCarteActiveCarteId(), d.getComptePrepayeId(), d.getQtyTotalUDD());
 
             //send the signature of depot to server
-            File f = new File(getContext().getCacheDir(), "signature");
+            File f = new File(getContext().getCacheDir(), "signature" + d.getDateHeure());
             f.createNewFile();
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(depot.getSignature());

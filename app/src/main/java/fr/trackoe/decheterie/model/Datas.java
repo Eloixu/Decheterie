@@ -283,7 +283,7 @@ public class Datas {
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
                 URL url;
-                url = new URL(Configuration.getInstance(ctx).getUploadPhotoUrl(ctx));
+                url = new URL(Configuration.getInstance(ctx).getUploadImgSignature(ctx));
 
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();
