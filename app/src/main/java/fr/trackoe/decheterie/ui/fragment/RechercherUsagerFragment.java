@@ -403,8 +403,8 @@ public class RechercherUsagerFragment extends Fragment {
                                     }
                                     if(accountId == -1){
                                         //pop-up
-                                        Toast.makeText(getContext(), "Cet usager n'a aucune carte qui est active",
-                                                Toast.LENGTH_SHORT).show();
+                                        /*Toast.makeText(getContext(), "Cet usager n'a aucune carte qui est active",
+                                                Toast.LENGTH_SHORT).show();*/
                                     }
                                     else {
                                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {

@@ -284,9 +284,9 @@ public class Datas {
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
                 URL url;
                 url = new URL(Configuration.getInstance(ctx).getUploadImgSignature(ctx));
-
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestProperty("connection", "close");
                 conn.setDoInput(true); // Allow Inputs
                 conn.setDoOutput(true); // Allow Outputs
                 conn.setUseCaches(false); // Don't use a Cached Copy

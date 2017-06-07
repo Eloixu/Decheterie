@@ -316,7 +316,7 @@ public class LoadingFragment extends Fragment {
 
     }
 
-    //get JSON Object from server
+    /*//get JSON Object from server
     public void getJson(){
         String parsedString = "";
 
@@ -332,7 +332,7 @@ public class LoadingFragment extends Fragment {
             httpConn.connect();
 
             InputStream is = httpConn.getInputStream();
-            parsedString = convertinputStreamToString(is);
+            parsedString = convertInputStreamToString(is);
             JSONObject jo = new JSONObject(parsedString);
 
         } catch (Exception e) {
@@ -340,7 +340,7 @@ public class LoadingFragment extends Fragment {
         }
     }
 
-    public static String convertinputStreamToString(InputStream ists)
+    public static String convertInputStreamToString(InputStream ists)
             throws IOException {
         if (ists != null) {
             StringBuilder sb = new StringBuilder();
@@ -359,7 +359,7 @@ public class LoadingFragment extends Fragment {
         } else {
             return "";
         }
-    }
+    }*/
 
     public void launchAccueilFragment() {
         ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);

@@ -201,10 +201,10 @@ public class ApportProFragment extends Fragment {
 
         //set values
         if(isUsagerMenageInND) {
-            apportProFragmentTopUpLine1TitleTextView.setText("NOM");
+            apportProFragmentTopUpLine1TitleTextView.setText(R.string.apport_pro_fragment_top_up_line1_title_textView_text1);
         }
         else{
-            apportProFragmentTopUpLine1TitleTextView.setText("Raison Social:");
+            apportProFragmentTopUpLine1TitleTextView.setText(R.string.apport_pro_fragment_top_up_line1_title_textView_text2);
         }
         apportProFragmentTopUpLine1ValueTextView.setText(nomInND);
         apportProFragmentTopUpLine2ValueTextView.setText(adresseInND);
@@ -473,7 +473,7 @@ public class ApportProFragment extends Fragment {
             }, d.getId(), d.getNom(), d.getDateHeure(), d.getDecheterieId(), d.getCarteActiveCarteId(), d.getComptePrepayeId(), d.getQtyTotalUDD());
 
             //send the signature of depot to server
-            File f = new File(getContext().getCacheDir(), "signature" + d.getDateHeure());
+            File f = new File(getContext().getFilesDir(), "signature" + d.getDateHeure());
             f.createNewFile();
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(depot.getSignature());

@@ -8,6 +8,7 @@
     <string name="intervention_date_format_in">yyyy-MM-dd</string>
     <string name="email_date_format">dd/MM/yyyy</string>
     <string name="db_date_format">yyyyMMddHHmmss</string>
+    <string name="normal_date_format">yyyyMMdd</string>
     <string name="depot_id_date_format">yyMMddHHmmss</string>
     <string name="ws_date_format">yyyy-MM-dd-HH-mm-ss</string>
     <string name="intervention_reparation">Réparation de BAC</string>
@@ -41,7 +42,26 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
+
     <!--Container Activity-->
+    <string name="nfc_availability1">NFC available on this device</string>
+    <string name="nfc_availability2">NFC available on this device</string>
+    <string name="nfc_warning">NFC available on this device</string>
+    <string name="pop_up_quit_depot_message">Vous allez annuler le dépot en cours, confirmez l\'annulation.</string>
+    <string name="pop_up_quit_depot_title">Information</string>
+    <string name="pop_up_quit_depot_positive_button">Oui</string>
+    <string name="pop_up_quit_depot_negative_button">Non</string>
+    <string name="pop_up_quit_accueil_message">Voulez-vous vous déconnecter?</string>
+    <string name="pop_up_quit_accueil_title">Information</string>
+    <string name="pop_up_quit_accueil_positive_button">Oui</string>
+    <string name="pop_up_quit_accueil_negative_button">Non</string>
+
+    <!--Accueil Fragment-->
+    <string name="text_no_decheterie_selected">Aucune déchèterie sélectionnée</string>
+    <string name="pop_up_depot_incompleted_message">\nVous avez un dépot qui n\'est pas encore terminé.\nEst-ce que vous voulez continuer à éditer ce dépot?</string>
+    <string name="pop_up_depot_incompleted_title">Information</string>
+    <string name="pop_up_depot_incompleted_positive_button">Oui</string>
+    <string name="pop_up_depot_incompleted_negative_button">Non</string>
 
 
     <!--Ancienne carte Fragment-->
@@ -69,6 +89,8 @@
     <string name="apport_pro_fragment_left_up_information_textView_text">Par ma signature je reconnais avoir pris connaissance et confirmé le décompte des apports.</string>
     <string name="apport_pro_fragment_valider_button_text">valider</string>
     <string name="apport_pro_fragment_signature_information_textView_text">Fait à la déchèterie de XXX, le JJ/MM/AAAA \nSignature</string>
+    <string name="apport_pro_fragment_top_up_line1_title_textView_text1">NOM</string>
+    <string name="apport_pro_fragment_top_up_line1_title_textView_text2">Raison Social:</string>
 
     <!--Decheterie Fragment-->
     <string name="decheterie_fragment_filtre_textView_text">Filtre :</string>
@@ -80,6 +102,7 @@
     <string name="depot_fragment_flux_item_textView_text">fluxNom</string>
 
     <string name="pop_up_message1">Vous avez sélectionné flux&#160;</string>
+    <string name="flux_positive_button">valider</string>
 
     <!--Dialog Flux-->
     <string name="dialog_flux_layout_title_text">Information</string>
@@ -114,6 +137,19 @@
     <string name="rechercher_usager_fragment_filtre3_textView_text">Adresse :</string>
     <string name="rechercher_usager_fragment_listview_item_usager_name_textView_text">Usager</string>
     <string name="rechercher_usager_fragment_listview_item_usager_id_textView">1</string>
+
+    <string name="pop_up_card_unregisted_message">\nCette carte n\'est pas enregistrée dans la base de données.</string>
+    <string name="pop_up_card_unregisted_title">Information</string>
+    <string name="pop_up_card_unregisted_positive_button">Créer</string>
+    <string name="pop_up_card_unregisted_negative_button">Retour</string>
+    <string name="pop_up_card_not_associate_usager_message">\nCette carte n\'est pas associée à aucun d\'usager.</string>
+    <string name="pop_up_card_not_associate_usager_title">Information</string>
+    <string name="pop_up_card_not_associate_usager_positive_button">Distribuer</string>
+    <string name="pop_up_card_not_associate_usager_negative_button">Retour</string>
+    <string name="pop_up_card_inactive_message1">\nDétenteur de la carte:&#160;</string>
+    <string name="pop_up_card_inactive_message2">\nCette carte a été désactivée car:&#160;</string>
+    <string name="pop_up_card_inactive_title">Information</string>
+    <string name="pop_up_card_inactive_negative_button">Retour</string>
 
     <!--Toolbar-->
     <string name="toolbar_parametres_button_text">Paramètres&#160;&#160;&#160;</string>
@@ -170,6 +206,18 @@
     <string name="ac_liste_inter_distribution_pav">Trackoe : Pose de colonne</string>
     <string name="ac_liste_inter_pav_lavage">Trackoe : Lavage de Colonne</string>
     <string name="ac_liste_pav_maintenance">Trackoe : Maintenance de Colonne</string>
+
+    <!--Navigation Drawer-->
+    <string name="text_nom">NOM</string>
+    <string name="text_prenom">Prénom</string>
+    <string name="text_particulier">Particulier</string>
+    <string name="text_type_usager">Type d\'usager</string>
+    <string name="text_adresse">Adresse</string>
+    <string name="text_carte">Carte</string>
+    <string name="text_nb_depot_restant">Nb dépôt restant</string>
+    <string name="text_apport_restant">Apport restant</string>
+
+
 
     <!--Ecran Tablette-->
     <string name="tablette_desc">Veuillez entrer le numéro de la tablette</string>
