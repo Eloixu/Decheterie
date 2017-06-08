@@ -2,6 +2,7 @@ package fr.trackoe.decheterie.configuration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -12,6 +13,9 @@ import java.util.Date;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.model.Const;
+import fr.trackoe.decheterie.model.bean.global.AccountSetting;
+import fr.trackoe.decheterie.model.bean.global.ApportFlux;
+import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Ville;
 
 /**
@@ -282,8 +286,8 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-        //return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
-        return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
+        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
+        //return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
         //return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
         //return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
@@ -491,12 +495,17 @@ public abstract class Configuration {
     }
 
     // Url permettant de envoyer le depot au serveur
-    public String getDepotUrlSansSignature(Context ctx, long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD)  throws Exception{
+    public String getDepotUrlSansSignature(Context ctx, Depot depot, AccountSetting accountSetting, ArrayList<ApportFlux> listAF)  throws Exception{
         DateFormat fmt =new SimpleDateFormat(ctx.getString(R.string.db_date_format));
-        Date date = fmt.parse(dateHeure);
+        Date date = fmt.parse(depot.getDateHeure());
         String dateHeureStr = new SimpleDateFormat(ctx.getString(R.string.ws_date_format)).format(date);
-
-        return getWebServiceContenantHost(ctx) + "wsAllDepot" + "?depotId=" + id + "&nom=" + nom + "&dateHeure=" + dateHeureStr + "&decheterieId=" + decheterieId + "&carteActiveCarteId=" + carteActiveCarteId + "&comptePrepayeId=" + comptePrepayeId + "&qtyTotalUDD=" + qtyTotalUDD;
+        String apportFluxList = "";
+        if(listAF != null) {
+            for(ApportFlux af : listAF){
+                apportFluxList = apportFluxList + "&idFlux[]=" + af.getFluxId() + "&qtyComptage[]=" + af.getQtyComptage() + "&qtyUDD[]=" + af.getQtyUDD();
+            }
+        }
+        return getWebServiceContenantHost(ctx) + "wsAllDepot" + "?depotId=" + depot.getId() + "&nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList;
     }
 
     public String getEncodedParam(String param) {

@@ -16,8 +16,10 @@ import java.util.ArrayList;
 
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
+import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.CarteActives;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaisons;
 import fr.trackoe.decheterie.model.bean.global.Cartes;
@@ -26,6 +28,7 @@ import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
+import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Fluxs;
 import fr.trackoe.decheterie.model.bean.global.ModePaiements;
 import fr.trackoe.decheterie.model.bean.global.Modules;
@@ -258,8 +261,8 @@ public class Datas {
     }
 
     // Envoi de Depot
-    public static void uploadDepot(Context ctx, DataCallback<ContenantBean> callback, long id, String nom, String dateHeure, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD) throws Exception {
-        String url = Configuration.getInstance(ctx).getDepotUrlSansSignature(ctx, id, nom, dateHeure, decheterieId, carteActiveCarteId, comptePrepayeId, qtyTotalUDD);
+    public static void uploadDepot(Context ctx, DataCallback<ContenantBean> callback, Depot depot, AccountSetting accountSetting, ArrayList<ApportFlux> listAF) throws Exception {
+        String url = Configuration.getInstance(ctx).getDepotUrlSansSignature(ctx, depot, accountSetting, listAF);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new OptaeParser());
     }
 
@@ -286,7 +289,7 @@ public class Datas {
                 url = new URL(Configuration.getInstance(ctx).getUploadImgSignature(ctx));
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("connection", "close");
+                //conn.setRequestProperty("connection", "close");
                 conn.setDoInput(true); // Allow Inputs
                 conn.setDoOutput(true); // Allow Outputs
                 conn.setUseCaches(false); // Don't use a Cached Copy
