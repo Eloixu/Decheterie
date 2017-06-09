@@ -502,10 +502,10 @@ public abstract class Configuration {
         String apportFluxList = "";
         if(listAF != null) {
             for(ApportFlux af : listAF){
-                apportFluxList = apportFluxList + "&idFlux[]=" + af.getFluxId() + "&qtyComptage[]=" + af.getQtyComptage() + "&qtyUDD[]=" + af.getQtyUDD();
+                apportFluxList = apportFluxList + "&idFlux=" + af.getFluxId() + "&qtyComptage=" + af.getQtyComptage() + "&qtyUDD=" + af.getQtyUDD();
             }
         }
-        return getWebServiceContenantHost(ctx) + "wsAllDepot" + "?depotId=" + depot.getId() + "&nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList;
+        return getWebServiceContenantHost(ctx) + "wsAllDepot?" + "nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList;
     }
 
     public String getEncodedParam(String param) {
