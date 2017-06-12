@@ -264,16 +264,16 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(mNfcAdapter != null) {
             //Handle some NFC initialization here
-            Toast.makeText(this, "NFC available on this device",
+            Toast.makeText(this, R.string.nfc_availability1,
                     Toast.LENGTH_SHORT).show();
             if (!mNfcAdapter.isEnabled())
             {
-                Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.nfc_warning, Toast.LENGTH_LONG).show();
                 startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
             }
         }
         else {
-            Toast.makeText(this, "NFC not available on this device",
+            Toast.makeText(this,  R.string.nfc_availability2,
                     Toast.LENGTH_SHORT).show();}
 
     }
@@ -1660,9 +1660,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 else {
                     //pop-up
                     CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
-                    builder.setMessage("Vous allez annuler le dépot en cours, confirmez l'annulation.");
-                    builder.setTitle("Information");
-                    builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    builder.setMessage(R.string.pop_up_quit_depot_message);
+                    builder.setTitle(R.string.pop_up_quit_depot_title);
+                    builder.setPositiveButton(R.string.pop_up_quit_depot_positive_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             DchDepotDB dchDepotDB = new DchDepotDB(activity);
                             dchDepotDB.open();
@@ -1685,7 +1685,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                         }
                     });
 
-                    builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.pop_up_quit_depot_negative_button, new android.content.DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
@@ -1702,10 +1702,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             else if( getCurrentFragment() instanceof AccueilFragment) {
                 //pop-up
                 CustomDialogOnBackPressed.Builder builder = new CustomDialogOnBackPressed.Builder(this);
-                builder.setMessage("Voulez-vous vous déconnecter?");
+                builder.setMessage(R.string.pop_up_quit_accueil_message);
                 builder.setMessageGravity(Gravity.CENTER);
-                builder.setTitle("Information");
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.pop_up_quit_accueil_title);
+                builder.setPositiveButton(R.string.pop_up_quit_accueil_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         changeMainFragment(new LoginFragment(), true);
@@ -1713,7 +1713,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 });
 
-                builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.pop_up_quit_accueil_negative_button, new android.content.DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }

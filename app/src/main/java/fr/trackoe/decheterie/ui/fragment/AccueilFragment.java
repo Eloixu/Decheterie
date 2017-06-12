@@ -83,7 +83,7 @@ public class AccueilFragment extends Fragment {
         Button btnChanger = (Button) accueil_vg.findViewById(R.id.btn_changer);
         textViewNomDecheterie = (TextView) accueil_vg.findViewById(R.id.textView_nom_decheterie);
         if(Configuration.getNameDecheterie().isEmpty()||Configuration.getNameDecheterie()==null){
-            textViewNomDecheterie.setText("Aucune déchèterie sélectionnée");
+            textViewNomDecheterie.setText(R.string.text_no_decheterie_selected);
             btnIdentification.setClickable(false);
             btnIdentification.setBackgroundResource(R.drawable.button_grey);
             btnRecherche.setClickable(false);
@@ -100,10 +100,9 @@ public class AccueilFragment extends Fragment {
             if(dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)).getDecheterieId() == decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId()) {
                 //pop-up ask if continue this depot
                 CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                builder.setMessage("\nVous avez un dépot qui n'est pas encore terminé.\n" +
-                        "Est-ce que vous voulez continuer à éditer ce dépot?");
-                builder.setTitle("Information");
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.pop_up_depot_incompleted_message);
+                builder.setTitle(R.string.pop_up_depot_incompleted_title);
+                builder.setPositiveButton(R.string.pop_up_depot_incompleted_positive_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         //设置你的操作事项
@@ -116,7 +115,7 @@ public class AccueilFragment extends Fragment {
                     }
                 });
 
-                builder.setNegativeButton("Non", new android.content.DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.pop_up_depot_incompleted_negative_button, new android.content.DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                         dchDepotDB.open();
@@ -172,9 +171,6 @@ public class AccueilFragment extends Fragment {
             public void onClick(View v) {
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     ((ContainerActivity) getActivity()).changeMainFragment(new DecheterieFragment(), true);
-                    /*fragmentTransaction=getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.main_container,new DepotFragment());
-                    fragmentTransaction.commit();*/
                 }
             }
         });

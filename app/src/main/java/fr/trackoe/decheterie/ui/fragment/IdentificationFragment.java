@@ -198,9 +198,9 @@ public class IdentificationFragment extends Fragment {
                     if (carte == null) {
                         //pop-up2
                         CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                        builder.setMessage("\nCette carte n'est pas enregistrée dans la base de données.");
-                        builder.setTitle("Information");
-                        builder.setPositiveButton("Créer", new DialogInterface.OnClickListener() {
+                        builder.setMessage(R.string.pop_up_card_unregisted_message);
+                        builder.setTitle(R.string.pop_up_card_unregisted_title);
+                        builder.setPositiveButton(R.string.pop_up_card_unregisted_positive_button, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 //设置你的操作事项
@@ -208,7 +208,7 @@ public class IdentificationFragment extends Fragment {
                             }
                         });
 
-                        builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(R.string.pop_up_card_unregisted_negative_button, new android.content.DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
@@ -220,9 +220,9 @@ public class IdentificationFragment extends Fragment {
                         if (carteActive == null) {
                             //pop-up3
                             CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                            builder.setMessage("\nCette carte n'est pas associée à aucun d'usager.");
-                            builder.setTitle("Information");
-                            builder.setPositiveButton("Distribuer", new DialogInterface.OnClickListener() {
+                            builder.setMessage(R.string.pop_up_card_not_associate_usager_message);
+                            builder.setTitle(R.string.pop_up_card_not_associate_usager_title);
+                            builder.setPositiveButton(R.string.pop_up_card_not_associate_usager_positive_button, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                     //设置你的操作事项
@@ -230,7 +230,7 @@ public class IdentificationFragment extends Fragment {
                                 }
                             });
 
-                            builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                            builder.setNegativeButton(R.string.pop_up_card_not_associate_usager_negative_button, new android.content.DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
@@ -245,9 +245,9 @@ public class IdentificationFragment extends Fragment {
                                 CarteEtatRaison carteEtatRaison = dchCarteEtatRaisonDB.getCarteEtatRaisonFromID(carteActive.getDchCarteEtatRaisonId());
                                 //pop-up1
                                 CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                                builder.setMessage("\nDétenteur de la carte: " + usager.getNom()
-                                        + "\nCette carte a été désactivée car: " + carteEtatRaison.getRaison());
-                                builder.setTitle("Information");
+                                builder.setMessage(R.string.pop_up_card_inactive_message1 + usager.getNom()
+                                        + R.string.pop_up_card_inactive_message2 + carteEtatRaison.getRaison());
+                                builder.setTitle(R.string.pop_up_card_inactive_title);
                                 builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
@@ -256,7 +256,7 @@ public class IdentificationFragment extends Fragment {
                                     }
                                 });
 
-                                builder.setNegativeButton("Retour", new android.content.DialogInterface.OnClickListener() {
+                                builder.setNegativeButton(R.string.pop_up_card_inactive_negative_button, new android.content.DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                     }
@@ -265,8 +265,8 @@ public class IdentificationFragment extends Fragment {
                                 builder.create().show();
                             } else {
                                 //ok, turn to next page
-                                Toast.makeText(getContext(), "Carte ok!",
-                                        Toast.LENGTH_SHORT).show();
+                                /*Toast.makeText(getContext(), "Carte ok!",
+                                        Toast.LENGTH_SHORT).show();*/
                                 if (getActivity() != null && getActivity() instanceof ContainerActivity) {
                                     Configuration.setIsOuiClicked(false);
                                     DepotFragment depotFragment = DepotFragment.newInstance(editText_barcode.getText().toString());

@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -30,13 +31,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
+import fr.trackoe.decheterie.database.DchAccountSettingDB;
+import fr.trackoe.decheterie.database.DchApportFluxDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.model.Datas;
+import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Depot;
@@ -72,7 +77,7 @@ public class ApportProFragment extends Fragment {
     private TextView apportProFragmentBottomLeftUpLine3ValueTextView;
 
 
-    //parameters in NavagationDrawer(totalDecompte in DepotFragment) from DepotFragment
+    //parameters in NavagationDrawer(totalDecompte,accountSettingId in DepotFragment) from DepotFragment
     private String nomInND;
     private boolean isUsagerMenageInND;
     private String adresseInND;
@@ -80,6 +85,7 @@ public class ApportProFragment extends Fragment {
     private float apportRestantInND;
     private String uniteApportRestantInND;
     private float totalDecompte;
+    private int accountSettingId;
 
     //parameters from rechercherUsagerFragment
     private boolean isComeFromRUFInApportProFragment = false;
@@ -173,7 +179,7 @@ public class ApportProFragment extends Fragment {
             dchDepotDB.close();
         }
 
-        //get the nomInND, isUsagerMenageInND, adresseInND, numeroCarteInND, apportRestantInND, uniteApportRestantInND, totalDecompte sent from DepotFragment
+        //get the nomInND, isUsagerMenageInND, adresseInND, numeroCarteInND, apportRestantInND, uniteApportRestantInND, totalDecompte, accountSettingId sent from DepotFragment
         if (getArguments() != null) {
             nomInND = getArguments().getString("nomInND");
             isUsagerMenageInND = getArguments().getBoolean("isUsagerMenageInND");
@@ -182,6 +188,7 @@ public class ApportProFragment extends Fragment {
             apportRestantInND = getArguments().getFloat("apportRestantInND");
             uniteApportRestantInND = getArguments().getString("uniteApportRestantInND");
             totalDecompte = getArguments().getFloat("totalDecompte");
+            accountSettingId = getArguments().getInt("accountSettingId");
         }
 
         //detect if the signature picture has already existed
@@ -201,10 +208,10 @@ public class ApportProFragment extends Fragment {
 
         //set values
         if(isUsagerMenageInND) {
-            apportProFragmentTopUpLine1TitleTextView.setText("NOM");
+            apportProFragmentTopUpLine1TitleTextView.setText(R.string.apport_pro_fragment_top_up_line1_title_textView_text1);
         }
         else{
-            apportProFragmentTopUpLine1TitleTextView.setText("Raison Social:");
+            apportProFragmentTopUpLine1TitleTextView.setText(R.string.apport_pro_fragment_top_up_line1_title_textView_text2);
         }
         apportProFragmentTopUpLine1ValueTextView.setText(nomInND);
         apportProFragmentTopUpLine2ValueTextView.setText(adresseInND);
@@ -236,6 +243,10 @@ public class ApportProFragment extends Fragment {
                 //save the signature into DB
                 DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                 dchDepotDB.open();
+                DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
+                dchAccountSettingDB.open();
+                DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+                dchApportFluxDB.open();
 
                 Bitmap imageBitmap = mView.getCachebBitmap();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -255,10 +266,12 @@ public class ApportProFragment extends Fragment {
 
                 dchDepotDB.updateDepot(depot);
 
-                sendDepot(depot);
+
+                sendDepot(depot, dchAccountSettingDB.getAccountSettingFromID(accountSettingId), dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
 
                 dchDepotDB.close();
-
+                dchAccountSettingDB.close();
+                dchApportFluxDB.close();
 
             }
         });
@@ -380,7 +393,7 @@ public class ApportProFragment extends Fragment {
     }
 
 
-    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte) {
+    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong("depotId", depotId);
@@ -391,6 +404,7 @@ public class ApportProFragment extends Fragment {
         args.putFloat("apportRestantInND", apportRestantInND);
         args.putString("uniteApportRestantInND", uniteApportRestantInND);
         args.putFloat("totalDecompte", totalDecompte);
+        args.putInt("accountSettingId", accountSettingId);
 
         apportProFragment.setArguments(args);
         return apportProFragment;
@@ -443,9 +457,9 @@ public class ApportProFragment extends Fragment {
         return accountIdFromRUFInApportProFragment;
     }
 
-    public void sendDepot(Depot d){
+    public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
-            //send Depot(with out signature) to server
+            //send Depot(without signature) to server
             Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
                 @Override
                 public void dataLoaded(ContenantBean data) {
@@ -470,10 +484,11 @@ public class ApportProFragment extends Fragment {
                         dchDepotDB.close();
                     }
                 }
-            }, d.getId(), d.getNom(), d.getDateHeure(), d.getDecheterieId(), d.getCarteActiveCarteId(), d.getComptePrepayeId(), d.getQtyTotalUDD());
+            }, d, a, listAF);
 
             //send the signature of depot to server
-            File f = new File(getContext().getCacheDir(), "signature" + d.getDateHeure());
+            //File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/Signature", "signature" + d.getDateHeure()+".PNG");
+            File f = new File(Environment.getExternalStorageDirectory(), "signature" + d.getDateHeure()+".PNG");
             f.createNewFile();
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(depot.getSignature());

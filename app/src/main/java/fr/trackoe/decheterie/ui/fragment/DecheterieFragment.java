@@ -66,22 +66,8 @@ public class DecheterieFragment extends Fragment {
         parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
-        final View acceuilView = inflater.inflate(R.layout.accueil_fragment,container,false);
         decheterieDB = new DecheterieDB(getContext());
         decheterieDB.open();
-        /*decheterieDB.clearDecheterie();
-        String[] ds = {"Paris","Shanghai","Montpellier","Belfort","Paris France","Shanghai China","New York","New York City","San Francisco","Washington"};
-        for(int i = 0; i < 10; i ++){
-            Decheterie dt = new Decheterie();
-            //dt.setId(i + 1);
-            dt.setIdAccount(0);
-            dt.setNom(ds[i]);
-            dt.setConsigneComptage("");
-            dt.setConsigneAvSignature("");
-            dt.setApportFlux(true);
-            decheterieDB.insertDecheterie(dt);
-        }*/
-
         decheterieList = decheterieDB.getAllDecheteries();
         listView.setAdapter(new BaseAdapter() {
             @Override
@@ -138,7 +124,7 @@ public class DecheterieFragment extends Fragment {
     Init Listeners
      */
     public void initListeners() {
-        System.out.println("DecheterieFragment initListeners()");
+        System.out.println("DecheterieFragment ---> initListeners()");
         EditText edittext_filtre = (EditText) decheterie_vg.findViewById(R.id.decheterie_fragment_filtre_editText);
         listView.setItemsCanFocus(false);
         TextWatcher listener = new TextWatcher() {
