@@ -6,31 +6,25 @@ package fr.trackoe.decheterie.model.bean.usager;
 
 public class Menage {
     private int id;
-    private String nom;
-    private String prenom;
-    private String email;
     private int nbHabitants;
-    private String reference;
     private boolean actif;
-    private String telephone;
-    private String civilite;
     private int localId;
+    private String dateDebut;
+    private String dateFin;
+    private boolean isProprietaire;
 
     public Menage() {
 
     }
 
-    public Menage(int id, String nom, String prenom, String email, int nbHabitants, String reference, boolean actif, String telephone, String civilite,int localId) {
+    public Menage(int id, int nbHabitants, boolean actif, int localId, String dateDebut, String dateFin, boolean isProprietaire) {
         this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
         this.nbHabitants = nbHabitants;
-        this.reference = reference;
         this.actif = actif;
-        this.telephone = telephone;
-        this.civilite = civilite;
         this.localId = localId;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.isProprietaire = isProprietaire;
     }
 
     public int getId() {
@@ -41,44 +35,12 @@ public class Menage {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public int getNbHabitants() {
         return nbHabitants;
     }
 
     public void setNbHabitants(int nbHabitants) {
         this.nbHabitants = nbHabitants;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
     }
 
     public boolean isActif() {
@@ -89,27 +51,35 @@ public class Menage {
         this.actif = actif;
     }
 
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getCivilite() {
-        return civilite;
-    }
-
-    public void setCivilite(String civilite) {
-        this.civilite = civilite;
-    }
-
     public int getLocalId() {
         return localId;
     }
 
     public void setLocalId(int localId) {
         this.localId = localId;
+    }
+
+    public String getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(String dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public String getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(String dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public boolean isProprietaire() {
+        return isProprietaire;
+    }
+
+    public void setProprietaire(boolean proprietaire) {
+        isProprietaire = proprietaire;
     }
 }

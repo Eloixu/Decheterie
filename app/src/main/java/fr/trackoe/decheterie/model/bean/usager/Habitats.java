@@ -23,7 +23,7 @@ public class Habitats extends ContenantBean {
         this.listHabitat = listHabitat;
     }
 
-    public void addHabitat(int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitant, String nom, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String activites, String adresse2, String remarque, int idTypeHabitat, int idAccount) {
-        this.listHabitat.add(new Habitat(idHabitat, adresse, cp, ville, nbLgt, nbHabitant, nom, reference, coordonneesX, coordonneesY, complement, dernierMaj, numero, isActif, activites, adresse2, remarque, idTypeHabitat, idAccount));
+    public void addHabitat(int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitant, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String adresse2, String remarque, int idTypeHabitat, int idAccount, String dateDebut, String dateFin) {
+        this.listHabitat.add(new Habitat(idHabitat, adresse, cp, ville, nbLgt, nbHabitant, reference, coordonneesX, coordonneesY, complement, dernierMaj, numero, isActif, adresse2, remarque, idTypeHabitat, idAccount, dateDebut, dateFin));
     }
 }

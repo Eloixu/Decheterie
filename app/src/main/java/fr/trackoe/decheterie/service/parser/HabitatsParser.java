@@ -26,28 +26,28 @@ public class HabitatsParser extends JSONParser<Habitats> {
 
                     JSONObject jobj = ((JSONObject) listeHabitat.get(i));
 
-                    int     idHabitat       = jobj.has("id")                    ? jobj.getInt("id") : -1;
+                    int     idHabitat       = jobj.has("id")                    ? jobj.getInt("id") : null;
                     String  adresse         = jobj.has("adresse")               ? jobj.getString("adresse") : "";
                     String  cp              = jobj.has("cp")                    ? jobj.getString("cp") : "";
                     String  ville           = jobj.has("ville")                 ? jobj.getString("ville") : "";
-                    int     nbLgt           = jobj.has("nb_lgts")               ? jobj.getInt("nb_lgts") : -1;
-                    int     nbHabitant      = jobj.has("nb_habitants")          ? jobj.getInt("nb_habitants") : -1;
-                    String  nom             = jobj.has("nom")                   ? jobj.getString("nom") : "";
+                    int     nbLgt           = jobj.has("nb_lgts")               ? jobj.getInt("nb_lgts") : null;
+                    int     nbHabitant      = jobj.has("nb_habitants")          ? jobj.getInt("nb_habitants") : null;
                     String  reference       = jobj.has("reference")             ? jobj.getString("reference") : "";
                     String  coordonneesX    = jobj.has("coordonneesX")          ? jobj.getString("coordonneesX") : "";
                     String  coordonneesY    = jobj.has("coordonneesY")          ? jobj.getString("coordonneesY") : "";
                     String  complement      = jobj.has("complement")            ? jobj.getString("complement") : "";
                     String  dernierMaj      = jobj.has("dernierMaj")            ? jobj.getString("dernierMaj") : "";
                     String  numero          = jobj.has("numero")                ? jobj.getString("numero") : "";
-                    boolean isActif         = jobj.has("is_actif")              ? jobj.getBoolean("is_actif") : true;
-                    String  activites       = jobj.has("activites")             ? jobj.getString("activites") : "";
+                    boolean isActif         = jobj.has("is_actif")              ? jobj.getBoolean("is_actif") : null;
                     String  adresse2        = jobj.has("adresse2")              ? jobj.getString("adresse2") : "";
                     String  remarque        = jobj.has("remarque")              ? jobj.getString("remarque") : "";
-                    int     idTypeHabitat   = jobj.has("id_type_habitat")       ? jobj.getInt("id_type_habitat") : 1;
-                    int     idAccount       = jobj.has("id_account")            ? jobj.getInt("id_account") : -1;
+                    int     idTypeHabitat   = jobj.has("id_type_habitat")       ? jobj.getInt("id_type_habitat") : null;
+                    int     idAccount       = jobj.has("id_account")            ? jobj.getInt("id_account") : null;
+                    String  date_debut      = jobj.has("date_debut")            ? jobj.getString("date_debut") : "";
+                    String  date_fin        = jobj.has("date_fin")              ? jobj.getString("date_fin") : "";
 
-                    h.addHabitat(idHabitat, adresse, cp, ville, nbLgt,nbHabitant, nom, reference, coordonneesX, coordonneesY,
-                            complement, dernierMaj, numero, isActif, activites, adresse2, remarque, idTypeHabitat, idAccount);
+                    h.addHabitat(idHabitat, adresse, cp, ville, nbLgt,nbHabitant, reference, coordonneesX, coordonneesY,
+                            complement, dernierMaj, numero, isActif, adresse2, remarque, idTypeHabitat, idAccount, date_debut, date_fin);
                 }
             }
         }

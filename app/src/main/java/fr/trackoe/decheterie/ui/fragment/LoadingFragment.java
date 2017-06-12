@@ -66,7 +66,8 @@ public class LoadingFragment extends Fragment {
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
         //launchHabitatAction();
-        launchPrepaiementAction();
+        //launchPrepaiementAction();
+        launchHabitatAction();
         initDateMaj();
 
         //getJson();

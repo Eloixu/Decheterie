@@ -24,7 +24,10 @@ public class Usagers extends ContenantBean {
         this.listUsager = listUsager;
     }
 
-    public void addUsager(int id, int idAccount, String nom, String dateMaj) {
-        this.listUsager.add(new Usager(id, idAccount, nom, dateMaj));
+    public void addUsager(int id, int idAccount, String nom, String dateMaj, String prenom, String email, String civilite, String reference, String raisonSociale, String activite,
+                          String telephone1, String telephone2, String password, String commentaire, boolean isActif, String siren, String siret, String codeApe, String soumisRS) {
+
+        this.listUsager.add(new Usager(id, idAccount, nom, dateMaj, prenom, email, civilite, reference, raisonSociale, activite,
+                telephone1, telephone2, password, commentaire, isActif, siren, siret, codeApe, soumisRS));
     }
 }

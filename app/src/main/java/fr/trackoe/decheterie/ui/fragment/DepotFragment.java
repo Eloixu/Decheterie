@@ -1941,7 +1941,9 @@ public class DepotFragment extends Fragment {
                     ndLinearLayoutLine6.setVisibility(View.VISIBLE);
                     ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                     ndTextViewLine1Title.setText("Nom");
-                    String nom = habitat.getNom();
+// TODO Modify habitat.getNom() -> usager.getNom()
+// String nom = habitat.getNom();
+                    String nom = "A MODIFIER";
                     nomInND = nom;
                     ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                     ndLinearLayoutLine2.setVisibility(View.GONE);
@@ -2006,11 +2008,15 @@ public class DepotFragment extends Fragment {
                         ndLinearLayoutLine6.setVisibility(View.VISIBLE);
                         ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                         ndTextViewLine1Title.setText("Nom");
-                        String nom = menage.getNom();
+                        // TODO Modify menage.getNom() / usager.getNom()
+                        // String nom = menage.getNom();
+                        String nom = "MODIFY";
                         nomInND = nom;
                         ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                         ndTextViewLine2Title.setText("Prénom");
-                        String prenom = menage.getPrenom();
+                        // TODO Modify menage.getPrenom() / usager.getPrenom()
+                        // String prenom = menage.getPrenom();
+                        String prenom = "Modify";
                         isUsagerMenageInND = true;
                         ndTextViewLine2Value.setText((prenom == null || prenom.isEmpty())? "-" : prenom);
                         ndTextViewLine3Title.setText("Type d'usager");
@@ -2097,7 +2103,9 @@ public class DepotFragment extends Fragment {
                     ndLinearLayoutLine6.setVisibility(View.VISIBLE);
                     ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                     ndTextViewLine1Title.setText("Nom");
-                    String nom = habitat.getNom();
+// Modify habitat.getNom() ->  usager.getNom()
+// String nom = habitat.getNom();
+                    String nom = "A modifier";
                     ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                     ndLinearLayoutLine2.setVisibility(View.GONE);
                     ndTextViewLine3Title.setText("Type d'usager");
@@ -2168,10 +2176,14 @@ public class DepotFragment extends Fragment {
                         ndLinearLayoutLine6.setVisibility(View.VISIBLE);
                         ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                         ndTextViewLine1Title.setText("Nom");
-                        String nom = menage.getNom();
+                        // TODO Modify menage.getNom() -> usager.getNom()
+//                        String nom = menage.getNom();
+                        String nom = "MODIFY";
                         ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                         ndTextViewLine2Title.setText("Prénom");
-                        String prenom = menage.getPrenom();
+                        // TODO Modify menage.getPrenom() -> usager.getPrenom()
+//                        String prenom = menage.getPrenom();
+                        String prenom = "MODIFY";
                         ndTextViewLine2Value.setText((prenom == null || prenom.isEmpty())? "-" : prenom);
                         ndTextViewLine3Title.setText("Type d'usager");
                         ndTextViewLine3Value.setText("Particulier");

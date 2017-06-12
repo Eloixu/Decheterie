@@ -23,15 +23,12 @@ public class MenageDB extends MyDb {
         ContentValues values = new ContentValues();
 
         values.put(DecheterieDatabase.TableMenage.ID_MENAGE, menage.getId());
-        values.put(DecheterieDatabase.TableMenage.NOM, menage.getNom());
-        values.put(DecheterieDatabase.TableMenage.PRENOM, menage.getPrenom());
-        values.put(DecheterieDatabase.TableMenage.EMAIL, menage.getEmail());
         values.put(DecheterieDatabase.TableMenage.NB_HABITANTS, menage.getNbHabitants());
-        values.put(DecheterieDatabase.TableMenage.REFERENCE, menage.getReference());
         values.put(DecheterieDatabase.TableMenage.ACTIF, menage.isActif()? 1 : 0);
-        values.put(DecheterieDatabase.TableMenage.TELEPHONE, menage.getTelephone());
-        values.put(DecheterieDatabase.TableMenage.CIVILITE, menage.getCivilite());
         values.put(DecheterieDatabase.TableMenage.LOCAL_ID, menage.getLocalId());
+        values.put(DecheterieDatabase.TableMenage.DATE_DEBUT, menage.getDateDebut());
+        values.put(DecheterieDatabase.TableMenage.DATE_FIN, menage.getDateFin());
+        values.put(DecheterieDatabase.TableMenage.IS_PROPRIETAIRE, menage.isProprietaire() ? 1 : 0);
 
         return db.insertOrThrow(DecheterieDatabase.TableMenage.TABLE_NAME, null, values);
     }
@@ -65,15 +62,12 @@ public class MenageDB extends MyDb {
         Menage m = new Menage();
         if(c.moveToFirst()) {
             m.setId(c.getInt(DecheterieDatabase.TableMenage.NUM_ID_MENAGE));
-            m.setNom(c.getString(DecheterieDatabase.TableMenage.NUM_NOM));
-            m.setPrenom(c.getString(DecheterieDatabase.TableMenage.NUM_PRENOM));
-            m.setEmail(c.getString(DecheterieDatabase.TableMenage.NUM_EMAIL));
             m.setNbHabitants(c.getInt(DecheterieDatabase.TableMenage.NUM_NB_HABITANTS));
-            m.setReference(c.getString(DecheterieDatabase.TableMenage.NUM_REFERENCE));
             m.setActif(c.getInt(DecheterieDatabase.TableMenage.NUM_ACTIF) == 1);
-            m.setTelephone(c.getString(DecheterieDatabase.TableMenage.NUM_TELEPHONE));
-            m.setCivilite(c.getString(DecheterieDatabase.TableMenage.NUM_CIVILITE));
             m.setLocalId(c.getInt(DecheterieDatabase.TableMenage.NUM_LOCAL_ID));
+            m.setDateDebut(c.getString(DecheterieDatabase.TableMenage.NUM_DATE_DEBUT));
+            m.setDateFin(c.getString(DecheterieDatabase.TableMenage.NUM_DATE_FIN));
+            m.setProprietaire(c.getInt(DecheterieDatabase.TableMenage.NUM_IS_PROPRIETAIRE) == 1);
 
             c.close();
             return m;

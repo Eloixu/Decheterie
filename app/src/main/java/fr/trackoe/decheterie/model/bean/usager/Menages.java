@@ -24,7 +24,7 @@ public class Menages extends ContenantBean {
         this.listMenage = listMenage;
     }
 
-    public void addMenage(int id, String nom, String prenom, String email, int nbHabitants, String reference, boolean actif, String telephone, String civilite,int localId) {
-        this.listMenage.add(new Menage( id, nom, prenom, email,  nbHabitants, reference, actif, telephone, civilite, localId));
+    public void addMenage(int id, int nbHabitants, boolean actif, int localId, String dateDebut, String dateFin, boolean isProprietaire) {
+        this.listMenage.add(new Menage(id, nbHabitants, actif, localId, dateDebut, dateFin, isProprietaire));
     }
 }

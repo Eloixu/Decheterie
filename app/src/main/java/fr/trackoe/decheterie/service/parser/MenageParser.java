@@ -26,18 +26,15 @@ public class MenageParser extends JSONParser<Menages> {
 
                     JSONObject jobj = ((JSONObject) listeMenage.get(i));
 
-                    int         id              = jobj.has("id")            ? jobj.getInt("id") : -1;
-                    int         idLocal         = jobj.has("id_local")      ? jobj.getInt("id_local") : -1;
-                    String      nom             = jobj.has("nom")           ? jobj.getString("nom") : "";
-                    String      prenom          = jobj.has("prenom")        ? jobj.getString("prenom") : "";
-                    String      email           = jobj.has("email")         ? jobj.getString("email") : "";
-                    int         nbHabitant      = jobj.has("nb_habitants")  ? jobj.getInt("nb_habitants") : -1;
-                    String      reference       = jobj.has("reference")     ? jobj.getString("reference") : "";
-                    boolean     isActif         = jobj.has("actif")         ? jobj.getBoolean("actif") : true;
-                    String      telephone       = jobj.has("telephone")     ? jobj.getString("telephone") : "";
-                    String      civilite        = jobj.has("civilite")      ? jobj.getString("civilite") : "";
+                    int         id              = jobj.has("id")                ? jobj.getInt("id") : null;
+                    int         idLocal         = jobj.has("id_local")          ? jobj.getInt("id_local") : null;
+                    int         nbHabitant      = jobj.has("nb_habitants")      ? jobj.getInt("nb_habitants") : null;
+                    boolean     isActif         = jobj.has("actif")             ? jobj.getBoolean("actif") : null;
+                    String      dateDebut       = jobj.has("date_debut")        ? jobj.getString("date_debut") : "";
+                    String      dateFin         = jobj.has("date_fin")          ? jobj.getString("date_fin") : "";
+                    boolean     isProprietaire  = jobj.has("is_proprietaire")   ? jobj.getBoolean("is_proprietaire") : null;
 
-                    m.addMenage(id, nom, prenom, email, nbHabitant, reference, isActif, telephone, civilite, idLocal);
+                    m.addMenage(id, nbHabitant, isActif, idLocal, dateDebut, dateFin, isProprietaire);
                 }
             }
         }

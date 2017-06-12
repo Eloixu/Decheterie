@@ -29,6 +29,21 @@ public class UsagerDB extends MyDb {
         values.put(DecheterieDatabase.TableUsager.ID_ACCOUNT, usager.getIdAccount());
         values.put(DecheterieDatabase.TableUsager.NOM, usager.getNom());
         values.put(DecheterieDatabase.TableUsager.DATE_MAJ, usager.getDateMaj());
+        values.put(DecheterieDatabase.TableUsager.PRENOM, usager.getPrenom());
+        values.put(DecheterieDatabase.TableUsager.EMAIL, usager.getEmail());
+        values.put(DecheterieDatabase.TableUsager.CIVILITE, usager.getCivilite());
+        values.put(DecheterieDatabase.TableUsager.REFERENCE, usager.getReference());
+        values.put(DecheterieDatabase.TableUsager.RAISON_SOCIALE, usager.getRaisonSociale());
+        values.put(DecheterieDatabase.TableUsager.ACTIVITE, usager.getActivite());
+        values.put(DecheterieDatabase.TableUsager.TELEPHONE1, usager.getTelephone1());
+        values.put(DecheterieDatabase.TableUsager.TELEPHONE2, usager.getTelephone2());
+        values.put(DecheterieDatabase.TableUsager.PASSWORD, usager.getPassword());
+        values.put(DecheterieDatabase.TableUsager.COMMENTAIRE, usager.getCommentaire());
+        values.put(DecheterieDatabase.TableUsager.IS_ACTIF, usager.isActif() ? 1 : 0);
+        values.put(DecheterieDatabase.TableUsager.SIREN, usager.getSiren());
+        values.put(DecheterieDatabase.TableUsager.SIRET, usager.getSiret());
+        values.put(DecheterieDatabase.TableUsager.CODE_APE, usager.getCodeApe());
+        values.put(DecheterieDatabase.TableUsager.SOUMIS_RS, usager.getSoumisRS());
 
         return db.insertOrThrow(DecheterieDatabase.TableUsager.TABLE_NAME, null, values);
     }
@@ -74,6 +89,21 @@ public class UsagerDB extends MyDb {
                     u.setIdAccount(c.getInt(DecheterieDatabase.TableUsager.NUM_ID_ACCOUNT));
                     u.setNom(c.getString(DecheterieDatabase.TableUsager.NUM_NOM));
                     u.setDateMaj(c.getString(DecheterieDatabase.TableUsager.NUM_DATE_MAJ));
+                    u.setPrenom(c.getString(DecheterieDatabase.TableUsager.NUM_PRENOM));
+                    u.setEmail(c.getString(DecheterieDatabase.TableUsager.NUM_EMAIL));
+                    u.setCivilite(c.getString(DecheterieDatabase.TableUsager.NUM_CIVILITE));
+                    u.setReference(c.getString(DecheterieDatabase.TableUsager.NUM_REFERENCE));
+                    u.setRaisonSociale(c.getString(DecheterieDatabase.TableUsager.NUM_RAISON_SOCIALE));
+                    u.setActivite(c.getString(DecheterieDatabase.TableUsager.NUM_ACTIVITE));
+                    u.setTelephone1(c.getString(DecheterieDatabase.TableUsager.NUM_TELEPHONE1));
+                    u.setTelephone2(c.getString(DecheterieDatabase.TableUsager.NUM_TELEPHONE2));
+                    u.setPassword(c.getString(DecheterieDatabase.TableUsager.NUM_PASSWORD));
+                    u.setCommentaire(c.getString(DecheterieDatabase.TableUsager.NUM_COMMENTAIRE));
+                    u.setActif(c.getInt(DecheterieDatabase.TableUsager.NUM_IS_ACTIF) == 1 ? true : false);
+                    u.setSiren(c.getString(DecheterieDatabase.TableUsager.NUM_SIREN));
+                    u.setSiret(c.getString(DecheterieDatabase.TableUsager.NUM_SIRET));
+                    u.setCodeApe(c.getString(DecheterieDatabase.TableUsager.NUM_CODE_APE));
+                    u.setSoumisRS(c.getString(DecheterieDatabase.TableUsager.NUM_SOUMIS_RS));
                     usagerList.add(u);
                 } while (c.moveToNext());
 

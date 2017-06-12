@@ -687,13 +687,58 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_NOM = 2;
         public static final String DATE_MAJ = "date_maj";
         public static final int NUM_DATE_MAJ = 3;
+        public static final String PRENOM = "prenom";
+        public static final int NUM_PRENOM = 4;
+        public static final String EMAIL = "email";
+        public static final int NUM_EMAIL = 5;
+        public static final String CIVILITE = "civilite";
+        public static final int NUM_CIVILITE = 6;
+        public static final String REFERENCE = "reference";
+        public static final int NUM_REFERENCE = 7;
+        public static final String RAISON_SOCIALE = "raison_sociale";
+        public static final int NUM_RAISON_SOCIALE = 8;
+        public static final String ACTIVITE = "activite";
+        public static final int NUM_ACTIVITE = 9;
+        public static final String TELEPHONE1 = "telephone1";
+        public static final int NUM_TELEPHONE1 = 10;
+        public static final String TELEPHONE2 = "telephone2";
+        public static final int NUM_TELEPHONE2 = 11;
+        public static final String PASSWORD = "password";
+        public static final int NUM_PASSWORD = 12;
+        public static final String COMMENTAIRE = "commentaire";
+        public static final int NUM_COMMENTAIRE = 13;
+        public static final String IS_ACTIF = "is_actif";
+        public static final int NUM_IS_ACTIF = 14;
+        public static final String SIREN = "siren";
+        public static final int NUM_SIREN = 15;
+        public static final String SIRET = "siret";
+        public static final int NUM_SIRET = 16;
+        public static final String CODE_APE = "code_ape";
+        public static final int NUM_CODE_APE = 17;
+        public static final String SOUMIS_RS = "soumis_rs";
+        public static final int NUM_SOUMIS_RS = 18;
     }
 
     public static final String CREATE_TABLE_USAGER = "CREATE TABLE IF NOT EXISTS " + TableUsager.TABLE_NAME + " ("
             + TableUsager.ID_USAGER + INTEGER_TYPE + " PRIMARY KEY, "
             + TableUsager.ID_ACCOUNT + INTEGER_TYPE + COMMA_SEP
             + TableUsager.NOM + TEXT_TYPE + COMMA_SEP
-            + TableUsager.DATE_MAJ + TEXT_TYPE + " )" ;
+            + TableUsager.DATE_MAJ + TEXT_TYPE + COMMA_SEP
+            + TableUsager.PRENOM + TEXT_TYPE + COMMA_SEP
+            + TableUsager.EMAIL + TEXT_TYPE + COMMA_SEP
+            + TableUsager.CIVILITE + TEXT_TYPE + COMMA_SEP
+            + TableUsager.REFERENCE + TEXT_TYPE + COMMA_SEP
+            + TableUsager.RAISON_SOCIALE + TEXT_TYPE + COMMA_SEP
+            + TableUsager.ACTIVITE + TEXT_TYPE + COMMA_SEP
+            + TableUsager.TELEPHONE1 + TEXT_TYPE + COMMA_SEP
+            + TableUsager.TELEPHONE2 + TEXT_TYPE + COMMA_SEP
+            + TableUsager.PASSWORD + TEXT_TYPE + COMMA_SEP
+            + TableUsager.COMMENTAIRE + TEXT_TYPE + COMMA_SEP
+            + TableUsager.IS_ACTIF + INTEGER_TYPE + COMMA_SEP
+            + TableUsager.SIREN + TEXT_TYPE + COMMA_SEP
+            + TableUsager.SIRET + TEXT_TYPE + COMMA_SEP
+            + TableUsager.CODE_APE + TEXT_TYPE + COMMA_SEP
+            + TableUsager.SOUMIS_RS + TEXT_TYPE + " )" ;
 
     public static final String DELETE_TABLE_USAGER = "DROP TABLE IF EXISTS " + TableUsager.TABLE_NAME;
 
@@ -702,40 +747,29 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final String TABLE_NAME = "menage";
         public static final String ID_MENAGE = "id_menage";
         public static final int NUM_ID_MENAGE = 0;
-        public static final String NOM = "nom";
-        public static final int NUM_NOM = 1;
-        public static final String PRENOM = "prenom";
-        public static final int NUM_PRENOM = 2;
-        public static final String EMAIL = "email";
-        public static final int NUM_EMAIL = 3;
         public static final String NB_HABITANTS = "nb_habitants";
-        public static final int NUM_NB_HABITANTS = 4;
-        public static final String REFERENCE = "reference";
-        public static final int NUM_REFERENCE = 5;
+        public static final int NUM_NB_HABITANTS = 1;
         public static final String ACTIF = "actif";
-        public static final int NUM_ACTIF = 6;
-        public static final String TELEPHONE = "telephone";
-        public static final int NUM_TELEPHONE = 7;
-        public static final String CIVILITE = "civilite";
-        public static final int NUM_CIVILITE = 8;
-        public static final String HABITAT_ID = "habitat_id";
-        public static final int NUM_HABITAT_ID = 9;
+        public static final int NUM_ACTIF = 2;
         public static final String LOCAL_ID = "local_id";
-        public static final int NUM_LOCAL_ID = 10;
+        public static final int NUM_LOCAL_ID = 3;
+        public static final String DATE_DEBUT = "date_debut";
+        public static final int NUM_DATE_DEBUT = 4;
+        public static final String DATE_FIN = "date_fin";
+        public static final int NUM_DATE_FIN = 5;
+        public static final String IS_PROPRIETAIRE = "is_proprietaire";
+        public static final int NUM_IS_PROPRIETAIRE = 6;
     }
 
+    // Maj BDD
     public static final String CREATE_TABLE_MENAGE = "CREATE TABLE IF NOT EXISTS " + TableMenage.TABLE_NAME + " ("
             + TableMenage.ID_MENAGE + INTEGER_TYPE + " PRIMARY KEY, "
-            + TableMenage.NOM + TEXT_TYPE + COMMA_SEP
-            + TableMenage.PRENOM + TEXT_TYPE + COMMA_SEP
-            + TableMenage.EMAIL + TEXT_TYPE + COMMA_SEP
             + TableMenage.NB_HABITANTS + INTEGER_TYPE + COMMA_SEP
-            + TableMenage.REFERENCE + TEXT_TYPE + COMMA_SEP
             + TableMenage.ACTIF + INTEGER_TYPE + COMMA_SEP
-            + TableMenage.TELEPHONE + TEXT_TYPE + COMMA_SEP
-            + TableMenage.CIVILITE + TEXT_TYPE + COMMA_SEP
-            + TableMenage.HABITAT_ID + INTEGER_TYPE + COMMA_SEP
-            + TableMenage.LOCAL_ID + INTEGER_TYPE + " )" ;
+            + TableMenage.LOCAL_ID + INTEGER_TYPE + COMMA_SEP
+            + TableMenage.DATE_DEBUT + TEXT_TYPE + COMMA_SEP
+            + TableMenage.DATE_FIN + TEXT_TYPE + COMMA_SEP
+            + TableMenage.IS_PROPRIETAIRE + INTEGER_TYPE + " )" ;
 
     public static final String DELETE_TABLE_MENAGE = "DROP TABLE IF EXISTS " + TableMenage.TABLE_NAME;
 
@@ -784,32 +818,32 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_NB_LGT = 4;
         public static final String NB_HABITANT = "nb_habitat";
         public static final int NUM_NB_HABITANT = 5;
-        public static final String NOM = "nom";
-        public static final int NUM_NOM = 6;
         public static final String REFERENCE = "reference";
-        public static final int NUM_REFERENCE = 7;
+        public static final int NUM_REFERENCE = 6;
         public static final String COORDONNEES_X = "coordonnees_x";
-        public static final int NUM_COORDONNEES_X = 8;
+        public static final int NUM_COORDONNEES_X = 7;
         public static final String COORDONNEES_Y = "coordonnees_y";
-        public static final int NUM_COORDONNEES_Y = 9;
+        public static final int NUM_COORDONNEES_Y = 8;
         public static final String COMPLEMENT = "complement";
-        public static final int NUM_COMPLEMENT = 10;
+        public static final int NUM_COMPLEMENT = 9;
         public static final String DERNIER_MAJ = "dernier_maj";
-        public static final int NUM_DERNIER_MAJ = 11;
+        public static final int NUM_DERNIER_MAJ = 10;
         public static final String NUMERO = "numero";
-        public static final int NUM_NUMERO = 12;
+        public static final int NUM_NUMERO = 11;
         public static final String IS_ACTIF = "is_actif";
-        public static final int NUM_IS_ACTIF = 13;
-        public static final String ACTIVITES = "activites";
-        public static final int NUM_ACTIVITES = 14;
+        public static final int NUM_IS_ACTIF = 12;
         public static final String ADRESSE_2 = "adresse_2";
-        public static final int NUM_ADRESSE_2 = 15;
+        public static final int NUM_ADRESSE_2 = 13;
         public static final String REMARQUE = "remarque";
-        public static final int NUM_REMARQUE = 16;
+        public static final int NUM_REMARQUE = 14;
         public static final String ID_TYPE_HABITAT = "id_type_habitat";
-        public static final int NUM_ID_TYPE_HABITAT = 17;
+        public static final int NUM_ID_TYPE_HABITAT = 15;
         public static final String ID_ACCOUNT = "id_account";
-        public static final int NUM_ID_ACCOUNT = 18;
+        public static final int NUM_ID_ACCOUNT = 16;
+        public static final String DATE_DEBUT = "date_debut";
+        public static final int NUM_DATE_DEBUT = 17;
+        public static final String DATE_FIN = "date_fin";
+        public static final int NUM_DATE_FIN = 18;
     }
 
     public static final String CREATE_TABLE_HABITAT = "CREATE TABLE IF NOT EXISTS " + TableHabitat.TABLE_NAME + " ("
@@ -819,7 +853,6 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableHabitat.VILLE + TEXT_TYPE + COMMA_SEP
             + TableHabitat.NB_LGT + INTEGER_TYPE + COMMA_SEP
             + TableHabitat.NB_HABITANT + INTEGER_TYPE + COMMA_SEP
-            + TableHabitat.NOM + TEXT_TYPE + COMMA_SEP
             + TableHabitat.REFERENCE + TEXT_TYPE + COMMA_SEP
             + TableHabitat.COORDONNEES_X + TEXT_TYPE + COMMA_SEP
             + TableHabitat.COORDONNEES_Y + TEXT_TYPE + COMMA_SEP
@@ -827,11 +860,12 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableHabitat.DERNIER_MAJ + TEXT_TYPE + COMMA_SEP
             + TableHabitat.NUMERO + TEXT_TYPE + COMMA_SEP
             + TableHabitat.IS_ACTIF + INTEGER_TYPE + COMMA_SEP
-            + TableHabitat.ACTIVITES + TEXT_TYPE + COMMA_SEP
             + TableHabitat.ADRESSE_2 + TEXT_TYPE + COMMA_SEP
             + TableHabitat.REMARQUE + TEXT_TYPE + COMMA_SEP
             + TableHabitat.ID_TYPE_HABITAT + INTEGER_TYPE + COMMA_SEP
-            + TableHabitat.ID_ACCOUNT + INTEGER_TYPE + " )" ;
+            + TableHabitat.ID_ACCOUNT + INTEGER_TYPE + COMMA_SEP
+            + TableHabitat.DATE_DEBUT + TEXT_TYPE + COMMA_SEP
+            + TableHabitat.DATE_FIN + TEXT_TYPE + " )" ;
 
     public static final String DELETE_TABLE_HABITAT = "DROP TABLE IF EXISTS " + TableHabitat.TABLE_NAME;
 

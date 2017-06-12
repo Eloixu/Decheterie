@@ -28,7 +28,7 @@ public class HabitatDB extends MyDb {
         values.put(DecheterieDatabase.TableHabitat.VILLE, habitat.getVille());
         values.put(DecheterieDatabase.TableHabitat.NB_LGT, habitat.getNbLgt());
         values.put(DecheterieDatabase.TableHabitat.NB_HABITANT, habitat.getNbHabitant());
-        values.put(DecheterieDatabase.TableHabitat.NOM, habitat.getNom());
+//        values.put(DecheterieDatabase.TableHabitat.NOM, habitat.getNom());
         values.put(DecheterieDatabase.TableHabitat.REFERENCE, habitat.getReference());
         values.put(DecheterieDatabase.TableHabitat.COORDONNEES_X, habitat.getCoordonneesX());
         values.put(DecheterieDatabase.TableHabitat.COORDONNEES_Y, habitat.getCoordonneesY());
@@ -36,11 +36,13 @@ public class HabitatDB extends MyDb {
         values.put(DecheterieDatabase.TableHabitat.DERNIER_MAJ, habitat.getDernierMaj());
         values.put(DecheterieDatabase.TableHabitat.NUMERO, habitat.getNumero());
         values.put(DecheterieDatabase.TableHabitat.IS_ACTIF, habitat.isActif());
-        values.put(DecheterieDatabase.TableHabitat.ACTIVITES, habitat.getActivites());
+//        values.put(DecheterieDatabase.TableHabitat.ACTIVITES, habitat.getActivites());
         values.put(DecheterieDatabase.TableHabitat.ADRESSE_2, habitat.getAdresse2());
         values.put(DecheterieDatabase.TableHabitat.REMARQUE, habitat.getRemarque());
         values.put(DecheterieDatabase.TableHabitat.ID_TYPE_HABITAT, habitat.getIdTypeHabitat());
         values.put(DecheterieDatabase.TableHabitat.ID_ACCOUNT, habitat.getIdAccount());
+        values.put(DecheterieDatabase.TableHabitat.DATE_DEBUT, habitat.getDateDebut());
+        values.put(DecheterieDatabase.TableHabitat.DATE_FIN, habitat.getDateFin());
         return db.insertOrThrow(DecheterieDatabase.TableHabitat.TABLE_NAME, null, values);
     }
 
@@ -100,7 +102,7 @@ public class HabitatDB extends MyDb {
                 h.setVille(c.getString(DecheterieDatabase.TableHabitat.NUM_VILLE));
                 h.setNbLgt(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_LGT));
                 h.setNbHabitant(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_HABITANT));
-                h.setNom(c.getString(DecheterieDatabase.TableHabitat.NUM_NOM));
+//                h.setNom(c.getString(DecheterieDatabase.TableHabitat.NUM_NOM));
                 h.setReference(c.getString(DecheterieDatabase.TableHabitat.NUM_REFERENCE));
                 h.setCoordonneesX(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_X));
                 h.setCoordonneesY(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_Y));
@@ -108,11 +110,13 @@ public class HabitatDB extends MyDb {
                 h.setDernierMaj(c.getString(DecheterieDatabase.TableHabitat.NUM_DERNIER_MAJ));
                 h.setNumero(c.getString(DecheterieDatabase.TableHabitat.NUM_NUMERO));
                 h.setActif((c.getInt(DecheterieDatabase.TableHabitat.NUM_IS_ACTIF) == 1) ? true : false);
-                h.setActivites(c.getString(DecheterieDatabase.TableHabitat.NUM_ACTIVITES));
+//                h.setActivites(c.getString(DecheterieDatabase.TableHabitat.NUM_ACTIVITES));
                 h.setAdresse2(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE_2));
                 h.setRemarque(c.getString(DecheterieDatabase.TableHabitat.NUM_REMARQUE));
                 h.setIdTypeHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_TYPE_HABITAT));
                 h.setIdAccount(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_ACCOUNT));
+                h.setDateDebut(c.getString(DecheterieDatabase.TableHabitat.NUM_DATE_DEBUT));
+                h.setDateFin(c.getString(DecheterieDatabase.TableHabitat.NUM_DATE_FIN));
                 return h;
             }
             else{
@@ -121,8 +125,6 @@ public class HabitatDB extends MyDb {
         }catch(Exception e){
             return h;
         }
-
-
     }
 
     private ArrayList<Habitat> cursorToListeHabitat(Cursor c) {
@@ -137,7 +139,7 @@ public class HabitatDB extends MyDb {
                     h.setVille(c.getString(DecheterieDatabase.TableHabitat.NUM_VILLE));
                     h.setNbLgt(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_LGT));
                     h.setNbHabitant(c.getInt(DecheterieDatabase.TableHabitat.NUM_NB_HABITANT));
-                    h.setNom(c.getString(DecheterieDatabase.TableHabitat.NUM_NOM));
+//                    h.setNom(c.getString(DecheterieDatabase.TableHabitat.NUM_NOM));
                     h.setReference(c.getString(DecheterieDatabase.TableHabitat.NUM_REFERENCE));
                     h.setCoordonneesX(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_X));
                     h.setCoordonneesY(c.getString(DecheterieDatabase.TableHabitat.NUM_COORDONNEES_Y));
@@ -145,11 +147,12 @@ public class HabitatDB extends MyDb {
                     h.setDernierMaj(c.getString(DecheterieDatabase.TableHabitat.NUM_DERNIER_MAJ));
                     h.setNumero(c.getString(DecheterieDatabase.TableHabitat.NUM_NUMERO));
                     h.setActif((c.getInt(DecheterieDatabase.TableHabitat.NUM_IS_ACTIF) == 1) ? true : false);
-                    h.setActivites(c.getString(DecheterieDatabase.TableHabitat.NUM_ACTIVITES));
+//                    h.setActivites(c.getString(DecheterieDatabase.TableHabitat.NUM_ACTIVITES));
                     h.setAdresse2(c.getString(DecheterieDatabase.TableHabitat.NUM_ADRESSE_2));
                     h.setRemarque(c.getString(DecheterieDatabase.TableHabitat.NUM_REMARQUE));
                     h.setIdTypeHabitat(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_TYPE_HABITAT));
-                    h.setIdAccount(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_ACCOUNT));
+                    h.setDateDebut(c.getString(DecheterieDatabase.TableHabitat.NUM_DATE_DEBUT));
+                    h.setDateFin(c.getString(DecheterieDatabase.TableHabitat.NUM_DATE_FIN));
                     habitatList.add(h);
                 } while (c.moveToNext());
 

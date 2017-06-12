@@ -11,7 +11,6 @@ public class Habitat {
     private String ville;
     private int nbLgt;
     private int nbHabitant;
-    private String nom;
     private String reference;
     private String coordonneesX;
     private String coordonneesY;
@@ -19,24 +18,24 @@ public class Habitat {
     private String dernierMaj;
     private String numero;
     private boolean isActif;
-    private String activites;
     private String adresse2;
     private String remarque;
     private int idTypeHabitat;
     private int idAccount;
+    private String dateDebut;
+    private String dateFin;
 
     public Habitat() {
 
     }
 
-    public Habitat(int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitant, String nom, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String activites, String adresse2, String remarque, int idTypeHabitat, int idAccount) {
+    public Habitat(int idHabitat, String adresse, String cp, String ville, int nbLgt, int nbHabitant, String reference, String coordonneesX, String coordonneesY, String complement, String dernierMaj, String numero, boolean isActif, String adresse2, String remarque, int idTypeHabitat, int idAccount, String dateDebut, String dateFin) {
         this.idHabitat = idHabitat;
         this.adresse = adresse;
         this.cp = cp;
         this.ville = ville;
         this.nbLgt = nbLgt;
         this.nbHabitant = nbHabitant;
-        this.nom = nom;
         this.reference = reference;
         this.coordonneesX = coordonneesX;
         this.coordonneesY = coordonneesY;
@@ -44,11 +43,12 @@ public class Habitat {
         this.dernierMaj = dernierMaj;
         this.numero = numero;
         this.isActif = isActif;
-        this.activites = activites;
         this.adresse2 = adresse2;
         this.remarque = remarque;
         this.idTypeHabitat = idTypeHabitat;
         this.idAccount = idAccount;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
     }
 
     public String getCoordonneesY() {
@@ -107,14 +107,6 @@ public class Habitat {
         this.nbHabitant = nbHabitant;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
     public String getReference() {
         return reference;
     }
@@ -163,14 +155,6 @@ public class Habitat {
         isActif = actif;
     }
 
-    public String getActivites() {
-        return activites;
-    }
-
-    public void setActivites(String activites) {
-        this.activites = activites;
-    }
-
     public String getAdresse2() {
         return adresse2;
     }
@@ -203,4 +187,19 @@ public class Habitat {
         this.idAccount = idAccount;
     }
 
+    public String getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(String dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public String getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(String dateFin) {
+        this.dateFin = dateFin;
+    }
 }

@@ -201,7 +201,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
 
-        initDB();
+        //initDB();
         //initDBTest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -250,7 +250,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+        changeMainFragment(new LoadingFragment(), false, false, 0, 0, 0, 0);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -2245,7 +2245,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchDecheterieFluxDB.close();
 
         //add usager into DBB
-        usagerDB.insertUsager(new Usager(1,Configuration.getIdAccount(),"Michael Jordan",null));
+        /*usagerDB.insertUsager(new Usager(1,Configuration.getIdAccount(),"Michael Jordan",null));
         usagerDB.insertUsager(new Usager(2,Configuration.getIdAccount(),"Sir Isaac Newton",null));
         usagerDB.insertUsager(new Usager(3,Configuration.getIdAccount(),"Jeanne Moreau",null));
         usagerDB.insertUsager(new Usager(4,Configuration.getIdAccount(),"Stephen King",null));
@@ -2259,7 +2259,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         usagerDB.insertUsager(new Usager(12,Configuration.getIdAccount(),"Theodor Seuss Geisel",null));
         usagerDB.insertUsager(new Usager(13,Configuration.getIdAccount(),"Charles Darwin",null));
         usagerDB.insertUsager(new Usager(14,Configuration.getIdAccount(),"Richard Feloni ",null));
-        usagerDB.insertUsager(new Usager(15,Configuration.getIdAccount(),"R.H. Macy",null));
+        usagerDB.insertUsager(new Usager(15,Configuration.getIdAccount(),"R.H. Macy",null));*/
         usagerDB.close();
 
         //add comptePrepaye into DBB
@@ -2358,28 +2358,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         typeHabitatDB.close();
 
         //add habitat into BDD
-        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2,Configuration.getIdAccount()));
-        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"SARL Gentil","3882AB23","0","0",null,null,"2",true,null,null,null,4,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,"Saint-maur",null,"0","0",null,null,"10",true,null,null,null,2,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"Renard","A12ZE","0","0",null,null,"13",false,null,null,null,1,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"Aluna","REF875412","0","0",null,null,"15",false,null,null,null,1,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,"WEISS",null,"0","0",null,null,"13",false,null,null,null,4,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,"IMMEUBLE",null,"0","0",null,null,"33",false,null,null,null,2,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,"RESIDENCE FLAUBERT",null,"0","0",null,null,"7",true,null,null,null,4,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"Jenny","A12ZE","0","0",null,null,null,true,null,null,null,1,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"Durant","REF875412","0","0",null,null,"15",true,null,null,null,1,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,"Lebrun",null,"0","0",null,null,"161",true,null,null,null,4,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,"IMMEUBLE",null,"0","0","bis",null,"79",true,null,null,null,2,Configuration.getIdAccount()));
+//        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,"Bill",null,"0","0",null,null,"99",true,null,null,null,4,Configuration.getIdAccount()));
         habitatDB.close();
 
         //add menage into BDD
-        menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",true,"0123456789","M",1));
+        /*menageDB.insertMenage(new Menage(1,"RISPE","Arnaud","arispe@optae.fr",3,"Ref 12",true,"0123456789","M",1));
         menageDB.insertMenage(new Menage(2,"COQUET","Remi","rcoquet@trackoe.fr",3,"124AD",true,"0776583366","M",2));
         menageDB.insertMenage(new Menage(3,"Haddock","Jean","dhnsj@dsk.dslqm",5,"3882AB23",true,"0605040302","M",3));
         menageDB.insertMenage(new Menage(4,"Jean","Louis","arispe@optae.fr",0,null,true,"0345678991","M",3));
         menageDB.insertMenage(new Menage(5,"Guillaume","David","alain@terieur.fr",3,null,true,"0634217690","M",2));
         menageDB.insertMenage(new Menage(6,"Terieur","Alain","arispe@optae.fr",3,null,false,"0123456789","M",1));
-        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,false,"0123456789","M",1));
+        menageDB.insertMenage(new Menage(7,"Norris","Chuck","norris.chuck@gmail.com",3,null,false,"0123456789","M",1));*/
         menageDB.close();
 
         //add local into DBB
@@ -2505,8 +2505,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         MenageDB menageDB = new MenageDB(this);
         menageDB.open();
         menageDB.clearMenage();
-        menageDB.insertMenage(new Menage(57, "Loumiere", "Delphine", "dloumiere@gmail.com", 3, "RJ57", true, "0698767706", "Mme",168));
-        menageDB.insertMenage(new Menage(58, "Ricquet", "Pierre", "priquet@gmail.com", 3, "RJ42", true, "0698768576", "Mr",169 ));
+        /*menageDB.insertMenage(new Menage(57, "Loumiere", "Delphine", "dloumiere@gmail.com", 3, "RJ57", true, "0698767706", "Mme",168));
+        menageDB.insertMenage(new Menage(58, "Ricquet", "Pierre", "priquet@gmail.com", 3, "RJ42", true, "0698768576", "Mr",169 ));*/
         menageDB.close();
 
     }
