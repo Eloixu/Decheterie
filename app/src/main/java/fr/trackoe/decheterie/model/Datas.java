@@ -5,14 +5,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.util.EntityUtils;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
@@ -74,6 +90,8 @@ import fr.trackoe.decheterie.service.parser.UsagerHabitatParser;
 import fr.trackoe.decheterie.service.parser.UsagerMenageParser;
 import fr.trackoe.decheterie.service.parser.UsagerParser;
 import fr.trackoe.decheterie.service.parser.UsersParser;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Remi on 30/11/2015.
@@ -305,7 +323,7 @@ public class Datas {
                 dos.writeBytes("Content-Disposition: form-data; name='uploaded_file';filename='"+sourceFile.getName()+"'"+lineEnd);
                 dos.writeBytes(lineEnd);
 
-                // create a buffer of  maximum size
+                // create a buffer of maximum size
                 bytesAvailable = fileInputStream.available();
 
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -344,6 +362,27 @@ public class Datas {
             return 200;
         }
     }
+
+    /*public static void uploadFile(Context ctx, File sourceFile) throws ClientProtocolException,
+            IOException {
+        HttpClient httpclient = new DefaultHttpClient();
+        httpclient.getParams().setParameter(
+                CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+        HttpPost httppost = new HttpPost(Configuration.getInstance(ctx).getUploadImgSignature(ctx));
+        MultipartEntity entity = new MultipartEntity();
+        FileBody fileBody = new FileBody(sourceFile);
+        entity.addPart("uploadfile", fileBody);
+        httppost.setEntity(entity);
+        HttpResponse response = httpclient.execute(httppost);
+        HttpEntity resEntity = response.getEntity();
+        if (resEntity != null) {
+            Log.i(TAG, EntityUtils.toString(resEntity));
+        }
+        if (resEntity != null) {
+            resEntity.consumeContent();
+        }
+        httpclient.getConnectionManager().shutdown();
+    }*/
 
 
 }

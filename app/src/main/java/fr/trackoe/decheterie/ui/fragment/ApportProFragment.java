@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -486,7 +487,8 @@ public class ApportProFragment extends Fragment {
             }, d, a, listAF);
 
             //send the signature of depot to server
-            File f = new File(getContext().getFilesDir(), "signature" + d.getDateHeure());
+            //File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/Signature", "signature" + d.getDateHeure()+".PNG");
+            File f = new File(Environment.getExternalStorageDirectory(), "signature" + d.getDateHeure()+".PNG");
             f.createNewFile();
             FileOutputStream fos = new FileOutputStream(f);
             fos.write(depot.getSignature());
