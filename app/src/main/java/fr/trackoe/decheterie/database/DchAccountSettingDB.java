@@ -37,6 +37,9 @@ public class DchAccountSettingDB extends MyDb {
         values.put(DecheterieDatabase.TableDchAccountSetting.DATE_FIN_PARAM, accountSetting.getDateFinParam());
         values.put(DecheterieDatabase.TableDchAccountSetting.DCH_CHOIX_DECOMPTE_TOTAL_ID, accountSetting.getDchChoixDecompteTotalId());
         values.put(DecheterieDatabase.TableDchAccountSetting.NB_DEPOT_RESTANT, accountSetting.getNbDepotRestant());
+        values.put(DecheterieDatabase.TableDchAccountSetting.COMPTE_TOTAL, accountSetting.isCompteTotal());
+        values.put(DecheterieDatabase.TableDchAccountSetting.POINT_MINIMUM, accountSetting.getPointMinimum());
+        values.put(DecheterieDatabase.TableDchAccountSetting.NB_DEPOT_MINIMUM, accountSetting.getNbDepotMinimum());
 
         return db.insertOrThrow(DecheterieDatabase.TableDchAccountSetting.TABLE_NAME, null, values);
     }
@@ -73,6 +76,9 @@ public class DchAccountSettingDB extends MyDb {
             a.setDateFinParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_FIN_PARAM));
             a.setDchChoixDecompteTotalId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID));
             a.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_RESTANT));
+            a.setCompteTotal(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_COMPTE_TOTAL) == 1);
+            a.setPointMinimum(c.getFloat(DecheterieDatabase.TableDchAccountSetting.NUM_POINT_MINIMUM));
+            a.setNbDepotMinimum(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_MINIMUM));
         }
         return a;
     }
@@ -97,6 +103,9 @@ public class DchAccountSettingDB extends MyDb {
                 a.setDateFinParam(c.getString(DecheterieDatabase.TableDchAccountSetting.NUM_DATE_FIN_PARAM));
                 a.setDchChoixDecompteTotalId(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID));
                 a.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_RESTANT));
+                a.setCompteTotal(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_COMPTE_TOTAL) == 1);
+                a.setPointMinimum(c.getFloat(DecheterieDatabase.TableDchAccountSetting.NUM_POINT_MINIMUM));
+                a.setNbDepotMinimum(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_MINIMUM));
                 accountSettingList.add(a);
             } while (c.moveToNext());
 

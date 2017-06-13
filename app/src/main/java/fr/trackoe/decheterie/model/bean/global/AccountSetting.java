@@ -19,6 +19,9 @@ public class AccountSetting {
     private String dateFinParam;
     private int dchChoixDecompteTotalId;
     private int nbDepotRestant;
+    private boolean compteTotal;
+    private float pointMinimum;
+    private int nbDepotMinimum;
 
     public AccountSetting() {
 
@@ -39,6 +42,26 @@ public class AccountSetting {
         this.dateFinParam = dateFinParam;
         this.dchChoixDecompteTotalId = dchChoixDecompteTotalId;
         this.nbDepotRestant = nbDepotRestant;
+    }
+
+    public AccountSetting(int id, int dchAccountId, int dchTypeCarteId, int uniteDepotDecheterieId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, float coutUDDPrPoint, float coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant, boolean compteTotal, float pointMinimum, int nbDepotMinimum) {
+        this.id = id;
+        this.dchAccountId = dchAccountId;
+        this.dchTypeCarteId = dchTypeCarteId;
+        this.uniteDepotDecheterieId = uniteDepotDecheterieId;
+        this.decompteDepot = decompteDepot;
+        this.decompteUDD = decompteUDD;
+        this.pageSignature = pageSignature;
+        this.coutUDDPrPoint = coutUDDPrPoint;
+        this.coutPoint = coutPoint;
+        this.unitePoint = unitePoint;
+        this.dateDebutParam = dateDebutParam;
+        this.dateFinParam = dateFinParam;
+        this.dchChoixDecompteTotalId = dchChoixDecompteTotalId;
+        this.nbDepotRestant = nbDepotRestant;
+        this.compteTotal = compteTotal;
+        this.pointMinimum = pointMinimum;
+        this.nbDepotMinimum = nbDepotMinimum;
     }
 
     public int getId() {
@@ -151,5 +174,29 @@ public class AccountSetting {
 
     public void setNbDepotRestant(int nbDepotRestant) {
         this.nbDepotRestant = nbDepotRestant;
+    }
+
+    public boolean isCompteTotal() {
+        return compteTotal;
+    }
+
+    public void setCompteTotal(boolean compteTotal) {
+        this.compteTotal = compteTotal;
+    }
+
+    public float getPointMinimum() {
+        return pointMinimum;
+    }
+
+    public void setPointMinimum(float pointMinimum) {
+        this.pointMinimum = pointMinimum;
+    }
+
+    public int getNbDepotMinimum() {
+        return nbDepotMinimum;
+    }
+
+    public void setNbDepotMinimum(int nbDepotMinimum) {
+        this.nbDepotMinimum = nbDepotMinimum;
     }
 }

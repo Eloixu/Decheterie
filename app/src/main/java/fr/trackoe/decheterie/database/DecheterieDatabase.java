@@ -230,6 +230,12 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
         public static final int NUM_DCH_CHOIX_DECOMPTE_TOTAL_ID = 12;
         public static final String NB_DEPOT_RESTANT = "nb_depot_restant";
         public static final int NUM_NB_DEPOT_RESTANT = 13;
+        public static final String COMPTE_TOTAL = "compte_total";
+        public static final int NUM_COMPTE_TOTAL = 14;
+        public static final String POINT_MINIMUM = "point_minimum";
+        public static final int NUM_POINT_MINIMUM = 15;
+        public static final String NB_DEPOT_MINIMUM = "nb_depot_minimum";
+        public static final int NUM_NB_DEPOT_MINIMUM = 16;
     }
 
     public static final String CREATE_TABLE_DCH_ACCOUNT_SETTING = "CREATE TABLE IF NOT EXISTS " + TableDchAccountSetting.TABLE_NAME + " ("
@@ -246,7 +252,11 @@ public class DecheterieDatabase extends SQLiteOpenHelper {
             + TableDchAccountSetting.DATE_DEBUT_PARAM + TEXT_TYPE + COMMA_SEP
             + TableDchAccountSetting.DATE_FIN_PARAM + TEXT_TYPE + COMMA_SEP
             + TableDchAccountSetting.DCH_CHOIX_DECOMPTE_TOTAL_ID + INTEGER_TYPE + COMMA_SEP
-            + TableDchAccountSetting.NB_DEPOT_RESTANT + INTEGER_TYPE + " )" ;
+            + TableDchAccountSetting.NB_DEPOT_RESTANT + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.COMPTE_TOTAL + INTEGER_TYPE + COMMA_SEP
+            + TableDchAccountSetting.POINT_MINIMUM + FLOAT_TYPE + COMMA_SEP
+            + TableDchAccountSetting.NB_DEPOT_MINIMUM + INTEGER_TYPE + " )" ;
+
 
     private static final String DELETE_TABLE_DCH_ACCOUNT_SETTING = "DROP TABLE IF EXISTS " + TableDchAccountSetting.TABLE_NAME;
 
