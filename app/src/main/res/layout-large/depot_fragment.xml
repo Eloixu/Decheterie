@@ -45,15 +45,45 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1">
-        <TextView
-            android:id="@+id/depot_fragment_volume_total_textView"
-            android:text="@string/depot_fragment_volume_total_textView_text"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/depot_fragment_volume_total_textView_paddingStart"
-            android:layout_marginTop="@dimen/depot_fragment_volume_total_textView_layout_marginTop"
-            android:textSize="@dimen/general_txt_size"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/depot_fragment_volume_total_textView"
+                android:text="@string/depot_fragment_volume_total_textView_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/depot_fragment_volume_total_textView_paddingStart"
+                android:layout_marginTop="@dimen/depot_fragment_volume_total_textView_layout_marginTop"
+                android:textSize="@dimen/general_txt_size" />
+
+            <EditText
+                android:id="@+id/depot_fragment_volume_total_editText"
+                android:text="0.0"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="@dimen/depot_fragment_volume_total_textView_layout_marginTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:textSize="35sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/depot_fragment_unite_volume_total_textView"
+                android:text="m3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/depot_fragment_volume_total_textView_layout_marginTop"
+                android:textSize="@dimen/general_txt_size" />
+
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/depot_fragment_valider_button"
             android:text="@string/depot_fragment_valider_button_text"
