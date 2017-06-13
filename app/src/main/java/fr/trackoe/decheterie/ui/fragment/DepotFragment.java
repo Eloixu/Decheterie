@@ -1574,7 +1574,7 @@ public class DepotFragment extends Fragment {
                     }
                     else{
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,nomInND,isUsagerMenageInND,adresseInND,numeroCarteInND,apportRestantInND,uniteApportRestantInND,totalDecompte);
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,nomInND,isUsagerMenageInND,adresseInND,numeroCarteInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId());
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
                     }
@@ -1588,7 +1588,7 @@ public class DepotFragment extends Fragment {
                     depot.setDateHeure(getDateHeure());
                     dchDepotDB.updateDepot(depot);
                     //send the depot to server
-                    sendDepot(depot);
+                    sendDepot(depot, accountSetting, dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
 
                 }
 
@@ -2261,7 +2261,7 @@ public class DepotFragment extends Fragment {
         return isComeFromRUFInApportProFragment;
     }
 
-    public void sendDepot(Depot d){
+    public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
             //send Depot(without signature) to server
             Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
@@ -2288,7 +2288,7 @@ public class DepotFragment extends Fragment {
                         dchDepotDB.close();
                     }
                 }
-            }, d.getId(), d.getNom(), d.getDateHeure(), d.getDecheterieId(), d.getCarteActiveCarteId(), d.getComptePrepayeId(), d.getQtyTotalUDD());
+            }, d, a, listAF);
 
 
         } catch(Exception e){
