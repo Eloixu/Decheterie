@@ -396,15 +396,15 @@ public class ApportProFragment extends Fragment {
     public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
-        args.putLong("depotId", depotId);
-        args.putString("nomInND", nomInND);
-        args.putBoolean("isUsagerMenageInND", isUsagerMenageInND);
-        args.putString("adresseInND", adresseInND);
-        args.putString("numeroCarteInND", numeroCarteInND);
-        args.putFloat("apportRestantInND", apportRestantInND);
-        args.putString("uniteApportRestantInND", uniteApportRestantInND);
-        args.putFloat("totalDecompte", totalDecompte);
-        args.putInt("accountSettingId", accountSettingId);
+        args.putLong    (   "depotId",                  depotId                 );
+        args.putString  (   "nomInND",                  nomInND                 );
+        args.putBoolean (   "isUsagerMenageInND",       isUsagerMenageInND      );
+        args.putString  (   "adresseInND",              adresseInND             );
+        args.putString  (   "numeroCarteInND",          numeroCarteInND         );
+        args.putFloat   (   "apportRestantInND",        apportRestantInND       );
+        args.putString  (   "uniteApportRestantInND",   uniteApportRestantInND  );
+        args.putFloat   (   "totalDecompte",            totalDecompte           );
+        args.putInt     (   "accountSettingId",         accountSettingId        );
 
         apportProFragment.setArguments(args);
         return apportProFragment;

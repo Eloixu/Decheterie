@@ -264,7 +264,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(mNfcAdapter != null) {
             //Handle some NFC initialization here
-            Toast.makeText(this, R.string.nfc_availability1,
+            Toast .makeText(this, R.string.nfc_availability1,
                     Toast.LENGTH_SHORT).show();
             if (!mNfcAdapter.isEnabled())
             {

@@ -5,12 +5,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,6 +71,7 @@ import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogFlux;
+import fr.trackoe.decheterie.ui.dialog.SoftKeyboardStateWatcher;
 
 public class DepotFragment extends Fragment {
     private ViewGroup depot_vg;
@@ -83,6 +86,8 @@ public class DepotFragment extends Fragment {
     private TextView textViewVolumeTotal;
     private EditText editTextVolumeTotal;
     private TextView textViewUniteVolumeTotal;
+    private SoftKeyboardStateWatcher softKeyboardStateWatcher;
+    private SoftKeyboardStateWatcher.SoftKeyboardStateListener keyboardListener;
 
     //parameters in NavagationDrawer(totalDecompte in DepotFragment)
     private String nomInND;
@@ -185,8 +190,11 @@ public class DepotFragment extends Fragment {
         parentActivity = (ContainerActivity) getActivity();
         textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
         editTextVolumeTotal = (EditText) depot_vg.findViewById(R.id.depot_fragment_volume_total_editText);
+        addTextChangedListener(editTextVolumeTotal);
         textViewUniteVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_unite_volume_total_textView);
         //editTextVolumeTotal.setKeyListener(null);
+        softKeyboardStateWatcher = new SoftKeyboardStateWatcher(parentActivity.findViewById(R.id.fragment_container));
+        addKeyBoardListener();
 
         initAllDB();
         openAllDB();
@@ -388,6 +396,10 @@ public class DepotFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+
+        //delete the keyBoard when exit the DepotFragment
+        softKeyboardStateWatcher.removeSoftKeyboardStateListener(keyboardListener);
+
         System.out.println("DepotFragment --> onStop()");
     }
 
@@ -503,7 +515,7 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(parentActivity.getResources().getString(R.string.pop_up_message1) + iconName);
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
@@ -588,6 +600,9 @@ public class DepotFragment extends Fragment {
                             dchFluxDB.close();
                             dchApportFluxDB.close();
                             dchDepotDB.close();
+
+                            closeKeyBoard();
+
 
                         }
                     });
@@ -741,6 +756,7 @@ public class DepotFragment extends Fragment {
                                     dchFluxDB.close();
                                     dchDepotDB.close();
 
+                                    closeKeyBoard();
 
                                 }
                             });
@@ -942,7 +958,7 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(R.string.pop_up_message1 + iconName);
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
@@ -1026,6 +1042,8 @@ public class DepotFragment extends Fragment {
                             dchApportFluxDB.close();
                             dchDepotDB.close();
 
+                            closeKeyBoard();
+
                         }
                     });
 
@@ -1083,7 +1101,7 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(R.string.pop_up_message1 + iconName);
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
@@ -1173,6 +1191,8 @@ public class DepotFragment extends Fragment {
                                     dchApportFluxDB.close();
                                     dchFluxDB.close();
                                     dchDepotDB.close();
+
+                                    closeKeyBoard();
 
 
                                 }
@@ -1264,7 +1284,7 @@ public class DepotFragment extends Fragment {
 
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(R.string.pop_up_message1 + iconName);
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
                     builder.setTitle(iconName);
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
@@ -1357,6 +1377,8 @@ public class DepotFragment extends Fragment {
                             dchFluxDB.close();
                             dchDepotDB.close();
 
+                            closeKeyBoard();
+
                         }
                     });
 
@@ -1417,7 +1439,7 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(R.string.pop_up_message1 + iconName);
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
                             builder.setTitle(iconName);
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
@@ -1493,6 +1515,8 @@ public class DepotFragment extends Fragment {
                                     dchApportFluxDB.close();
                                     dchFluxDB.close();
                                     dchDepotDB.close();
+
+                                    closeKeyBoard();
 
 
                                 }
@@ -2328,6 +2352,91 @@ public class DepotFragment extends Fragment {
         }
     }
 
+    private void addTextChangedListener(final EditText editText){
+        TextWatcher listener3 = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //update the depot in BD
+                DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                dchDepotDB.open();
+
+                float vt;
+                if(editText.getText().toString().isEmpty() || editText.getText().toString() == null){
+                    vt = 0;
+                }
+                else{
+                    vt = Float.parseFloat(editText.getText().toString());
+                }
+                depot.setQtyTotalUDD(vt);
+                dchDepotDB.updateDepot(depot);
+                totalDecompte = vt;
+
+                dchDepotDB.close();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        editText.addTextChangedListener(listener3);
+    }
+
+    //keybBoard open/close listener
+    public void addKeyBoardListener(){
+        keyboardListener = new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
+            @Override
+            public void onSoftKeyboardOpened(int keyboardHeightInPx) {
+
+            }
+
+            @Override
+            public void onSoftKeyboardClosed() {
+                if(parentActivity.getCurrentFragment() instanceof DepotFragment ) {
+
+                    if (editTextVolumeTotal != null) {
+                        if (editTextVolumeTotal.getText().toString().isEmpty() || editTextVolumeTotal.getText().toString() == null) {
+                            editTextVolumeTotal.setText("0.0");
+                        } else {
+                            float vt = Float.parseFloat(editTextVolumeTotal.getText().toString());
+                            editTextVolumeTotal.setText(vt + "");
+                        }
+                        editTextVolumeTotal.clearFocus();
+                    }
+
+                }
+
+            }
+        };
+
+        // Add listener
+        softKeyboardStateWatcher.addSoftKeyboardStateListener(keyboardListener);
+    }
+
+    public void closeKeyBoard(){
+
+        editTextVolumeTotal.clearFocus();
+
+        View view = parentActivity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)parentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+    }
+
+
+
+
+
+
+
 
     /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
     private DchAccountSettingDB dchAccountSettingDB;
@@ -2432,7 +2541,5 @@ public class DepotFragment extends Fragment {
         usagerMenageDB.close();
 
     }
-
-
 
 }
