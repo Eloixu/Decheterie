@@ -71,6 +71,7 @@ import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogFlux;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogReturnAccueil;
 import fr.trackoe.decheterie.ui.dialog.SoftKeyboardStateWatcher;
 
 public class DepotFragment extends Fragment {
@@ -190,9 +191,9 @@ public class DepotFragment extends Fragment {
         parentActivity = (ContainerActivity) getActivity();
         textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
         editTextVolumeTotal = (EditText) depot_vg.findViewById(R.id.depot_fragment_volume_total_editText);
-        addTextChangedListener(editTextVolumeTotal);
         textViewUniteVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_unite_volume_total_textView);
         //editTextVolumeTotal.setKeyListener(null);
+        addTextChangedListener(editTextVolumeTotal);
         softKeyboardStateWatcher = new SoftKeyboardStateWatcher(parentActivity.findViewById(R.id.fragment_container));
         addKeyBoardListener();
 
@@ -344,6 +345,9 @@ public class DepotFragment extends Fragment {
 
         //init the views of the navigation drawer
         initViewsNavigationDrawer(inflater,container);
+
+        //show the dialog if dch_account_setting.pt_minimum >= 0 et dch_compte_prepaye.qty_point < dch_account_setting.pt_minimum
+        showReturnAccueilDialog();
 
 
         //show depot information
@@ -2429,6 +2433,56 @@ public class DepotFragment extends Fragment {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
+    }
+
+    public void showReturnAccueilDialog(){
+        if(carte != null) {
+            AccountSetting a = accountSetting;
+            ComptePrepaye c;
+
+            long carteActiveCarteId = carte.getId();
+            long comptePrepayeId = dchCarteActiveDB.getCarteActiveFromDchCarteId(carteActiveCarteId).getDchComptePrepayeId();
+            c = dchComptePrepayeDB.getComptePrepayeFromID(comptePrepayeId);
+
+            if(a.getPointMinimum() >= 0 && c.getQtyPoint() < a.getPointMinimum()){
+                //show dialog
+                ReturnAccueilDialog().show();
+
+            }
+
+            if(a.getNbDepotMinimum() >= 0 && c.getNbDepotRestant() < a.getNbDepotMinimum()){
+                //show dialog
+                ReturnAccueilDialog().show();
+            }
+
+
+        }
+
+    }
+
+    public CustomDialogFlux ReturnAccueilDialog(){
+        CustomDialogReturnAccueil.Builder builder = new CustomDialogReturnAccueil.Builder(getContext());
+        builder.setMessage(getResources().getString(R.string.pop_up_return_to_accueil_message));
+        builder.setTitle(getResources().getString(R.string.pop_up_return_to_accueil_title));
+        builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.pop_up_return_to_accueil_negative_button), new android.content.DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                parentActivity.changeMainFragment(new AccueilFragment(), true);
+                dialog.dismiss();
+            }
+        });
+        builder.setWidth(50);//the percentage of the tablette's width
+        builder.setHeight(60);
+        builder.setWidthScale(23);
+        builder.setCancelableTouchOutside(false);
+        builder.setCancelable(false);
+
+        return builder.create();
     }
 
 

@@ -104,6 +104,10 @@
     <string name="pop_up_message1">Vous avez sélectionné flux&#160;</string>
     <string name="flux_positive_button">valider</string>
 
+    <string name="pop_up_return_to_accueil_message">Message Retour</string>
+    <string name="pop_up_return_to_accueil_title">Information</string>
+    <string name="pop_up_return_to_accueil_negative_button">Retour</string>
+
     <!--Dialog Flux-->
     <string name="dialog_flux_layout_title_text">Information</string>
     <string name="dialog_normal_layout_positive_button_text">Oui</string>

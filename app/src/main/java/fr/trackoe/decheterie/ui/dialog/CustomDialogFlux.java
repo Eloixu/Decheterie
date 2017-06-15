@@ -113,11 +113,6 @@ public class CustomDialogFlux extends Dialog {
             return this;
         }
 
-        public Builder setMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
         public Builder setUniteApporte(String uniteApporte) {
             this.uniteApporte = uniteApporte;
             return this;
@@ -128,6 +123,10 @@ public class CustomDialogFlux extends Dialog {
             return this;
         }
 
+        public Builder setMessage(String message) {
+            this.message = message;
+            return this;
+        }
 
         public Builder setMessage(int message) {
             this.message = (String) context.getText(message);
