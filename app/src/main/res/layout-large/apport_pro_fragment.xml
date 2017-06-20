@@ -265,6 +265,7 @@
                 android:gravity="center"
                 android:background="@drawable/border_signature_information"
                 android:layout_weight="0.25">
+
                 <TextView
                     android:id="@+id/apport_pro_fragment_signature_information_textView"
                     android:text="@string/apport_pro_fragment_signature_information_textView_text"

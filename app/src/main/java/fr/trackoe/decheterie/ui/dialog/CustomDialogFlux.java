@@ -293,7 +293,7 @@ public class CustomDialogFlux extends Dialog {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     float qtyApporte = 0;
-                    if(editTextQuantiteApporte.getText().toString() != null && !editTextQuantiteApporte.getText().toString().isEmpty()) qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
+                    if(editTextQuantiteApporte.getText().toString() != null && !editTextQuantiteApporte.getText().toString().isEmpty() && !editTextQuantiteApporte.getText().toString().equals(".")) qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
                     float qtyCalcul = qtyApporte * CCPU;
                     textViewQuantiteCalculLine3.setText("" + qtyCalcul);
                 }

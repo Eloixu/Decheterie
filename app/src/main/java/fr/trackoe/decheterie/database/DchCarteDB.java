@@ -23,7 +23,7 @@ public class DchCarteDB extends MyDb {
      */
     public long insertCarte(Carte carte) {
         ContentValues values = new ContentValues();
-        //values.put(DecheterieDatabase.TableDchCarte.ID, carte.getId());
+        values.put(DecheterieDatabase.TableDchCarte.ID, carte.getId());
         values.put(DecheterieDatabase.TableDchCarte.NUM_CARTE, carte.getNumCarte());
         values.put(DecheterieDatabase.TableDchCarte.NUM_RFID, carte.getNumRFID());
         values.put(DecheterieDatabase.TableDchCarte.DCH_TYPE_CARTE_ID, carte.getDchTypeCarteId());

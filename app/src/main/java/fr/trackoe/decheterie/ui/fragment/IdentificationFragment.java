@@ -37,6 +37,7 @@ import fr.trackoe.decheterie.model.bean.global.CarteActive;
 import fr.trackoe.decheterie.model.bean.global.CarteEtatRaison;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.service.NoDoubleClickListener;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 
@@ -90,35 +91,7 @@ public class IdentificationFragment extends Fragment {
         // Init des listeners
         initListeners(container);
 
-        mSeriport = new SerialPortServiceManager(0);
-        //set the parameters
-        if(mSeriport.open(part_serialPortNode_ttyUSB0, part_baud, part_data_size, part_stop_bit) == -1){
-            if(mSeriport.open(part_serialPortNode_ttyUSB1, part_baud, part_data_size, part_stop_bit) == -1){
-                if(mSeriport.open(part_serialPortNode_ttyUSB2, part_baud, part_data_size, part_stop_bit) == -1){
-                    mSeriport.open(part_serialPortNode_ttyUSB3, part_baud, part_data_size, part_stop_bit);
-                }
-            }
-        }
-
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-
-                synchronized (rxlock) {
-                    head_queue = rx_queue.poll();
-                }
-                if(head_queue != null) {
-                    editText_barcode.setText(head_queue);
-                } else {
-
-                }
-
-
-            }
-        };
-
-        mreadTh = new read_thread();
-        mreadTh.start();
+        //configurationBarCodeInfrared();
 
         return identification_vg;
     }
@@ -164,9 +137,10 @@ public class IdentificationFragment extends Fragment {
             }
         });
 
-        suivant.setOnClickListener(new View.OnClickListener() {
+
+        suivant.setOnClickListener(new NoDoubleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onNoDoubleClick(View v) {
                 DchCarteDB dchCarteDB = new DchCarteDB(getContext());
                 dchCarteDB.open();
                 DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(getContext());
@@ -269,12 +243,14 @@ public class IdentificationFragment extends Fragment {
                                         Toast.LENGTH_SHORT).show();*/
                                 if (getActivity() != null && getActivity() instanceof ContainerActivity) {
                                     Configuration.setIsOuiClicked(false);
-                                    DepotFragment depotFragment = DepotFragment.newInstance(editText_barcode.getText().toString());
+                                    DepotFragment depotFragment = DepotFragment.newInstance(editText_barcode.getText().toString(), true);
                                     ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
                                 }
 
                                 //save the num card
                                 Configuration.saveLastNumCard(editText_barcode.getText().toString());
+
+
 
                             }
 
@@ -356,6 +332,38 @@ public class IdentificationFragment extends Fragment {
 
     public void closeBarCodeReader() {
         mSeriport.close();
+    }
+
+    public void configurationBarCodeInfrared(){
+        mSeriport = new SerialPortServiceManager(0);
+        //set the parameters
+        if(mSeriport.open(part_serialPortNode_ttyUSB0, part_baud, part_data_size, part_stop_bit) == -1){
+            if(mSeriport.open(part_serialPortNode_ttyUSB1, part_baud, part_data_size, part_stop_bit) == -1){
+                if(mSeriport.open(part_serialPortNode_ttyUSB2, part_baud, part_data_size, part_stop_bit) == -1){
+                    mSeriport.open(part_serialPortNode_ttyUSB3, part_baud, part_data_size, part_stop_bit);
+                }
+            }
+        }
+
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+
+                synchronized (rxlock) {
+                    head_queue = rx_queue.poll();
+                }
+                if(head_queue != null) {
+                    editText_barcode.setText(head_queue);
+                } else {
+
+                }
+
+
+            }
+        };
+
+        mreadTh = new read_thread();
+        mreadTh.start();
     }
 
 

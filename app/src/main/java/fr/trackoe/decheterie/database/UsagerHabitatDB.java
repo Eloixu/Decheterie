@@ -82,17 +82,21 @@ public class UsagerHabitatDB extends MyDb {
     private ArrayList<UsagerHabitat> cursorToListUsagerHabitat(Cursor c) {
         ArrayList<UsagerHabitat> usagerHabitatList = new ArrayList<>();
 
-        if (c.moveToFirst()) {
-            do {
-                UsagerHabitat u = new UsagerHabitat();
-                u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
-                u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
-                usagerHabitatList.add(u);
-            } while (c.moveToNext());
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    UsagerHabitat u = new UsagerHabitat();
+                    u.setDchUsagerId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_USAGER));
+                    u.setHabitatId(c.getInt(DecheterieDatabase.TableUsagerHabitat.NUM_ID_HABITAT));
+                    usagerHabitatList.add(u);
+                } while (c.moveToNext());
 
-            c.close();
+                c.close();
+            }
+            return usagerHabitatList;
+        }catch(Exception e){
+            return usagerHabitatList;
         }
-        return usagerHabitatList;
     }
 
 

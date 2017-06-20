@@ -110,7 +110,8 @@ public class AccueilFragment extends Fragment {
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
                             //set a flag
                             Configuration.setIsOuiClicked(true);
-                            ((ContainerActivity) getActivity()).changeMainFragment(new DepotFragment(), true);
+                            DepotFragment depotFragment = DepotFragment.newInstance(true);
+                            ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
                         }
                     }
                 });

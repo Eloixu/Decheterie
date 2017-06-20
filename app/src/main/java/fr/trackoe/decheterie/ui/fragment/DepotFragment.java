@@ -91,18 +91,20 @@ public class DepotFragment extends Fragment {
     private SoftKeyboardStateWatcher.SoftKeyboardStateListener keyboardListener;
 
     //parameters in NavagationDrawer(totalDecompte in DepotFragment)
-    private String nomInND;
+    private String  nomInND;
     private boolean isUsagerMenageInND;
-    private String adresseInND;
-    private String numeroCarteInND;
-    private float apportRestantInND;
-    private String uniteApportRestantInND;
-    private float totalDecompte;
+    private String  adresseInND;
+    private String  numeroCarteInND;
+    private float   apportRestantInND;
+    private String  uniteApportRestantInND;
+    private float   totalDecompte;
 
 
     //parameters from apportProFragment
     private boolean isComeFromApportProFragment = false;
     private boolean isComeFromRUFInApportProFragment = false;
+    private boolean isComeFromPopUp = false;
+    private boolean isComeFromIdentificationFragment =false;
     private int usagerIdFromRUFInApportProFragment;
     private int typeCarteIdFromRUFInApportProFragment;
     private int accountIdFromRUFInApportProFragment;
@@ -115,11 +117,6 @@ public class DepotFragment extends Fragment {
 
     //private boolean CCPU;
     private String nomUniteDecompte;
-
-    //text fixed
-    private static final String INITIAL_VOLUME_TOTAL = "Total décompté:  <font color='#000000'><big><big> 0.0 </big></big></font>  ";
-    private static final String PREFIX_VOLUME_TOTAL = "Total décompté: <font color='#000000'><big><big> ";
-    private static final String POSTFIX_VOLUME_TOTAL = " </big></big></font> ";
 
     //DB
     private DchAccountFluxSettingDB dchAccountFluxSettingDB;
@@ -187,15 +184,17 @@ public class DepotFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("DepotFragment --> onCreateView()");
 
-        depot_vg = (ViewGroup) inflater.inflate(R.layout.depot_fragment, container, false);
-        parentActivity = (ContainerActivity) getActivity();
-        textViewVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
-        editTextVolumeTotal = (EditText) depot_vg.findViewById(R.id.depot_fragment_volume_total_editText);
-        textViewUniteVolumeTotal = (TextView) depot_vg.findViewById(R.id.depot_fragment_unite_volume_total_textView);
+        depot_vg                    = (ViewGroup)           inflater.inflate(R.layout.depot_fragment, container, false);
+        parentActivity              = (ContainerActivity)   getActivity();
+        textViewVolumeTotal         = (TextView)            depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
+        editTextVolumeTotal         = (EditText)            depot_vg.findViewById(R.id.depot_fragment_volume_total_editText);
+        textViewUniteVolumeTotal    = (TextView)            depot_vg.findViewById(R.id.depot_fragment_unite_volume_total_textView);
         //editTextVolumeTotal.setKeyListener(null);
         addTextChangedListener(editTextVolumeTotal);
         softKeyboardStateWatcher = new SoftKeyboardStateWatcher(parentActivity.findViewById(R.id.fragment_container));
         addKeyBoardListener();
+
+        //parentActivity.getSupportFragmentManager().getBackStackEntryCount();
 
         initAllDB();
         openAllDB();
@@ -213,12 +212,10 @@ public class DepotFragment extends Fragment {
 
 //        initViewsNavigationDrawer(inflater,container);
 
-        //detect if "oui" is clicked
         //the case that we continue to edit the depot incompleted
         //*** pop-up ---> DepotFragment ***
-        if(Configuration.getIsOuiClicked() && !isComeFromRechercherUsagerFragment){
+        if(isComeFromPopUp){
             //get the depot on "statut en_cours"
-            System.out.println("oui is clicked");
             depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
             depotId = depot.getId();
             carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
@@ -242,9 +239,8 @@ public class DepotFragment extends Fragment {
         }
         //the most normal case
         // *** "Idendification d'une carte" ---> DepotFragment ***
-        else if(!Configuration.getIsOuiClicked() && depotId == 0 && !isComeFromRechercherUsagerFragment){
+        else if(isComeFromIdentificationFragment){
             //create a new depot
-            System.out.println("oui isn't clicked");
             depotId = parentActivity.generateCodeFromDateAndNumTablette();
             String dateTime = "";
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
@@ -283,7 +279,8 @@ public class DepotFragment extends Fragment {
         }
         //the case when click "back" in ApportProFragment
         // *** ApportProFragment ---> DepotFragment ***
-        else if(!Configuration.getIsOuiClicked() && depotId != 0 && !isComeFromRechercherUsagerFragment){
+        //else if(!Configuration.getIsOuiClicked() && depotId != 0 && !isComeFromRechercherUsagerFragment){
+        else if(isComeFromApportProFragment){
             depot = dchDepotDB.getDepotByIdentifiant(depotId);
 
             if(!isComeFromRUFInApportProFragment){
@@ -305,7 +302,6 @@ public class DepotFragment extends Fragment {
         // *** rechercherUsagerFragment ---> DepotFragment ***
         else if(isComeFromRechercherUsagerFragment){
             //create a new depot
-            System.out.println("oui isn't clicked");
             depotId = parentActivity.generateCodeFromDateAndNumTablette();
             String dateTime = null;
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
@@ -438,11 +434,10 @@ public class DepotFragment extends Fragment {
     Init Views under the condition that "oui" isn't clicked
      */
     public void initViews(LayoutInflater inflater, ViewGroup container) {
-        parentActivity = (ContainerActivity ) getActivity();
         parentActivity.showHamburgerButton();
         parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
-        if(!accountSetting.isCompteTotal()) editTextVolumeTotal.setKeyListener(null); // if compteTotal is true, the volume total could be editable
+        initEidtTextVolumeTotal();
         galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
         galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_choisi_linearLayout);
 
@@ -466,7 +461,7 @@ public class DepotFragment extends Fragment {
 
         //initialize the "volume total"
         //textViewVolumeTotal.setText(Html.fromHtml(INITIAL_VOLUME_TOTAL + nomUniteDecompte));
-        editTextVolumeTotal.setText("0.0");
+        editTextVolumeTotal.setText(getResources().getString(R.string.dialog_flux_layout_qty_calcul_textView_text));
         textViewUniteVolumeTotal.setText(nomUniteDecompte);
 
 
@@ -554,13 +549,13 @@ public class DepotFragment extends Fragment {
 
                             //save the qty into BDD
                             int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
-                            EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
-                            EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
+                            EditText editTextQuantiteApporte     = builder.getEditTextQuantiteApporte();
+                            EditText editTextQuantiteDecompte    = builder.getEditTextQuantiteDecompte();
                             TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
                             float qtyApporte = -1;
                             float qtyDecompte = -1;
                             if(lineVisbility[0]){
-                                if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""){
+                                if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""||editTextQuantiteApporte.getText().toString().equals(".")){
                                     qtyApporte = 0;
                                 }
                                 else {
@@ -568,7 +563,7 @@ public class DepotFragment extends Fragment {
                                 }
                             }
                             if(lineVisbility[1]){
-                                if(editTextQuantiteDecompte.getText().toString().isEmpty()||editTextQuantiteDecompte.getText().toString() ==""){
+                                if(editTextQuantiteDecompte.getText().toString().isEmpty()||editTextQuantiteDecompte.getText().toString() ==""||editTextQuantiteDecompte.getText().toString().equals(".")){
                                     qtyDecompte = 0;
                                 }
                                 else {
@@ -707,7 +702,7 @@ public class DepotFragment extends Fragment {
                                     float qtyDecompte = -1;
 
                                     if(lineVisbility[0]){
-                                        if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""){
+                                        if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""||editTextQuantiteApporte.getText().toString().equals(".")){
                                             qtyApporte = 0;
                                         }
                                         else {
@@ -715,7 +710,7 @@ public class DepotFragment extends Fragment {
                                         }
                                     }
                                     if(lineVisbility[1]) {
-                                        if (editTextQuantiteDecompte.getText().toString().isEmpty() || editTextQuantiteDecompte.getText().toString() == "") {
+                                        if (editTextQuantiteDecompte.getText().toString().isEmpty() || editTextQuantiteDecompte.getText().toString() == ""||editTextQuantiteDecompte.getText().toString().equals(".")) {
                                             qtyDecompte = 0;
                                         } else {
                                             qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
@@ -835,11 +830,10 @@ public class DepotFragment extends Fragment {
     Init Views only under the condition that "oui" is clicked
      */
     public void initViewsNotNormal(LayoutInflater inflater, ViewGroup container) {
-        parentActivity = (ContainerActivity) getActivity();
         parentActivity.showHamburgerButton();
         parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
-        if(!accountSetting.isCompteTotal()) editTextVolumeTotal.setKeyListener(null); // if compteTotal is true, the volume total could be editable
+        initEidtTextVolumeTotal();
         galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
         galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_choisi_linearLayout);
 
@@ -1631,20 +1625,20 @@ public class DepotFragment extends Fragment {
 
                 //detect the pageSignature
                 if(pageSignature) {
-                    if(isComeFromRechercherUsagerFragment && !isComeFromRUFInApportProFragment){
+                    if(isComeFromRechercherUsagerFragment && !isComeFromRUFInApportProFragment){//RechercherUsagerFragment --->DepotFragment ---> ApportProFragment
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUF,typeCarteIdFromRUF,accountIdFromRUF,isComeFromRechercherUsagerFragment);
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUF,typeCarteIdFromRUF,accountIdFromRUF,isComeFromRechercherUsagerFragment,nomInND,isUsagerMenageInND,adresseInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId());
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
                     }
-                    else if(!isComeFromRechercherUsagerFragment && isComeFromRUFInApportProFragment){
+                    else if(!isComeFromRechercherUsagerFragment && isComeFromRUFInApportProFragment){//RechercherUsagerFragment --->DepotFragment ---> ApportProFragment --->DepotFragment ---> ApportProFragment
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUFInApportProFragment,typeCarteIdFromRUFInApportProFragment,accountIdFromRUFInApportProFragment,isComeFromRUFInApportProFragment);
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUFInApportProFragment,typeCarteIdFromRUFInApportProFragment,accountIdFromRUFInApportProFragment,isComeFromRUFInApportProFragment,nomInND,isUsagerMenageInND,adresseInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId());
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
                     }
                     else{
-                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {//IdentificationFragment ---> DepotFragment ---> ApportProFragment
                             ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,nomInND,isUsagerMenageInND,adresseInND,numeroCarteInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId());
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
@@ -1714,10 +1708,19 @@ public class DepotFragment extends Fragment {
 
     }
 
-    public static DepotFragment newInstance(String numCarte) {
+    public static DepotFragment newInstance(boolean isComeFromPopUp) {
+        DepotFragment depotFragment = new DepotFragment();
+        Bundle args = new Bundle();
+        args.putBoolean  (   "isComeFromPopUp",                         isComeFromPopUp                         );
+        depotFragment.setArguments(args);
+        return depotFragment;
+    }
+
+    public static DepotFragment newInstance(String numCarte, boolean isComeFromIdentificationFragment) {
         DepotFragment depotFragment = new DepotFragment();
         Bundle args = new Bundle();
         args.putString  (   "numCarte",                                 numCarte                                );
+        args.putBoolean (   "isComeFromIdentificationFragment",         isComeFromIdentificationFragment        );
         depotFragment.setArguments(args);
         return depotFragment;
     }
@@ -1961,27 +1964,27 @@ public class DepotFragment extends Fragment {
     }
 
     public void initViewsNavigationDrawer(LayoutInflater inflater, ViewGroup container){
-        ndLinearLayoutLine1 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line1);
-        ndLinearLayoutLine2 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line2);
-        ndLinearLayoutLine3 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line3);
-        ndLinearLayoutLine4 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line4);
-        ndLinearLayoutLine5 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line5);
-        ndLinearLayoutLine6 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line6);
-        ndLinearLayoutLine7 = (LinearLayout) parentActivity.findViewById(R.id.linearLayout_line7);
-        ndTextViewLine1Title = (TextView) parentActivity.findViewById(R.id.textView_line1_title);
-        ndTextViewLine2Title = (TextView) parentActivity.findViewById(R.id.textView_line2_title);
-        ndTextViewLine3Title = (TextView) parentActivity.findViewById(R.id.textView_line3_title);
-        ndTextViewLine4Title = (TextView) parentActivity.findViewById(R.id.textView_line4_title);
-        ndTextViewLine5Title = (TextView) parentActivity.findViewById(R.id.textView_line5_title);
-        ndTextViewLine6Title = (TextView) parentActivity.findViewById(R.id.textView_line6_title);
-        ndTextViewLine7Title = (TextView) parentActivity.findViewById(R.id.textView_line7_title);
-        ndTextViewLine1Value = (TextView) parentActivity.findViewById(R.id.textView_line1_value);
-        ndTextViewLine2Value = (TextView) parentActivity.findViewById(R.id.textView_line2_value);
-        ndTextViewLine3Value = (TextView) parentActivity.findViewById(R.id.textView_line3_value);
-        ndTextViewLine4Value = (TextView) parentActivity.findViewById(R.id.textView_line4_value);
-        ndTextViewLine5Value = (TextView) parentActivity.findViewById(R.id.textView_line5_value);
-        ndTextViewLine6Value = (TextView) parentActivity.findViewById(R.id.textView_line6_value);
-        ndTextViewLine7Value = (TextView) parentActivity.findViewById(R.id.textView_line7_value);
+        ndLinearLayoutLine1     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line1);
+        ndLinearLayoutLine2     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line2);
+        ndLinearLayoutLine3     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line3);
+        ndLinearLayoutLine4     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line4);
+        ndLinearLayoutLine5     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line5);
+        ndLinearLayoutLine6     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line6);
+        ndLinearLayoutLine7     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line7);
+        ndTextViewLine1Title    = (TextView)        parentActivity.findViewById(R.id.textView_line1_title);
+        ndTextViewLine2Title    = (TextView)        parentActivity.findViewById(R.id.textView_line2_title);
+        ndTextViewLine3Title    = (TextView)        parentActivity.findViewById(R.id.textView_line3_title);
+        ndTextViewLine4Title    = (TextView)        parentActivity.findViewById(R.id.textView_line4_title);
+        ndTextViewLine5Title    = (TextView)        parentActivity.findViewById(R.id.textView_line5_title);
+        ndTextViewLine6Title    = (TextView)        parentActivity.findViewById(R.id.textView_line6_title);
+        ndTextViewLine7Title    = (TextView)        parentActivity.findViewById(R.id.textView_line7_title);
+        ndTextViewLine1Value    = (TextView)        parentActivity.findViewById(R.id.textView_line1_value);
+        ndTextViewLine2Value    = (TextView)        parentActivity.findViewById(R.id.textView_line2_value);
+        ndTextViewLine3Value    = (TextView)        parentActivity.findViewById(R.id.textView_line3_value);
+        ndTextViewLine4Value    = (TextView)        parentActivity.findViewById(R.id.textView_line4_value);
+        ndTextViewLine5Value    = (TextView)        parentActivity.findViewById(R.id.textView_line5_value);
+        ndTextViewLine6Value    = (TextView)        parentActivity.findViewById(R.id.textView_line6_value);
+        ndTextViewLine7Value    = (TextView)        parentActivity.findViewById(R.id.textView_line7_value);
 
 
         if(carte != null){
@@ -2142,6 +2145,7 @@ public class DepotFragment extends Fragment {
             ndLinearLayoutLine6.setVisibility(View.VISIBLE);
             ndLinearLayoutLine7.setVisibility(View.VISIBLE);
 
+            //get the latest ComptePrepaye of the usager
             ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usagerIdFromRUF == 0? usagerIdFromRUFInApportProFragment: usagerIdFromRUF);
             Usager usager = usagerDB.getUsagerFromID(usagerIdFromRUF == 0? usagerIdFromRUFInApportProFragment: usagerIdFromRUF);
             ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId());
@@ -2170,12 +2174,15 @@ public class DepotFragment extends Fragment {
                     ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                     ndTextViewLine1Title.setText(R.string.text_nom);
                     String nom = usager.getNom();
+                    nomInND = nom;
                     ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                     ndLinearLayoutLine2.setVisibility(View.GONE);
                     ndTextViewLine3Title.setText(R.string.text_type_usager);
                     String type = typeHabitatDB.getTypeHabitatFromID(habitat.getIdTypeHabitat()).getType();
                     ndTextViewLine3Value.setText((type == null || type.isEmpty())? "-" : type);
                     ndTextViewLine4Title.setText(R.string.text_adresse);
+                    adresseInND = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                            + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
                     ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
                             + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
                     ndTextViewLine5Title.setText(R.string.text_carte);
@@ -2204,6 +2211,8 @@ public class DepotFragment extends Fragment {
                     if (accountSetting.isDecompteUDD()) {
                         ndTextViewLine7Title.setText(R.string.text_apport_restant);
                         String unitePoint = accountSetting.getUnitePoint();
+                        apportRestantInND = comptePrepaye.getQtyPoint();
+                        uniteApportRestantInND = unitePoint;
                         ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                     } else {
                         ndLinearLayoutLine7.setVisibility(View.GONE);
@@ -2241,14 +2250,18 @@ public class DepotFragment extends Fragment {
                         ndLinearLayoutLine7.setVisibility(View.VISIBLE);
                         ndTextViewLine1Title.setText(R.string.text_nom);
                         String nom = usager.getNom();
+                        nomInND = nom;
                         ndTextViewLine1Value.setText((nom == null || nom.isEmpty())? "-" : nom);
                         ndTextViewLine2Title.setText(R.string.text_prenom);
                         String prenom = usager.getPrenom();
+                        isUsagerMenageInND = true;
                         ndTextViewLine2Value.setText((prenom == null || prenom.isEmpty())? "-" : prenom);
                         ndTextViewLine3Title.setText(R.string.text_type_usager);
                         ndTextViewLine3Value.setText(R.string.text_particulier);
                         if(habitat.isActif()) {
                             ndTextViewLine4Title.setText(R.string.text_adresse);
+                            adresseInND = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
+                                    + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
                             ndTextViewLine4Value.setText((habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse()) + "\n"
                                     + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille()));
                         }
@@ -2281,6 +2294,8 @@ public class DepotFragment extends Fragment {
                         if (accountSetting.isDecompteUDD()) {
                             ndTextViewLine7Title.setText(R.string.text_apport_restant);
                             String unitePoint = accountSetting.getUnitePoint();
+                            apportRestantInND = comptePrepaye.getQtyPoint();
+                            uniteApportRestantInND = unitePoint;
                             ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                         } else {
                             ndLinearLayoutLine7.setVisibility(View.GONE);
@@ -2310,6 +2325,12 @@ public class DepotFragment extends Fragment {
         }
         if (getArguments() != null && getArguments().getBoolean("isComeFromRechercherUsagerFragment")){
             this.isComeFromRechercherUsagerFragment = true;
+        }
+        if (getArguments() != null && getArguments().getBoolean("isComeFromPopUp")){
+            this.isComeFromPopUp = true;
+        }
+        if (getArguments() != null && getArguments().getBoolean("isComeFromIdentificationFragment")){
+            this.isComeFromIdentificationFragment = true;
         }
     }
 
@@ -2370,7 +2391,7 @@ public class DepotFragment extends Fragment {
                 dchDepotDB.open();
 
                 float vt;
-                if(editText.getText().toString().isEmpty() || editText.getText().toString() == null){
+                if(editText.getText().toString().isEmpty() || editText.getText().toString() == null || editText.getText().toString().equals(".")){
                     vt = 0;
                 }
                 else{
@@ -2405,8 +2426,8 @@ public class DepotFragment extends Fragment {
                 if(parentActivity.getCurrentFragment() instanceof DepotFragment ) {
 
                     if (editTextVolumeTotal != null) {
-                        if (editTextVolumeTotal.getText().toString().isEmpty() || editTextVolumeTotal.getText().toString() == null) {
-                            editTextVolumeTotal.setText("0.0");
+                        if (editTextVolumeTotal.getText().toString().isEmpty() || editTextVolumeTotal.getText().toString() == null || editTextVolumeTotal.getText().toString().equals(".")) {
+                            editTextVolumeTotal.setText(R.string.depot_fragment_init_volume_total_editText_text);
                         } else {
                             float vt = Float.parseFloat(editTextVolumeTotal.getText().toString());
                             editTextVolumeTotal.setText(vt + "");
@@ -2436,26 +2457,31 @@ public class DepotFragment extends Fragment {
     }
 
     public void showReturnAccueilDialog(){
-        if(carte != null) {
-            AccountSetting a = accountSetting;
-            ComptePrepaye c;
+        AccountSetting a = accountSetting;
+        ComptePrepaye  c;
 
+        //init c
+        if(carte != null) {
             long carteActiveCarteId = carte.getId();
             long comptePrepayeId = dchCarteActiveDB.getCarteActiveFromDchCarteId(carteActiveCarteId).getDchComptePrepayeId();
             c = dchComptePrepayeDB.getComptePrepayeFromID(comptePrepayeId);
+        }
+        else{//RechercherUsagerFragment ---> DepotFragment
+            c = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usagerIdFromRUF == 0? usagerIdFromRUFInApportProFragment: usagerIdFromRUF);
+        }
 
-            if(a.getPointMinimum() >= 0 && c.getQtyPoint() < a.getPointMinimum()){
-                //show dialog
-                ReturnAccueilDialog().show();
+        if(a.getPointMinimum() >= 0 && c.getQtyPoint() < a.getPointMinimum()){
+            depot.setStatut(getResources().getInteger(R.integer.statut_annuler));
+            dchDepotDB.updateDepot(depot);
+            //show dialog and return to accueilFragment
+            ReturnAccueilDialog().show();
+        }
 
-            }
-
-            if(a.getNbDepotMinimum() >= 0 && c.getNbDepotRestant() < a.getNbDepotMinimum()){
-                //show dialog
-                ReturnAccueilDialog().show();
-            }
-
-
+        if(a.getNbDepotMinimum() >= 0 && c.getNbDepotRestant() < a.getNbDepotMinimum()){
+            depot.setStatut(getResources().getInteger(R.integer.statut_annuler));
+            dchDepotDB.updateDepot(depot);
+            //show dialog and return to accueilFragment
+            ReturnAccueilDialog().show();
         }
 
     }
@@ -2485,12 +2511,18 @@ public class DepotFragment extends Fragment {
         return builder.create();
     }
 
+    public void initEidtTextVolumeTotal(){
+        if(!accountSetting.isCompteTotal()) {
+            editTextVolumeTotal.setKeyListener(null); // if compteTotal is true, the volume total could be editable
+        }
+        else{
+            editTextVolumeTotal.setBackgroundResource(R.drawable.bg_edittext);
+        }
+    }
 
-
-
-
-
-
+    public long getDepotId() {
+        return depotId;
+    }
 
     /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
     private DchAccountSettingDB dchAccountSettingDB;

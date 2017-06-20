@@ -75,6 +75,7 @@ public class ApportProFragment extends Fragment {
     private TextView apportProFragmentBottomLeftUpLine1ValueTextView;
     private TextView apportProFragmentBottomLeftUpLine2ValueTextView;
     private TextView apportProFragmentBottomLeftUpLine3ValueTextView;
+    private TextView apportProFragmentSignatureInformationTextView;
 
 
     //parameters in NavagationDrawer(totalDecompte,accountSettingId in DepotFragment) from DepotFragment
@@ -140,19 +141,22 @@ public class ApportProFragment extends Fragment {
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
+        DecheterieDB decheterieDB = new DecheterieDB(getContext());
+        decheterieDB.open();
 
-        apportProFragmentTopUpLine1TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_title_textView);
-        apportProFragmentTopUpLine2TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_title_textView);
-        apportProFragmentTopUpLine3TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_title_textView);
-        apportProFragmentBottomLeftUpLine1TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line1_title_textView);
-        apportProFragmentBottomLeftUpLine2TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line2_title_textView);
-        apportProFragmentBottomLeftUpLine3TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line3_title_textView);
-        apportProFragmentTopUpLine1ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_value_textView);
-        apportProFragmentTopUpLine2ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_value_textView);
-        apportProFragmentTopUpLine3ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_value_textView);
-        apportProFragmentBottomLeftUpLine1ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line1_value_textView);
-        apportProFragmentBottomLeftUpLine2ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line2_value_textView);
-        apportProFragmentBottomLeftUpLine3ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line3_value_textView);
+        apportProFragmentTopUpLine1TitleTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_title_textView           );
+        apportProFragmentTopUpLine2TitleTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_title_textView           );
+        apportProFragmentTopUpLine3TitleTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_title_textView           );
+        apportProFragmentBottomLeftUpLine1TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line1_title_textView   );
+        apportProFragmentBottomLeftUpLine2TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line2_title_textView   );
+        apportProFragmentBottomLeftUpLine3TitleTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line3_title_textView   );
+        apportProFragmentTopUpLine1ValueTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_value_textView           );
+        apportProFragmentTopUpLine2ValueTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_value_textView           );
+        apportProFragmentTopUpLine3ValueTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_value_textView           );
+        apportProFragmentBottomLeftUpLine1ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line1_value_textView   );
+        apportProFragmentBottomLeftUpLine2ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line2_value_textView   );
+        apportProFragmentBottomLeftUpLine3ValueTextView = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_bottom_left_up_line3_value_textView   );
+        apportProFragmentSignatureInformationTextView   = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_signature_information_textView        );
 
         //get the depotId sent From DepotFragment
         if (getArguments() != null) {
@@ -161,19 +165,19 @@ public class ApportProFragment extends Fragment {
 
             depotId = getArguments().getLong("depotId");
             //depotId = 1183153170412171602L;
-            Toast.makeText(getContext(), "depotId: " + depotId,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "depotId: " + depotId, Toast.LENGTH_SHORT).show();
             depot =  dchDepotDB.getDepotByIdentifiant(depotId);
 
-            int usagerId = getArguments().getInt("usagerIdFromRechercherUsagerFragment");
-            int typeCarteId = getArguments().getInt("typeCarteIdFromRechercherUsagerFragment");
-            int accountId = getArguments().getInt("accountIdFromRechercherUsagerFragment");
-            boolean  isComeFromRechercherUsagerFragment = getArguments().getBoolean("isComeFromRechercherUsagerFragment");
+            int      usagerId                           = getArguments().getInt     (    "usagerIdFromRechercherUsagerFragment"      );
+            int      typeCarteId                        = getArguments().getInt     (    "typeCarteIdFromRechercherUsagerFragment"   );
+            int      accountId                          = getArguments().getInt     (    "accountIdFromRechercherUsagerFragment"     );
+            boolean  isComeFromRechercherUsagerFragment = getArguments().getBoolean (    "isComeFromRechercherUsagerFragment"        );
+
             if(usagerId != 0 && typeCarteId != 0 && isComeFromRechercherUsagerFragment == true){
-                this.isComeFromRUFInApportProFragment = isComeFromRechercherUsagerFragment;
-                this.usagerIdFromRUFInApportProFragment = usagerId;
-                this.typeCarteIdFromRUFInApportProFragment = typeCarteId;
-                this.accountIdFromRUFInApportProFragment = accountId;
+                this.isComeFromRUFInApportProFragment       = isComeFromRechercherUsagerFragment;
+                this.usagerIdFromRUFInApportProFragment     = usagerId                          ;
+                this.typeCarteIdFromRUFInApportProFragment  = typeCarteId                       ;
+                this.accountIdFromRUFInApportProFragment    = accountId                         ;
             }
 
             dchDepotDB.close();
@@ -181,14 +185,14 @@ public class ApportProFragment extends Fragment {
 
         //get the nomInND, isUsagerMenageInND, adresseInND, numeroCarteInND, apportRestantInND, uniteApportRestantInND, totalDecompte, accountSettingId sent from DepotFragment
         if (getArguments() != null) {
-            nomInND = getArguments().getString("nomInND");
-            isUsagerMenageInND = getArguments().getBoolean("isUsagerMenageInND");
-            adresseInND = getArguments().getString("adresseInND");
-            numeroCarteInND = getArguments().getString("numeroCarteInND");
-            apportRestantInND = getArguments().getFloat("apportRestantInND");
-            uniteApportRestantInND = getArguments().getString("uniteApportRestantInND");
-            totalDecompte = getArguments().getFloat("totalDecompte");
-            accountSettingId = getArguments().getInt("accountSettingId");
+            nomInND                 = getArguments().getString  (   "nomInND"               );
+            isUsagerMenageInND      = getArguments().getBoolean (   "isUsagerMenageInND"    );
+            adresseInND             = getArguments().getString  (   "adresseInND"           );
+            numeroCarteInND         = getArguments().getString  (   "numeroCarteInND"       );
+            apportRestantInND       = getArguments().getFloat   (   "apportRestantInND"     );
+            uniteApportRestantInND  = getArguments().getString  (   "uniteApportRestantInND");
+            totalDecompte           = getArguments().getFloat   (   "totalDecompte"         );
+            accountSettingId        = getArguments().getInt     (   "accountSettingId"      );
         }
 
         //detect if the signature picture has already existed
@@ -208,17 +212,20 @@ public class ApportProFragment extends Fragment {
 
         //set values
         if(isUsagerMenageInND) {
-            apportProFragmentTopUpLine1TitleTextView.setText(R.string.apport_pro_fragment_top_up_line1_title_textView_text1);
+            apportProFragmentTopUpLine1TitleTextView    .setText(   R.string.apport_pro_fragment_top_up_line1_title_textView_text1      );
         }
         else{
-            apportProFragmentTopUpLine1TitleTextView.setText(R.string.apport_pro_fragment_top_up_line1_title_textView_text2);
+            apportProFragmentTopUpLine1TitleTextView    .setText(   R.string.apport_pro_fragment_top_up_line1_title_textView_text2      );
         }
-        apportProFragmentTopUpLine1ValueTextView.setText(nomInND);
-        apportProFragmentTopUpLine2ValueTextView.setText(adresseInND);
-        apportProFragmentTopUpLine3ValueTextView.setText(numeroCarteInND);
-        apportProFragmentBottomLeftUpLine1ValueTextView.setText(apportRestantInND + " " + uniteApportRestantInND);
-        apportProFragmentBottomLeftUpLine2ValueTextView.setText(totalDecompte + " " + uniteApportRestantInND);
-        apportProFragmentBottomLeftUpLine3ValueTextView.setText((apportRestantInND - totalDecompte) + " " + uniteApportRestantInND);
+        apportProFragmentTopUpLine1ValueTextView        .setText(   nomInND                                                             );
+        apportProFragmentTopUpLine2ValueTextView        .setText(   adresseInND                                                         );
+        apportProFragmentTopUpLine3ValueTextView        .setText(   numeroCarteInND                                                     );
+        apportProFragmentBottomLeftUpLine1ValueTextView .setText(   apportRestantInND + " " + uniteApportRestantInND                    );
+        apportProFragmentBottomLeftUpLine2ValueTextView .setText(   totalDecompte + " " + uniteApportRestantInND                        );
+        apportProFragmentBottomLeftUpLine3ValueTextView .setText(   (apportRestantInND - totalDecompte) + " " + uniteApportRestantInND  );
+        apportProFragmentSignatureInformationTextView   .setText(   getResources().getText(R.string.depot_fragment_signature_information_text_1) + decheterieDB.getDecheterieByIdentifiant(depot.getDecheterieId()).getNom() + getResources().getText(R.string.depot_fragment_signature_information_text_2) + getCurrentDate() + getResources().getText(R.string.depot_fragment_signature_information_text_3) );
+
+        decheterieDB.close();
 
     }
 
@@ -410,14 +417,23 @@ public class ApportProFragment extends Fragment {
         return apportProFragment;
     }
 
-    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment,int accountIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment) {
+    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment,int accountIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
-        args.putLong("depotId", depotId);
-        args.putInt("usagerIdFromRechercherUsagerFragment", usagerIdFromRechercherUsagerFragment);
-        args.putInt("typeCarteIdFromRechercherUsagerFragment", typeCarteIdFromRechercherUsagerFragment);
-        args.putInt("accountIdFromRechercherUsagerFragment", accountIdFromRechercherUsagerFragment);
-        args.putBoolean("isComeFromRechercherUsagerFragment", isComeFromRechercherUsagerFragment);
+        args.putLong    (   "depotId",                                  depotId                                 );
+        args.putInt     (   "usagerIdFromRechercherUsagerFragment",     usagerIdFromRechercherUsagerFragment    );
+        args.putInt     (   "typeCarteIdFromRechercherUsagerFragment",  typeCarteIdFromRechercherUsagerFragment );
+        args.putInt     (   "accountIdFromRechercherUsagerFragment",    accountIdFromRechercherUsagerFragment   );
+        args.putBoolean (   "isComeFromRechercherUsagerFragment",       isComeFromRechercherUsagerFragment      );
+
+        args.putString  (   "nomInND",                  nomInND                 );
+        args.putBoolean (   "isUsagerMenageInND",       isUsagerMenageInND      );
+        args.putString  (   "adresseInND",              adresseInND             );
+        //args.putString  (   "numeroCarteInND",          numeroCarteInND         );
+        args.putFloat   (   "apportRestantInND",        apportRestantInND       );
+        args.putString  (   "uniteApportRestantInND",   uniteApportRestantInND  );
+        args.putFloat   (   "totalDecompte",            totalDecompte           );
+        args.putInt     (   "accountSettingId",         accountSettingId        );
         apportProFragment.setArguments(args);
         return apportProFragment;
     }
@@ -439,6 +455,14 @@ public class ApportProFragment extends Fragment {
         String dateHeure = df.format(d);
 
         return dateHeure;
+    }
+
+    public String getCurrentDate(){
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.signature_date_format));
+        String date = df.format(d);
+
+        return date;
     }
 
     public boolean isComeFromRUFInApportProFragment() {

@@ -8,6 +8,7 @@
     <string name="intervention_date_format_in">yyyy-MM-dd</string>
     <string name="email_date_format">dd/MM/yyyy</string>
     <string name="db_date_format">yyyyMMddHHmmss</string>
+    <string name="signature_date_format">dd/MM/yyyy</string>
     <string name="normal_date_format">yyyyMMdd</string>
     <string name="depot_id_date_format">yyMMddHHmmss</string>
     <string name="ws_date_format">yyyy-MM-dd-HH-mm-ss</string>
@@ -100,6 +101,10 @@
     <string name="depot_fragment_volume_total_textView_text">Volume total : </string>
     <string name="depot_fragment_valider_button_text">valider</string>
     <string name="depot_fragment_flux_item_textView_text">fluxNom</string>
+    <string name="depot_fragment_init_volume_total_editText_text">0.0</string>
+    <string name="depot_fragment_signature_information_text_1">Fait à la déchèterie de&#160;</string>
+    <string name="depot_fragment_signature_information_text_2">, le &#160;</string>
+    <string name="depot_fragment_signature_information_text_3">\nSignature</string>
 
     <string name="pop_up_message1">Vous avez sélectionné flux&#160;</string>
     <string name="flux_positive_button">valider</string>

@@ -201,6 +201,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_container);
 
+
         initDB();
         //initDBTest();
 
@@ -250,7 +251,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
+        changeMainFragment(new AccueilFragment(), true);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -1668,7 +1669,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             dchDepotDB.open();
                             dialog.dismiss();
 
-                            Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
+                            Depot depot = dchDepotDB.getDepotByIdentifiant(((DepotFragment) getCurrentFragment()).getDepotId());
                             dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(),getResources().getInteger(R.integer.statut_annuler));
 
                             Configuration.setIsOuiClicked(false);
@@ -1696,7 +1697,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
             }
             else if( getCurrentFragment() instanceof IdentificationFragment) {
-                ((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
+                //((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
                 changeMainFragment(new AccueilFragment(), true);
             }
             else if( getCurrentFragment() instanceof AccueilFragment) {
@@ -1795,6 +1796,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         if(errorDialog != null) {
             errorDialog.dismiss();
         }
+
         showSimpleAlertDialogWithNegativeButton(activity, getString(R.string.error_title_information), getString(R.string.error_quit_application), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -2239,7 +2241,18 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 1));
         dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 2));
         dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 3));
-        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(2, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 4));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 5));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 6));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 7));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 8));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(2, 9));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 10));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 11));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 12));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 13));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 14));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 15));
         dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(3, 2));
         dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(4, 3));
         dchDecheterieFluxDB.close();
@@ -2328,16 +2341,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true,true,true,0,0,"m3","20170101","20171230",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true,0,0,"m3","20170101","20170410",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true,0,0,"m3","20170101","20170410",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true ,true ,true ,0,0,"m3","20170101","20171230",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true ,0,0,"m3","20170101","20170410",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true ,0,0,"m3","20170101","20170410",0,0,true,30,0));
         dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,Configuration.getIdAccount(),3,2,false,false,false,0,0,"m3","20170101","20171230",0,0,true,30,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,false,true,0));//line 1
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,0,true,false,0));//line 2
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,1,true,true,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,false,true ,0));//line 1
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,0,true ,false,0));//line 2
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,4,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,5,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,6,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,7,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,8,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,9,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,10,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,11,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,12,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,13,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,14,1,true ,true ,0));//line 1 line 3
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,15,1,true ,true ,0));//line 1 line 3
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,1,0,false,false,0));
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,2,0,false,false,0));
         dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(4,3,0,false,false,0));
@@ -2431,35 +2456,83 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(this);
         dchAccountFluxSettingDB.open();
         dchAccountFluxSettingDB.clearAccountFluxSetting();
+        DchTypeCarteDB typeCarteDB = new DchTypeCarteDB(this);
+        typeCarteDB.open();
+        typeCarteDB.clearTypeCarte();
         IconDB iconDB = new IconDB(this);
         iconDB.open();
         iconDB.clearIcon();
         DchFluxDB dchFluxDB = new DchFluxDB(this);
         dchFluxDB.open();
         dchFluxDB.clearFlux();
+        DchUniteDB dchUniteDB = new DchUniteDB(this);
+        dchUniteDB.open();
+        dchUniteDB.clearUnite();
+        DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(this);
+        dchDecheterieFluxDB.open();
+        dchDecheterieFluxDB.clearDecheterieFlux();
+        UsagerDB usagerDB = new UsagerDB(this);
+        usagerDB.open();
+        usagerDB.clearUsager();
+        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(this);
+        dchComptePrepayeDB.open();
+        dchComptePrepayeDB.clearComptePrepaye();
+
+        DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(this);
+        dchCarteActiveDB.open();
+        dchCarteActiveDB.clearCarteActive();
+        DchCarteDB dchCarteDB = new DchCarteDB(this);
+        dchCarteDB.open();
+        dchCarteDB.clearCarte();
+        DchCarteEtatRaisonDB dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(this);
+        dchCarteEtatRaisonDB.open();
+        dchCarteEtatRaisonDB.clearCarteEtatRaison();
+        TypeHabitatDB typeHabitatDB = new TypeHabitatDB(this);
+        typeHabitatDB.open();
+        typeHabitatDB.clearTypeHabitat();
+        HabitatDB habitatDB = new HabitatDB(this);
+        habitatDB.open();
+        habitatDB.clearHabitat();
+        MenageDB menageDB = new MenageDB(this);
+        menageDB.open();
+        menageDB.clearMenage();
+        LocalDB localDB = new LocalDB(this);
+        localDB.open();
+        localDB.clearLocal();
+        UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(this);
+        usagerHabitatDB.open();
+        usagerHabitatDB.clearUsagerHabitat();
+        UsagerMenageDB usagerMenageDB = new UsagerMenageDB(this);
+        usagerMenageDB.open();
+        usagerMenageDB.clearUsagerMenage();
+        DecheterieDB decheterieDB = new DecheterieDB(this);
+        decheterieDB.open();
+        decheterieDB.clearDecheterie();
+
+        //add typeCarte into DBB
+        typeCarteDB.insertTypeCarte(new TypeCarte(1,"Particulier"));
+        typeCarteDB.insertTypeCarte(new TypeCarte(2,"Professionnel"));
+        typeCarteDB.close();
+
+        //add unite into BDD
+        dchUniteDB.insertUnite(new Unite(1,"m3"));
+        dchUniteDB.insertUnite(new Unite(2,"appareil"));
+        dchUniteDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,118,1,1,false,true,true,1,1,"m3","170101","171230",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,118,2,1,false,true,false,1,1,"m3","170101","171230",0,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,118,3,1,true,false,false,1,1,"m3","170101","171230",0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true,true,false,1,1,"m3","20170101","20171230",0,0,true,0,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),2,1,false,true,true,1,1,"m3","20170101","20171230",0,0,false,0,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,6,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,8,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,9,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,12,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,18,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,6,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,8,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,9,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,12,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,18,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,6,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,8,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,9,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,12,0,true,false,0));
-        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(3,18,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,1,0,false,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,2,0,false,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,3,0,false,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(1,4,0,false,true,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,1,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,2,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,3,0,true,false,0));
+        dchAccountFluxSettingDB.insertAccountFluxSetting(new AccountFluxSetting(2,4,0,true,true,0));
         dchAccountFluxSettingDB.close();
 
         //add All icons into DBB
@@ -2478,36 +2551,185 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         iconDB.close();
 
         //add flux into DBB
-        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Carton", 5, 3, 118));
-        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Metal", 12, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, 118));
-        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, 118));
+//        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(3,"Carton", 5, 1, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(4,"DEEE", 6, 2, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(2,"Encombrants", 8, 1, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(1,"Metal", 12, 1, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, Configuration.getIdAccount()));
+//        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, Configuration.getIdAccount()));
         dchFluxDB.close();
 
-        MenageDB menageDB = new MenageDB(this);
-        menageDB.open();
-        menageDB.clearMenage();
-        /*menageDB.insertMenage(new Menage(57, "Loumiere", "Delphine", "dloumiere@gmail.com", 3, "RJ57", true, "0698767706", "Mme",168));
-        menageDB.insertMenage(new Menage(58, "Ricquet", "Pierre", "priquet@gmail.com", 3, "RJ42", true, "0698768576", "Mr",169 ));*/
+        //add dechetrie_flux into DBB
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 2));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 3));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(1, 4));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(2, 1));
+        dchDecheterieFluxDB.insertDecheterieFlux(new DecheterieFlux(2, 2));
+        dchDecheterieFluxDB.close();
+
+        //add usager into DBB
+        usagerDB.insertUsager(new Usager(1,Configuration.getIdAccount(),"Michael",null,"Jordan","Michael@Jordan.com","M",null,null,null,"0663549823",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(2,Configuration.getIdAccount(),"Sir Isaac",null,"Newton","Isaac@Newton.com","M",null,null,null,"0135935645",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(3,Configuration.getIdAccount(),"Jeanne",null,"Moreau","Jeanne@Moreau.com","M",null,null,null,"0564851325",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(4,Configuration.getIdAccount(),"Stephen",null,"King","Stephen@King.com","M",null,null,null,"0143212365",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(5,Configuration.getIdAccount(),"J.K.",null,"Rowling","J.K@Rowling.com","Mme",null,null,null,"0265459653",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(6,Configuration.getIdAccount(),"Winston",null,"Churchill","Winston@Churchill.com","M",null,null,null,"0321453656",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(7,Configuration.getIdAccount(),"Thomas",null,"Edison","Thomas@Edison.com","M",null,null,null,"0231256325",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(8,Configuration.getIdAccount(),"Oprah",null,"Winfrey","Oprah@Winfrey.com","Mme",null,null,null,"0231532145",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(9,Configuration.getIdAccount(),"Walt",null,"Disney","Walt@Disney.com","M",null,null,null,"0135935645",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(10,Configuration.getIdAccount(),"Steven",null,"Spielberg","Steven@Spielberg.com","M",null,null,null,"0231531253",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(11,Configuration.getIdAccount(),"Harrison",null,"Ford","Harrison@Ford.com","M",null,null,null,"0212315213",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(12,Configuration.getIdAccount(),"Theodor Seuss",null,"Geisel","TheodorSeuss@Geisel.com","M",null,null,null,"0213143214",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(13,Configuration.getIdAccount(),"Charles",null,"Darwin","Charles@Darwin.com","M",null,null,null,"0231543525",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(14,Configuration.getIdAccount(),"Richard",null,"Feloni","Richard@Feloni.com","M",null,null,null,"0231223235",null,"password",null,true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(15,Configuration.getIdAccount(),"R.H.",null,"Macy","R.H@Macy.com","M",null,null,null,"0121325357",null,"password",null,true,null,null,null,null));
+
+        //add comptePrepaye into DBB
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(1,1,100,10));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(2,2,50,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(3,3,35,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(4,4,15,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(5,5,13,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(6,6,100,10));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(7,2,50,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(8,6,35,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(9,6,15,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(10,6,13,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(11,11,100,10));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(12,12,50,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(13,13,35,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(14,14,15,3));
+        dchComptePrepayeDB.insertComptePrepaye(new ComptePrepaye(15,15,13,3));
+        dchComptePrepayeDB.close();
+
+        //add carte into BDD
+        dchCarteDB.insertCarte(new Carte(1,"2f4913f3",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(2,"ndjkndqjf",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(3,"2f4913f2",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(4,"565xwvv",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(5,"vfnsdj",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(7,"cdwfjnqe",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(8,"3jndqlik",null,1,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(9,"2f4913f4",null,2,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(10,"skdnqnkji",null,2,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(11,"nqsjncisjq",null,2,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(12,"cjdsnfiqeq",null,2,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(13,"xcvfjdns",null,2,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(14,"fjdsnfj",null,2,Configuration.getIdAccount()));
+        dchCarteDB.insertCarte(new Carte(15,"vnjsdjfhdsb",null,2,Configuration.getIdAccount()));
+        dchCarteDB.close();
+
+        //add carteActive into DBB
+        dchCarteActiveDB.insertCarteActive(new CarteActive(1,null,null,1,true,1));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(2,null,null,1,true,2));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(3,null,null,1,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(4,null,null,2,false,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(5,null,null,2,true,3));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(8,null,null,3,true,6));
+        dchCarteActiveDB.insertCarteActive(new CarteActive(9,null,null,3,true,7));
+        dchCarteActiveDB.close();
+
+        //add carteEtatRaison into BDD
+        dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(1,"Raison 1."));
+        dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 2."));
+        dchCarteEtatRaisonDB.insertCarteEtatRaison(new CarteEtatRaison(2,"Raison 3."));
+        dchCarteEtatRaisonDB.close();
+
+        //add typeHabitat into BDD
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(1,"Individuel"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(2,"Collectif"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(3,"Administration"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(4,"Professionnel"));
+        typeHabitatDB.insertTypeHabitat(new TypeHabitat(5,"Divers"));
+        typeHabitatDB.close();
+
+        //add habitat into BDD
+        habitatDB.insertHabitat(new Habitat(1,"Avenue Anatole France","75007","Paris",1,1,"3882AB23","0","0",null,null,"2",true,null,null,4,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(2,"Rue des abricots","75000","Paris",2,7,null,"0","0",null,null,"10",true,null,null,2,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(3,"Rue de Paris","13000","Marseille",3,1,"A12ZE","0","0",null,null,"13",false,null,null,1,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(4,"Rue samuel de champlain","61000","alencon",1,4,"REF875412","0","0",null,null,"15",false,null,null,1,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(5,"Chemin de l'ile demoiselle","77410","ANNET-SUR-MARNE",1,3,null,"0","0",null,null,"13",false,null,null,4,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(6,"RUE DU GENERAL DE GAULLE","77230","DAMMARTIN-EN-GOELE",1,1,null,"0","0",null,null,"33",false,null,null,2,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(7,"RUE DU MONCEL","77410","ANNET-SUR-MARNE",11,0,null,"0","0",null,null,"7",true,null,null,4,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(8,"Rue de Leupe","90400","Sevenans",3,1,"A12ZE","0","0",null,null,null,true,null,null,1,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(9,"Avenue Albert Einstein","69100","Villeurbanne",1,4,"REF875412","0","0",null,null,"15",true,null,null,1,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(10,"Rue de Ménilmontant","75020","Paris",1,3,null,"0","0",null,null,"161",true,null,null,4,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(11,"Rue de la République","93100","Montreuil",1,1,null,"0","0","bis",null,"79",true,null,null,2,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.insertHabitat(new Habitat(12,"Rue de Rivoli","75001","Paris",11,0,null,"0","0",null,null,"99",true,null,null,4,Configuration.getIdAccount(),"20170101","20171230"));
+        habitatDB.close();
+
+        //add menage into BDD
+        menageDB.insertMenage(new Menage(1,3,true,1,"20170101","20191230",false));
+        menageDB.insertMenage(new Menage(2,3,true,2,"20170101","20191230",false));
+        menageDB.insertMenage(new Menage(3,5,true,3,"20170101","20191230",false));
+        menageDB.insertMenage(new Menage(4,0,true,3,"20170101","20191230",false));
+        menageDB.insertMenage(new Menage(5,3,true,2,"20170101","20191230",false));
+        menageDB.insertMenage(new Menage(6,3,false,1,"20170101","20191230",false));
+        menageDB.insertMenage(new Menage(7,3,false,1,"20170101","20191230",false));
         menageDB.close();
+
+        //add local into DBB
+        localDB.insertLocal(new Local(1,6,null,null,null,null,null));
+        localDB.insertLocal(new Local(2,2,null,null,null,null,null));
+        localDB.insertLocal(new Local(3,2,null,null,null,null,null));
+        localDB.close();
+
+        //add usagerHabitat into BDD
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,1));//habitat1(actif)
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,4));//habitat4(not actif)
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(1,5));//habitat5(not actif)
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
+        //usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(3,3));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(11,8));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(12,9));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(13,10));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(14,11));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(15,12));
+        usagerHabitatDB.insertUsagerHabitat(new UsagerHabitat(2,2));
+        usagerHabitatDB.close();
+
+        //add usagerMenage into BDD
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,3));//menage3 habitat2(actif)
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,6));//menage6 habitat3(not actif)
+        usagerMenageDB.insertUsagerMenage(new UsagerMenage(3,7));//menage7 habitat6(not actif)
+        usagerMenageDB.close();
+
+        //add decheterie into BDD
+        String[] ds = {"Paris","Shanghai","Montpellier","Belfort","Paris France","Shanghai China","New York","New York City","San Francisco","Washington"};
+        for(int i = 0; i < 10; i ++) {
+            Decheterie dt = new Decheterie();
+            //dt.setId(i + 1);
+            dt.setIdAccount(Configuration.getIdAccount());
+            dt.setNom(ds[i]);
+            dt.setConsigneComptage("");
+            dt.setConsigneAvSignature("");
+            dt.setApportFlux(true);
+            decheterieDB.insertDecheterie(dt);
+        }
+        decheterieDB.close();
+
+
+
+
+
+
 
     }
 
