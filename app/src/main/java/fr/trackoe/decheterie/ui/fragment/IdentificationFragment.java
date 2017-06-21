@@ -120,7 +120,7 @@ public class IdentificationFragment extends Fragment {
         parentActivity = (ContainerActivity) getActivity();
 
         String lastNumCarte = Configuration.getLastNumCard();
-        if(lastNumCarte != null) editText_barcode.setText(lastNumCarte);
+        //if(lastNumCarte != null) editText_barcode.setText(lastNumCarte);
     }
 
     /*

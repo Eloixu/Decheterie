@@ -9,9 +9,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -304,6 +306,28 @@ public class CustomDialogFlux extends Dialog {
                 }
             };
             editTextQuantiteApporte.addTextChangedListener(listenerMailValide);
+
+
+            editTextQuantiteApporte.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+                    if (actionId == 5)
+                    {
+                       return true;
+                    }
+
+                    return true;
+                }
+            });
+
+            editTextQuantiteDecompte.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+
+
+                    return false;
+                }
+            });
 
 
 

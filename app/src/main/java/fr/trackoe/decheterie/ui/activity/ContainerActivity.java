@@ -202,8 +202,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
 
-        initDB();
-        //initDBTest();
+        //initDB();
+        initDBTest();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();

@@ -2413,7 +2413,7 @@ public class DepotFragment extends Fragment {
         editText.addTextChangedListener(listener3);
     }
 
-    //keybBoard open/close listener
+    //keyBoard open/close listener
     public void addKeyBoardListener(){
         keyboardListener = new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
