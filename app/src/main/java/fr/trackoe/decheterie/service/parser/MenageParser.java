@@ -29,10 +29,10 @@ public class MenageParser extends JSONParser<Menages> {
                     int         id              = jobj.has("id")                ? jobj.getInt("id") : null;
                     int         idLocal         = jobj.has("id_local")          ? jobj.getInt("id_local") : null;
                     int         nbHabitant      = jobj.has("nb_habitants")      ? jobj.getInt("nb_habitants") : null;
-                    boolean     isActif         = jobj.has("actif")             ? jobj.getBoolean("actif") : null;
+                    boolean     isActif         = jobj.has("actif")             ? jobj.getBoolean("actif") : true;
                     String      dateDebut       = jobj.has("date_debut")        ? jobj.getString("date_debut") : "";
                     String      dateFin         = jobj.has("date_fin")          ? jobj.getString("date_fin") : "";
-                    boolean     isProprietaire  = jobj.has("is_proprietaire")   ? jobj.getBoolean("is_proprietaire") : null;
+                    boolean     isProprietaire  = jobj.has("is_proprietaire")   ? jobj.getBoolean("is_proprietaire") : true;
 
                     m.addMenage(id, nbHabitant, isActif, idLocal, dateDebut, dateFin, isProprietaire);
                 }

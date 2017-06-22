@@ -65,7 +65,6 @@ public class LoadingFragment extends Fragment {
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);
 
-        //launchHabitatAction();
         //launchPrepaiementAction();
         launchHabitatAction();
         initDateMaj();
@@ -308,7 +307,7 @@ public class LoadingFragment extends Fragment {
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));
                 progressBar.setVisibility(View.GONE);
-                //launchAccueilFragment();
+                launchAccueilFragment();
                 saveDateMaj();
                 ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }

@@ -41,8 +41,11 @@ public class AccountSettingParser extends JSONParser<AccountSettings> {
                     String  dateFinParam            = jobj.has("date_fin_param")                    ? jobj.getString("date_fin_param") : "";
                     int     idChoixDecompteTotal    = jobj.has("id_choix_decompte_total")           ? jobj.getInt("id_choix_decompte_total") : -1;
                     int     nbDepotRestant          = jobj.has("nb_depot_restant")                  ? jobj.getInt("nb_depot_restant") : -1;
+                    boolean compteTotal             = jobj.has("compte_total")                      ? jobj.getBoolean("compte_total") : false;
+                    float   pointMinimum            = jobj.has("point_minimum")                     ? Float.parseFloat(jobj.getString("point_minimum")) : -1;
+                    int     nbDepotMinimum          = jobj.has("nb_depot_minimum")                  ? jobj.getInt("nb_depot_minimum") : 0;
 
-                    as.addAccountSetting(id, idAccount, idTypeCarte, idUDD, decompteDepot, decompteUDD, pageSignature, coutUDDPrPoint, coutPoint, unitePoint, dateDebutParam, dateFinParam, idChoixDecompteTotal, nbDepotRestant);
+                    as.addAccountSetting(id, idAccount, idTypeCarte, idUDD, decompteDepot, decompteUDD, pageSignature, coutUDDPrPoint, coutPoint, unitePoint, dateDebutParam, dateFinParam, idChoixDecompteTotal, nbDepotRestant, compteTotal, pointMinimum, nbDepotMinimum);
                 }
             }
         }

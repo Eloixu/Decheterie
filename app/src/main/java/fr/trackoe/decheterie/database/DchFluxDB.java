@@ -25,7 +25,7 @@ public class DchFluxDB extends MyDb {
     public long insertFlux(Flux flux) {
         ContentValues values = new ContentValues();
 
-        //values.put(DecheterieDatabase.TableDchFlux.ID, flux.getId());
+        values.put(DecheterieDatabase.TableDchFlux.ID, flux.getId());
         values.put(DecheterieDatabase.TableDchFlux.NOM, flux.getNom());
         values.put(DecheterieDatabase.TableDchFlux.ICON_ID, flux.getIconId());
         values.put(DecheterieDatabase.TableDchFlux.UNITE_COMPTAGE_ID, flux.getUniteComptageId());

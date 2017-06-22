@@ -21,7 +21,7 @@ public class AccountSettings extends ContenantBean {
         this.listAccountSetting = listAccountSetting;
     }
 
-    public void addAccountSetting(int id, int dchAccountId, int dchTypeCarteId, int uniteDepotDecheterieId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, float coutUDDPrPoint, float coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant) {
-        this.listAccountSetting.add(new AccountSetting(id, dchAccountId, dchTypeCarteId, uniteDepotDecheterieId, decompteDepot, decompteUDD, pageSignature, coutUDDPrPoint, coutPoint, unitePoint, dateDebutParam, dateFinParam, dchChoixDecompteTotalId, nbDepotRestant));
+    public void addAccountSetting(int id, int dchAccountId, int dchTypeCarteId, int uniteDepotDecheterieId, boolean decompteDepot, boolean decompteUDD, boolean pageSignature, float coutUDDPrPoint, float coutPoint, String unitePoint, String dateDebutParam, String dateFinParam, int dchChoixDecompteTotalId, int nbDepotRestant, boolean compteTotal, float pointMinimum, int nbDepotMinimum) {
+        this.listAccountSetting.add(new AccountSetting(id, dchAccountId, dchTypeCarteId, uniteDepotDecheterieId, decompteDepot, decompteUDD, pageSignature, coutUDDPrPoint, coutPoint, unitePoint, dateDebutParam, dateFinParam, dchChoixDecompteTotalId, nbDepotRestant, compteTotal, pointMinimum, nbDepotMinimum));
     }
 }

@@ -203,7 +203,7 @@ public class CustomDialogFlux extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
             final CustomDialogFlux dialog = new CustomDialogFlux(context,R.style.Dialog);
-            View layout = inflater.inflate(R.layout.dialog_flux_layout, null);
+            final View layout = inflater.inflate(R.layout.dialog_flux_layout, null);
             dialog.addContentView(layout, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
             ((TextView) layout.findViewById(R.id.dialog_flux_layout_title)).setText(title);
@@ -307,13 +307,19 @@ public class CustomDialogFlux extends Dialog {
             };
             editTextQuantiteApporte.addTextChangedListener(listenerMailValide);
 
-
+            //set keyBoarder listeners for editTextQuantiteApporte and editTextQuantiteDecompte
+            //click "ok" on keyboard = click "valider"
             editTextQuantiteApporte.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-                    if (actionId == 5)
+                    if (actionId == EditorInfo.IME_ACTION_NEXT)
                     {
-                       return true;
+                        if(visibilityLine2){
+                            editTextQuantiteDecompte.requestFocus();
+                        }
+                    }
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        ((Button) layout.findViewById(R.id.dialog_flux_layout_positive_button)).callOnClick();
                     }
 
                     return true;
@@ -323,8 +329,10 @@ public class CustomDialogFlux extends Dialog {
             editTextQuantiteDecompte.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-
-
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        ((Button) layout.findViewById(R.id.dialog_flux_layout_positive_button)).callOnClick();
+                        return true;
+                    }
                     return false;
                 }
             });

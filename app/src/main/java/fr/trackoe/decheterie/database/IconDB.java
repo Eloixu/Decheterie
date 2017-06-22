@@ -24,7 +24,7 @@ public class IconDB extends MyDb {
     public long insertIcon(Icon icon) {
         ContentValues values = new ContentValues();
 
-        //values.put(DecheterieDatabase.TableIcon.ID, icon.getId());
+        values.put(DecheterieDatabase.TableIcon.ID, icon.getId());
         values.put(DecheterieDatabase.TableIcon.NOM, icon.getNom());
         values.put(DecheterieDatabase.TableIcon.DOMAINE, icon.getDomaine());
         values.put(DecheterieDatabase.TableIcon.PATH, icon.getPath());

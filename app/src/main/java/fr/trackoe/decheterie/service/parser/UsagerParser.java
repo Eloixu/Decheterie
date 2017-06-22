@@ -40,7 +40,7 @@ public class UsagerParser extends JSONParser<Usagers> {
                     String  telephone2      = jobj.has("telephone2")    ? jobj.getString("telephone2") : "";
                     String  password        = jobj.has("password")      ? jobj.getString("password") : "";
                     String  commentaire     = jobj.has("commentaire")   ? jobj.getString("commentaire") : "";
-                    boolean isActif         = jobj.has("is_actif")      ? jobj.getBoolean("is_actif") : null;
+                    boolean isActif         = jobj.has("is_actif")      ? jobj.getBoolean("is_actif") : true;
                     String  siren           = jobj.has("siren")         ? jobj.getString("siren") : "";
                     String  siret           = jobj.has("siret")         ? jobj.getString("siret") : "";
                     String  codeApe         = jobj.has("code_ape")      ? jobj.getString("code_ape") : "";

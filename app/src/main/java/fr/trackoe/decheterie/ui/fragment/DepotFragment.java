@@ -84,8 +84,9 @@ public class DepotFragment extends Fragment {
     private boolean pageSignature = false;
     private AccountSetting accountSetting;
     ContainerActivity parentActivity;
-    private TextView textViewVolumeTotal;
-    private EditText editTextVolumeTotal;
+    private LinearLayout    linearLayoutVolumeTotal;
+    private TextView        textViewVolumeTotal;
+    private EditText        editTextVolumeTotal;
     private TextView textViewUniteVolumeTotal;
     private SoftKeyboardStateWatcher softKeyboardStateWatcher;
     private SoftKeyboardStateWatcher.SoftKeyboardStateListener keyboardListener;
@@ -186,6 +187,7 @@ public class DepotFragment extends Fragment {
 
         depot_vg                    = (ViewGroup)           inflater.inflate(R.layout.depot_fragment, container, false);
         parentActivity              = (ContainerActivity)   getActivity();
+        linearLayoutVolumeTotal     = (LinearLayout)        depot_vg.findViewById(R.id.depot_fragment_volume_total_linearlayout);
         textViewVolumeTotal         = (TextView)            depot_vg.findViewById(R.id.depot_fragment_volume_total_textView);
         editTextVolumeTotal         = (EditText)            depot_vg.findViewById(R.id.depot_fragment_volume_total_editText);
         textViewUniteVolumeTotal    = (TextView)            depot_vg.findViewById(R.id.depot_fragment_unite_volume_total_textView);
@@ -460,7 +462,7 @@ public class DepotFragment extends Fragment {
         dchAccountFluxSettingDB.open();
 
         //initialize the "volume total"
-        //textViewVolumeTotal.setText(Html.fromHtml(INITIAL_VOLUME_TOTAL + nomUniteDecompte));
+        setVisibilityViewOfVolumeTotal();
         editTextVolumeTotal.setText(getResources().getString(R.string.dialog_flux_layout_qty_calcul_textView_text));
         textViewUniteVolumeTotal.setText(nomUniteDecompte);
 
@@ -476,6 +478,7 @@ public class DepotFragment extends Fragment {
             ArrayList<Flux> fluxList = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
             for(Flux flux: fluxList){
                 Icon icon = iconDB.getIconByIdentifiant(flux.getIconId());
+                //icon.setNom(flux.getNom());
                 iconList.add(icon);
             }
         }
@@ -496,8 +499,8 @@ public class DepotFragment extends Fragment {
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
             TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
-            txt.setText(iconList.get(i).getNom());
-            txtCopy.setText(iconList.get(i).getNom());
+            txt.setText(replaceName(iconList.get(i).getNom()));
+            txtCopy.setText(replaceName(iconList.get(i).getNom()));
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -514,8 +517,8 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
-                    builder.setTitle(iconName);
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
+                    builder.setTitle(replaceName(iconName));
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                     String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -525,7 +528,7 @@ public class DepotFragment extends Fragment {
                     //show lines from line1 line2 line3
                     final boolean[] lineVisbility = checkAFS(dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
                     if(lineVisbility[0]) builder.setVisibilityLine1(true);
-                    if(lineVisbility[1])  builder.setVisibilityLine2(true);
+                    if(lineVisbility[1]) builder.setVisibilityLine2(true);
                     if(lineVisbility[2]) builder.setVisibilityLine3(true);
 
                     //show the qty from BDD
@@ -662,8 +665,8 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
-                            builder.setTitle(iconName);
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
+                            builder.setTitle(replaceName(iconName));
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                             String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -857,6 +860,7 @@ public class DepotFragment extends Fragment {
         dchAccountFluxSettingDB.open();
 
         //initialize the "volume total"
+        setVisibilityViewOfVolumeTotal();
         if(depot.getQtyTotalUDD() == 0){
             //textViewVolumeTotal.setText(Html.fromHtml(INITIAL_VOLUME_TOTAL + nomUniteDecompte));
             editTextVolumeTotal.setText("" + 0.0);
@@ -938,8 +942,8 @@ public class DepotFragment extends Fragment {
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
             TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
-            txt.setText(iconListOfGalleryFlux.get(i).getNom());
-            txtCopy.setText(iconListOfGalleryFlux.get(i).getNom());
+            txt.setText(replaceName(iconListOfGalleryFlux.get(i).getNom()));
+            txtCopy.setText(replaceName(iconListOfGalleryFlux.get(i).getNom()));
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -956,8 +960,8 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
-                    builder.setTitle(iconName);
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
+                    builder.setTitle(replaceName(iconName));
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                     String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1099,8 +1103,8 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
-                            builder.setTitle(iconName);
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
+                            builder.setTitle(replaceName(iconName));
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                             String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1266,8 +1270,8 @@ public class DepotFragment extends Fragment {
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
             TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
-            txt.setText(iconListOfGalleryFluxChoisi.get(i).getNom());
-            txtCopy.setText(iconListOfGalleryFluxChoisi.get(i).getNom());
+            txt.setText(replaceName(iconListOfGalleryFluxChoisi.get(i).getNom()));
+            txtCopy.setText(replaceName(iconListOfGalleryFluxChoisi.get(i).getNom()));
 
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1282,8 +1286,8 @@ public class DepotFragment extends Fragment {
 
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
-                    builder.setTitle(iconName);
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
+                    builder.setTitle(replaceName(iconName));
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                     String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1437,8 +1441,8 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + iconName);
-                            builder.setTitle(iconName);
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
+                            builder.setTitle(replaceName(iconName));
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                             String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -2517,6 +2521,48 @@ public class DepotFragment extends Fragment {
         }
         else{
             editTextVolumeTotal.setBackgroundResource(R.drawable.bg_edittext);
+        }
+    }
+
+    public void setVisibilityViewOfVolumeTotal(){
+        boolean volumeTotalVisibility = accountSetting.isDecompteUDD();
+        if(volumeTotalVisibility){
+            linearLayoutVolumeTotal.setVisibility(View.VISIBLE);
+        }
+        else{//hide the view of "volume total"
+            linearLayoutVolumeTotal.setVisibility(View.GONE);
+        }
+    }
+
+    public String replaceName(String s) {
+        if("amiante".equalsIgnoreCase(s)) {
+            return "Amiante";
+        } else if ("biodechets".equalsIgnoreCase(s)) {
+            return "Biodéchèts";
+        } else if ("biodechets".equalsIgnoreCase(s)) {
+            return "Biodéchèts";
+        } else if ("bouteille_plus_conserve".equalsIgnoreCase(s)) {
+            return "Bouteille + conserve";
+        }else if ("carton_plus_papier".equalsIgnoreCase(s)) {
+            return "Carton+papier";
+        }else if ("carton".equalsIgnoreCase(s)) {
+            return "Carton";
+        }else if ("deee".equalsIgnoreCase(s)) {
+            return "DEEE";
+        }else if ("depots_sauvage".equalsIgnoreCase(s)) {
+            return "Gravats";
+        }else if ("encombrants".equalsIgnoreCase(s)) {
+            return "Tout venant non incinérable";
+        }else if ("feuilles".equalsIgnoreCase(s)) {
+            return "Déchets verts";
+        }else if ("metal".equalsIgnoreCase(s)) {
+            return "Metal";
+        }else if ("produits_chimiques".equalsIgnoreCase(s)) {
+            return "Produits chimiques";
+        }else if ("vetements".equalsIgnoreCase(s)) {
+            return "Vêtements";
+        }else{
+            return "";
         }
     }
 

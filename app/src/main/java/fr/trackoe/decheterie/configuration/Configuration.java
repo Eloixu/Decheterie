@@ -82,7 +82,7 @@ public abstract class Configuration {
 
     public static int getIdAccount() {
 //        return params.getInt(Const.ID_ACCOUNT, -1);
-        return 119;
+        return 118;
     }
 
     public static void saveIdAccount(int idAccount) {
@@ -106,7 +106,7 @@ public abstract class Configuration {
     }
 
     public static String getNumeroTablette() {
-        return params.getString(Const.NUMERO_TABLETTE, "");
+        return params.getString(Const.NUMERO_TABLETTE, "492541");
     }
 
     public static void saveNumeroTablette(String numeroTablette) {
@@ -282,11 +282,12 @@ public abstract class Configuration {
      */
     public String getWebServiceHost(Context ctx) {
         //return (isProd() || getIsProdEnvWS()) ? "http://trackoe.fr/android-ws/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
-        return "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+        //return "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+        return "http://trackoe.fr/android-ws/demo/v3/";
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-        //return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
+//        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
 //        return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
 //        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
         return(isProd()? "" : "http://contenant.trackoe.fr/demo/ws/") ;
@@ -506,7 +507,7 @@ public abstract class Configuration {
                 apportFluxList = apportFluxList + "&idFlux=" + af.getFluxId() + "&qtyComptage=" + af.getQtyComptage() + "&qtyUDD=" + af.getQtyUDD();
             }
         }
-        return getWebServiceContenantHost(ctx) + "wsAllDepot" + "&nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList;
+        return getWebServiceContenantHost(ctx) + "wsAllDepot?" + "nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList;
     }
 
     public String getEncodedParam(String param) {

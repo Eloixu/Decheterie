@@ -1,6 +1,7 @@
 package fr.trackoe.decheterie.ui.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,7 +78,6 @@ public class IdentificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("IdentificationFragment-->onCreateView()");
         identification_vg = (ViewGroup) inflater.inflate(R.layout.identification_fragment, container, false);
-
         editText_barcode = (EditText)  identification_vg.findViewById(R.id.identification_fragment_barcode_editText);
         scanner = (ImageView) identification_vg.findViewById(R.id.identification_fragment_scanner_imageView);
         suivant = (Button) identification_vg.findViewById(R.id.identification_fragment_suivant_button);
@@ -90,6 +91,8 @@ public class IdentificationFragment extends Fragment {
 
         // Init des listeners
         initListeners(container);
+
+        addLayoutListener(identification_vg.findViewById(R.id.identification_fragment_global_linearLayout),suivant);
 
         //configurationBarCodeInfrared();
 
@@ -364,6 +367,25 @@ public class IdentificationFragment extends Fragment {
 
         mreadTh = new read_thread();
         mreadTh.start();
+    }
+
+    public void addLayoutListener(final View main, final View scroll) {
+        main.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect rect = new Rect();
+                main.getWindowVisibleDisplayFrame(rect);
+                int mainInvisibleHeight = main.getRootView().getHeight() - rect.bottom;
+                if (mainInvisibleHeight > 100) {
+                    int[] location = new int[2];
+                    scroll.getLocationInWindow(location);
+                    int srollHeight = (location[1] + scroll.getHeight()) - rect.bottom;
+                    main.scrollTo(0, srollHeight);
+                } else {
+                    main.scrollTo(0, 0);
+                }
+            }
+        });
     }
 
 

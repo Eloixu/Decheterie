@@ -31,7 +31,7 @@ public class AccountFluxSettingParser extends JSONParser<AccountFluxSettings> {
                     int     dchFluxId               = jobj.has("id_flux")                           ? jobj.getInt("id_flux") : -1;
                     float   convertComptagePrUDD    = jobj.has("convert_comptage_pr_udd")           ? Float.parseFloat(jobj.getString("convert_comptage_pr_udd")) : -1;
                     boolean decompteUDD             = jobj.has("decompte_udd")                      ? jobj.getBoolean("decompte_udd") : false;
-                    boolean decompteComptage        = jobj.has("decompte_comptage")                  ? jobj.getBoolean("decompte_comptage") : false;
+                    boolean decompteComptage        = jobj.has("decompte_comptage")                 ? jobj.getBoolean("decompte_comptage") : false;
                     float   coutUCPrPoint           = jobj.has("cout_uc_pr_point")                  ? Float.parseFloat(jobj.getString("cout_uc_pr_point")) : -1;
 
                     afs.addAccountFluxSetting(dchAccountSettingId, dchFluxId, convertComptagePrUDD, decompteUDD, decompteComptage, coutUCPrPoint);
