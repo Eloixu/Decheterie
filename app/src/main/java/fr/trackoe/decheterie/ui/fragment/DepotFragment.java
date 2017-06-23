@@ -468,39 +468,34 @@ public class DepotFragment extends Fragment {
 
 
         //the list of icons which associate with the actual decheterie
-        ArrayList<Icon> iconList = new ArrayList();
+        ArrayList<Flux> fluxList = new ArrayList<>();
 
         if(Configuration.getNameDecheterie().isEmpty()||Configuration.getNameDecheterie()==null){
 
         }
         else{
             Decheterie decheterie = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie());
-            ArrayList<Flux> fluxList = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
-            for(Flux flux: fluxList){
-                Icon icon = iconDB.getIconByIdentifiant(flux.getIconId());
-                //icon.setNom(flux.getNom());
-                iconList.add(icon);
-            }
+            fluxList = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
         }
 
-        //add the icons associated to the DepotFragment
-        for (int i = 0; i < iconList.size(); i++)
+        //add the fluxs associated to the Decheterie
+        for (final Flux flux: fluxList)
         {
-            final View view = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final View viewCopy = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
-            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final View      view     =  inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
+            final View      viewCopy =  inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
+            final ImageView img      = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final ImageView imgCopy  = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
 
-            final Icon currentIcon = iconList.get(i);
+            final Icon currentIcon = iconDB.getIconByIdentifiant(flux.getIconId());
             final String iconName = currentIcon.getNom();
             final AccountFluxSetting accountFluxSetting = dchAccountFluxSettingDB.getAccountFluxSettingByAccountSettingIdAndFluxId(accountSetting.getId(), dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
 
             img.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-            TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
+            TextView txt     = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
             TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
-            txt.setText(replaceName(iconList.get(i).getNom()));
-            txtCopy.setText(replaceName(iconList.get(i).getNom()));
+            txt.setText(flux.getNom());
+            txtCopy.setText(flux.getNom());
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -517,8 +512,8 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
-                    builder.setTitle(replaceName(iconName));
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+                    builder.setTitle(flux.getNom());
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                     String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -665,8 +660,8 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
-                            builder.setTitle(replaceName(iconName));
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+                            builder.setTitle(flux.getNom());
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                             String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -837,7 +832,7 @@ public class DepotFragment extends Fragment {
         parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         initEidtTextVolumeTotal();
-        galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
+        galleryFlux       = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
         galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_choisi_linearLayout);
 
 
@@ -875,51 +870,42 @@ public class DepotFragment extends Fragment {
         }
 
         //the list of icons which associate with the actual decheterie
-        ArrayList<Icon> iconListTotal = new ArrayList();
-        ArrayList<Icon> iconListOfGalleryFlux = new ArrayList();
-        ArrayList<Icon> iconListOfGalleryFluxChoisi = new ArrayList();
+        ArrayList<Flux> fluxListTotal               = new ArrayList();
+        ArrayList<Flux> fluxListOfGalleryFlux       = new ArrayList();
+        ArrayList<Flux> fluxListOfGalleryFluxChoisi = new ArrayList();
 
         if(Configuration.getNameDecheterie().isEmpty()||Configuration.getNameDecheterie()==null){
 
         }
         else{
             Decheterie decheterie = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie());
-            ArrayList<Flux> fluxList = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
-            for(Flux flux: fluxList){
-                Icon icon = iconDB.getIconByIdentifiant(flux.getIconId());
-                iconListTotal.add(icon);
-            }
+            fluxListTotal = dchDecheterieFluxDB.getAllFluxByDecheterieId(decheterie.getId(), getContext());
         }
 
 
         //get the fluxs which associate to the depot in the bottom scroll
         ArrayList<ApportFlux> apportFluxList = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-        ArrayList<Flux> fluxList = new ArrayList<>();
         for(ApportFlux af: apportFluxList){
             Flux f = dchFluxDB.getFluxByIdentifiant(af.getFluxId());
-            fluxList.add(f);
-        }
-        for(Flux flux: fluxList){
-            Icon icon = iconDB.getIconByIdentifiant(flux.getIconId());
-            iconListOfGalleryFluxChoisi.add(icon);
+            fluxListOfGalleryFluxChoisi.add(f);
         }
 
         //get the rest flux which are in the top scroll
-        int[] arrIconTotalIdList = new int[iconListTotal.size()];
-        int[] arrIconChoisiIdList = new int[iconListOfGalleryFluxChoisi.size()];
-        for(int i = 0; i < iconListTotal.size(); i ++){
-            arrIconTotalIdList[i] = iconListTotal.get(i).getId();
+        int[] arrFluxTotalIdList  = new int[fluxListTotal.size()];
+        int[] arrFluxChoisiIdList = new int[fluxListOfGalleryFluxChoisi.size()];
+        for(int i = 0; i < fluxListTotal.size(); i ++){
+            arrFluxTotalIdList[i] = fluxListTotal.get(i).getId();
         }
-        for(int i = 0; i < iconListOfGalleryFluxChoisi.size(); i ++){
-            arrIconChoisiIdList[i] = iconListOfGalleryFluxChoisi.get(i).getId();
+        for(int i = 0; i < fluxListOfGalleryFluxChoisi.size(); i ++){
+            arrFluxChoisiIdList[i] = fluxListOfGalleryFluxChoisi.get(i).getId();
         }
         HashSet<Integer> map = new HashSet<Integer>();
-        for (int i : arrIconChoisiIdList)
+        for (int i : arrFluxChoisiIdList)
             map.add(i);
-        for (int i : arrIconTotalIdList) {
+        for (int i : arrFluxTotalIdList) {
             if (!map.contains(i)){
                 // found not duplicate!
-                iconListOfGalleryFlux.add(iconDB.getIconByIdentifiant(i));
+                    fluxListOfGalleryFlux.add(dchFluxDB.getFluxByIdentifiant(i));
             }
 
         }
@@ -927,23 +913,24 @@ public class DepotFragment extends Fragment {
 
 
         //add the flux in "iconListOfGalleryFlux" into "galleryFlux"(top scroll)
-        for (int i = 0; i < iconListOfGalleryFlux.size(); i++)
+        for (final Flux flux: fluxListOfGalleryFlux)
         {
-            final View view = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final View viewCopy = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
-            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final View      view         = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
+            final View      viewCopy     = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
+            final ImageView img          = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final ImageView imgCopy      = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
 
-            final Icon currentIcon = iconListOfGalleryFlux.get(i);
-            final String iconName = currentIcon.getNom();
+            final Icon currentIcon = iconDB.getIconByIdentifiant(flux.getIconId());
+            final String iconName  = currentIcon.getNom();
             final AccountFluxSetting accountFluxSetting = dchAccountFluxSettingDB.getAccountFluxSettingByAccountSettingIdAndFluxId(accountSetting.getId(), dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
 
-            img.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
+            img.    setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-            TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
+            TextView txt     = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
             TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
-            txt.setText(replaceName(iconListOfGalleryFlux.get(i).getNom()));
-            txtCopy.setText(replaceName(iconListOfGalleryFlux.get(i).getNom()));
+            txt.    setText(flux.getNom());
+            txtCopy.setText(flux.getNom());
+
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -960,8 +947,8 @@ public class DepotFragment extends Fragment {
                     //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
-                    builder.setTitle(replaceName(iconName));
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+                    builder.setTitle(flux.getNom());
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                     String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1103,8 +1090,8 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
-                            builder.setTitle(replaceName(iconName));
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+                            builder.setTitle(flux.getNom());
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                             String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1255,23 +1242,23 @@ public class DepotFragment extends Fragment {
         }
 
         //add the flux in "iconListOfGalleryFluxChoisi" to the "galleryFluxChoisi"(bottom scroll)
-        for (int i = 0; i < iconListOfGalleryFluxChoisi.size(); i++){
-            final View view = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final View viewCopy = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
-            final ImageView img = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
-            final ImageView imgCopy = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
+        for (final Flux flux: fluxListOfGalleryFluxChoisi){
+            final View      view        = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
+            final View      viewCopy    = inflater.inflate(R.layout.depot_fragment_flux_item, container, false);
+            final ImageView img         = (ImageView) view.findViewById(R.id.depot_fragment_flux_item_imageView);
+            final ImageView imgCopy     = (ImageView) viewCopy.findViewById(R.id.depot_fragment_flux_item_imageView);
 
-            final Icon currentIcon = iconListOfGalleryFluxChoisi.get(i);
-            final String iconName = currentIcon.getNom();
+            final Icon   currentIcon    = iconDB.getIconByIdentifiant(flux.getIconId());
+            final String iconName       = currentIcon.getNom();
             final AccountFluxSetting accountFluxSetting = dchAccountFluxSettingDB.getAccountFluxSettingByAccountSettingIdAndFluxId(accountSetting.getId(), dchFluxDB.getFluxByIconId(currentIcon.getId()).getId());
 
 
-            img.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
+            img.    setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
             imgCopy.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-            TextView txt = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
+            TextView txt     = (TextView) view.findViewById(R.id.depot_fragment_flux_item_textView);
             TextView txtCopy = (TextView) viewCopy.findViewById(R.id.depot_fragment_flux_item_textView);
-            txt.setText(replaceName(iconListOfGalleryFluxChoisi.get(i).getNom()));
-            txtCopy.setText(replaceName(iconListOfGalleryFluxChoisi.get(i).getNom()));
+            txt.    setText(flux.getNom());
+            txtCopy.setText(flux.getNom());
 
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1286,8 +1273,8 @@ public class DepotFragment extends Fragment {
 
 
                     final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
-                    builder.setTitle(replaceName(iconName));
+                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+                    builder.setTitle(flux.getNom());
                     builder.setIconName(iconName);
                     if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                     String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1321,7 +1308,7 @@ public class DepotFragment extends Fragment {
                             EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
                             EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
                             TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                            float qtyApporte = -1;
+                            float qtyApporte  = -1;
                             float qtyDecompte = -1;
 
                             if(lineVisbility[0]){
@@ -1411,7 +1398,7 @@ public class DepotFragment extends Fragment {
                             totalDecompte = qtyDecompteTotal;
 
                             //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
+                            editTextVolumeTotal.     setText("" + qtyDecompteTotal);
                             textViewUniteVolumeTotal.setText(nomUniteDecompte);
 
                             dchFluxDB.close();
@@ -1441,8 +1428,8 @@ public class DepotFragment extends Fragment {
 
                             //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
                             final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + replaceName(iconName));
-                            builder.setTitle(replaceName(iconName));
+                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+                            builder.setTitle(flux.getNom());
                             builder.setIconName(iconName);
                             if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
                             String nomUniteApporte = dchUniteDB.getUniteFromID(dchFluxDB.getFluxByIconId(currentIcon.getId()).getUniteComptageId()).getNom();
@@ -1510,8 +1497,7 @@ public class DepotFragment extends Fragment {
 
                                     totalDecompte = qtyDecompteTotal;
 
-                                    //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                    editTextVolumeTotal.setText("" + qtyDecompteTotal);
+                                    editTextVolumeTotal.     setText("" + qtyDecompteTotal);
                                     textViewUniteVolumeTotal.setText(nomUniteDecompte);
 
                                     dchApportFluxDB.close();
@@ -1551,7 +1537,6 @@ public class DepotFragment extends Fragment {
 
                                             totalDecompte = qtyDecompteTotal;
 
-                                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
                                             editTextVolumeTotal.setText("" + qtyDecompteTotal);
                                             textViewUniteVolumeTotal.setText(nomUniteDecompte);
 
@@ -1618,14 +1603,13 @@ public class DepotFragment extends Fragment {
                 dchDepotDB.open();
                 DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
                 dchApportFluxDB.open();
+
                 //if the drawer is open then close it
                 if(parentActivity.isDrawerOpen()){
                     parentActivity.closeDrawer();
                 }
 
-
                 Configuration.setIsOuiClicked(false);
-
 
                 //detect the pageSignature
                 if(pageSignature) {
@@ -2534,37 +2518,6 @@ public class DepotFragment extends Fragment {
         }
     }
 
-    public String replaceName(String s) {
-        if("amiante".equalsIgnoreCase(s)) {
-            return "Amiante";
-        } else if ("biodechets".equalsIgnoreCase(s)) {
-            return "Biodéchèts";
-        } else if ("biodechets".equalsIgnoreCase(s)) {
-            return "Biodéchèts";
-        } else if ("bouteille_plus_conserve".equalsIgnoreCase(s)) {
-            return "Bouteille + conserve";
-        }else if ("carton_plus_papier".equalsIgnoreCase(s)) {
-            return "Carton+papier";
-        }else if ("carton".equalsIgnoreCase(s)) {
-            return "Carton";
-        }else if ("deee".equalsIgnoreCase(s)) {
-            return "DEEE";
-        }else if ("depots_sauvage".equalsIgnoreCase(s)) {
-            return "Gravats";
-        }else if ("encombrants".equalsIgnoreCase(s)) {
-            return "Tout venant non incinérable";
-        }else if ("feuilles".equalsIgnoreCase(s)) {
-            return "Déchets verts";
-        }else if ("metal".equalsIgnoreCase(s)) {
-            return "Metal";
-        }else if ("produits_chimiques".equalsIgnoreCase(s)) {
-            return "Produits chimiques";
-        }else if ("vetements".equalsIgnoreCase(s)) {
-            return "Vêtements";
-        }else{
-            return "";
-        }
-    }
 
     public long getDepotId() {
         return depotId;
@@ -2671,7 +2624,6 @@ public class DepotFragment extends Fragment {
         usagerDB.close();
         usagerHabitatDB.close();
         usagerMenageDB.close();
-
     }
 
 }

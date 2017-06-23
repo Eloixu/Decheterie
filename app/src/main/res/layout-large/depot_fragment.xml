@@ -66,24 +66,22 @@
 
             <EditText
                 android:id="@+id/depot_fragment_volume_total_editText"
-                android:text="0.0"
                 android:inputType="numberDecimal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="@dimen/depot_fragment_volume_total_textView_layout_marginTop"
+                android:layout_marginLeft="@dimen/depot_fragment_volume_total_editText_layout_marginLeft"
+                android:layout_marginRight="@dimen/depot_fragment_volume_total_editText_layout_marginRight"
+                android:layout_marginTop="@dimen/depot_fragment_volume_total_editText_layout_marginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:paddingTop="3dip"
-                android:paddingBottom="3dip"
-                android:textSize="35sp"
+                android:paddingLeft="@dimen/depot_fragment_volume_total_editText_paddingLeft"
+                android:paddingRight="@dimen/depot_fragment_volume_total_editText_paddingRight"
+                android:paddingTop="@dimen/depot_fragment_volume_total_editText_paddingTop"
+                android:paddingBottom="@dimen/depot_fragment_volume_total_editText_paddingBottom"
+                android:textSize="@dimen/depot_fragment_volume_total_editText_textSize"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/depot_fragment_unite_volume_total_textView"
-                android:text="m3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/depot_fragment_volume_total_textView_layout_marginTop"
