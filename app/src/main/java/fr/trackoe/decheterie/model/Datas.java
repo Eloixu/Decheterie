@@ -329,16 +329,12 @@ public class Datas {
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
                 buffer = new byte[bufferSize];
 
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-
+                int i = 0;
+                while (i < bufferSize) {
                     dos.write(buffer, 0, bufferSize);
                     bytesAvailable = fileInputStream.available();
                     bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
+                    i++;
                 }
 
                 // send multipart form data necesssary after file data...
@@ -362,27 +358,5 @@ public class Datas {
             return 200;
         }
     }
-
-    /*public static void uploadFile(Context ctx, File sourceFile) throws ClientProtocolException,
-            IOException {
-        HttpClient httpclient = new DefaultHttpClient();
-        httpclient.getParams().setParameter(
-                CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-        HttpPost httppost = new HttpPost(Configuration.getInstance(ctx).getUploadImgSignature(ctx));
-        MultipartEntity entity = new MultipartEntity();
-        FileBody fileBody = new FileBody(sourceFile);
-        entity.addPart("uploadfile", fileBody);
-        httppost.setEntity(entity);
-        HttpResponse response = httpclient.execute(httppost);
-        HttpEntity resEntity = response.getEntity();
-        if (resEntity != null) {
-            Log.i(TAG, EntityUtils.toString(resEntity));
-        }
-        if (resEntity != null) {
-            resEntity.consumeContent();
-        }
-        httpclient.getConnectionManager().shutdown();
-    }*/
-
 
 }
