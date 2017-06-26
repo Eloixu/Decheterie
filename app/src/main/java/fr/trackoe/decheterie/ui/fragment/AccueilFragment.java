@@ -61,8 +61,6 @@ public class AccueilFragment extends Fragment {
         // Init des listeners
         initListeners();
 
-        ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
-
 
         return accueil_vg;
     }

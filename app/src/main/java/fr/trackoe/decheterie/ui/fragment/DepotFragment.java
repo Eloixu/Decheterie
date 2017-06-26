@@ -181,6 +181,7 @@ public class DepotFragment extends Fragment {
         System.out.println("DepotFragment --> onCreate()");
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("DepotFragment --> onCreateView()");
@@ -345,7 +346,7 @@ public class DepotFragment extends Fragment {
         initViewsNavigationDrawer(inflater,container);
 
         //show the dialog if dch_account_setting.pt_minimum >= 0 et dch_compte_prepaye.qty_point < dch_account_setting.pt_minimum
-        showReturnAccueilDialog();
+        //showReturnAccueilDialog();
 
 
         //show depot information
@@ -2521,6 +2522,10 @@ public class DepotFragment extends Fragment {
 
     public long getDepotId() {
         return depotId;
+    }
+
+    public void setComeFromApportProFragment(boolean comeFromApportProFragment) {
+        isComeFromApportProFragment = comeFromApportProFragment;
     }
 
     /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;

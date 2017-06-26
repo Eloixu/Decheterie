@@ -281,16 +281,16 @@ public abstract class Configuration {
     Définition de l'host pour appel aux Webservices
      */
     public String getWebServiceHost(Context ctx) {
-        //return (isProd() || getIsProdEnvWS()) ? "http://trackoe.fr/android-ws/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
+        return (isProd() || getIsProdEnvWS()) ? "http://trackoe.fr/android-ws/prod/" + ctx.getString(R.string.ws_version_directory) + "/" : "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
         //return "http://trackoe.fr/android-ws/dev/" + ctx.getString(R.string.ws_version_directory) + "/";
-        return "http://trackoe.fr/android-ws/demo/v3/";
+        //return "http://trackoe.fr/android-ws/demo/v3/";
     }
 
     public String getWebServiceContenantHost(Context ctx) {
 //        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
 //        return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
-//        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
-        return(isProd()? "" : "http://contenant.trackoe.fr/demo/ws/") ;
+        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
+//        return(isProd()? "" : "http://contenant.trackoe.fr/demo/ws/") ;
 //        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 

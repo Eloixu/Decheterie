@@ -94,7 +94,7 @@ public class IdentificationFragment extends Fragment {
 
         addLayoutListener(identification_vg.findViewById(R.id.identification_fragment_global_linearLayout),suivant);
 
-        //configurationBarCodeInfrared();
+        configurationBarCodeInfrared();
 
         return identification_vg;
     }

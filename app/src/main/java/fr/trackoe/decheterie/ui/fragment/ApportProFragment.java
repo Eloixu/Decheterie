@@ -54,8 +54,8 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
 
 public class ApportProFragment extends Fragment {
-    private ViewGroup apf_vg;
     ContainerActivity parentActivity;
+    private ViewGroup apf_vg;
     private ImageView imageSign;
     private PaintView mView;
     private Depot depot;

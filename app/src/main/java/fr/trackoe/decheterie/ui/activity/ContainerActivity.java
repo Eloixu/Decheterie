@@ -252,7 +252,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new LoadingFragment(), true);
+        changeMainFragment(new AccueilFragment(), true);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -1675,14 +1675,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                             Configuration.setIsOuiClicked(false);
 
-                            if(((DepotFragment) getCurrentFragment()).isComeFromRechercherUsagerFragment() ||((DepotFragment) getCurrentFragment()).isComeFromRUFInApportProFragment() ){
+                            /*if(((DepotFragment) getCurrentFragment()).isComeFromRechercherUsagerFragment() ||((DepotFragment) getCurrentFragment()).isComeFromRUFInApportProFragment() ){
                                 changeMainFragment(new RechercherUsagerFragment(), true);
                             }
                             else{
                                 changeMainFragment(new IdentificationFragment(), true);
-                            }
-
-
+                            }*/
+                            returnBack();
                             dchDepotDB.close();
                         }
                     });
@@ -1698,8 +1697,12 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
             }
             else if( getCurrentFragment() instanceof IdentificationFragment) {
-                //((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
-                changeMainFragment(new AccueilFragment(), true);
+                try {
+                    ((IdentificationFragment) getCurrentFragment()).closeBarCodeReader();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                super.onBackPressed();
             }
             else if( getCurrentFragment() instanceof AccueilFragment) {
                 //pop-up
@@ -1724,7 +1727,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 builder.create().show();
             }
             else if( getCurrentFragment() instanceof ApportProFragment) {
-                ApportProFragment apportProFragment = (ApportProFragment) getCurrentFragment();
+                /*ApportProFragment apportProFragment = (ApportProFragment) getCurrentFragment();
 
                 if(((ApportProFragment) getCurrentFragment()).isComeFromRUFInApportProFragment()){
                     DepotFragment depotFragment = DepotFragment.newInstance(apportProFragment.getDepotId(),apportProFragment.getUsagerIdFromRUFInApportProFragment(),apportProFragment.getTypeCarteIdFromRUFInApportProFragment(),apportProFragment.getAccountIdFromRUFInApportProFragment(),apportProFragment.isComeFromRUFInApportProFragment(), true);
@@ -1733,14 +1736,19 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 else{
                     DepotFragment depotFragment = DepotFragment.newInstance(apportProFragment.getDepotId(),true);
                     changeMainFragment(depotFragment, true);
+                }*/
+
+                for (Fragment frag : getSupportFragmentManager().getFragments()) {
+                    if (frag instanceof DepotFragment) {
+                        ((DepotFragment) frag).setComeFromApportProFragment(true);
+                    }
                 }
+
+                super.onBackPressed();
 
             }
             else if( getCurrentFragment() instanceof LoginFragment) {
                 finish();
-            }
-            else if( getCurrentFragment() instanceof RechercherUsagerFragment) {
-                changeMainFragment(new AccueilFragment(), true);
             }
             else{
                 super.onBackPressed();
@@ -2834,6 +2842,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             setIntent(intent);
             resolveIntent(intent);
         }
+    }
+
+    public void returnBack(){
+        super.onBackPressed();
     }
 
     /* private int getPictureId(String pictureName){
