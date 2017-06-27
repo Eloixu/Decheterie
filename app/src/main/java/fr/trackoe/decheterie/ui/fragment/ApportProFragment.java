@@ -88,12 +88,6 @@ public class ApportProFragment extends Fragment {
     private float totalDecompte;
     private int accountSettingId;
 
-    //parameters from rechercherUsagerFragment
-    private boolean isComeFromRUFInApportProFragment = false;
-    private int usagerIdFromRUFInApportProFragment;
-    private int typeCarteIdFromRUFInApportProFragment;
-    private int accountIdFromRUFInApportProFragment;
-
 
 
     @Override
@@ -164,21 +158,8 @@ public class ApportProFragment extends Fragment {
             dchDepotDB.open();
 
             depotId = getArguments().getLong("depotId");
-            //depotId = 1183153170412171602L;
             Toast.makeText(getContext(), "depotId: " + depotId, Toast.LENGTH_SHORT).show();
             depot =  dchDepotDB.getDepotByIdentifiant(depotId);
-
-            int      usagerId                           = getArguments().getInt     (    "usagerIdFromRechercherUsagerFragment"      );
-            int      typeCarteId                        = getArguments().getInt     (    "typeCarteIdFromRechercherUsagerFragment"   );
-            int      accountId                          = getArguments().getInt     (    "accountIdFromRechercherUsagerFragment"     );
-            boolean  isComeFromRechercherUsagerFragment = getArguments().getBoolean (    "isComeFromRechercherUsagerFragment"        );
-
-            if(usagerId != 0 && typeCarteId != 0 && isComeFromRechercherUsagerFragment == true){
-                this.isComeFromRUFInApportProFragment       = isComeFromRechercherUsagerFragment;
-                this.usagerIdFromRUFInApportProFragment     = usagerId                          ;
-                this.typeCarteIdFromRUFInApportProFragment  = typeCarteId                       ;
-                this.accountIdFromRUFInApportProFragment    = accountId                         ;
-            }
 
             dchDepotDB.close();
         }
@@ -267,7 +248,7 @@ public class ApportProFragment extends Fragment {
 
                 //turn to page Accueil
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
                 }
                 depot.setDateHeure(getDateHeure());
 
@@ -417,13 +398,12 @@ public class ApportProFragment extends Fragment {
         return apportProFragment;
     }
 
-    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment,int accountIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
+    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong    (   "depotId",                                  depotId                                 );
         args.putInt     (   "usagerIdFromRechercherUsagerFragment",     usagerIdFromRechercherUsagerFragment    );
         args.putInt     (   "typeCarteIdFromRechercherUsagerFragment",  typeCarteIdFromRechercherUsagerFragment );
-        args.putInt     (   "accountIdFromRechercherUsagerFragment",    accountIdFromRechercherUsagerFragment   );
         args.putBoolean (   "isComeFromRechercherUsagerFragment",       isComeFromRechercherUsagerFragment      );
 
         args.putString  (   "nomInND",                  nomInND                 );
@@ -463,22 +443,6 @@ public class ApportProFragment extends Fragment {
         String date = df.format(d);
 
         return date;
-    }
-
-    public boolean isComeFromRUFInApportProFragment() {
-        return isComeFromRUFInApportProFragment;
-    }
-
-    public int getUsagerIdFromRUFInApportProFragment() {
-        return usagerIdFromRUFInApportProFragment;
-    }
-
-    public int getTypeCarteIdFromRUFInApportProFragment() {
-        return typeCarteIdFromRUFInApportProFragment;
-    }
-
-    public int getAccountIdFromRUFInApportProFragment() {
-        return accountIdFromRUFInApportProFragment;
     }
 
     public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){

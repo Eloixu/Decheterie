@@ -408,7 +408,7 @@ public class RechercherUsagerFragment extends Fragment {
                                     }
                                     else {
                                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                                            DepotFragment depotFragment = DepotFragment.newInstance(usager.getId(), typeCarteId, accountId, true);
+                                            DepotFragment depotFragment = DepotFragment.newInstance(usager.getId(), typeCarteId, true);
                                             ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
                                         }
                                     }

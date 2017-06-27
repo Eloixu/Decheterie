@@ -202,9 +202,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
 
-        //initDB();
-        initDBTest();
-        initDBForIcons();
+        initDB();
+        /*initDBTest();
+        initDBForIcons();*/
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -1740,7 +1740,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                 for (Fragment frag : getSupportFragmentManager().getFragments()) {
                     if (frag instanceof DepotFragment) {
+                        ((DepotFragment) frag).reInitializeAllIsComeFrom();
                         ((DepotFragment) frag).setComeFromApportProFragment(true);
+                    }
+                }
+
+                super.onBackPressed();
+
+            }
+            else if( getCurrentFragment() instanceof SettingsFragment) {
+
+                for (Fragment frag : getSupportFragmentManager().getFragments()) {
+                    if (frag instanceof DepotFragment) {
+                        ((DepotFragment) frag).reInitializeAllIsComeFrom();
+                        ((DepotFragment) frag).setComeFromSettingFragment(true);
                     }
                 }
 
@@ -2210,6 +2223,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         String icons[] = {"amiante","biodechets","bouteille_plus_conserve","carton_plus_papier","carton","deee","depots_sauvage","encombrants","feuilles","gaz","journaux","metal","meuble","piles_plus_electromenager","plastique","pneu","produits_chimiques_2","produits_chimiques","sac_plastique","sac","verre","vetements"};
         for(int i = 0; i < icons.length; i ++){
             Icon icon = new Icon();
+            icon.setId(i+1);
             icon.setNom(icons[i]);
             icon.setDomaine("");
             icon.setPath("");
@@ -2222,28 +2236,28 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         iconDB.close();
 
         //add flux into DBB
-        dchFluxDB.insertFlux(new Flux("Amiante", 1, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Biodéchèts", 2, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Bouteille + conserve", 3, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Carton + papier", 4, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Carton", 5, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("DEEE", 6, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Dépots sauvage", 7, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Encombrants", 8, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Feuilles", 9, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Gaz", 10, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Journaux", 11, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Metal", 12, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Meuble", 13, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Piles + electroménager", 14, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Plastique", 15, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Pneu", 16, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques 2", 17, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Produits chimiques", 18, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Sac plastique", 19, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Sac", 20, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Verre", 21, 3, Configuration.getIdAccount()));
-        dchFluxDB.insertFlux(new Flux("Vêtements", 22, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(1,"Amiante", 1, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(2,"Biodéchèts", 2, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(3,"Bouteille + conserve", 3, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(4,"Carton + papier", 4, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(5,"Carton", 5, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(6,"DEEE", 6, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(7,"Dépots sauvage", 7, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(8,"Encombrants", 8, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(9,"Feuilles", 9, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(10,"Gaz", 10, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(11,"Journaux", 11, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(12,"Metal", 12, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(13,"Meuble", 13, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(14,"Piles + electroménager", 14, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(15,"Plastique", 15, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(16,"Pneu", 16, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(17,"Produits chimiques 2", 17, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(18,"Produits chimiques", 18, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(19,"Sac plastique", 19, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(20,"Sac", 20, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(21,"Verre", 21, 3, Configuration.getIdAccount()));
+        dchFluxDB.insertFlux(new Flux(22,"Vêtements", 22, 3, Configuration.getIdAccount()));
         dchFluxDB.close();
 
         //add dechetrie_flux into DBB
