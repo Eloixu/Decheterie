@@ -7,7 +7,9 @@
     <string name="intervention_date_format_out">cccc dd MMMM yyyy</string>
     <string name="intervention_date_format_in">yyyy-MM-dd</string>
     <string name="email_date_format">dd/MM/yyyy</string>
+    <string name="depot_date_format_in">yyyyMMdd</string>
     <string name="db_date_format">yyyyMMddHHmmss</string>
+    <string name="releve_date_format_out">cccc dd MMMM yyyy - HH:mm</string>
     <string name="signature_date_format">dd/MM/yyyy</string>
     <string name="normal_date_format">yyyyMMdd</string>
     <string name="depot_id_date_format">yyMMddHHmmss</string>

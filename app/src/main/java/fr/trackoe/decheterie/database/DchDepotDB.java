@@ -100,6 +100,11 @@ public class DchDepotDB extends MyDb {
         return d;
     }
 
+    public void DeleteAllDepotByStatut(int statut) {
+        String query = "DELETE FROM " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.STATUT + "=" + statut + ";";
+        db.execSQL(query);
+    }
+
 
     private Depot cursorToDepot(Cursor c){
         if(c.getCount() == 0) {

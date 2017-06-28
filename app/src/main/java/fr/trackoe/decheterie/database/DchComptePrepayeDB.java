@@ -20,7 +20,7 @@ public class DchComptePrepayeDB extends MyDb {
      */
     public long insertComptePrepaye(ComptePrepaye comptePrepaye) {
         ContentValues values = new ContentValues();
-        //values.put(DecheterieDatabase.TableDchComptePrepaye.ID, comptePrepaye.getId());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.ID, comptePrepaye.getId());
         values.put(DecheterieDatabase.TableDchComptePrepaye.DCH_USAGER_ID, comptePrepaye.getDchUsagerId());
         values.put(DecheterieDatabase.TableDchComptePrepaye.QTY_POINT, comptePrepaye.getQtyPoint());
         values.put(DecheterieDatabase.TableDchComptePrepaye.NB_DEPOT_RESTANT, comptePrepaye.getNbDepotRestant());
@@ -38,6 +38,15 @@ public class DchComptePrepayeDB extends MyDb {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " WHERE " + DecheterieDatabase.TableDchComptePrepaye.DCH_USAGER_ID + " = " + usagerId;
         Cursor cursor = db.rawQuery(query, null);
         return cursorToComptePrepaye(cursor);
+    }
+
+    public void deleteComptePrepayeByIdentifiant(long id) {
+        db.execSQL("delete from " + DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE + " WHERE " + DecheterieDatabase.TableDchComptePrepaye.ID + "=" + id);
+    }
+
+    public void updateComptePrepaye(ComptePrepaye comptePrepaye){
+        deleteComptePrepayeByIdentifiant(comptePrepaye.getId());
+        insertComptePrepaye(comptePrepaye);
     }
 
 

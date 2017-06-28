@@ -65,8 +65,6 @@ public class AncienneCarteFragment extends Fragment {
         parentActivity.changeToolbarIcon();
         ((DrawerLocker) getActivity()).setDrawerEnabled(true);
 
-
-
         parentActivity.openDrawerWithDelay();
     }
 

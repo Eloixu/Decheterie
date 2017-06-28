@@ -2364,10 +2364,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true ,true ,true ,0,0,"m3","20170101","20171230",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true ,0,0,"m3","20170101","20170410",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true ,0,0,"m3","20170101","20170410",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,Configuration.getIdAccount(),3,2,false,false,false,0,0,"m3","20170101","20171230",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true ,true ,true ,1,0,"m3","20170101","20171230",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true ,1,0,"m3","20170101","20170410",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true ,1,0,"m3","20170101","20170410",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,Configuration.getIdAccount(),3,2,false,false,false,1,0,"m3","20170101","20171230",0,0,true,30,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
