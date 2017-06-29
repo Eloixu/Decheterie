@@ -252,10 +252,6 @@ public class ApportProFragment extends Fragment {
                 depot.setStatut(getResources().getInteger(R.integer.statut_termine));
 
 
-                //turn to page Accueil
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
-                }
                 depot.setDateHeure(getDateHeure());
 
                 dchDepotDB.updateDepot(depot);
@@ -268,6 +264,10 @@ public class ApportProFragment extends Fragment {
                 dchAccountSettingDB.close();
                 dchApportFluxDB.close();
 
+                //turn to page Accueil
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
+                }
             }
         });
 

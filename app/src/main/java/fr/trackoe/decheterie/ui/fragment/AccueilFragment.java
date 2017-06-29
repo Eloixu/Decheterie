@@ -47,6 +47,13 @@ public class AccueilFragment extends Fragment {
     FragmentTransaction fragmentTransaction;
     TextView textViewNomDecheterie;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        System.out.println("AccueilFragment --> onCreate()");
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

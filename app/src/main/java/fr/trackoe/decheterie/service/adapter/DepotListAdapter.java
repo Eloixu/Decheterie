@@ -66,7 +66,8 @@ public class DepotListAdapter extends BaseAdapter {
      */
     public DepotListAdapter(Context ctx, ArrayList<Depot> depots) {
         this.ctx = ctx;
-        this.depots = depots;
+        ArrayList<Depot> depotsInOrder = reOrderDepotList(depots);
+        this.depots = depotsInOrder;
         mapDepot = new HashMap<Integer, Depot>();
         mapDates = new HashMap<Integer, String>();
         initMap();
@@ -169,7 +170,7 @@ public class DepotListAdapter extends BaseAdapter {
             Usager usager = usagerDB.getUsagerFromID(dchComptePrepayeDB.getComptePrepayeFromID(depot.getComptePrepayeId()).getDchUsagerId());
             ((TextView) rowView.findViewById(R.id.depot_rv_nom_usager_textView)).setText(usager.getNom() + " " + usager.getPrenom());
             if(depot.getCarteActiveCarteId() == 0 || depot.getCarteActiveCarteId() == -1) {
-
+                ((TextView) rowView.findViewById(R.id.depot_rv_num_carte_textView)).setText("-");
             } else {
                 ((TextView) rowView.findViewById(R.id.depot_rv_num_carte_textView)).setText(dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId()).getNumCarte());
             }
@@ -211,6 +212,21 @@ public class DepotListAdapter extends BaseAdapter {
         dchCarteDB.close();
 
         return rowView;
+    }
+
+    public ArrayList<Depot> reOrderDepotList(ArrayList<Depot> depots){
+        ArrayList<Depot> depotsInOrder = depots;
+        for(int i =0; i < depotsInOrder.size() - 1; i ++){
+            for(int j =0; j < depotsInOrder.size() - 1 - i; j ++){
+                if(Long.parseLong(depotsInOrder.get(j).getDateHeure()) < Long.parseLong(depotsInOrder.get(j + 1).getDateHeure())){
+                    Depot temp = depotsInOrder.get(j);
+                    depotsInOrder.set(j,depotsInOrder.get(j+1));
+                    depotsInOrder.set(j+1,temp);
+                }
+            }
+        }
+
+        return depotsInOrder;
     }
 
 

@@ -1599,15 +1599,16 @@ public class DepotFragment extends Fragment {
                 else{
                     //update the table "depot" and change the row "statut" to statut_termine
                     depot.setStatut(getResources().getInteger(R.integer.statut_termine));
-                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
-                    }
                     depot.setDateHeure(getDateHeure());
                     dchDepotDB.updateDepot(depot);
                     //send the depot to server
                     sendDepot(depot, accountSetting, dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
                     //recalculate the comptePreapaye
                     recaculateComptePrepaye();
+
+                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
+                    }
 
                 }
 
@@ -2209,10 +2210,6 @@ public class DepotFragment extends Fragment {
         if (getArguments() != null && getArguments().getBoolean("isComeFromIdentificationFragment")){
             this.isComeFromIdentificationFragment   = true;
         }
-    }
-
-    public boolean isComeFromRechercherUsagerFragment() {
-        return isComeFromRechercherUsagerFragment;
     }
 
 
