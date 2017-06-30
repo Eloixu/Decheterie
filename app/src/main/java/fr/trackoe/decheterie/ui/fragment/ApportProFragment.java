@@ -453,31 +453,7 @@ public class ApportProFragment extends Fragment {
     public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
             //send Depot(without signature) to server
-            Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
-                @Override
-                public void dataLoaded(ContenantBean data) {
-                    if (!data.ismSuccess()) {
-                        data.getmError();
-                        depot.setSent(false);
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
-
-                        dchDepotDB.updateDepot(depot);
-
-                        dchDepotDB.close();
-                    }
-                    else{
-                        depot.setSent(true);
-
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
-
-                        dchDepotDB.updateDepot(depot);
-
-                        dchDepotDB.close();
-                    }
-                }
-            }, d, a, listAF);
+            parentActivity.sendDepot(d,a,listAF);
 
             //send the signature of depot to server
             //File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/Signature", "signature" + d.getDateHeure()+".PNG");

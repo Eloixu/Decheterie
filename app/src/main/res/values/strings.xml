@@ -115,6 +115,17 @@
     <string name="pop_up_return_to_accueil_title">Information</string>
     <string name="pop_up_return_to_accueil_negative_button">Retour</string>
 
+    <!--Depot Liste Fragment-->
+    <string name="depot_liste_fragment_pop_up_non_internet_title">Information</string>
+    <string name="depot_liste_fragment_pop_up_non_internet_message">Veuillez vous connecter à l\' internet puis synchroniser les dépôts.</string>
+    <string name="depot_liste_fragment_pop_up_non_internet_negative_button">Fermer</string>
+
+    <string name="depot_liste_fragment_pop_up_non_synchro_title">Information</string>
+    <string name="depot_liste_fragment_pop_up_non_synchro_message">Vous n\' avez aucun dépôt qui n\' est pas synchronisé.</string>
+    <string name="depot_liste_fragment_pop_up_non_synchro_negative_button">Fermer</string>
+
+    <string name="form_toast_envoi_depot">Dépôt envoyé.</string>
+
     <!--Dialog Flux-->
     <string name="dialog_flux_layout_title_text">Information</string>
     <string name="dialog_normal_layout_positive_button_text">Oui</string>

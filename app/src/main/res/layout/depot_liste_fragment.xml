@@ -15,8 +15,8 @@
 
         <Button
             android:id="@+id/btn_afficher_depot_non_synchro"
-            android:text="Afficher les dépôts non synchros"
-            android:textSize="13sp"
+            android:text="Filtrer les dépots"
+            android:textSize="20sp"
             android:layout_gravity="center"
             android:layout_width="250dp"
             android:layout_height="60dp"
@@ -57,7 +57,7 @@
         android:id="@+id/liste_aucun_depot_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text=""
+        android:text="Aucun dépôt."
         android:gravity="center"
         android:textSize="@dimen/general_txt_size"
         android:textColor="@color/bluedeep"

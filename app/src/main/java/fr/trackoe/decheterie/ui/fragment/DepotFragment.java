@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import fr.trackoe.decheterie.R;
+import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
 import fr.trackoe.decheterie.database.DchAccountSettingDB;
@@ -1602,7 +1603,9 @@ public class DepotFragment extends Fragment {
                     depot.setDateHeure(getDateHeure());
                     dchDepotDB.updateDepot(depot);
                     //send the depot to server
-                    sendDepot(depot, accountSetting, dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
+                    if (Utils.isInternetConnected(getContext())) {
+                        parentActivity.sendDepot(depot, accountSetting, dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
+                    }
                     //recalculate the comptePreapaye
                     recaculateComptePrepaye();
 
@@ -1615,6 +1618,7 @@ public class DepotFragment extends Fragment {
 
                 dchDepotDB.close();
                 dchApportFluxDB.close();
+
             }
         });
 
@@ -2213,7 +2217,7 @@ public class DepotFragment extends Fragment {
     }
 
 
-    public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
+    /*public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
             //send Depot(without signature) to server
             Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
@@ -2221,32 +2225,27 @@ public class DepotFragment extends Fragment {
                 public void dataLoaded(ContenantBean data) {
                     if (!data.ismSuccess()) {
                         data.getmError();
-                        depot.setSent(false);
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
-
-                        dchDepotDB.updateDepot(depot);
-
-                        dchDepotDB.close();
                     }
                     else{
                         depot.setSent(true);
 
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
+                        try {
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
-                        dchDepotDB.updateDepot(depot);
+                            dchDepotDB.updateDepot(depot);
 
-                        dchDepotDB.close();
+                            dchDepotDB.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }, d, a, listAF);
-
-
         } catch(Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void addTextChangedListener(final EditText editText){
         TextWatcher listener3 = new TextWatcher() {
@@ -2390,8 +2389,11 @@ public class DepotFragment extends Fragment {
         if(accountSetting.isDecompteUDD()){
             comptePrepaye.setQtyPoint(comptePrepaye.getQtyPoint() - depot.getQtyTotalUDD()/accountSetting.getCoutUDDPrPoint());
         }
-        dchComptePrepayeDB.updateComptePrepaye(comptePrepaye);
 
+        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+        dchComptePrepayeDB.open();
+        dchComptePrepayeDB.updateComptePrepaye(comptePrepaye);
+        dchComptePrepayeDB.close();
     }
 
     public void initEidtTextVolumeTotal(){

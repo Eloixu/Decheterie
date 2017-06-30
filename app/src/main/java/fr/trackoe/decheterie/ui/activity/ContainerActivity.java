@@ -206,9 +206,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
 
-        initDB();
-        /*initDBTest();
-        initDBForIcons();*/
+//        initDB();
+        initDBTest();
+        initDBForIcons();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -256,7 +256,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new AccueilFragment(), true);
+        changeMainFragment(new LoadingFragment(), true);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -2898,14 +2898,21 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                         dchDepotDB.updateDepot(d);
 
-                        dchDepotDB.close();
 
                         try {
                             if(getCurrentFragment() instanceof DepotListeFragment) {
-                                ((DepotListeFragment) getCurrentFragment()).initViews();
+                                if(((DepotListeFragment) getCurrentFragment()).isAfficherDepotNonSynchro()){
+                                    //((DepotListeFragment) getCurrentFragment()).initViews(dchDepotDB.getDepotListByIsSent(false));
+                                    ((DepotListeFragment) getCurrentFragment()).initViews(dchDepotDB.getAllDepot());
+                                }
+                                else {
+                                    ((DepotListeFragment) getCurrentFragment()).initViews(dchDepotDB.getAllDepot());
+                                }
                                 ((DepotListeFragment) getCurrentFragment()).notifyDataSetChanged();
                             }
                         } catch (Exception e) {}
+
+                        dchDepotDB.close();
                     }
                 }
             }, d, a, listAF);

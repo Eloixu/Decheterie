@@ -42,11 +42,11 @@ import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 public class DepotListeFragment extends Fragment {
     ContainerActivity parentActivity;
     private ViewGroup depotListe_vg;
-    private ArrayList<Depot> listeDepots;
     private ListView lvDepot;
     private DepotListAdapter adapter;
     private Button btnAfficherDepotNonSynchro;
     private Button btnSynchronisatrion;
+    private boolean isAfficherDepotNonSynchro = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,9 @@ public class DepotListeFragment extends Fragment {
         /*// Init Actionbar
         initActionBar();*/
 
+
         // Init Views
-        initViews();
+        initViews(initListDepot());
 
         // Init des listeners
         initListeners();
@@ -88,12 +89,7 @@ public class DepotListeFragment extends Fragment {
     /**
      * Init views.
      */
-    public void initViews() {
-        DchDepotDB depotDB = new DchDepotDB(getContext());
-        depotDB.read();
-        listeDepots = depotDB.getAllDepot();
-        depotDB.close();
-
+    public void initViews(ArrayList<Depot> listeDepots) {
         if(listeDepots.isEmpty()) {
             depotListe_vg.findViewById(R.id.liste_depot_lv).setVisibility(View.GONE);
             depotListe_vg.findViewById(R.id.liste_aucun_depot_view).setVisibility(View.VISIBLE);
@@ -106,31 +102,37 @@ public class DepotListeFragment extends Fragment {
         }
 
         if(lvDepot != null) {
-            /*lvDepot.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            lvDepot.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                     try {
                         DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                         dchDepotDB.open();
-                        Depot depot = dchDepotDB.getReleve(Long.valueOf(((TextView) view.findViewById(R.id.hide_id_releve)).getText().toString()));
-                        rDB.updateIsSent(r.getIdReleve(), false);
-                        rDB.updateStatut(r.getIdReleve(), getResources().getInteger(R.integer.statut_en_attente_envoi));
-                        rDB.updateURL(r.getIdReleve(), r.getUrl().replace("ws_create_releve", "ws_update_releve"));
-                        rDB.close();
+                        Depot depot = dchDepotDB.getDepotByIdentifiant(Long.valueOf(((TextView) view.findViewById(R.id.hide_id_depot)).getText().toString()));
+                        dchDepotDB.close();
 
-                        ((ContainerActivity) getActivity()).sendReleve();
-
-
-                        Toast.makeText(getContext(), getString(R.string.form_toast_envoi_formulaire), Toast.LENGTH_SHORT).show();
+                        if (!depot.isSent() && Utils.isInternetConnected(getContext())){
+                            sendDepot(depot);
+                        }
+                        Toast.makeText(getContext(), getString(R.string.form_toast_envoi_depot), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                     return false;
                 }
-            });*/
+            });
         }
 
+    }
+
+    public ArrayList<Depot> initListDepot(){
+        DchDepotDB depotDB = new DchDepotDB(getContext());
+        depotDB.read();
+        ArrayList<Depot> listeDepots = depotDB.getAllDepot();
+        depotDB.close();
+
+        return listeDepots;
     }
 
     /**
@@ -143,73 +145,42 @@ public class DepotListeFragment extends Fragment {
             public void onClick(View v) {
                 //check the internet
                 if(!Utils.isInternetConnected(getContext())){//pop up
-                    parentActivity.showCustomDialogNormal("Information","Veuillez vous connecter à l' internet puis synchroniser les dépôts.",null,"Fermer");
+                    parentActivity.showCustomDialogNormal(getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_title),getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_message),null,getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_negative_button));
                 }else{//send all the depots which are not sent
                     DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                     dchDepotDB.open();
                     ArrayList<Depot> depotList = dchDepotDB.getDepotListByIsSent(false);
                     dchDepotDB.close();
-                    DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(getContext());
-                    dchCarteActiveDB.open();
-                    DchCarteDB dchCarteDB = new DchCarteDB(getContext());
-                    dchCarteDB.open();
-                    DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
-                    dchAccountSettingDB.open();
-                    for(Depot depot: depotList){
-                        //get the apportFluxList associated to the depot
-                        AccountSetting accountSetting = new AccountSetting();
 
-                        DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                        dchApportFluxDB.open();
-                        ArrayList<ApportFlux> apportFluxList = dchApportFluxDB.getListeApportFluxByDepotId(depot.getId());
-                        dchApportFluxDB.close();
-                        Date d = new Date();
-                        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.normal_date_format));
-                        int date = Integer.parseInt(df.format(d));
-
-                        if(depot.getCarteActiveCarteId() == 0 || depot.getCarteActiveCarteId() == 0){//send the depot which is created in the way: RechercherUsagerFragment ---> DepotFragment
-                            Carte carte = new Carte();
-                            //take the first carteActive associated to the depot.id_dch_carte_active
-                            ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(depot.getComptePrepayeId());
-                            for(CarteActive ca: carteActiveList){
-                                if(ca.isActive()){
-                                    carte = dchCarteDB.getCarteFromID(ca.getDchCarteId());
-                                    break;
-                                }
-                            }
-                            ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(carte.getDchAccountId(),carte.getDchTypeCarteId());
-                            if (accountSettingList != null) {
-                                for (AccountSetting as : accountSettingList) {
-                                    int dateDebut = Integer.parseInt(as.getDateDebutParam());
-                                    int dateFin = Integer.parseInt(as.getDateFinParam());
-                                    if (date >= dateDebut && date <= dateFin) {
-                                        accountSetting = as;
-                                    }
-                                }
-                            }
-                            parentActivity.sendDepot(depot,accountSetting,apportFluxList);
+                    if(!depotList.isEmpty()) {
+                        for (Depot depot : depotList) {
+                            sendDepot(depot);
                         }
-                        else{//send the normal created depot
-                            Carte carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
-                            ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(carte.getDchAccountId(),carte.getDchTypeCarteId());
-                            if (accountSettingList != null) {
-                                for (AccountSetting as : accountSettingList) {
-                                    int dateDebut = Integer.parseInt(as.getDateDebutParam());
-                                    int dateFin = Integer.parseInt(as.getDateFinParam());
-                                    if (date >= dateDebut && date <= dateFin) {
-                                        accountSetting = as;
-                                    }
-                                }
-                            }
-                            parentActivity.sendDepot(depot,accountSetting,apportFluxList);
-                        }
+                        Toast.makeText(getContext(), getString(R.string.form_toast_envoi_depot), Toast.LENGTH_SHORT).show();
                     }
-                    dchCarteActiveDB.close();
-                    dchCarteDB.close();
-                    dchAccountSettingDB.close();
+
                 }
 
 
+            }
+        });
+
+        btnAfficherDepotNonSynchro.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                dchDepotDB.read();
+                if(dchDepotDB.getDepotListByIsSent(false).size() == 0){
+                    parentActivity.showCustomDialogNormal(getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_title),getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_message),null,getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_negative_button));
+                }
+                else{
+                    initViews(dchDepotDB.getDepotListByIsSent(false));
+                    notifyDataSetChanged();
+                }
+                dchDepotDB.close();
+
+                isAfficherDepotNonSynchro = true;
             }
         });
     }
@@ -220,4 +191,69 @@ public class DepotListeFragment extends Fragment {
         }
     }
 
+    public void sendDepot(Depot depot){
+        DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(getContext());
+        dchCarteActiveDB.open();
+        DchCarteDB dchCarteDB = new DchCarteDB(getContext());
+        dchCarteDB.open();
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
+        dchAccountSettingDB.open();
+
+        //get the apportFluxList associated to the depot
+        AccountSetting accountSetting = new AccountSetting();
+
+        DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+        dchApportFluxDB.open();
+        ArrayList<ApportFlux> apportFluxList = dchApportFluxDB.getListeApportFluxByDepotId(depot.getId());
+        dchApportFluxDB.close();
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.normal_date_format));
+        int date = Integer.parseInt(df.format(d));
+
+        if(depot.getCarteActiveCarteId() == 0 || depot.getCarteActiveCarteId() == 0){//send the depot which is created in the way: RechercherUsagerFragment ---> DepotFragment
+            Carte carte = new Carte();
+            //take the first carteActive associated to the depot.id_dch_carte_active
+            ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(depot.getComptePrepayeId());
+            for(CarteActive ca: carteActiveList){
+                if(ca.isActive()){
+                    carte = dchCarteDB.getCarteFromID(ca.getDchCarteId());
+                    break;
+                }
+            }
+            ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(carte.getDchAccountId(),carte.getDchTypeCarteId());
+            if (accountSettingList != null) {
+                for (AccountSetting as : accountSettingList) {
+                    int dateDebut = Integer.parseInt(as.getDateDebutParam());
+                    int dateFin = Integer.parseInt(as.getDateFinParam());
+                    if (date >= dateDebut && date <= dateFin) {
+                        accountSetting = as;
+                    }
+                }
+            }
+            parentActivity.sendDepot(depot,accountSetting,apportFluxList);
+        }
+        else{//send the normal created depot
+            Carte carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
+            ArrayList<AccountSetting> accountSettingList = dchAccountSettingDB.getListeAccountSettingByAccountIdAndTypeCarteId(carte.getDchAccountId(),carte.getDchTypeCarteId());
+            if (accountSettingList != null) {
+                for (AccountSetting as : accountSettingList) {
+                    int dateDebut = Integer.parseInt(as.getDateDebutParam());
+                    int dateFin = Integer.parseInt(as.getDateFinParam());
+                    if (date >= dateDebut && date <= dateFin) {
+                        accountSetting = as;
+                    }
+                }
+            }
+            parentActivity.sendDepot(depot,accountSetting,apportFluxList);
+        }
+
+        dchCarteActiveDB.close();
+        dchCarteDB.close();
+        dchAccountSettingDB.close();
+
+    }
+
+    public boolean isAfficherDepotNonSynchro() {
+        return isAfficherDepotNonSynchro;
+    }
 }
