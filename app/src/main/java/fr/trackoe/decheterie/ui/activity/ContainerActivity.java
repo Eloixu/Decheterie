@@ -101,6 +101,7 @@ import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.AccountSettings;
 import fr.trackoe.decheterie.model.bean.global.ApkInfos;
+import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Carte;
 import fr.trackoe.decheterie.model.bean.global.CarteActive;
 import fr.trackoe.decheterie.model.bean.global.CarteActives;
@@ -110,6 +111,7 @@ import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ChoixDecompteTotals;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
+import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
@@ -145,10 +147,12 @@ import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
 import fr.trackoe.decheterie.service.callback.DataAndErrorCallback;
 import fr.trackoe.decheterie.service.callback.DataCallback;
 import fr.trackoe.decheterie.service.receiver.NetworkStateReceiver;
+import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogOnBackPressed;
 import fr.trackoe.decheterie.ui.fragment.AccueilFragment;
 import fr.trackoe.decheterie.ui.fragment.ApportProFragment;
 import fr.trackoe.decheterie.ui.fragment.DepotFragment;
+import fr.trackoe.decheterie.ui.fragment.DepotListeFragment;
 import fr.trackoe.decheterie.ui.fragment.DrawerLocker;
 import fr.trackoe.decheterie.ui.fragment.IdentificationFragment;
 import fr.trackoe.decheterie.ui.fragment.LoadingFragment;
@@ -202,9 +206,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         setContentView(R.layout.activity_container);
 
 
-        initDB();
-        /*initDBTest();
-        initDBForIcons();*/
+//        initDB();
+        initDBTest();
+        initDBForIcons();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
@@ -252,7 +256,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new AccueilFragment(), true);
+        changeMainFragment(new LoadingFragment(), true);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -2364,10 +2368,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         dchCarteEtatRaisonDB.close();
 
         //add accountSetting into BDD
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true ,true ,true ,0,0,"m3","20170101","20171230",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true ,0,0,"m3","20170101","20170410",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true ,0,0,"m3","20170101","20170410",0,0,true,30,0));
-        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,Configuration.getIdAccount(),3,2,false,false,false,0,0,"m3","20170101","20171230",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(1,Configuration.getIdAccount(),1,1,true ,true ,true ,1,0,"m3","20170101","20171230",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(2,Configuration.getIdAccount(),1,1,false,false,true ,1,0,"m3","20170101","20170410",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(3,Configuration.getIdAccount(),3,2,false,false,true ,1,0,"m3","20170101","20170410",0,0,true,30,0));
+        dchAccountSettingDB.insertAccountSetting(new AccountSetting(4,Configuration.getIdAccount(),3,2,false,false,false,1,0,"m3","20170101","20171230",0,0,true,30,0));
         dchAccountSettingDB.close();
 
         //add accountFluxSetting into BDD
@@ -2856,6 +2860,71 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             setIntent(intent);
             resolveIntent(intent);
         }
+    }
+
+    public void showCustomDialogNormal(String title, String message, String positiveButton, String negativeButton){
+        CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(this);
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(negativeButton, new android.content.DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public void sendDepot(final Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
+        try {
+            //send Depot(without signature) to server
+            Datas.uploadDepot(this, new DataCallback<ContenantBean>() {
+                @Override
+                public void dataLoaded(ContenantBean data) {
+                    if (!data.ismSuccess()) {
+                        data.getmError();
+                    }
+                    else{
+                        d.setSent(true);
+
+                        DchDepotDB dchDepotDB = new DchDepotDB(returnContext());
+                        dchDepotDB.open();
+
+                        dchDepotDB.updateDepot(d);
+
+
+                        try {
+                            if(getCurrentFragment() instanceof DepotListeFragment) {
+                                if(((DepotListeFragment) getCurrentFragment()).isAfficherDepotNonSynchro()){
+                                    //((DepotListeFragment) getCurrentFragment()).initViews(dchDepotDB.getDepotListByIsSent(false));
+                                    ((DepotListeFragment) getCurrentFragment()).initViews(dchDepotDB.getAllDepot());
+                                }
+                                else {
+                                    ((DepotListeFragment) getCurrentFragment()).initViews(dchDepotDB.getAllDepot());
+                                }
+                                ((DepotListeFragment) getCurrentFragment()).notifyDataSetChanged();
+                            }
+                        } catch (Exception e) {}
+
+                        dchDepotDB.close();
+                    }
+                }
+            }, d, a, listAF);
+
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public Context returnContext(){
+        return this;
     }
 
     public void returnBack(){

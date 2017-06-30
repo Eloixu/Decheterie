@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/depot_liste_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/depot_liste_fragment_up_linearLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_afficher_depot_non_synchro"
+            android:text="Filtrer les dépots"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_blue"/>
+
+        <Button
+            android:id="@+id/btn_synchro"
+            android:text="Synchronisation"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/depot_liste_fragment_bottom_linearLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+        <ListView
+            android:id="@+id/liste_depot_lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+        </ListView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/liste_aucun_depot_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Aucun dépôt."
+        android:gravity="center"
+        android:textSize="@dimen/general_txt_size"
+        android:textColor="@color/bluedeep"
+        android:visibility="gone"/>
+
+</LinearLayout>

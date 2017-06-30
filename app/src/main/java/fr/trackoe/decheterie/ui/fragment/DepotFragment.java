@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import fr.trackoe.decheterie.R;
+import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchAccountFluxSettingDB;
 import fr.trackoe.decheterie.database.DchAccountSettingDB;
@@ -75,16 +76,18 @@ import fr.trackoe.decheterie.ui.dialog.CustomDialogReturnAccueil;
 import fr.trackoe.decheterie.ui.dialog.SoftKeyboardStateWatcher;
 
 public class DepotFragment extends Fragment {
+    ContainerActivity parentActivity;
     private ViewGroup depot_vg;
     private Depot depot;
-    private long depotId;
-    private LinearLayout galleryFlux;
-    private LinearLayout galleryFluxChoisi;
+    private long  depotId;
     private Carte carte;
+    private AccountSetting  accountSetting;
+    private ComptePrepaye   comptePrepaye;
     private boolean pageSignature = false;
-    private AccountSetting accountSetting;
-    ContainerActivity parentActivity;
+
     private LinearLayout    linearLayoutVolumeTotal;
+    private LinearLayout    galleryFlux;
+    private LinearLayout    galleryFluxChoisi;
     private TextView        textViewVolumeTotal;
     private EditText        editTextVolumeTotal;
     private TextView        textViewUniteVolumeTotal;
@@ -201,11 +204,6 @@ public class DepotFragment extends Fragment {
         initAllDB();
         openAllDB();
 
-        /*//get usagerId sent from RechercherUsagerFragment
-        if(isComeFromRechercherUsagerFragment) getUsagerIdAndIsComeFromRUFFromRechercherUsagerFragment();*/
-
-//        initViewsNavigationDrawer(inflater,container);
-
         //the case that we continue to edit the depot incompleted
         //*** pop-up ---> DepotFragment ***
         if(isComeFromPopUp){
@@ -213,16 +211,10 @@ public class DepotFragment extends Fragment {
             depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
             depotId = depot.getId();
             carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
+            comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(dchCarteActiveDB.getCarteActiveFromDchCarteId(depot.getCarteActiveCarteId()).getDchComptePrepayeId());
             setPageSignature();
 
-            //detect if the current depot exist in the BDD
-            if(dchDepotDB.getDepotByIdentifiant(depotId) == null) {
-                //add depot into BDD
-                dchDepotDB.insertDepot(depot);
-            }
-            else{
-                //update depot in BDD
-            }
+            dchDepotDB.insertDepot(depot);
 
             //set nomUniteDecompte
             nomUniteDecompte = dchUniteDB.getUniteFromID(accountSetting.getUniteDepotDecheterieId()).getNom();
@@ -242,6 +234,7 @@ public class DepotFragment extends Fragment {
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
             long carteActiveCarteId = carte.getId();
             long comptePrepayeId = dchCarteActiveDB.getCarteActiveFromDchCarteId(carteActiveCarteId).getDchComptePrepayeId();
+            comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(comptePrepayeId);
             float qtyTotalUDD = 0;
             String depotNom = "";
             int statut = getResources().getInteger(R.integer.statut_en_cours);
@@ -275,15 +268,7 @@ public class DepotFragment extends Fragment {
         }
         //the case when click "back" in ApportProFragment
         // *** ApportProFragment ---> DepotFragment ***
-        //else if(!Configuration.getIsOuiClicked() && depotId != 0 && !isComeFromRechercherUsagerFragment){
         else if(isComeFromApportProFragment||isComeFromSettingFragment){
-            depot = dchDepotDB.getDepotByIdentifiant(depotId);
-            carte = dchCarteDB.getCarteFromID(depot.getCarteActiveCarteId());
-            setPageSignature();
-
-            //set nomUniteDecompte
-            nomUniteDecompte = dchUniteDB.getUniteFromID(accountSetting.getUniteDepotDecheterieId()).getNom();
-
             //initViews
             initViewsNotNormal(inflater,container);
         }
@@ -299,6 +284,7 @@ public class DepotFragment extends Fragment {
             int decheterieId = decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId();
             long carteActiveCarteId = -1;
             long comptePrepayeId = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usagerIdFromRUF).getId();
+            comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(comptePrepayeId);
             float qtyTotalUDD = 0;
             String depotNom = null;
             int statut = getResources().getInteger(R.integer.statut_en_cours);
@@ -335,17 +321,12 @@ public class DepotFragment extends Fragment {
         initViewsNavigationDrawer(inflater,container);
 
         //show the dialog if dch_account_setting.pt_minimum >= 0 et dch_compte_prepaye.qty_point < dch_account_setting.pt_minimum
-        //showReturnAccueilDialog();
-
+        showReturnAccueilDialog();
 
         //show depot information
         showDepotDetails();
 
-
-
         closeAllDB();
-
-
 
         /*// Init Actionbar
         initActionBar();*/
@@ -423,7 +404,7 @@ public class DepotFragment extends Fragment {
     }*/
 
     /*
-    Init Views under the condition that "oui" isn't clicked
+    Init Views under the condition when the depot is created for the first time
      */
     public void initViews(LayoutInflater inflater, ViewGroup container) {
         parentActivity.showHamburgerButton();
@@ -1605,13 +1586,13 @@ public class DepotFragment extends Fragment {
                 if(pageSignature) {
                     if(isComeFromRechercherUsagerFragment){//RechercherUsagerFragment --->DepotFragment ---> ApportProFragment
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUF,typeCarteIdFromRUF,isComeFromRechercherUsagerFragment,nomInND,isUsagerMenageInND,adresseInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId());
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,usagerIdFromRUF,typeCarteIdFromRUF,isComeFromRechercherUsagerFragment,nomInND,isUsagerMenageInND,adresseInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId(),comptePrepaye.getId());
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
                     }
                     else{//IdentificationFragment ---> DepotFragment ---> ApportProFragment
                         if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,nomInND,isUsagerMenageInND,adresseInND,numeroCarteInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId());
+                            ApportProFragment apportProFragment = ApportProFragment.newInstance(depotId,nomInND,isUsagerMenageInND,adresseInND,numeroCarteInND,apportRestantInND,uniteApportRestantInND,totalDecompte,accountSetting.getId(),comptePrepaye.getId());
                             ((ContainerActivity) getActivity()).changeMainFragment(apportProFragment, true);
                         }
                     }
@@ -1619,19 +1600,25 @@ public class DepotFragment extends Fragment {
                 else{
                     //update the table "depot" and change the row "statut" to statut_termine
                     depot.setStatut(getResources().getInteger(R.integer.statut_termine));
-                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
-                    }
                     depot.setDateHeure(getDateHeure());
                     dchDepotDB.updateDepot(depot);
                     //send the depot to server
-                    sendDepot(depot, accountSetting, dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
+                    if (Utils.isInternetConnected(getContext())) {
+                        parentActivity.sendDepot(depot, accountSetting, dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
+                    }
+                    //recalculate the comptePreapaye
+                    recaculateComptePrepaye();
+
+                    if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
+                    }
 
                 }
 
 
                 dchDepotDB.close();
                 dchApportFluxDB.close();
+
             }
         });
 
@@ -2229,12 +2216,8 @@ public class DepotFragment extends Fragment {
         }
     }
 
-    public boolean isComeFromRechercherUsagerFragment() {
-        return isComeFromRechercherUsagerFragment;
-    }
 
-
-    public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
+    /*public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
             //send Depot(without signature) to server
             Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
@@ -2242,32 +2225,27 @@ public class DepotFragment extends Fragment {
                 public void dataLoaded(ContenantBean data) {
                     if (!data.ismSuccess()) {
                         data.getmError();
-                        depot.setSent(false);
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
-
-                        dchDepotDB.updateDepot(depot);
-
-                        dchDepotDB.close();
                     }
                     else{
                         depot.setSent(true);
 
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
+                        try {
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
-                        dchDepotDB.updateDepot(depot);
+                            dchDepotDB.updateDepot(depot);
 
-                        dchDepotDB.close();
+                            dchDepotDB.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }, d, a, listAF);
-
-
         } catch(Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void addTextChangedListener(final EditText editText){
         TextWatcher listener3 = new TextWatcher() {
@@ -2403,12 +2381,27 @@ public class DepotFragment extends Fragment {
         return builder.create();
     }
 
+    public void recaculateComptePrepaye(){
+
+        if(accountSetting.isDecompteDepot()){
+            comptePrepaye.setNbDepotRestant(comptePrepaye.getNbDepotRestant() - 1);
+        }
+        if(accountSetting.isDecompteUDD()){
+            comptePrepaye.setQtyPoint(comptePrepaye.getQtyPoint() - depot.getQtyTotalUDD()/accountSetting.getCoutUDDPrPoint());
+        }
+
+        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+        dchComptePrepayeDB.open();
+        dchComptePrepayeDB.updateComptePrepaye(comptePrepaye);
+        dchComptePrepayeDB.close();
+    }
+
     public void initEidtTextVolumeTotal(){
-        if(!accountSetting.isCompteTotal()) {
-            editTextVolumeTotal.setKeyListener(null); // if compteTotal is true, the volume total could be editable
+        if(accountSetting.isCompteTotal() && accountSetting.isDecompteUDD()) {// if compteTotal and decompteUDD both are true, the volume total could be editable
+            editTextVolumeTotal.setBackgroundResource(R.drawable.bg_edittext);
         }
         else{
-            editTextVolumeTotal.setBackgroundResource(R.drawable.bg_edittext);
+            editTextVolumeTotal.setKeyListener(null);
         }
     }
 

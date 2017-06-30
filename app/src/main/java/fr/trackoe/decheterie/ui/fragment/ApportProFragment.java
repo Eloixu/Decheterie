@@ -38,11 +38,15 @@ import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchAccountSettingDB;
 import fr.trackoe.decheterie.database.DchApportFluxDB;
+import fr.trackoe.decheterie.database.DchCarteActiveDB;
+import fr.trackoe.decheterie.database.DchCarteDB;
+import fr.trackoe.decheterie.database.DchComptePrepayeDB;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
 import fr.trackoe.decheterie.model.Datas;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.service.callback.DataCallback;
@@ -87,6 +91,7 @@ public class ApportProFragment extends Fragment {
     private String uniteApportRestantInND;
     private float totalDecompte;
     private int accountSettingId;
+    private long comptePrepayeId;
 
 
 
@@ -174,6 +179,7 @@ public class ApportProFragment extends Fragment {
             uniteApportRestantInND  = getArguments().getString  (   "uniteApportRestantInND");
             totalDecompte           = getArguments().getFloat   (   "totalDecompte"         );
             accountSettingId        = getArguments().getInt     (   "accountSettingId"      );
+            comptePrepayeId         = getArguments().getLong    (   "comptePrepayeId"       );
         }
 
         //detect if the signature picture has already existed
@@ -246,21 +252,22 @@ public class ApportProFragment extends Fragment {
                 depot.setStatut(getResources().getInteger(R.integer.statut_termine));
 
 
-                //turn to page Accueil
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
-                }
                 depot.setDateHeure(getDateHeure());
 
                 dchDepotDB.updateDepot(depot);
 
 
                 sendDepot(depot, dchAccountSettingDB.getAccountSettingFromID(accountSettingId), dchApportFluxDB.getListeApportFluxByDepotId(depot.getId()));
+                recaculateComptePrepaye();
 
                 dchDepotDB.close();
                 dchAccountSettingDB.close();
                 dchApportFluxDB.close();
 
+                //turn to page Accueil
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), false);
+                }
             }
         });
 
@@ -381,7 +388,7 @@ public class ApportProFragment extends Fragment {
     }
 
 
-    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
+    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId, long comptePrepayeId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong    (   "depotId",                  depotId                 );
@@ -393,12 +400,13 @@ public class ApportProFragment extends Fragment {
         args.putString  (   "uniteApportRestantInND",   uniteApportRestantInND  );
         args.putFloat   (   "totalDecompte",            totalDecompte           );
         args.putInt     (   "accountSettingId",         accountSettingId        );
+        args.putLong    (   "comptePrepayeId",          comptePrepayeId         );
 
         apportProFragment.setArguments(args);
         return apportProFragment;
     }
 
-    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId) {
+    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId, long comptePrepayeId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong    (   "depotId",                                  depotId                                 );
@@ -414,6 +422,7 @@ public class ApportProFragment extends Fragment {
         args.putString  (   "uniteApportRestantInND",   uniteApportRestantInND  );
         args.putFloat   (   "totalDecompte",            totalDecompte           );
         args.putInt     (   "accountSettingId",         accountSettingId        );
+        args.putLong    (   "comptePrepayeId",          comptePrepayeId         );
         apportProFragment.setArguments(args);
         return apportProFragment;
     }
@@ -424,10 +433,6 @@ public class ApportProFragment extends Fragment {
          BitmapDrawable bd= new BitmapDrawable(getResources(), bm);
          return bd;
         }
-
-    public long getDepotId(){
-        return depotId;
-    }
 
     public String getDateHeure(){
         Date d = new Date();
@@ -448,31 +453,7 @@ public class ApportProFragment extends Fragment {
     public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
             //send Depot(without signature) to server
-            Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
-                @Override
-                public void dataLoaded(ContenantBean data) {
-                    if (!data.ismSuccess()) {
-                        data.getmError();
-                        depot.setSent(false);
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
-
-                        dchDepotDB.updateDepot(depot);
-
-                        dchDepotDB.close();
-                    }
-                    else{
-                        depot.setSent(true);
-
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
-
-                        dchDepotDB.updateDepot(depot);
-
-                        dchDepotDB.close();
-                    }
-                }
-            }, d, a, listAF);
+            parentActivity.sendDepot(d,a,listAF);
 
             //send the signature of depot to server
             //File f = new File(Environment.getExternalStorageDirectory() + "/Pictures/Signature", "signature" + d.getDateHeure()+".PNG");
@@ -487,5 +468,26 @@ public class ApportProFragment extends Fragment {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void recaculateComptePrepaye(){
+        DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
+        dchAccountSettingDB.open();
+        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+        dchComptePrepayeDB.open();
+
+        AccountSetting accountSetting = dchAccountSettingDB.getAccountSettingFromID(accountSettingId);
+        ComptePrepaye comptePrepaye   = dchComptePrepayeDB.getComptePrepayeFromID(comptePrepayeId);
+
+        if(accountSetting.isDecompteDepot()){
+            comptePrepaye.setNbDepotRestant(comptePrepaye.getNbDepotRestant() - 1);
+        }
+        if(accountSetting.isDecompteUDD()){
+            comptePrepaye.setQtyPoint(comptePrepaye.getQtyPoint() - depot.getQtyTotalUDD()/accountSetting.getCoutUDDPrPoint());
+        }
+        dchComptePrepayeDB.updateComptePrepaye(comptePrepaye);
+
+        dchAccountSettingDB.close();
+        dchComptePrepayeDB.close();
     }
 }

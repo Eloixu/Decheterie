@@ -61,6 +61,14 @@ public class DchDepotDB extends MyDb {
         return depot;
     }
 
+    public ArrayList<Depot> getDepotListByIsSent(boolean isSent) {
+        ArrayList<Depot> depotList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.IS_SENT + "=" + (isSent? 1 : 0)+ ";";
+        Cursor cursor = db.rawQuery(query, null);
+        depotList = cursorToListeDepot(cursor);
+        return depotList;
+    }
+
     public void changeDepotStatutByIdentifiant(long id, int statut) {
         String query = "UPDATE " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " SET " + DecheterieDatabase.TableDchDepot.STATUT + "=" + statut
                 + " WHERE " + DecheterieDatabase.TableDchDepot.ID + "=" + id;
@@ -98,6 +106,11 @@ public class DchDepotDB extends MyDb {
         Cursor cursor = db.rawQuery(query, null);
         d = cursorToDepot(cursor);
         return d;
+    }
+
+    public void DeleteAllDepotByStatut(int statut) {
+        String query = "DELETE FROM " + DecheterieDatabase.TableDchDepot.TABLE_DCH_DEPOT + " WHERE " + DecheterieDatabase.TableDchDepot.STATUT + "=" + statut + ";";
+        db.execSQL(query);
     }
 
 

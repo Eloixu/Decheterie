@@ -47,6 +47,13 @@ public class AccueilFragment extends Fragment {
     FragmentTransaction fragmentTransaction;
     TextView textViewNomDecheterie;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        System.out.println("AccueilFragment --> onCreate()");
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,7 +140,7 @@ public class AccueilFragment extends Fragment {
             }
         }
 
-
+        deleteDepotStatutAnnuler();
 
 
         dchDepotDB.close();
@@ -185,6 +192,16 @@ public class AccueilFragment extends Fragment {
         });
 
         //set listener for button "Rechercher d'un usager sans carte"
+        accueil_vg.findViewById(R.id.btn_liste).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).changeMainFragment(new DepotListeFragment(), true);
+                }
+            }
+        });
+
+        //set listener for button "Rechercher d'un usager sans carte"
         accueil_vg.findViewById(R.id.btn_recherche).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,12 +220,16 @@ public class AccueilFragment extends Fragment {
             }
         });
 
-
-
-
     }
 
+    public void deleteDepotStatutAnnuler(){
+        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+        dchDepotDB.open();
 
+        dchDepotDB.DeleteAllDepotByStatut(getResources().getInteger(R.integer.statut_annuler));
+
+        dchDepotDB.close();
+    }
 
 
 }

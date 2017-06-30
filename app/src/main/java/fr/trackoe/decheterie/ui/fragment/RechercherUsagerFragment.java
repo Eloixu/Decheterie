@@ -392,6 +392,7 @@ public class RechercherUsagerFragment extends Fragment {
                                     int typeCarteId = dchTypeCarteDB.getTypeCarteByName(typeCarte).getId();
                                     //detect if the is_active of the usager's carteActives
                                     int accountId = -1;
+
                                     ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usager.getId());
                                     ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(comptePrepaye.getId());
                                     for(CarteActive ca: carteActiveList){
@@ -400,8 +401,7 @@ public class RechercherUsagerFragment extends Fragment {
                                             accountId = carte.getDchAccountId();
                                             break;
                                         }
-                                    }
-                                    if(accountId == -1){
+                                    }          if(accountId == -1){
                                         //pop-up
                                         /*Toast.makeText(getContext(), "Cet usager n'a aucune carte qui est active",
                                                 Toast.LENGTH_SHORT).show();*/

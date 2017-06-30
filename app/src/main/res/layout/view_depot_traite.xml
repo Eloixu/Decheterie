@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/inter_view_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/inter_tv_margin"
+    android:layout_marginBottom="@dimen/inter_tv_margin" >
+
+    <TextView
+        android:id="@+id/hide_id_depot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/inter_view_picto_lay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/inter_view_img_ko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alert_32"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/inter_img_margin"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/inter_view_img_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/check_mark_8_32"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/inter_img_margin"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/inter_view_img_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/edit_releve_32"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/inter_img_margin"
+            android:tint="@color/greydark"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_toEndOf="@id/inter_view_picto_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:id="@+id/depot_lay_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/inter_tv_margin" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date :"
+                android:textSize="@dimen/inter_txt_size"
+                android:textColor="@color/bluedeep"/>
+
+            <TextView
+                android:id="@+id/depot_rv_date_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/inter_txt_size"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="@dimen/inter_tv_margin"
+                android:layout_marginStart="@dimen/inter_tv_margin"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/form_lay_nom_usager"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/inter_tv_margin"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom d' usager :"
+                android:textSize="@dimen/inter_txt_size"
+                android:textColor="@color/bluedeep"/>
+
+            <TextView
+                android:id="@+id/depot_rv_nom_usager_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/inter_txt_size"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="@dimen/inter_tv_margin"
+                android:layout_marginStart="@dimen/inter_tv_margin"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/form_lay_num_carte"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/inter_tv_margin"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N° Carte :"
+                android:textSize="@dimen/inter_txt_size"
+                android:textColor="@color/bluedeep"/>
+
+            <TextView
+                android:id="@+id/depot_rv_num_carte_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/inter_txt_size"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="@dimen/inter_tv_margin"
+                android:layout_marginStart="@dimen/inter_tv_margin"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
