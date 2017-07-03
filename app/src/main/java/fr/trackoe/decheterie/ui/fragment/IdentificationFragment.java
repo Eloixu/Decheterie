@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SerialPortServiceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,19 +95,37 @@ public class IdentificationFragment extends Fragment {
 
         addLayoutListener(identification_vg.findViewById(R.id.identification_fragment_global_linearLayout),suivant);
 
-        configurationBarCodeInfrared();
+        try {
+            mSeriport = new SerialPortServiceManager(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return identification_vg;
     }
 
     @Override
     public void onResume() {
-        System.out.println("IdentificationFragment-->onResume()");
+        try {
+            initBarCodeScaner();
+            initThread();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         super.onResume();
-
     }
 
-/*
+    @Override
+    public void onPause() {
+        try {
+            closeBarCodeReader();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onPause();
+    }
+
+    /*
     * Init Actionbar
     */
 /*public void initActionBar() {
@@ -123,7 +142,7 @@ public class IdentificationFragment extends Fragment {
         parentActivity = (ContainerActivity) getActivity();
 
         String lastNumCarte = Configuration.getLastNumCard();
-        if(lastNumCarte != null) editText_barcode.setText(lastNumCarte);
+        //if(lastNumCarte != null) editText_barcode.setText(lastNumCarte);
     }
 
     /*
@@ -294,6 +313,56 @@ public class IdentificationFragment extends Fragment {
 
     }
 
+    public void initBarCodeScaner() {
+        if(mSeriport.open(part_serialPortNode_ttyUSB0, part_baud, part_data_size, part_stop_bit) == -1){
+            if(mSeriport.open(part_serialPortNode_ttyUSB1, part_baud, part_data_size, part_stop_bit) == -1){
+                if(mSeriport.open(part_serialPortNode_ttyUSB2, part_baud, part_data_size, part_stop_bit) == -1){
+                    mSeriport.open(part_serialPortNode_ttyUSB3, part_baud, part_data_size, part_stop_bit);
+                }
+            }
+        }
+    }
+
+    public void initThread() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what)
+                {
+                    case Message_display:
+                        int k = 0;
+                        do {
+                            synchronized (rxlock) {
+                                head_queue = rx_queue.poll();
+                            }
+                            if(head_queue != null) {
+                                editText_barcode.setText(head_queue);
+                            } else {
+                                break;
+                            }
+                        } while(k++ < 4);
+                        break;
+                    /*case ACTION_SCREEN_ON:
+                        if(open_state_before == 1) {
+                            node_open.performClick();
+                        }
+                        open_state_before = 0;
+                        Log.d(TAG,"----------->Hand GET ACTION_SCREEN_ON!");
+                        break;
+                    case ACTION_SCREEN_OFF:
+                        if(open_state_before == 1) {
+                            node_close.performClick();
+                        }
+                        Log.d(TAG,"----------->Hand GET ACTION_SCREEN_OFF!");
+                        break;*/
+                    default:
+                }
+            }
+        };
+        mreadTh = new read_thread();
+        mreadTh.start();
+    }
+
     public class read_thread extends Thread {
         private int       ret_receive = 0;
 
@@ -337,38 +406,6 @@ public class IdentificationFragment extends Fragment {
         mSeriport.close();
     }
 
-    public void configurationBarCodeInfrared(){
-        mSeriport = new SerialPortServiceManager(0);
-        //set the parameters
-        if(mSeriport.open(part_serialPortNode_ttyUSB0, part_baud, part_data_size, part_stop_bit) == -1){
-            if(mSeriport.open(part_serialPortNode_ttyUSB1, part_baud, part_data_size, part_stop_bit) == -1){
-                if(mSeriport.open(part_serialPortNode_ttyUSB2, part_baud, part_data_size, part_stop_bit) == -1){
-                    mSeriport.open(part_serialPortNode_ttyUSB3, part_baud, part_data_size, part_stop_bit);
-                }
-            }
-        }
-
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-
-                synchronized (rxlock) {
-                    head_queue = rx_queue.poll();
-                }
-                if(head_queue != null) {
-                    editText_barcode.setText(head_queue);
-                } else {
-
-                }
-
-
-            }
-        };
-
-        mreadTh = new read_thread();
-        mreadTh.start();
-    }
-
     public void addLayoutListener(final View main, final View scroll) {
         main.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -387,9 +424,5 @@ public class IdentificationFragment extends Fragment {
             }
         });
     }
-
-
-
-
 
 }
