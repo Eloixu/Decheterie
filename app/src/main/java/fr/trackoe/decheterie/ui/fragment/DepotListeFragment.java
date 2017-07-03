@@ -113,8 +113,8 @@ public class DepotListeFragment extends Fragment {
 
                         if (!depot.isSent() && Utils.isInternetConnected(getContext())){
                             sendDepot(depot);
+                            Toast.makeText(getContext(), getString(R.string.form_toast_envoi_depot), Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(getContext(), getString(R.string.form_toast_envoi_depot), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
