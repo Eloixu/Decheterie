@@ -4,6 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import fr.trackoe.decheterie.model.bean.usager.Usagers;
 
 /**
@@ -29,7 +32,7 @@ public class UsagerParser extends JSONParser<Usagers> {
                     int     id              = jobj.has("id")            ? jobj.getInt("id") : null;
                     int     idAccount       = jobj.has("id_account")    ? jobj.getInt("id_account") : null;
                     String  nom             = jobj.has("nom")           ? jobj.getString("nom") : "";
-                    String  dateMaj         = jobj.has("date_maj")      ? jobj.getString("date_maj") : "";
+                    String  dateMaj         = jobj.has("date_maj")      ? changeDateFormat(jobj.getString("date_maj")) : "";
                     String  prenom          = jobj.has("prenom")        ? jobj.getString("prenom") : "";
                     String  email           = jobj.has("email")         ? jobj.getString("email") : "";
                     String  civilite        = jobj.has("civilite")      ? jobj.getString("civilite") : "";
@@ -53,5 +56,18 @@ public class UsagerParser extends JSONParser<Usagers> {
         }
 
         return u;
+    }
+
+    //yyyy-MM-dd(T)HH:mm:ss ---> yyyyMMddHHmmss
+    public String changeDateFormat(String date){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = sdf.parse(date.replace('T',' '));
+            return (new SimpleDateFormat("yyyyMMddHHmmss")).format(d);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
     }
 }

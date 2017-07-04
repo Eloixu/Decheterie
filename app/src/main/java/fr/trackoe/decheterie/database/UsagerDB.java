@@ -48,6 +48,15 @@ public class UsagerDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableUsager.TABLE_NAME, null, values);
     }
 
+    public void updateUsager(Usager usager) {
+        deleteUsagerByIdentifiant(usager.getId());
+        insertUsager(usager);
+    }
+
+    public void deleteUsagerByIdentifiant(int id){
+        db.execSQL("delete from " + DecheterieDatabase.TableUsager.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsager.ID_USAGER + "=" + id);
+    }
+
     public Usager getUsagerFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsager.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsager.ID_USAGER + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -85,8 +94,12 @@ public class UsagerDB extends MyDb {
                 u.setSiret(c.getString(DecheterieDatabase.TableUsager.NUM_SIRET));
                 u.setCodeApe(c.getString(DecheterieDatabase.TableUsager.NUM_CODE_APE));
                 u.setSoumisRS(c.getString(DecheterieDatabase.TableUsager.NUM_SOUMIS_RS));
+                c.close();
+                return u;
+            }else{
+                c.close();
+                return null;
             }
-            return u;
         }
         catch(Exception e){
             return u;

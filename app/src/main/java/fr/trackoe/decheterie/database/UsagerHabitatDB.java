@@ -29,12 +29,21 @@ public class UsagerHabitatDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableUsagerHabitat.TABLE_NAME, null, values);
     }
 
+    public void updateUsagerHabitat(UsagerHabitat usagerHabitat) {
+        deleteUsagerHabitat(usagerHabitat.getDchUsagerId(),usagerHabitat.getHabitatId());
+        insertUsagerHabitat(usagerHabitat);
+    }
+
     /*
     Vider la table
      */
 
     public void clearUsagerHabitat() {
         db.execSQL("delete from " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME);
+    }
+
+    public void deleteUsagerHabitat(int usagerId, int habitatId){
+        db.execSQL("delete from " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId + " AND " + DecheterieDatabase.TableUsagerHabitat.ID_HABITAT + "=" + habitatId);
     }
 
     public UsagerHabitat getUsagerHabitatByUsagerId(int usagerId) {
@@ -48,6 +57,14 @@ public class UsagerHabitatDB extends MyDb {
     public UsagerHabitat getUsagerHabitatByHabitatActiveId(int habitatActiveId) {
         UsagerHabitat usagerHabitat;
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_HABITAT + "=" + habitatActiveId;
+        Cursor cursor = db.rawQuery(query, null);
+        usagerHabitat = cursorToUsagerHabitat(cursor);
+        return usagerHabitat;
+    }
+
+    public UsagerHabitat getUsagerHabitatByUsagerIdAndHabitatId(int usagerId, int habitatId) {
+        UsagerHabitat usagerHabitat;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId + " AND " + DecheterieDatabase.TableUsagerHabitat.ID_HABITAT + "=" + habitatId;
         Cursor cursor = db.rawQuery(query, null);
         usagerHabitat = cursorToUsagerHabitat(cursor);
         return usagerHabitat;

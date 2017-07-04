@@ -702,6 +702,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                 udb.open();
                                 for(int i = 0; i < data.getListUsager().size(); i++) {
                                     udb.insertUsager(data.getListUsager().get(i));
+
                                     if(getCurrentFragment() instanceof LoadingFragment) {
                                         final int finalI = i;
                                         runOnUiThread(new Runnable() {
@@ -729,6 +730,90 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, idAccount);
+        }
+    }
+
+    public void loadMAJUsager(int idAccount, String dateMAJ) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJUsager(activity, new DataAndErrorCallback<Usagers>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Usagers data) {
+                    try {
+                        final UsagerDB udb = new UsagerDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(!data.getListUsager().isEmpty()) {
+                                    udb.open();
+                                    for (int i = 0; i < data.getListUsager().size(); i++) {
+                                        if (udb.getUsagerFromID(data.getListUsager().get(i).getId()) == null) {
+                                            udb.insertUsager(data.getListUsager().get(i));
+                                        } else {
+                                            udb.updateUsager(data.getListUsager().get(i));
+                                        }
+                                    }
+                                    udb.close();
+                                    runOnUiThread(//return to the principal thread
+                                            new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMAJUsagerHabitat(data);
+                                        }
+                                    });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount, dateMAJ);
+        }
+    }
+
+    public void loadMAJUsagerHabitat(Usagers usagers) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJUsagerHabitat(activity, new DataAndErrorCallback<UsagerHabitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final UsagerHabitats data) {
+                    try {
+                        final UsagerHabitatDB udb = new UsagerHabitatDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                if(!data.getListUsagerHabitat().isEmpty()) {
+                                    for (int i = 0; i < data.getListUsagerHabitat().size(); i++) {
+                                        if(udb.getUsagerHabitatByUsagerIdAndHabitatId(data.getListUsagerHabitat().get(i).getDchUsagerId(),data.getListUsagerHabitat().get(i).getHabitatId()) == null) {
+                                            udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
+                                        }
+                                        else{
+                                            udb.updateUsagerHabitat(data.getListUsagerHabitat().get(i));
+                                        }
+
+                                    }
+                                }
+                                udb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagers);
         }
     }
 
@@ -1363,7 +1448,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                if(getCurrentFragment() instanceof AccueilFragment)((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
                                             }
                                         });
                                     }
@@ -2921,6 +3006,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    //refresh the database according to the last MAJ date
+    public void MAJData(){
+        loadMAJUsager(Configuration.getIdAccount(),Configuration.getDateMAJ());
     }
 
     public Context returnContext(){

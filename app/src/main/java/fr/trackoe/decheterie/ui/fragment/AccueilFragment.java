@@ -220,6 +220,16 @@ public class AccueilFragment extends Fragment {
             }
         });
 
+        //button for refreshing the data
+        accueil_vg.findViewById(R.id.btn_data_maj).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
+                    ((ContainerActivity) getActivity()).MAJData();
+                }
+            }
+        });
+
     }
 
     public void deleteDepotStatutAnnuler(){

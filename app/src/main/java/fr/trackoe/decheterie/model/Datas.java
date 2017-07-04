@@ -278,6 +278,18 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ModePaiementParser());
     }
 
+    // Récupération des usagers MAJ
+    public static void loadMAJUsager(Context ctx, DataAndErrorCallback<Usagers> callback, int idAccount,String dateMAJ) {
+        String url = Configuration.getInstance(ctx).getMAJUsagerUrl(ctx, idAccount, dateMAJ);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerParser());
+    }
+
+    // Récupération de la liaison usager habitat MAJ
+    public static void loadMAJUsagerHabitat(Context ctx, DataAndErrorCallback<UsagerHabitats> callback,Usagers usagers) {
+        String url = Configuration.getInstance(ctx).getMAJUsagerHabitatUrl(ctx, usagers);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerHabitatParser());
+    }
+
     // Envoi de Depot
     public static void uploadDepot(Context ctx, DataCallback<ContenantBean> callback, Depot depot, AccountSetting accountSetting, ArrayList<ApportFlux> listAF) throws Exception {
         String url = Configuration.getInstance(ctx).getDepotUrlSansSignature(ctx, depot, accountSetting, listAF);

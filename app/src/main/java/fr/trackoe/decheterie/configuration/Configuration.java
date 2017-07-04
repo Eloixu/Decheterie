@@ -16,6 +16,8 @@ import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Ville;
+import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.model.bean.usager.Usagers;
 
 /**
  * Created by Remi on 30/11/2015.
@@ -58,10 +60,6 @@ public abstract class Configuration {
 
     public static void saveDateMaj(String dateMaj) {
         params.edit().putString(Const.DATE_MAJ, dateMaj).commit();
-    }
-
-    public static String getDateMaj() {
-        return params.getString(Const.DATE_MAJ, "");
     }
 
     public static void saveLastNumCard(String numCarte) {
@@ -166,7 +164,8 @@ public abstract class Configuration {
     }
 
     public static String getDateMAJ() {
-        return params.getString(Const.DATE_MAJ_SERVEUR, "");
+        //return params.getString(Const.DATE_MAJ_SERVEUR, "");
+        return "20170601000000";
     }
 
     public static void saveDateMAJ(String dateMAJ) {
@@ -287,10 +286,10 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-//        return(isProd()? "" : "http://192.168.1.38:8080/ws/" ) ;
+        return(isProd()? "" : "http://192.168.1.39:8080/ws/" ) ;
 //        return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
 //        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
-        return(isProd()? "" : "http://contenant.trackoe.fr/demo/ws/") ;
+//        return(isProd()? "" : "http://contenant.trackoe.fr/demo/ws/") ;
 //        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 
@@ -494,6 +493,24 @@ public abstract class Configuration {
 
     public String getModePaiementUrl(Context ctx) {
         return getWebServiceContenantHost(ctx) + "wsModePaiement";
+    }
+    public String getMAJUsagerUrl(Context ctx, int idAccount, String dateMAJ) {
+        return getWebServiceContenantHost(ctx) + "wsMAJUsager?idAccount=" + idAccount + "&dateMAJ=" + dateMAJ;
+    }
+    public String getMAJUsagerHabitatUrl(Context ctx, Usagers usagers) {
+        ArrayList<Usager> usagerList = usagers.getListUsager();
+        String usagerIdList = "";
+        int index = 1;
+        for(Usager usager: usagerList){
+            if(index == 1) {
+                usagerIdList = usagerIdList + usager.getId();
+            }
+            else{
+                usagerIdList = usagerIdList + "&usagerIdList=" + usager.getId();
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJUsagerHabitat?usagerIdList=" + usagerIdList;
     }
 
     // Url permettant de envoyer le depot au serveur
