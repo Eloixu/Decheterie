@@ -46,6 +46,15 @@ public class HabitatDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableHabitat.TABLE_NAME, null, values);
     }
 
+    public void updateHabitat(Habitat habitat) {
+        deleteHabitatByIdentifiant(habitat.getIdHabitat());
+        insertHabitat(habitat);
+    }
+
+    public void deleteHabitatByIdentifiant(int id){
+        db.execSQL("delete from " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.ID_HABITAT + "=" + id);
+    }
+
     public Habitat getHabitatFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableHabitat.ID_HABITAT + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -117,9 +126,11 @@ public class HabitatDB extends MyDb {
                 h.setIdAccount(c.getInt(DecheterieDatabase.TableHabitat.NUM_ID_ACCOUNT));
                 h.setDateDebut(c.getString(DecheterieDatabase.TableHabitat.NUM_DATE_DEBUT));
                 h.setDateFin(c.getString(DecheterieDatabase.TableHabitat.NUM_DATE_FIN));
+                c.close();
                 return h;
             }
             else{
+                c.close();
                 return null;
             }
         }catch(Exception e){

@@ -242,7 +242,7 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new DecheterieFluxParser());
     }
 
-    // Récupération des fluxs
+    // Récupération des unites
     public static void loadAllUnite(Context ctx, DataAndErrorCallback<Unites> callback) {
         String url = Configuration.getInstance(ctx).getAllUniteUrl(ctx);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UniteParser());
@@ -288,6 +288,12 @@ public class Datas {
     public static void loadMAJUsagerHabitat(Context ctx, DataAndErrorCallback<UsagerHabitats> callback,Usagers usagers) {
         String url = Configuration.getInstance(ctx).getMAJUsagerHabitatUrl(ctx, usagers);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerHabitatParser());
+    }
+
+    // Récupération des habitats MAJ
+    public static void loadMAJHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, UsagerHabitats usagerHabitats) {
+        String url = Configuration.getInstance(ctx).getMAJHabitatUrl(ctx, usagerHabitats);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatsParser());
     }
 
     // Envoi de Depot

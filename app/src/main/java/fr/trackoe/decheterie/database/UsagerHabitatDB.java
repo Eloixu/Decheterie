@@ -46,6 +46,10 @@ public class UsagerHabitatDB extends MyDb {
         db.execSQL("delete from " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId + " AND " + DecheterieDatabase.TableUsagerHabitat.ID_HABITAT + "=" + habitatId);
     }
 
+    public void deleteAllUsagerHabitatByUsagerId(int usagerId){
+        db.execSQL("delete from " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId);
+    }
+
     public UsagerHabitat getUsagerHabitatByUsagerId(int usagerId) {
         UsagerHabitat usagerHabitat;
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerHabitat.ID_USAGER + "=" + usagerId;

@@ -16,7 +16,10 @@ import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Ville;
+import fr.trackoe.decheterie.model.bean.usager.Habitat;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
+import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
 import fr.trackoe.decheterie.model.bean.usager.Usagers;
 
 /**
@@ -165,7 +168,7 @@ public abstract class Configuration {
 
     public static String getDateMAJ() {
         //return params.getString(Const.DATE_MAJ_SERVEUR, "");
-        return "20170601000000";
+        return "20170101000000";
     }
 
     public static void saveDateMAJ(String dateMAJ) {
@@ -511,6 +514,29 @@ public abstract class Configuration {
             index ++;
         }
         return getWebServiceContenantHost(ctx) + "wsMAJUsagerHabitat?usagerIdList=" + usagerIdList;
+    }
+    public String getMAJHabitatUrl(Context ctx, UsagerHabitats usagerHabitats) {
+        ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitats.getListUsagerHabitat();
+        ArrayList<Integer> habitatIdIntegerList = new ArrayList<>();
+        int habitatId = 0;
+        for(UsagerHabitat usagerhabitat: usagerHabitatList){
+            if(usagerhabitat.getHabitatId() != habitatId){
+                habitatId = usagerhabitat.getHabitatId();
+                habitatIdIntegerList.add(habitatId);
+            }
+        }
+        String habitatIdList = "";
+        int index = 1;
+        for(int id : habitatIdIntegerList){
+            if(index == 1) {
+                habitatIdList = habitatIdList + id;
+            }
+            else{
+                habitatIdList = habitatIdList + "&habitatIdList=" + id;
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJUsagerHabitat?habitatIdList=" + habitatIdList;
     }
 
     // Url permettant de envoyer le depot au serveur

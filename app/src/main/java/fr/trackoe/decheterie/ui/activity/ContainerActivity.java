@@ -795,15 +795,29 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 udb.open();
                                 if(!data.getListUsagerHabitat().isEmpty()) {
-                                    for (int i = 0; i < data.getListUsagerHabitat().size(); i++) {
-                                        if(udb.getUsagerHabitatByUsagerIdAndHabitatId(data.getListUsagerHabitat().get(i).getDchUsagerId(),data.getListUsagerHabitat().get(i).getHabitatId()) == null) {
-                                            udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
+                                    int usagerId = 0;
+                                    //delete all the usagerHabitat according to the usagerId
+                                    for(UsagerHabitat uh : data.getListUsagerHabitat()){
+                                        if(uh.getDchUsagerId() != usagerId){
+                                            usagerId = uh.getDchUsagerId();
+                                            udb.deleteAllUsagerHabitatByUsagerId(usagerId);
                                         }
-                                        else{
-                                            udb.updateUsagerHabitat(data.getListUsagerHabitat().get(i));
-                                        }
-
                                     }
+                                    //insert the data
+                                    for (int i = 0; i < data.getListUsagerHabitat().size(); i++) {
+                                            udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
+                                    }
+
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMAJHabitat(data);
+                                        }
+                                    });
+                                }
+                                else{
+                                    //delete all the usagerHabitat according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
                                 }
                                 udb.close();
 
@@ -814,6 +828,51 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, usagers);
+        }
+    }
+
+    public void loadMAJHabitat(UsagerHabitats usagerHabitats) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJHabitat(activity, new DataAndErrorCallback<Habitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Habitats data) {
+                    try {
+                        final HabitatDB hdb = new HabitatDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    if(!data.getListHabitat().isEmpty()) {
+                                        hdb.open();
+                                        for(int i = 0; i < data.getListHabitat().size(); i++) {
+                                            if(hdb.getHabitatFromID(data.getListHabitat().get(i).getIdHabitat()) == null){
+                                                hdb.insertHabitat(data.getListHabitat().get(i));
+                                            }
+                                            else{
+                                                hdb.updateHabitat(data.getListHabitat().get(i));
+                                            }
+
+                                        }
+                                        hdb.close();
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagerHabitats);
         }
     }
 
@@ -2570,7 +2629,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         //add usager into DBB
         usagerDB.insertUsager(new Usager(1,Configuration.getIdAccount(),"Juliano","20170529000000","Jean","opdemo13@trackoe.fr",    "M",null,   "Juliano"   ,"Plomberie","0621213232",null,null,null,   true,null,null,null,"1"));
         usagerDB.insertUsager(new Usager(2,Configuration.getIdAccount(),"PERRIN","20170529000000","Claude","rcoquet@trackoe.fr",    "M","RF9874",null       ,null,"0776583366",null,null,null,          true,null,null,null,null));
-        usagerDB.insertUsager(new Usager(3,Configuration.getIdAccount(),"ALUNA","20170529000000","Jean","opdemo13@trackoe.fr",      "M",null,   null   ,    null,"0621213232",null,null,null,           true,null,null,null,null));
+        usagerDB.insertUsager(new Usager(3,Configuration.getIdAccount(),"ALUNA","20160529000000","Jean","opdemo13@trackoe.fr",      "M",null,   null   ,    null,"0621213232",null,null,null,           true,null,null,null,null));
         usagerDB.insertUsager(new Usager(4,Configuration.getIdAccount(),"Tajat","20170529172344",null,null,                         null,null,   "TAJAT"   ,"Menuiserie","0123456789",null,null,null     ,true,"493999999","49399999900099",null,null));
         usagerDB.insertUsager(new Usager(5,Configuration.getIdAccount(),"Mairie","20170530105004",null,null,                        null,null,   null   ,null,null,null,null,null,                       true,null,null,null,null));
         usagerDB.insertUsager(new Usager(6,Configuration.getIdAccount(),"HANQUAUT","20170621103019","Bertrand",null,                null,null,   null   ,null,null,null,null,null,                       true,null,null,null,null));
