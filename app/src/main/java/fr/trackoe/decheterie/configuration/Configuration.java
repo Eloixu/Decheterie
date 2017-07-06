@@ -20,6 +20,8 @@ import fr.trackoe.decheterie.model.bean.usager.Habitat;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMenage;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMenages;
 import fr.trackoe.decheterie.model.bean.usager.Usagers;
 
 /**
@@ -519,9 +521,9 @@ public abstract class Configuration {
         ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitats.getListUsagerHabitat();
         ArrayList<Integer> habitatIdIntegerList = new ArrayList<>();
         int habitatId = 0;
-        for(UsagerHabitat usagerhabitat: usagerHabitatList){
-            if(usagerhabitat.getHabitatId() != habitatId){
-                habitatId = usagerhabitat.getHabitatId();
+        for(UsagerHabitat usagerHabitat: usagerHabitatList){
+            if(usagerHabitat.getHabitatId() != habitatId){
+                habitatId = usagerHabitat.getHabitatId();
                 habitatIdIntegerList.add(habitatId);
             }
         }
@@ -536,7 +538,45 @@ public abstract class Configuration {
             }
             index ++;
         }
-        return getWebServiceContenantHost(ctx) + "wsMAJUsagerHabitat?habitatIdList=" + habitatIdList;
+        return getWebServiceContenantHost(ctx) + "wsMAJHabitat?habitatIdList=" + habitatIdList;
+    }
+    public String getMAJUsagerMenageUrl(Context ctx, Usagers usagers) {
+        ArrayList<Usager> usagerList = usagers.getListUsager();
+        String usagerIdList = "";
+        int index = 1;
+        for(Usager usager: usagerList){
+            if(index == 1) {
+                usagerIdList = usagerIdList + usager.getId();
+            }
+            else{
+                usagerIdList = usagerIdList + "&usagerIdList=" + usager.getId();
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJUsagerMenage?usagerIdList=" + usagerIdList;
+    }
+    public String getMAJMenageUrl(Context ctx, UsagerMenages usagerMenages) {
+        ArrayList<UsagerMenage> usagerMenageList = usagerMenages.getListUsagerMenage();
+        ArrayList<Integer> menageIdIntegerList = new ArrayList<>();
+        int menageId = 0;
+        for(UsagerMenage usagerMenage: usagerMenageList){
+            if(usagerMenage.getMenageId() != menageId){
+                menageId = usagerMenage.getMenageId();
+                menageIdIntegerList.add(menageId);
+            }
+        }
+        String menageIdList = "";
+        int index = 1;
+        for(int id : menageIdIntegerList){
+            if(index == 1) {
+                menageIdList = menageIdList + id;
+            }
+            else{
+                menageIdList = menageIdList + "&menageIdList=" + id;
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJMenage?menageIdList=" + menageIdList;
     }
 
     // Url permettant de envoyer le depot au serveur

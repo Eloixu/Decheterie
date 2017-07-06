@@ -5,30 +5,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.util.EntityUtils;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.model.bean.global.AccountFluxSettings;
@@ -75,7 +59,7 @@ import fr.trackoe.decheterie.service.parser.ComptePrepayeParser;
 import fr.trackoe.decheterie.service.parser.DecheterieFluxParser;
 import fr.trackoe.decheterie.service.parser.DecheterieParser;
 import fr.trackoe.decheterie.service.parser.FluxParser;
-import fr.trackoe.decheterie.service.parser.HabitatsParser;
+import fr.trackoe.decheterie.service.parser.HabitatParser;
 import fr.trackoe.decheterie.service.parser.InfosParser;
 import fr.trackoe.decheterie.service.parser.LocalParser;
 import fr.trackoe.decheterie.service.parser.MenageParser;
@@ -90,8 +74,6 @@ import fr.trackoe.decheterie.service.parser.UsagerHabitatParser;
 import fr.trackoe.decheterie.service.parser.UsagerMenageParser;
 import fr.trackoe.decheterie.service.parser.UsagerParser;
 import fr.trackoe.decheterie.service.parser.UsersParser;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Remi on 30/11/2015.
@@ -161,7 +143,7 @@ public class Datas {
     // Récupération des habitats
     public static void loadAllHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, int idAccount) {
         String url = Configuration.getInstance(ctx).getAllHabitatUrl(ctx, idAccount);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatsParser());
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatParser());
     }
 
     // Récupération des locaux
@@ -293,7 +275,19 @@ public class Datas {
     // Récupération des habitats MAJ
     public static void loadMAJHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, UsagerHabitats usagerHabitats) {
         String url = Configuration.getInstance(ctx).getMAJHabitatUrl(ctx, usagerHabitats);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatsParser());
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatParser());
+    }
+
+    // Récupération de la liaison usager menage MAJ
+    public static void loadMAJUsagerMenage(Context ctx, DataAndErrorCallback<UsagerMenages> callback,Usagers usagers) {
+        String url = Configuration.getInstance(ctx).getMAJUsagerMenageUrl(ctx, usagers);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerMenageParser());
+    }
+
+    // Récupération des menages MAJ
+    public static void loadMAJMenage(Context ctx, DataAndErrorCallback<Menages> callback, UsagerMenages usagerMenages) {
+        String url = Configuration.getInstance(ctx).getMAJMenageUrl(ctx, usagerMenages);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new MenageParser());
     }
 
     // Envoi de Depot

@@ -9,7 +9,7 @@ import fr.trackoe.decheterie.model.bean.usager.Habitats;
 /**
  * Created by Remi on 02/05/2017.
  */
-public class HabitatsParser extends JSONParser<Habitats> {
+public class HabitatParser extends JSONParser<Habitats> {
     @Override
     protected Habitats parseData(Object jso) throws JSONException {
         Habitats h = new Habitats();

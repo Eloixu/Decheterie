@@ -37,6 +37,10 @@ Vider la table
         db.execSQL("delete from " + DecheterieDatabase.TableUsagerMenage.TABLE_NAME);
     }
 
+    public void deleteAllUsagerMenageByUsagerId(int usagerId){
+        db.execSQL("delete from " + DecheterieDatabase.TableUsagerMenage.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerMenage.ID_USAGER + "=" + usagerId);
+    }
+
     public UsagerMenage getUsagerMenageByUsagerId(int usagerId) {
         UsagerMenage usagerMenage;
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsagerMenage.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsagerMenage.ID_USAGER + "=" + usagerId;

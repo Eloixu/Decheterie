@@ -33,6 +33,15 @@ public class MenageDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableMenage.TABLE_NAME, null, values);
     }
 
+    public void updateMenage(Menage menage) {
+        deleteMenageByIdentifiant(menage.getId());
+        insertMenage(menage);
+    }
+
+    public void deleteMenageByIdentifiant(int id){
+        db.execSQL("delete from " + DecheterieDatabase.TableMenage.TABLE_NAME + " WHERE " + DecheterieDatabase.TableMenage.ID_MENAGE + "=" + id);
+    }
+
     /*
     Vider la table
      */

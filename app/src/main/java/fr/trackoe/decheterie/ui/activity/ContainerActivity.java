@@ -256,7 +256,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }*/
 
-        changeMainFragment(new LoadingFragment(), true);
+        changeMainFragment(new AccueilFragment(), true);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -730,149 +730,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, idAccount);
-        }
-    }
-
-    public void loadMAJUsager(int idAccount, String dateMAJ) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJUsager(activity, new DataAndErrorCallback<Usagers>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final Usagers data) {
-                    try {
-                        final UsagerDB udb = new UsagerDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(!data.getListUsager().isEmpty()) {
-                                    udb.open();
-                                    for (int i = 0; i < data.getListUsager().size(); i++) {
-                                        if (udb.getUsagerFromID(data.getListUsager().get(i).getId()) == null) {
-                                            udb.insertUsager(data.getListUsager().get(i));
-                                        } else {
-                                            udb.updateUsager(data.getListUsager().get(i));
-                                        }
-                                    }
-                                    udb.close();
-                                    runOnUiThread(//return to the principal thread
-                                            new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMAJUsagerHabitat(data);
-                                        }
-                                    });
-                                }
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, idAccount, dateMAJ);
-        }
-    }
-
-    public void loadMAJUsagerHabitat(Usagers usagers) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJUsagerHabitat(activity, new DataAndErrorCallback<UsagerHabitats>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final UsagerHabitats data) {
-                    try {
-                        final UsagerHabitatDB udb = new UsagerHabitatDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                udb.open();
-                                if(!data.getListUsagerHabitat().isEmpty()) {
-                                    int usagerId = 0;
-                                    //delete all the usagerHabitat according to the usagerId
-                                    for(UsagerHabitat uh : data.getListUsagerHabitat()){
-                                        if(uh.getDchUsagerId() != usagerId){
-                                            usagerId = uh.getDchUsagerId();
-                                            udb.deleteAllUsagerHabitatByUsagerId(usagerId);
-                                        }
-                                    }
-                                    //insert the data
-                                    for (int i = 0; i < data.getListUsagerHabitat().size(); i++) {
-                                            udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
-                                    }
-
-
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMAJHabitat(data);
-                                        }
-                                    });
-                                }
-                                else{
-                                    //delete all the usagerHabitat according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
-                                }
-                                udb.close();
-
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagers);
-        }
-    }
-
-    public void loadMAJHabitat(UsagerHabitats usagerHabitats) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJHabitat(activity, new DataAndErrorCallback<Habitats>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final Habitats data) {
-                    try {
-                        final HabitatDB hdb = new HabitatDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if(!data.getListHabitat().isEmpty()) {
-                                        hdb.open();
-                                        for(int i = 0; i < data.getListHabitat().size(); i++) {
-                                            if(hdb.getHabitatFromID(data.getListHabitat().get(i).getIdHabitat()) == null){
-                                                hdb.insertHabitat(data.getListHabitat().get(i));
-                                            }
-                                            else{
-                                                hdb.updateHabitat(data.getListHabitat().get(i));
-                                            }
-
-                                        }
-                                        hdb.close();
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagerHabitats);
         }
     }
 
@@ -1738,6 +1595,255 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             });
+        }
+    }
+
+    public void loadMAJUsager(int idAccount, String dateMAJ) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJUsager(activity, new DataAndErrorCallback<Usagers>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Usagers data) {
+                    try {
+                        final UsagerDB udb = new UsagerDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(!data.getListUsager().isEmpty()) {
+                                    udb.open();
+                                    for (int i = 0; i < data.getListUsager().size(); i++) {
+                                        if (udb.getUsagerFromID(data.getListUsager().get(i).getId()) == null) {
+                                            udb.insertUsager(data.getListUsager().get(i));
+                                        } else {
+                                            udb.updateUsager(data.getListUsager().get(i));
+                                        }
+                                    }
+                                    udb.close();
+                                    runOnUiThread(//return to the principal thread
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    loadMAJUsagerHabitat(data);
+                                                }
+                                            });
+                                    runOnUiThread(//return to the principal thread
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    loadMAJUsagerMenage(data);
+                                                }
+                                            });
+                                }
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount, dateMAJ);
+        }
+    }
+
+    public void loadMAJUsagerHabitat(Usagers usagers) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJUsagerHabitat(activity, new DataAndErrorCallback<UsagerHabitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final UsagerHabitats data) {
+                    try {
+                        final UsagerHabitatDB udb = new UsagerHabitatDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                if(!data.getListUsagerHabitat().isEmpty()) {
+                                    int usagerId = 0;
+                                    //delete all the usagerHabitat according to the usagerId
+                                    for(UsagerHabitat uh : data.getListUsagerHabitat()){
+                                        if(uh.getDchUsagerId() != usagerId){
+                                            usagerId = uh.getDchUsagerId();
+                                            udb.deleteAllUsagerHabitatByUsagerId(usagerId);
+                                        }
+                                    }
+                                    //insert the data
+                                    for (int i = 0; i < data.getListUsagerHabitat().size(); i++) {
+                                        udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
+                                    }
+
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMAJHabitat(data);
+                                        }
+                                    });
+                                }
+                                else{
+                                    //delete all the usagerHabitat according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
+                                }
+                                udb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagers);
+        }
+    }
+
+    public void loadMAJHabitat(UsagerHabitats usagerHabitats) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJHabitat(activity, new DataAndErrorCallback<Habitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Habitats data) {
+                    try {
+                        final HabitatDB hdb = new HabitatDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    if(!data.getListHabitat().isEmpty()) {
+                                        hdb.open();
+                                        for(int i = 0; i < data.getListHabitat().size(); i++) {
+                                            if(hdb.getHabitatFromID(data.getListHabitat().get(i).getIdHabitat()) == null){
+                                                hdb.insertHabitat(data.getListHabitat().get(i));
+                                            }
+                                            else{
+                                                hdb.updateHabitat(data.getListHabitat().get(i));
+                                            }
+
+                                        }
+                                        hdb.close();
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagerHabitats);
+        }
+    }
+
+    public void loadMAJUsagerMenage(Usagers usagers) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJUsagerMenage(activity, new DataAndErrorCallback<UsagerMenages>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final UsagerMenages data) {
+                    try {
+                        final UsagerMenageDB udb = new UsagerMenageDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                udb.open();
+                                if(!data.getListUsagerMenage().isEmpty()) {
+                                    int usagerId = 0;
+                                    //delete all the usagerHabitat according to the usagerId
+                                    for(UsagerMenage um : data.getListUsagerMenage()){
+                                        if(um.getDchUsagerId() != usagerId){
+                                            usagerId = um.getDchUsagerId();
+                                            udb.deleteAllUsagerMenageByUsagerId(usagerId);
+                                        }
+                                    }
+                                    //insert the data
+                                    for (int i = 0; i < data.getListUsagerMenage().size(); i++) {
+                                        udb.insertUsagerMenage(data.getListUsagerMenage().get(i));
+                                    }
+
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadMAJMenage(data);
+                                        }
+                                    });
+                                }
+                                else{
+                                    //delete all the usagerMenage according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
+                                }
+                                udb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagers);
+        }
+    }
+
+    public void loadMAJMenage(UsagerMenages usagerMenages) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJMenage(activity, new DataAndErrorCallback<Menages>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Menages data) {
+                    try {
+                        final MenageDB hdb = new MenageDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    if(!data.getListMenage().isEmpty()) {
+                                        hdb.open();
+                                        for(int i = 0; i < data.getListMenage().size(); i++) {
+                                            if(hdb.getMenageById(data.getListMenage().get(i).getId()) == null){
+                                                hdb.insertMenage(data.getListMenage().get(i));
+                                            }
+                                            else{
+                                                hdb.updateMenage(data.getListMenage().get(i));
+                                            }
+
+                                        }
+                                        hdb.close();
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagerMenages);
         }
     }
 
