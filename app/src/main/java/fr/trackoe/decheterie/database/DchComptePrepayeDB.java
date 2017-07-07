@@ -58,9 +58,13 @@ public class DchComptePrepayeDB extends MyDb {
                 cp.setDchUsagerId(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_DCH_USAGER_ID));
                 cp.setQtyPoint(c.getFloat(DecheterieDatabase.TableDchComptePrepaye.NUM_QTY_POINT));
                 cp.setNbDepotRestant(c.getInt(DecheterieDatabase.TableDchComptePrepaye.NUM_NB_DEPOT_RESTANT));
+                c.close();
+                return cp;
             }
-            return cp;
-
+            else{
+                c.close();
+                return null;
+            }
         }catch(Exception e){
             return cp;
         }

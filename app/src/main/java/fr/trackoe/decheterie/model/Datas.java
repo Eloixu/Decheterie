@@ -290,6 +290,18 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new MenageParser());
     }
 
+    // Récupération des compte prépayés MAJ
+    public static void loadMAJComptePrepaye(Context ctx, DataAndErrorCallback<ComptePrepayes> callback, Usagers usagers) {
+        String url = Configuration.getInstance(ctx).getMAJComptePrepayeUrl(ctx, usagers);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ComptePrepayeParser());
+    }
+
+    // Récupération des carteActives MAJ
+    public static void loadMAJCarteActive(Context ctx, DataAndErrorCallback<CarteActives> callback, ComptePrepayes comptePrepayes) {
+        String url = Configuration.getInstance(ctx).getMAJCarteActiveUrl(ctx, comptePrepayes);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new CarteActiveParser());
+    }
+
     // Envoi de Depot
     public static void uploadDepot(Context ctx, DataCallback<ContenantBean> callback, Depot depot, AccountSetting accountSetting, ArrayList<ApportFlux> listAF) throws Exception {
         String url = Configuration.getInstance(ctx).getDepotUrlSansSignature(ctx, depot, accountSetting, listAF);

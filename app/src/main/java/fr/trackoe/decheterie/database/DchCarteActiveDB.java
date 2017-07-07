@@ -32,6 +32,16 @@ public class DchCarteActiveDB extends MyDb {
 
         return db.insertOrThrow(DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE, null, values);
     }
+    public void updateCarteActive(CarteActive carteActive) {
+        deleteCarteActiveById(carteActive.getDchCarteId());
+        insertCarteActive(carteActive);
+    }
+
+    public void deleteCarteActiveById(long carteId){
+        db.execSQL("delete from " + DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE + " WHERE " + DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ID + "=" + carteId);
+
+    }
+
 
     public CarteActive getCarteActiveFromDchCarteId(long dchCarteId) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE + " WHERE " + DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ID + " = " + dchCarteId;
@@ -57,8 +67,10 @@ public class DchCarteActiveDB extends MyDb {
                 ca.setDchCarteEtatRaisonId(c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_DCH_CARTE_ETAT_RAISON_ID));
                 ca.setActive((c.getInt(DecheterieDatabase.TableDchCarteActive.NUM_IS_ACTIVE) == 1) ? true : false);
                 ca.setDchComptePrepayeId(c.getLong(DecheterieDatabase.TableDchCarteActive.NUM_DCH_COMPTE_PREPAYE_ID));
+                c.close();
                 return ca;
             } else {
+                c.close();
                 return null;
             }
         }catch(Exception e){

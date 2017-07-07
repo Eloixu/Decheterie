@@ -14,6 +14,8 @@ import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.model.Const;
 import fr.trackoe.decheterie.model.bean.global.AccountSetting;
 import fr.trackoe.decheterie.model.bean.global.ApportFlux;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
+import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Ville;
 import fr.trackoe.decheterie.model.bean.usager.Habitat;
@@ -577,6 +579,36 @@ public abstract class Configuration {
             index ++;
         }
         return getWebServiceContenantHost(ctx) + "wsMAJMenage?menageIdList=" + menageIdList;
+    }
+    public String getMAJComptePrepayeUrl(Context ctx, Usagers usagers) {
+        ArrayList<Usager> usagerList = usagers.getListUsager();
+        String usagerIdList = "";
+        int index = 1;
+        for(Usager usager: usagerList){
+            if(index == 1) {
+                usagerIdList = usagerIdList + usager.getId();
+            }
+            else{
+                usagerIdList = usagerIdList + "&usagerIdList=" + usager.getId();
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJComptePrepaye?usagerIdList=" + usagerIdList;
+    }
+    public String getMAJCarteActiveUrl(Context ctx, ComptePrepayes comptePrepayes) {
+        ArrayList<ComptePrepaye> comptePrepayeList = comptePrepayes.getListComptePrepaye();
+        String comptePrepayeIdList = "";
+        int index = 1;
+        for(ComptePrepaye comptePrepaye: comptePrepayeList){
+            if(index == 1) {
+                comptePrepayeIdList = comptePrepayeIdList + comptePrepaye.getId();
+            }
+            else{
+                comptePrepayeIdList = comptePrepayeIdList + "&comptePrepayeIdList=" + comptePrepaye.getId();
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJCarteActive?comptePrepayeIdList=" + comptePrepayeIdList;
     }
 
     // Url permettant de envoyer le depot au serveur

@@ -27,7 +27,7 @@ public class MenageParser extends JSONParser<Menages> {
                     JSONObject jobj = ((JSONObject) listeMenage.get(i));
 
                     int         id              = jobj.has("id")                ? jobj.getInt("id") : null;
-                    int         idLocal         = jobj.has("id_local")          ? jobj.getInt("id_local") : null;
+                    int         idLocal         = jobj.has("id_local")          ? jobj.getInt("id_local") : 0;
                     int         nbHabitant      = jobj.has("nb_habitants")      ? jobj.getInt("nb_habitants") : null;
                     boolean     isActif         = jobj.has("actif")             ? jobj.getBoolean("actif") : true;
                     String      dateDebut       = jobj.has("date_debut")        ? jobj.getString("date_debut") : "";

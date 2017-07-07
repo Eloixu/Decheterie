@@ -1638,6 +1638,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                                     loadMAJUsagerMenage(data);
                                                 }
                                             });
+                                    runOnUiThread(//return to the principal thread
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    loadMAJComptePrepaye(data);
+                                                }
+                                            });
                                 }
                             }
                         }).start();
@@ -1844,6 +1851,89 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, usagerMenages);
+        }
+    }
+
+    public void loadMAJComptePrepaye(Usagers usagers) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJComptePrepaye(activity, new DataAndErrorCallback<ComptePrepayes>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+                    Toast.makeText(activity, "compte prépayé loading failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void dataLoaded(final ComptePrepayes data) {
+                    try {
+                        final DchComptePrepayeDB cpdb = new DchComptePrepayeDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cpdb.open();
+                                for(int i = 0; i < data.getListComptePrepaye().size(); i++) {
+                                    if(cpdb.getComptePrepayeFromID(data.getListComptePrepaye().get(i).getId()) == null){
+                                        cpdb.insertComptePrepaye(data.getListComptePrepaye().get(i));
+                                    }
+                                    else{
+                                        cpdb.updateComptePrepaye(data.getListComptePrepaye().get(i));
+                                    }
+
+                                }
+                                cpdb.close();
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loadMAJCarteActive(data);
+                                    }
+                                });
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, usagers);
+        }
+    }
+
+    public void loadMAJCarteActive(ComptePrepayes comptePrepayes) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJCarteActive(activity, new DataAndErrorCallback<CarteActives>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final CarteActives data) {
+                    try {
+                        final DchCarteActiveDB cadb = new DchCarteActiveDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cadb.open();
+                                for(int i = 0; i < data.getListCarteActive().size(); i++) {
+                                    if(cadb.getCarteActiveFromDchCarteId(data.getListCarteActive().get(i).getDchCarteId()) == null){
+                                        cadb.insertCarteActive(data.getListCarteActive().get(i));
+                                    }else{
+                                        cadb.updateCarteActive(data.getListCarteActive().get(i));
+                                    }
+
+                                }
+                                cadb.close();
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, comptePrepayes);
         }
     }
 
