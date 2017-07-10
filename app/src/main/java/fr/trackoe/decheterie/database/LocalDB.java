@@ -35,6 +35,15 @@ public class LocalDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableLocal.TABLE_NAME, null, values);
     }
 
+    public void updateLocal(Local local) {
+        deleteLocalByIdentifiant(local.getIdLocal());
+        insertLocal(local);
+    }
+
+    public void deleteLocalByIdentifiant(int id){
+        db.execSQL("delete from " + DecheterieDatabase.TableLocal.TABLE_NAME + " WHERE " + DecheterieDatabase.TableLocal.ID_LOCAL + "=" + id);
+    }
+
     /*
     Vider la table
      */
@@ -61,21 +70,24 @@ public class LocalDB extends MyDb {
 
     private Local cursorToLocal(Cursor c){
         Local l = new Local();
-        if(c.moveToFirst()) {
-            l.setIdLocal(c.getInt(DecheterieDatabase.TableLocal.NUM_ID_LOCAL));
-            l.setHabitatId(c.getInt(DecheterieDatabase.TableLocal.NUM_HABITAT_ID));
-            l.setLot(c.getString(DecheterieDatabase.TableLocal.NUM_LOT));
-            l.setInvariantDfip(c.getString(DecheterieDatabase.TableLocal.NUM_INVARIANT_DFIP));
-            l.setIdentifiantInterne(c.getString(DecheterieDatabase.TableLocal.NUM_IDENTIFIANT_INTERNE));
-            l.setBatiment(c.getString(DecheterieDatabase.TableLocal.NUM_BATIMENT));
-            l.setEtagePorte(c.getString(DecheterieDatabase.TableLocal.NUM_ETAGE_PORTE));
+        try {
+            if (c.moveToFirst()) {
+                l.setIdLocal(c.getInt(DecheterieDatabase.TableLocal.NUM_ID_LOCAL));
+                l.setHabitatId(c.getInt(DecheterieDatabase.TableLocal.NUM_HABITAT_ID));
+                l.setLot(c.getString(DecheterieDatabase.TableLocal.NUM_LOT));
+                l.setInvariantDfip(c.getString(DecheterieDatabase.TableLocal.NUM_INVARIANT_DFIP));
+                l.setIdentifiantInterne(c.getString(DecheterieDatabase.TableLocal.NUM_IDENTIFIANT_INTERNE));
+                l.setBatiment(c.getString(DecheterieDatabase.TableLocal.NUM_BATIMENT));
+                l.setEtagePorte(c.getString(DecheterieDatabase.TableLocal.NUM_ETAGE_PORTE));
 
-            c.close();
+                c.close();
+                return l;
+            } else {
+                c.close();
+                return null;
+            }
+        }catch (Exception e){
             return l;
-        }
-        else{
-            c.close();
-            return null;
         }
 
     }

@@ -2,6 +2,8 @@ package fr.trackoe.decheterie;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -152,5 +154,29 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    //Date --> yyyyMMddHHmmss
+    public static String changeDateToString(Date date){
+        try {
+            return (new SimpleDateFormat("yyyyMMddHHmmss")).format(date);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    //yyyyMMddHHmmss --> Date
+    public static Date changeStringToDate(String string){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date d = sdf.parse(string);
+            return d;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

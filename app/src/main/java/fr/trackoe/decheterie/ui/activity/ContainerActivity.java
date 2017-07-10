@@ -1645,6 +1645,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                                     loadMAJComptePrepaye(data);
                                                 }
                                             });
+
                                 }
                             }
                         }).start();
@@ -1838,6 +1839,13 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
                                         }
                                         hdb.close();
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                loadMAJLocal(data);
+                                            }
+                                        });
                                     }
 
                                 } catch (Exception e) {
@@ -1851,6 +1859,95 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, usagerMenages);
+        }
+    }
+
+    public void loadMAJLocal(Menages menages) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJLocal(activity, new DataAndErrorCallback<Locaux>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Locaux data) {
+                    try {
+                        final LocalDB ldb = new LocalDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ldb.open();
+                                for(int i = 0; i < data.getListLocal().size(); i++) {
+                                    if(ldb.getLocalById(data.getListLocal().get(i).getIdLocal()) == null) {
+                                        ldb.insertLocal(data.getListLocal().get(i));
+                                    }else{
+                                        ldb.updateLocal(data.getListLocal().get(i));
+                                    }
+                                }
+                                ldb.close();
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loadMAJHabitat(data);
+                                    }
+                                });
+
+                            }
+                        }).start();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, menages);
+
+        }
+    }
+
+    public void loadMAJHabitat(Locaux locaux) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadMAJHabitat(activity, new DataAndErrorCallback<Habitats>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final Habitats data) {
+                    try {
+                        final HabitatDB hdb = new HabitatDB(activity);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    if(!data.getListHabitat().isEmpty()) {
+                                        hdb.open();
+                                        for(int i = 0; i < data.getListHabitat().size(); i++) {
+                                            if(hdb.getHabitatFromID(data.getListHabitat().get(i).getIdHabitat()) == null){
+                                                hdb.insertHabitat(data.getListHabitat().get(i));
+                                            }
+                                            else{
+                                                hdb.updateHabitat(data.getListHabitat().get(i));
+                                            }
+
+                                        }
+                                        hdb.close();
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, locaux);
         }
     }
 
@@ -1935,6 +2032,37 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 }
             }, comptePrepayes);
         }
+    }
+
+    public void loadMAJOtherTables(){
+        //if the dateMAJCarteServeur is after the dateMAJCarteTablette, we refresh the other tables
+        Date dateMAJCarteServeur = new Date();
+        Date dateMAJCarteTablette = Utils.changeStringToDate(Configuration.getDateMAJCarte());
+        if(dateMAJCarteTablette.before(dateMAJCarteServeur)) {
+            try {
+                loadMAJAutreTables(Configuration.getIdAccount());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void loadMAJAutreTables(int idAccount) throws Exception{
+        loadDecheterie(idAccount);
+        loadFlux(idAccount);
+        loadDecheterieFlux(idAccount);
+        loadCarte(idAccount);
+        loadCarteEtatRaison();
+        loadTypeCarte();
+        loadTypeHabitat();
+        loadChoixDecompteTotal();
+        loadUnite();
+        loadAccountSetting(idAccount);
+        loadAccountFluxSetting(idAccount);
+        loadPrepaiement(idAccount);
+        loadModePaiement();
+
+        Configuration.saveDateMAJCarte(Utils.changeDateToString(new Date()));
     }
 
 
@@ -3265,7 +3393,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
     //refresh the database according to the last MAJ date
     public void MAJData(){
+        //refresh the tables according to the usager
         loadMAJUsager(Configuration.getIdAccount(),Configuration.getDateMAJ());
+        //refresh the other tables
+        //loadMAJOtherTables();
     }
 
     public Context returnContext(){

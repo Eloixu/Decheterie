@@ -20,6 +20,7 @@ public class Const {
     public static final String ID_OP_CL = "ID_OP_CL";
     public static final String ID_ACCOUNT = "ID_ACCOUNT";
     public static final String DATE_MAJ_SERVEUR = "DATE_MAJ_SERVEUR";
+    public static final String DATE_MAJ_CARTE = "DATE_MAJ_CARTE";
     public static final String CHECKSUM_VILLE = "CHECKSUM_VILLE";
     public static final String CHECKSUM_RUE = "CHECKSUM_RUE";
     public static final String DATE_MAJ = "DATE_MAJ";

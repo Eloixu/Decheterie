@@ -19,6 +19,10 @@ import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.Depot;
 import fr.trackoe.decheterie.model.bean.global.Ville;
 import fr.trackoe.decheterie.model.bean.usager.Habitat;
+import fr.trackoe.decheterie.model.bean.usager.Local;
+import fr.trackoe.decheterie.model.bean.usager.Locaux;
+import fr.trackoe.decheterie.model.bean.usager.Menage;
+import fr.trackoe.decheterie.model.bean.usager.Menages;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitat;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
@@ -177,6 +181,14 @@ public abstract class Configuration {
 
     public static void saveDateMAJ(String dateMAJ) {
         params.edit().putString(Const.DATE_MAJ_SERVEUR, dateMAJ).commit();
+    }
+
+    public static void saveDateMAJCarte(String dateMAJCarte) {
+        params.edit().putString(Const.DATE_MAJ_CARTE, dateMAJCarte).commit();
+    }
+
+    public static String getDateMAJCarte() {
+        return params.getString(Const.DATE_MAJ_CARTE, "");
     }
 
     public static String getUrlApk() {
@@ -542,6 +554,21 @@ public abstract class Configuration {
         }
         return getWebServiceContenantHost(ctx) + "wsMAJHabitat?habitatIdList=" + habitatIdList;
     }
+    public String getMAJHabitatUrl(Context ctx, Locaux locaux) {
+        ArrayList<Local> localList = locaux.getListLocal();
+        String habitatIdList = "";
+        int index = 1;
+        for(Local local : localList){
+            if(index == 1) {
+                habitatIdList = habitatIdList + local.getHabitatId();
+            }
+            else{
+                habitatIdList = habitatIdList + "&habitatIdList=" + local.getHabitatId();
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJHabitat?habitatIdList=" + habitatIdList;
+    }
     public String getMAJUsagerMenageUrl(Context ctx, Usagers usagers) {
         ArrayList<Usager> usagerList = usagers.getListUsager();
         String usagerIdList = "";
@@ -579,6 +606,23 @@ public abstract class Configuration {
             index ++;
         }
         return getWebServiceContenantHost(ctx) + "wsMAJMenage?menageIdList=" + menageIdList;
+    }
+    public String getMAJLocalUrl(Context ctx, Menages menages) {
+        ArrayList<Menage> menageList = menages.getListMenage();
+        String localIdList = "";
+        int index = 1;
+        for(Menage menage : menageList){
+            if(menage.getLocalId() == 0 || menage.getLocalId() == -1) continue;
+
+            if(index == 1) {
+                localIdList = localIdList + menage.getLocalId();
+            }
+            else{
+                localIdList = localIdList + "&localIdList=" + menage.getLocalId();
+            }
+            index ++;
+        }
+        return getWebServiceContenantHost(ctx) + "wsMAJLocal?localIdList=" + localIdList;
     }
     public String getMAJComptePrepayeUrl(Context ctx, Usagers usagers) {
         ArrayList<Usager> usagerList = usagers.getListUsager();

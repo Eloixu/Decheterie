@@ -272,9 +272,15 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerHabitatParser());
     }
 
-    // Récupération des habitats MAJ
+    // Récupération des habitats MAJ de usagerHabitat
     public static void loadMAJHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, UsagerHabitats usagerHabitats) {
         String url = Configuration.getInstance(ctx).getMAJHabitatUrl(ctx, usagerHabitats);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatParser());
+    }
+
+    // Récupération des habitats MAJ de local
+    public static void loadMAJHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, Locaux locaux) {
+        String url = Configuration.getInstance(ctx).getMAJHabitatUrl(ctx, locaux);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatParser());
     }
 
@@ -288,6 +294,12 @@ public class Datas {
     public static void loadMAJMenage(Context ctx, DataAndErrorCallback<Menages> callback, UsagerMenages usagerMenages) {
         String url = Configuration.getInstance(ctx).getMAJMenageUrl(ctx, usagerMenages);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new MenageParser());
+    }
+
+    // Récupération des locaux MAJ
+    public static void loadMAJLocal(Context ctx, DataAndErrorCallback<Locaux> callback, Menages menages) {
+        String url = Configuration.getInstance(ctx).getMAJLocalUrl(ctx, menages);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new LocalParser());
     }
 
     // Récupération des compte prépayés MAJ
