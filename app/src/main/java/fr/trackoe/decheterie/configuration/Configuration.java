@@ -115,7 +115,7 @@ public abstract class Configuration {
     }
 
     public static String getNumeroTablette() {
-        return params.getString(Const.NUMERO_TABLETTE, "492541");
+        return params.getString(Const.NUMERO_TABLETTE, "");
     }
 
     public static void saveNumeroTablette(String numeroTablette) {
@@ -512,6 +512,9 @@ public abstract class Configuration {
 
     public String getModePaiementUrl(Context ctx) {
         return getWebServiceContenantHost(ctx) + "wsModePaiement";
+    }
+    public String getDateMAJCarteUrl(Context ctx, int idAccount) {
+        return getWebServiceContenantHost(ctx) + "wsDateMAJCarte?idAccount=" + idAccount;
     }
     public String getMAJUsagerUrl(Context ctx, int idAccount, String dateMAJ) {
         return getWebServiceContenantHost(ctx) + "wsMAJUsager?idAccount=" + idAccount + "&dateMAJ=" + dateMAJ;

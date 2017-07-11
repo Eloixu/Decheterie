@@ -94,8 +94,6 @@ public class TabletteFragment extends Fragment {
                                 // Récupération des utilisateurs
                                 getUtilisateurs(numTablette);
 
-                                // Récupération des modules
-                                getModules(numTablette);
                             } else {
                                 showSimpleAlertDialog(rep.getmError());
                             }

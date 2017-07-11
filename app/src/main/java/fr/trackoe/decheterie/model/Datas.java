@@ -26,6 +26,7 @@ import fr.trackoe.decheterie.model.bean.global.Cartes;
 import fr.trackoe.decheterie.model.bean.global.ChoixDecompteTotals;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
+import fr.trackoe.decheterie.model.bean.global.DateMAJCarte;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
 import fr.trackoe.decheterie.model.bean.global.Decheteries;
 import fr.trackoe.decheterie.model.bean.global.Depot;
@@ -56,6 +57,7 @@ import fr.trackoe.decheterie.service.parser.CarteEtatRaisonParser;
 import fr.trackoe.decheterie.service.parser.CarteParser;
 import fr.trackoe.decheterie.service.parser.ChoixDecompteTotalParser;
 import fr.trackoe.decheterie.service.parser.ComptePrepayeParser;
+import fr.trackoe.decheterie.service.parser.DateMAJCarteParser;
 import fr.trackoe.decheterie.service.parser.DecheterieFluxParser;
 import fr.trackoe.decheterie.service.parser.DecheterieParser;
 import fr.trackoe.decheterie.service.parser.FluxParser;
@@ -258,6 +260,12 @@ public class Datas {
     public static void loadModePaiement(Context ctx, DataAndErrorCallback<ModePaiements> callback) {
         String url = Configuration.getInstance(ctx).getModePaiementUrl(ctx);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ModePaiementParser());
+    }
+
+    // Récupération de la date MAJ carte
+    public static void loadDateMAJCarte(Context ctx, DataAndErrorCallback<DateMAJCarte> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getDateMAJCarteUrl(ctx, idAccount);
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new DateMAJCarteParser());
     }
 
     // Récupération des usagers MAJ

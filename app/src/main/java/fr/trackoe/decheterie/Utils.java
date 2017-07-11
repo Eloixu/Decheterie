@@ -179,4 +179,17 @@ public class Utils {
             return null;
         }
     }
+
+    //yyyy-MM-dd(T)HH:mm:ss ---> Date
+    public static Date changeServerDateFormatToString(String date){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = sdf.parse(date.replace('T',' '));
+            return d;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

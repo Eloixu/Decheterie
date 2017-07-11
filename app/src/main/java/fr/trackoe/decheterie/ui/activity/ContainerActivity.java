@@ -112,6 +112,7 @@ import fr.trackoe.decheterie.model.bean.global.ChoixDecompteTotals;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepaye;
 import fr.trackoe.decheterie.model.bean.global.ComptePrepayes;
 import fr.trackoe.decheterie.model.bean.global.ContenantBean;
+import fr.trackoe.decheterie.model.bean.global.DateMAJCarte;
 import fr.trackoe.decheterie.model.bean.global.Decheterie;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFlux;
 import fr.trackoe.decheterie.model.bean.global.DecheterieFluxs;
@@ -247,16 +248,14 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         launchOnlineAction();
 
-        /*// Si on a déja un numéro de tablette on affiche directement l'écran de login
+        // Si on a déja un numéro de tablette on affiche directement l'écran de login
         if (Utils.isStringEmpty(Configuration.getNumeroTablette())) {
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
 
         } else {
-            //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-        }*/
+        }
 
-        changeMainFragment(new AccueilFragment(), true);
 
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
@@ -1598,6 +1597,38 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         }
     }
 
+    public void loadDateMAJCarte(int idAccount) {
+        if (activity != null && Utils.isInternetConnected(activity)) {
+            Datas.loadDateMAJCarte(activity, new DataAndErrorCallback<DateMAJCarte>() {
+                @Override
+                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
+
+                }
+
+                @Override
+                public void dataLoaded(final DateMAJCarte data) {
+                    try {
+                        //if the dateMAJCarteServeur is after the dateMAJCarteTablette, we refresh the other tables
+                        Date dateMAJCarteServeur = Utils.changeServerDateFormatToString(data.getDateMAJCarte());
+                        Date dateMAJCarteTablette = Utils.changeStringToDate(Configuration.getDateMAJCarte());
+                        if(dateMAJCarteTablette.before(dateMAJCarteServeur) || dateMAJCarteTablette == null ) {
+
+                            try {
+                                loadMAJAutreTables(Configuration.getIdAccount());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, idAccount);
+        }
+    }
+
     public void loadMAJUsager(int idAccount, String dateMAJ) {
         if (activity != null && Utils.isInternetConnected(activity)) {
             Datas.loadMAJUsager(activity, new DataAndErrorCallback<Usagers>() {
@@ -1645,6 +1676,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                                     loadMAJComptePrepaye(data);
                                                 }
                                             });
+
+                                    Configuration.saveDateMAJ(Utils.changeDateToString(new Date()));
 
                                 }
                             }
@@ -1956,8 +1989,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             Datas.loadMAJComptePrepaye(activity, new DataAndErrorCallback<ComptePrepayes>() {
                 @Override
                 public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-                    Toast.makeText(activity, "compte prépayé loading failed",
-                            Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
@@ -2034,17 +2066,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         }
     }
 
-    public void loadMAJOtherTables(){
-        //if the dateMAJCarteServeur is after the dateMAJCarteTablette, we refresh the other tables
-        Date dateMAJCarteServeur = new Date();
-        Date dateMAJCarteTablette = Utils.changeStringToDate(Configuration.getDateMAJCarte());
-        if(dateMAJCarteTablette.before(dateMAJCarteServeur)) {
-            try {
-                loadMAJAutreTables(Configuration.getIdAccount());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public void loadMAJOtherTables(int idAccount){
+        loadDateMAJCarte(idAccount);
     }
 
     public void loadMAJAutreTables(int idAccount) throws Exception{
@@ -3396,7 +3419,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         //refresh the tables according to the usager
         loadMAJUsager(Configuration.getIdAccount(),Configuration.getDateMAJ());
         //refresh the other tables
-        //loadMAJOtherTables();
+        loadMAJOtherTables(Configuration.getIdAccount());
     }
 
     public Context returnContext(){

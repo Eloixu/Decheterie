@@ -29,8 +29,8 @@ public class UsagerParser extends JSONParser<Usagers> {
 
                     JSONObject jobj = ((JSONObject) listeUsager.get(i));
 
-                    int     id              = jobj.has("id")            ? jobj.getInt("id") : null;
-                    int     idAccount       = jobj.has("id_account")    ? jobj.getInt("id_account") : null;
+                    int     id              = jobj.has("id")            ? jobj.getInt("id") : 0;
+                    int     idAccount       = jobj.has("id_account")    ? jobj.getInt("id_account") : 0;
                     String  nom             = jobj.has("nom")           ? jobj.getString("nom") : "";
                     String  dateMaj         = jobj.has("date_maj")      ? changeDateFormat(jobj.getString("date_maj")) : "";
                     String  prenom          = jobj.has("prenom")        ? jobj.getString("prenom") : "";

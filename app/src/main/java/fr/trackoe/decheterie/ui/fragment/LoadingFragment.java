@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import fr.trackoe.decheterie.R;
+import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 
@@ -308,7 +309,7 @@ public class LoadingFragment extends Fragment {
                 speTv.setText(getString(R.string.chargement_success));
                 progressBar.setVisibility(View.GONE);
                 launchAccueilFragment();
-                saveDateMaj();
+                Configuration.saveDateMAJ(Utils.changeDateToString(new Date()));
                 ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }
         }
