@@ -326,7 +326,7 @@ public abstract class Configuration {
         } catch (UnsupportedEncodingException e) {
         }
 
-        return getWebServiceHost(ctx) + "ws_load_users.php?code_tablette=" + numTablette + "&token=" + mac;
+        return getWebServiceHost(ctx) + "ws_load_users_from_id_account.php?code_tablette=" + numTablette + "&token=" + mac;
     }
 
     //    Récupération de l'abonnement via le code tablette

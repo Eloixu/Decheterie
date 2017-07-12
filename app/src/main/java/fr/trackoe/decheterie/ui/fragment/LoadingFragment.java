@@ -75,7 +75,7 @@ public class LoadingFragment extends Fragment {
         main_vg.findViewById(R.id.load_img_header).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                launchAccueilFragment();
+                launchLoginFragment();
                 return false;
             }
         });
@@ -308,9 +308,9 @@ public class LoadingFragment extends Fragment {
             if (getActivity() != null) {
                 speTv.setText(getString(R.string.chargement_success));
                 progressBar.setVisibility(View.GONE);
-                launchAccueilFragment();
+                launchLoginFragment();
                 Configuration.saveDateMAJ(Utils.changeDateToString(new Date()));
-                ((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
+                //((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }
         }
 
@@ -362,8 +362,8 @@ public class LoadingFragment extends Fragment {
         }
     }*/
 
-    public void launchAccueilFragment() {
-        ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
+    public void launchLoginFragment() {
+        ((ContainerActivity) getActivity()).changeMainFragment(new LoginFragment(), false);
     }
 
 

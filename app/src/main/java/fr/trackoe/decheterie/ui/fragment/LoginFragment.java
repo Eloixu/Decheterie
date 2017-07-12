@@ -103,7 +103,7 @@ public class LoginFragment extends Fragment {
     }
 
     public void login() {
-/*        User user;
+        User user;
         UsersDB usersDB = new UsersDB(getActivity());
         usersDB.read();
         user = usersDB.getUserByIdentifiant(identifiantEditText.getText().toString());
@@ -126,10 +126,6 @@ public class LoginFragment extends Fragment {
                 showSimpleAlertDialog(getString(R.string.error_mdp));
             }
 
-        }*/
-
-        if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-            ((ContainerActivity) getActivity()).changeMainFragment(new AccueilFragment(), true);
         }
     }
 

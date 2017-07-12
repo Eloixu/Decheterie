@@ -30,11 +30,11 @@ public class UsersParser extends JSONParser<Users> {
                     String prenom;
                     boolean isAutorisationChgtInter = false;
 
-                    idUser = (String) ((JSONObject) listeUsers.get(i)).getString("id");
-                    login = (String) ((JSONObject) listeUsers.get(i)).getString("login");
-                    password = (String) ((JSONObject) listeUsers.get(i)).getString("password");
-                    nom = (String) ((JSONObject) listeUsers.get(i)).getString("nom");
-                    prenom = (String) ((JSONObject) listeUsers.get(i)).getString("prenom");
+                    idUser = ((JSONObject) listeUsers.get(i)).getString("id");
+                    login = ((JSONObject) listeUsers.get(i)).getString("login");
+                    password = ((JSONObject) listeUsers.get(i)).getString("password");
+                    nom = ((JSONObject) listeUsers.get(i)).getString("nom");
+                    prenom = ((JSONObject) listeUsers.get(i)).getString("prenom");
                     if(((JSONObject) listeUsers.get(i)).has("autorisation_chgt_inter")) {
                         isAutorisationChgtInter = ((JSONObject) listeUsers.get(i)).getBoolean("autorisation_chgt_inter");
                     }

@@ -21,17 +21,17 @@ public class InfosParser extends JSONParser<TabletteInfos> {
             tabletteInfos.setmError(infos.getString("message"));
         } else {
             tabletteInfos.setNomTablette(infos.getString("nom_tablette"));
-            tabletteInfos.setNomClient(infos.getString("nom_op_cl"));
-            tabletteInfos.setClientId(infos.getInt("id_client_op"));
+            //tabletteInfos.setNomClient(infos.getString("nom_op_cl"));
+            //tabletteInfos.setClientId(infos.getInt("id_client_op"));
             if(infos.has("id_account") && infos.getString("id_account").matches("-?\\d+(\\.\\d+)?") ) {
                 tabletteInfos.setAccountId(infos.getInt("id_account"));
             }
-            tabletteInfos.setIdOperateur(0);
-            if(infos.has("id_operateur") && infos.getString("id_operateur").matches("-?\\d+(\\.\\d+)?")) {
+            //tabletteInfos.setIdOperateur(0);
+            /*if(infos.has("id_operateur") && infos.getString("id_operateur").matches("-?\\d+(\\.\\d+)?")) {
                 try {
                     tabletteInfos.setIdOperateur(infos.getInt("id_operateur"));
                 } catch (Exception e) { }
-            }
+            }*/
 //            tabletteInfos.setIdNewInter(infos.getInt("max_id_intervention"));
         }
 

@@ -107,9 +107,6 @@ public class SettingsFragment extends Fragment {
         // Users
         displayUsersLoader();
 
-        // Modules
-        displayModulesLoader();
-
         // Maj Apk
         if(Configuration.getIsApkReadyToInstall()) {
             settings_vg.findViewById(R.id.settings_version_btn).setVisibility(View.VISIBLE);
@@ -132,9 +129,6 @@ public class SettingsFragment extends Fragment {
 
                     // Récupération des utilisateurs
                     getUtilisateurs(numTablette);
-
-                    // Récupération des modules
-                    getModules(numTablette);
 
                     // Maj Apk
                     loadApkUpdate();
@@ -167,11 +161,6 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public void getModules(String num_tablette){
-        if(getActivity() != null && getActivity() instanceof ContainerActivity){
-            ((ContainerActivity) getActivity()).loadModules(num_tablette);
-        }
-    }
 
     public void loadApkUpdate(){
         if(getActivity() != null && getActivity() instanceof ContainerActivity){
@@ -241,34 +230,6 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public void displayModulesLoader() {
-        if(Configuration.getIsModulesLoaded()) {
-            if(Configuration.getIsModulesSuccess()) {
-                settings_vg.findViewById(R.id.settings_ws_modules_error).setVisibility(View.INVISIBLE);
-                settings_vg.findViewById(R.id.settings_ws_modules_error_img).setVisibility(View.GONE);
-                settings_vg.findViewById(R.id.settings_ws_modules_progressbar).setVisibility(View.GONE);
-                settings_vg.findViewById(R.id.settings_ws_modules_check_img).setVisibility(View.VISIBLE);
-                settings_vg.findViewById(R.id.settings_ws_modules).setOnClickListener(null);
-            } else {
-                settings_vg.findViewById(R.id.settings_ws_modules_progressbar).setVisibility(View.GONE);
-                settings_vg.findViewById(R.id.settings_ws_modules_check_img).setVisibility(View.GONE);
-                settings_vg.findViewById(R.id.settings_ws_modules_error).setVisibility(View.VISIBLE);
-                settings_vg.findViewById(R.id.settings_ws_modules_error_img).setVisibility(View.VISIBLE);
-                settings_vg.findViewById(R.id.settings_ws_modules).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showSimpleAlertDialog(Configuration.getModulesError());
-                    }
-                });
-            }
-        } else {
-            settings_vg.findViewById(R.id.settings_ws_modules_check_img).setVisibility(View.GONE);
-            settings_vg.findViewById(R.id.settings_ws_modules_error).setVisibility(View.INVISIBLE);
-            settings_vg.findViewById(R.id.settings_ws_modules_error_img).setVisibility(View.GONE);
-            settings_vg.findViewById(R.id.settings_ws_modules_progressbar).setVisibility(View.VISIBLE);
-            settings_vg.findViewById(R.id.settings_ws_modules).setOnClickListener(null);
-        }
-    }
 
     public void showSimpleAlertDialog(String message) {
         if(getActivity() != null && getActivity() instanceof  ContainerActivity) {

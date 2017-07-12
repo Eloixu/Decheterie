@@ -253,7 +253,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
 
         } else {
-            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
         }
 
 
@@ -404,12 +405,12 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             Configuration.saveIsInfosTabletteSuccess(true);
                             displayTabletteLoader(true);
                             if (getCurrentFragment() instanceof TabletteFragment) {
-                                changeMainFragment(new LoginFragment(), false);
-                                SettingsFragment frag = new SettingsFragment();
+                                changeMainFragment(new LoadingFragment(), false);
+                                /*SettingsFragment frag = new SettingsFragment();
                                 Bundle bundle = new Bundle();
                                 bundle.putBoolean(Const.IS_FIRST_LAUNCH, true);
                                 frag.setArguments(bundle);
-                                changeMainFragment(frag, true);
+                                changeMainFragment(frag, true);*/
                             }
                             if (getCurrentFragment() instanceof SettingsFragment) {
                                 ((SettingsFragment) getCurrentFragment()).setMajDate();
@@ -434,46 +435,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         }
     }
 
-    // Récupération des modules
-    public void loadModules(String numTablette) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            displayModulesLoader(false);
-            Datas.loadModules(activity, new DataCallback<Modules>() {
-                @Override
-                public void dataLoaded(Modules modules) {
-                    if (activity != null) {
-                        if (modules.ismSuccess()) {
-                            ModulesDB modulesDB = new ModulesDB(activity);
-                            modulesDB.open();
-                            modulesDB.clearModules();
-                            for (Module m : modules.getListModules()) {
-                                try {
-                                    modulesDB.insertModule(m);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            modulesDB.close();
-                            Configuration.saveIsModulesSuccess(true);
-                            displayModulesLoader(true);
-                        } else {
-                            // Gestion d'Affichage des erreurs
-                            Configuration.saveModulesError(modules.getmError());
-                            Configuration.saveIsModulesSuccess(false);
-                            displayModulesLoader(true);
-                        }
-                    }
-                }
-            }, numTablette);
-        }
-    }
-
-    public void displayModulesLoader(boolean loaded) {
-        Configuration.saveIsModulesLoaded(loaded);
-        if (getCurrentFragment() instanceof SettingsFragment) {
-            ((SettingsFragment) getCurrentFragment()).displayModulesLoader();
-        }
-    }
 
     // Récupération des habitats
     public void loadTypeHabitat() {

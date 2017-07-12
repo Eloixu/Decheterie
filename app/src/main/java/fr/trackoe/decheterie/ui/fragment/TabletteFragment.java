@@ -129,11 +129,6 @@ public class TabletteFragment extends Fragment {
             ((ContainerActivity) getActivity()).loadUsers(numTablette);
         }
     }
-    public void getModules(String numTablette){
-        if(getActivity() != null && getActivity() instanceof ContainerActivity){
-            ((ContainerActivity) getActivity()).loadModules(numTablette);
-        }
-    }
 
     public void showSimpleAlertDialog(String message) {
         if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
