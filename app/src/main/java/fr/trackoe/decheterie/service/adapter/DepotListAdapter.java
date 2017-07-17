@@ -168,7 +168,7 @@ public class DepotListAdapter extends BaseAdapter {
 
             // Init views
             Usager usager = usagerDB.getUsagerFromID(dchComptePrepayeDB.getComptePrepayeFromID(depot.getComptePrepayeId()).getDchUsagerId());
-            ((TextView) rowView.findViewById(R.id.depot_rv_nom_usager_textView)).setText(usager.getNom() + " " + usager.getPrenom());
+            ((TextView) rowView.findViewById(R.id.depot_rv_nom_usager_textView)).setText(((usager.getNom() == null)? "-" : usager.getNom()) + " " + ((usager.getPrenom() == null)? "-" : usager.getPrenom()));
             if(depot.getCarteActiveCarteId() == 0 || depot.getCarteActiveCarteId() == -1) {
                 ((TextView) rowView.findViewById(R.id.depot_rv_num_carte_textView)).setText("-");
             } else {

@@ -94,22 +94,27 @@ public class LocalDB extends MyDb {
 
     private ArrayList<Local> cursorToListeLocal(Cursor c) {
         ArrayList<Local> localList = new ArrayList<>();
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    Local l = new Local();
+                    l.setIdLocal(c.getInt(DecheterieDatabase.TableLocal.NUM_ID_LOCAL));
+                    l.setHabitatId(c.getInt(DecheterieDatabase.TableLocal.NUM_HABITAT_ID));
+                    l.setLot(c.getString(DecheterieDatabase.TableLocal.NUM_LOT));
+                    l.setInvariantDfip(c.getString(DecheterieDatabase.TableLocal.NUM_INVARIANT_DFIP));
+                    l.setIdentifiantInterne(c.getString(DecheterieDatabase.TableLocal.NUM_IDENTIFIANT_INTERNE));
+                    l.setBatiment(c.getString(DecheterieDatabase.TableLocal.NUM_BATIMENT));
+                    l.setEtagePorte(c.getString(DecheterieDatabase.TableLocal.NUM_ETAGE_PORTE));
+                    localList.add(l);
+                } while (c.moveToNext());
 
-        if (c.moveToFirst()) {
-            do {
-                Local l = new Local();
-                l.setIdLocal(c.getInt(DecheterieDatabase.TableLocal.NUM_ID_LOCAL));
-                l.setHabitatId(c.getInt(DecheterieDatabase.TableLocal.NUM_HABITAT_ID));
-                l.setLot(c.getString(DecheterieDatabase.TableLocal.NUM_LOT));
-                l.setInvariantDfip(c.getString(DecheterieDatabase.TableLocal.NUM_INVARIANT_DFIP));
-                l.setIdentifiantInterne(c.getString(DecheterieDatabase.TableLocal.NUM_IDENTIFIANT_INTERNE));
-                l.setBatiment(c.getString(DecheterieDatabase.TableLocal.NUM_BATIMENT));
-                l.setEtagePorte(c.getString(DecheterieDatabase.TableLocal.NUM_ETAGE_PORTE));
-                localList.add(l);
-            } while (c.moveToNext());
-
-            c.close();
+                c.close();
+            }
+            return localList;
+        }catch (Exception e){
+            return localList;
         }
-        return localList;
+
+
     }
 }

@@ -25,7 +25,7 @@ public class DecheterieDB extends MyDb {
     public long insertDecheterie(Decheterie decheterie) {
         ContentValues values = new ContentValues();
 
-        //values.put(DecheterieDatabase.TableDchDecheterie.ID, decheterie.getId());
+        values.put(DecheterieDatabase.TableDchDecheterie.ID, decheterie.getId());
         values.put(DecheterieDatabase.TableDchDecheterie.ID_ACCOUNT, decheterie.getIdAccount());
         values.put(DecheterieDatabase.TableDchDecheterie.NOM, decheterie.getNom());
         values.put(DecheterieDatabase.TableDchDecheterie.CONSIGNE_COMPTAGE, decheterie.getConsigneComptage());

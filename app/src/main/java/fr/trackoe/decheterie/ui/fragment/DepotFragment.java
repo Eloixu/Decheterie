@@ -498,7 +498,7 @@ public class DepotFragment extends Fragment {
                     if(lineVisbility[2]) builder.setVisibilityLine3(true);
 
                     //show the qty from BDD
-                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) != null){
+                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) != null){
                         if(lineVisbility[0]) builder.setEditTextQtyApporte("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyComptage());
                         if(lineVisbility[1]) builder.setEditTextQtyDecompte("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
                         if(lineVisbility[2]) builder.setTextViewQtyCalculLine3("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
@@ -517,7 +517,7 @@ public class DepotFragment extends Fragment {
 
 
                             //save the qty into BDD
-                            int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                            int fluxId = flux.getId();
                             EditText editTextQuantiteApporte     = builder.getEditTextQuantiteApporte();
                             EditText editTextQuantiteDecompte    = builder.getEditTextQuantiteDecompte();
                             TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
@@ -646,7 +646,7 @@ public class DepotFragment extends Fragment {
                             if(lineVisbility[2]) builder.setVisibilityLine3(true);
 
                             //show the qty from BDD
-                            if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) != null){
+                            if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) != null){
                                 if(lineVisbility[0]) builder.setEditTextQtyApporte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyComptage());
                                 if(lineVisbility[1]) builder.setEditTextQtyDecompte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
                                 if(lineVisbility[2]) builder.setTextViewQtyCalculLine3("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
@@ -663,7 +663,7 @@ public class DepotFragment extends Fragment {
                                     DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                                     dchDepotDB.open();
 
-                                    int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                                    int fluxId = flux.getId();
                                     EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
                                     EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
                                     TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
@@ -933,7 +933,7 @@ public class DepotFragment extends Fragment {
                     if(lineVisbility[2]) builder.setVisibilityLine3(true);
 
                     //show the qty from BDD
-                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) != null){
+                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) != null){
                         if(lineVisbility[0]) builder.setEditTextQtyApporte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyComptage());
                         if(lineVisbility[1]) builder.setEditTextQtyDecompte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
                         if(lineVisbility[2]) builder.setTextViewQtyCalculLine3("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
@@ -950,7 +950,7 @@ public class DepotFragment extends Fragment {
                             dchDepotDB.open();
 
                             //save the qty into BDD
-                            int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                            int fluxId = flux.getId();
                             EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
                             EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
                             TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
@@ -1075,7 +1075,7 @@ public class DepotFragment extends Fragment {
                             if(lineVisbility[1])  builder.setVisibilityLine2(true);
                             if(lineVisbility[2]) builder.setVisibilityLine3(true);
                             //show the qty from BDD
-                            if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) != null){
+                            if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) != null){
                                 if(lineVisbility[0]) builder.setEditTextQtyApporte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyComptage());
                                 if(lineVisbility[1]) builder.setEditTextQtyDecompte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
                                 if(lineVisbility[2]) builder.setTextViewQtyCalculLine3("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
@@ -1091,7 +1091,7 @@ public class DepotFragment extends Fragment {
                                     DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                                     dchDepotDB.open();
 
-                                    int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                                    int fluxId = flux.getId();
                                     EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
                                     EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
                                     TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
@@ -1258,7 +1258,7 @@ public class DepotFragment extends Fragment {
                     if(lineVisbility[1])  builder.setVisibilityLine2(true);
                     if(lineVisbility[2]) builder.setVisibilityLine3(true);
                     //show the qty from BDD
-                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()) != null){
+                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) != null){
                         if(lineVisbility[0]) builder.setEditTextQtyApporte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyComptage());
                         if(lineVisbility[1]) builder.setEditTextQtyDecompte(""+dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
                         if(lineVisbility[2]) builder.setTextViewQtyCalculLine3("" + dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, dchFluxDB.getFluxByIconId(currentIcon.getId()).getId()).getQtyUDD());
@@ -1275,7 +1275,7 @@ public class DepotFragment extends Fragment {
                             DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                             dchDepotDB.open();
 
-                            int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                            int fluxId = flux.getId();
                             EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
                             EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
                             TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
@@ -1424,7 +1424,7 @@ public class DepotFragment extends Fragment {
                                     DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                                     dchDepotDB.open();
 
-                                    int fluxId = dchFluxDB.getFluxByIconId(currentIcon.getId()).getId();
+                                    int fluxId = flux.getId();
                                     EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
                                     EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
                                     TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();

@@ -289,13 +289,13 @@ public class RechercherUsagerFragment extends Fragment {
                     ArrayList<Integer> usagerIdListB = new ArrayList();
                     ArrayList<Integer> usagerIdListC = new ArrayList();
                     for(Usager usager: usagerList1){
-                        usagerIdListA.add(usager.getId());
+                        if(usager != null) usagerIdListA.add(usager.getId());
                     }
                     for(Usager usager: usagerList2){
-                        usagerIdListB.add(usager.getId());
+                        if(usager != null) usagerIdListB.add(usager.getId());
                     }
                     for(Usager usager: usagerList3){
-                        usagerIdListC.add(usager.getId());
+                        if(usager != null) usagerIdListC.add(usager.getId());
                     }
                     //remove the repeated elements in each list
                     usagerIdListA = removeRepeatedElements(usagerIdListA);

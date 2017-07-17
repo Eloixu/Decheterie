@@ -257,7 +257,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
         }
 
-
+//        changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
         // Installation d'une nouvelle version de l'application
         if (Configuration.getIsApkReadyToInstall()) {
             displayDialogInstallNewApk();
