@@ -101,43 +101,48 @@ public class AccueilFragment extends Fragment {
         }
 
         //detect if there is a depot which is on statut "statut_en_cours" and the its decheterie matches the current decheterie id
-        if(dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)) != null){
-            if(dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)).getDecheterieId() == decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId()) {
-                //pop-up ask if continue this depot
-                CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
-                builder.setMessage(R.string.pop_up_depot_incompleted_message);
-                builder.setTitle(R.string.pop_up_depot_incompleted_title);
-                builder.setPositiveButton(R.string.pop_up_depot_incompleted_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        //设置你的操作事项
-                        //turn to the page DepotFragment according to the depot
-                        if (getActivity() != null && getActivity() instanceof ContainerActivity) {
-                            //set a flag
-                            Configuration.setIsOuiClicked(true);
-                            DepotFragment depotFragment = DepotFragment.newInstance(true);
-                            ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
+        try {
+            if (dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)) != null) {
+                if (dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours)).getDecheterieId() == decheterieDB.getDecheterieByName(Configuration.getNameDecheterie()).getId()) {
+                    //pop-up ask if continue this depot
+                    CustomDialogNormal.Builder builder = new CustomDialogNormal.Builder(getContext());
+                    builder.setMessage(R.string.pop_up_depot_incompleted_message);
+                    builder.setTitle(R.string.pop_up_depot_incompleted_title);
+                    builder.setPositiveButton(R.string.pop_up_depot_incompleted_positive_button, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            //设置你的操作事项
+                            //turn to the page DepotFragment according to the depot
+                            if (getActivity() != null && getActivity() instanceof ContainerActivity) {
+                                //set a flag
+                                Configuration.setIsOuiClicked(true);
+                                DepotFragment depotFragment = DepotFragment.newInstance(true);
+                                ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
+                            }
                         }
-                    }
-                });
+                    });
 
-                builder.setNegativeButton(R.string.pop_up_depot_incompleted_negative_button, new android.content.DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                        dchDepotDB.open();
+                    builder.setNegativeButton(R.string.pop_up_depot_incompleted_negative_button, new android.content.DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                            dchDepotDB.open();
 
-                        dialog.dismiss();
+                            dialog.dismiss();
 
-                        //change the depot "statut" to "statut_annuler"
-                        Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
-                        dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(), getResources().getInteger(R.integer.statut_annuler));
+                            //change the depot "statut" to "statut_annuler"
+                            Depot depot = dchDepotDB.getDepotByStatut(getResources().getInteger(R.integer.statut_en_cours));
+                            dchDepotDB.changeDepotStatutByIdentifiant(depot.getId(), getResources().getInteger(R.integer.statut_annuler));
 
-                        dchDepotDB.close();
-                    }
-                });
+                            dchDepotDB.close();
+                        }
+                    });
 
-                builder.create().show();
+                    builder.create().show();
+                }
             }
+        }
+        catch(Exception e){
+
         }
 
         deleteDepotStatutAnnuler();

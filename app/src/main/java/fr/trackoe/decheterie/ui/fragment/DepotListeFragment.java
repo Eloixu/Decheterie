@@ -145,7 +145,7 @@ public class DepotListeFragment extends Fragment {
             public void onClick(View v) {
                 //check the internet
                 if(!Utils.isInternetConnected(getContext())){//pop up
-                    parentActivity.showCustomDialogNormal(getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_title),getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_message),null,getResources().getString(R.string.depot_liste_fragment_pop_up_non_synchro_negative_button));
+                    parentActivity.showCustomDialogNormal(getResources().getString(R.string.depot_liste_fragment_pop_up_non_internet_title),getResources().getString(R.string.depot_liste_fragment_pop_up_non_internet_message),null,getResources().getString(R.string.depot_liste_fragment_pop_up_non_internet_negative_button));
                 }else{//send all the depots which are not sent
                     DchDepotDB dchDepotDB = new DchDepotDB(getContext());
                     dchDepotDB.open();

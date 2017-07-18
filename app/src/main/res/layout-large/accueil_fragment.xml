@@ -66,24 +66,22 @@
             android:text="@string/accueil_fragment_btn_identification_text"
             android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
             android:layout_width="@dimen/accueil_fragment_btn_identification_layout_width"
-            android:layout_height="wrap_content"
+            android:layout_height="83dp"
             android:layout_marginBottom="@dimen/accueil_fragment_btn_identification_layout_marginBottom"
             android:textColor="@color/white"
             android:drawableEnd="@drawable/barcode2"
             android:background="@drawable/button_blue"
             android:paddingEnd="@dimen/accueil_fragment_btn_identification_paddingEnd"
-            android:paddingRight="@dimen/accueil_fragment_btn_identification_paddingEnd"
-            android:layout_weight="0.13" />
+            android:paddingRight="@dimen/accueil_fragment_btn_identification_paddingEnd" />
 
         <Button
             android:id="@+id/btn_recherche"
             android:text="@string/accueil_fragment_btn_recherche_text"
             android:textSize="@dimen/accueil_fragment_btn_recherche_textSize"
             android:layout_width="@dimen/accueil_fragment_btn_recherche_layout_width"
-            android:layout_height="wrap_content"
+            android:layout_height="83dp"
             android:layout_marginBottom="@dimen/accueil_fragment_btn_recherche_layout_marginBottom"
             android:textColor="@color/white"
-            android:layout_weight="0.27"
             android:background="@drawable/button_blue"/>
 
         <Button
@@ -93,8 +91,7 @@
             android:layout_height="@dimen/accueil_fragment_btn_liste_layout_height"
             android:textColor="@color/white"
             android:textSize="@dimen/accueil_fragment_btn_liste_textSize"
-            android:background="@drawable/button_blue_shallow"
-            android:layout_weight="0.02" />
+            android:background="@drawable/button_blue_shallow" />
 
         <Button
             android:id="@+id/btn_data_maj"

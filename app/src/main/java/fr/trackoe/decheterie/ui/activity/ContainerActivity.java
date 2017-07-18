@@ -208,7 +208,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
 
 //        initDB();
-        initDBTest();
+//        initDBTest();
         initDBForIcons();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -623,7 +623,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((LoadingFragment) getCurrentFragment()).launchUsagerHabitatAction();
+                                            ((LoadingFragment) getCurrentFragment()).launchUsagerAction();
                                         }
                                     });
                                 }
