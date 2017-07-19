@@ -90,6 +90,10 @@ public class DepotListeFragment extends Fragment {
      * Init views.
      */
     public void initViews(ArrayList<Depot> listeDepots) {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_depot_liste_fragment));
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        parentActivity.hideHamburgerButton();
+
         if(listeDepots.isEmpty()) {
             depotListe_vg.findViewById(R.id.liste_depot_lv).setVisibility(View.GONE);
             depotListe_vg.findViewById(R.id.liste_aucun_depot_view).setVisibility(View.VISIBLE);

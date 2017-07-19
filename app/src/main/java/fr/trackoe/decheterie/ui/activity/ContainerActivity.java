@@ -253,8 +253,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
             changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
 
         } else {
-            //changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
-            changeMainFragment(new TabletteFragment(), false, false, 0, 0, 0, 0);
+            changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
         }
 
 //        changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
@@ -3389,6 +3388,10 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
     public void returnBack(){
         super.onBackPressed();
+    }
+
+    public void setTitleToolbar(String title){
+        getSupportActionBar().setTitle(title);
     }
 
     /* private int getPictureId(String pictureName){

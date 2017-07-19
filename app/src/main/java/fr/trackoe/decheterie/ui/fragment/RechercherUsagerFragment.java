@@ -106,6 +106,13 @@ public class RechercherUsagerFragment extends Fragment {
     private UsagerMenageDB usagerMenageDB;
     private TypeHabitatDB typeHabitatDB;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -156,8 +163,8 @@ public class RechercherUsagerFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_recherche_usager_fragment));
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
-        parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
         RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).setVisibility(View.GONE);
 

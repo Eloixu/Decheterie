@@ -35,6 +35,13 @@ public class DecheterieFragment extends Fragment {
     ContainerActivity parentActivity;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         decheterie_vg = (ViewGroup) inflater.inflate(R.layout.decheteries_fragment, container, false);
         listView = (ListView) decheterie_vg.findViewById(R.id.decheterie_fragment_listView);
@@ -63,9 +70,10 @@ public class DecheterieFragment extends Fragment {
     Init Views
      */
     public void initViews(LayoutInflater inflater,ViewGroup container) {
-        parentActivity = (ContainerActivity ) getActivity();
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_decheterie_fragment));
         parentActivity.hideHamburgerButton();
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+
         decheterieDB = new DecheterieDB(getContext());
         decheterieDB.open();
         decheterieList = decheterieDB.getAllDecheteries();

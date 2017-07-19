@@ -41,13 +41,17 @@ public class CustomDialogFlux extends Dialog {
         private LinearLayout dialogLinearlayoutLine1;
         private LinearLayout dialogLinearlayoutLine2;
         private LinearLayout dialogLinearlayoutLine3;
+        private LinearLayout dialogLinearlayoutLine4;
         private boolean visibilityLine1;
         private boolean visibilityLine2;
         private boolean visibilityLine3;
+        private boolean visibilityLine4;
         private String positiveButtonText;
         private String negativeButtonText;
         private String iconName;
         private float CCPU;
+        private EditText editTextQuantiteApporteDecompte;
+        private String editTextQtyApporteDecompte;
         private EditText editTextQuantiteApporte;
         private String editTextQtyApporte;
         private EditText editTextQuantiteDecompte;
@@ -59,19 +63,20 @@ public class CustomDialogFlux extends Dialog {
         private DialogInterface.OnClickListener negativeButtonClickListener;
         private String uniteApporte;
         private String uniteDecompte;
+        private String uniteApporteDecompte;
 
         public Builder(Context context) {
             this.context = context;
         }
 
 
-        public EditText getEditTextQuantiteApporte() {
-            return editTextQuantiteApporte;
-        }
+        public EditText getEditTextQuantiteApporte() { return editTextQuantiteApporte; }
 
         public EditText getEditTextQuantiteDecompte() {
             return editTextQuantiteDecompte;
         }
+
+        public EditText getEditTextQuantiteApporteDecompte() { return editTextQuantiteApporteDecompte; }
 
         public TextView getTextViewQuantiteCalculLine3() {
             return textViewQuantiteCalculLine3;
@@ -93,6 +98,11 @@ public class CustomDialogFlux extends Dialog {
             return this;
         }
 
+        public Builder setEditTextQtyApporteDecompte(String editTextQtyApporteDecompte) {
+            this.editTextQtyApporteDecompte = editTextQtyApporteDecompte;
+            return this;
+        }
+
         public Builder setTextViewQtyCalculLine3(String textViewQtyCalculLine3) {
             this.textViewQtyCalculLine3 = textViewQtyCalculLine3;
             return this;
@@ -110,6 +120,10 @@ public class CustomDialogFlux extends Dialog {
             this.visibilityLine3 = visibilityLine3;
         }
 
+        public void setVisibilityLine4(boolean visibilityLine4) {
+            this.visibilityLine4 = visibilityLine4;
+        }
+
         public Builder setCCPU(float CCPU) {
             this.CCPU = CCPU;
             return this;
@@ -122,6 +136,11 @@ public class CustomDialogFlux extends Dialog {
 
         public Builder setUniteDecompte(String uniteDecompte) {
             this.uniteDecompte = uniteDecompte;
+            return this;
+        }
+
+        public Builder setUniteApporteDecompte(String uniteApporteDecompte) {
+            this.uniteApporteDecompte = uniteApporteDecompte;
             return this;
         }
 
@@ -209,15 +228,19 @@ public class CustomDialogFlux extends Dialog {
             ((TextView) layout.findViewById(R.id.dialog_flux_layout_title)).setText(title);
             editTextQuantiteApporte = ((EditText) layout.findViewById(R.id.dialog_flux_layout_quantite_apporte_editText));
             editTextQuantiteDecompte = ((EditText) layout.findViewById(R.id.dialog_flux_layout_quantite_decompte_editText));
+            editTextQuantiteApporteDecompte = ((EditText) layout.findViewById(R.id.dialog_flux_layout_quantite_apporte_decompte_editText));
             textViewQuantiteCalculLine3 = ((TextView) layout.findViewById(R.id.dialog_flux_layout_qty_calcul_textView));
             editTextQuantiteApporte.setText(editTextQtyApporte);
             editTextQuantiteDecompte.setText(editTextQtyDecompte);
+            editTextQuantiteApporteDecompte.setText(editTextQtyApporteDecompte);
             dialogLinearlayoutLine1 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line1_linearlayout);
             if(!visibilityLine1) dialogLinearlayoutLine1.setVisibility(View.GONE);
             dialogLinearlayoutLine2 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line2_linearlayout);
             if(!visibilityLine2) dialogLinearlayoutLine2.setVisibility(View.GONE);
             dialogLinearlayoutLine3 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line3_linearlayout);
             if(!visibilityLine3) dialogLinearlayoutLine3.setVisibility(View.GONE);
+            dialogLinearlayoutLine4 = (LinearLayout) layout.findViewById(R.id.dialog_flux_layout_line4_linearlayout);
+            if(!visibilityLine4) dialogLinearlayoutLine4.setVisibility(View.GONE);
 
             // set the icon image
             if(!iconName.isEmpty() && iconName != null)
@@ -233,6 +256,12 @@ public class CustomDialogFlux extends Dialog {
                 if(!uniteDecompte.isEmpty())
                     ((TextView) layout.findViewById(R.id.dialog_flux_layout_unite_line2_textView)).setText(uniteDecompte);
                     ((TextView) layout.findViewById(R.id.dialog_flux_layout_unite_line3_textView)).setText("   " + uniteDecompte);
+
+            }
+            //set the unite apporté décompté
+            if(uniteApporteDecompte != null) {
+                if(!uniteApporteDecompte.isEmpty())
+                    ((TextView) layout.findViewById(R.id.dialog_flux_layout_unite_line4_textView)).setText("   " + uniteApporteDecompte);
 
             }
             //set textView line3

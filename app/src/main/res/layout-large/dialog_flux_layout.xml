@@ -137,6 +137,48 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/dialog_flux_layout_line4_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_quantite_apporte_decompte_textView"
+                    android:text="Quantité apportée/décomptée:"
+                    style="@style/text_16_666666"
+                    android:layout_width="@dimen/dialog_flux_layout_quantite_decompte_textView_layout_width"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_marginStart="@dimen/dialog_flux_layout_quantite_decompte_textView_layout_marginStart"
+                    android:layout_weight="0.55"/>
+
+                <EditText
+                    android:id="@+id/dialog_flux_layout_quantite_apporte_decompte_editText"
+                    android:layout_width="@dimen/dialog_flux_layout_quantite_decompte_editText_layout_width"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:maxLength="7"
+                    android:ems="10"
+                    android:layout_gravity="left"
+                    android:layout_marginEnd="@dimen/dialog_flux_layout_quantite_decompte_editText_layout_marginEnd"
+                    android:layout_weight="0.23"/>
+
+                <TextView
+                    android:id="@+id/dialog_flux_layout_unite_line4_textView"
+                    android:text="unite"
+                    style="@style/text_16_666666"
+                    android:layout_width="@dimen/dialog_flux_layout_unite_line2_textView_layout_width"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:layout_weight="0.1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/dialog_flux_layout_line3_linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

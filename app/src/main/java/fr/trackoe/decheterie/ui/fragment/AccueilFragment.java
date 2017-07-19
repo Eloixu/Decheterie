@@ -52,6 +52,7 @@ public class AccueilFragment extends Fragment {
         super.onCreate(savedInstanceState);
         System.out.println("AccueilFragment --> onCreate()");
 
+        parentActivity = (ContainerActivity ) getActivity();
     }
 
 
@@ -166,10 +167,9 @@ public class AccueilFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_accueil_fragment));
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
-        parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
-
     }
 
     /*

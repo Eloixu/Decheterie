@@ -28,13 +28,20 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.R;
 
 public class LoginFragment extends Fragment {
-
+    ContainerActivity parentActivity;
     private static Logger logger = Logger.getLogger(ContainerActivity.class);
     private ViewGroup login_vg;
     private EditText identifiantEditText;
     private EditText mdpEditText;
     private Button valider;
     private RelativeLayout main;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +80,10 @@ public class LoginFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_login_fragment));
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        parentActivity.hideHamburgerButton();
+
         identifiantEditText = (EditText) login_vg.findViewById(R.id.login_edittxt_identifiant);
         mdpEditText = (EditText) login_vg.findViewById(R.id.login_edittxt_password);
         valider = (Button) login_vg.findViewById(R.id.login_btn);
@@ -84,8 +95,8 @@ public class LoginFragment extends Fragment {
             identifiantEditText.setText(Configuration.getNameUser());
             //mdpEditText.requestFocus();
         } else if(!Configuration.getInstance(getContext()).isProd()) {
-            identifiantEditText.setText(getString(R.string.login));
-            mdpEditText.setText(getString(R.string.mdp));
+            /*identifiantEditText.setText(getString(R.string.login));
+            mdpEditText.setText(getString(R.string.mdp));*/
         }
     }
 

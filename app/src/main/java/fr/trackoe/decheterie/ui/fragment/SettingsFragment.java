@@ -20,8 +20,17 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
  * Created by Remi on 01/12/2015.
  */
 public class SettingsFragment extends Fragment {
+    ContainerActivity parentActivity;
     private ViewGroup settings_vg;
     private boolean isFirstLaunch = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +73,10 @@ public class SettingsFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_setting_fragment));
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        parentActivity.hideHamburgerButton();
+
         // Infos tablette
         String infosTablette = String.format(getString(R.string.settings_tablette_format),
                 Configuration.getNomTablette(),

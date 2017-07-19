@@ -31,10 +31,18 @@ import static java.lang.Thread.sleep;
  * Created by Remi on 02/05/2017.
  */
 public class LoadingFragment extends Fragment {
+    ContainerActivity parentActivity;
     private ViewGroup main_vg;
     private ProgressBar progressBar;
     private TextView speTv;
     private String dateMaj;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +70,10 @@ public class LoadingFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_loading_fragment));
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        parentActivity.hideHamburgerButton();
+
         // Init views
         progressBar = (ProgressBar) main_vg.findViewById(R.id.load_spe_progress);
         speTv = (TextView) main_vg.findViewById(R.id.load_text_spe);

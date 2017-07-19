@@ -93,6 +93,12 @@ public class ApportProFragment extends Fragment {
     private int accountSettingId;
     private long comptePrepayeId;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+    }
 
 
     @Override
@@ -137,9 +143,10 @@ public class ApportProFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_apport_pro_fragment));
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
-        parentActivity = (ContainerActivity ) getActivity();
         parentActivity.hideHamburgerButton();
+
         DecheterieDB decheterieDB = new DecheterieDB(getContext());
         decheterieDB.open();
 

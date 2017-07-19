@@ -76,6 +76,13 @@ public class IdentificationFragment extends Fragment {
     private String head_queue = null;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("IdentificationFragment-->onCreateView()");
         identification_vg = (ViewGroup) inflater.inflate(R.layout.identification_fragment, container, false);
@@ -138,8 +145,9 @@ public class IdentificationFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_identification_fragment));
+        parentActivity.hideHamburgerButton();
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
-        parentActivity = (ContainerActivity) getActivity();
 
         String lastNumCarte = Configuration.getLastNumCard();
         //if(lastNumCarte != null) editText_barcode.setText(lastNumCarte);

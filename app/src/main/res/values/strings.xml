@@ -45,6 +45,18 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
+    <string name="title_tablette_fragment">Trackoe: Contrôle d\'accès en déchèterie</string>
+    <string name="title_login_fragment">Trackoe: Contrôle d\'accès en déchèterie</string>
+    <string name="title_accueil_fragment">Trackoe: Contrôle d\'accès en déchèterie</string>
+    <string name="title_setting_fragment">Paramètre</string>
+    <string name="title_identification_fragment">Identification</string>
+    <string name="title_depot_fragment">Dépôt de déchèts</string>
+    <string name="title_apport_pro_fragment">Validation de Dépôt</string>
+    <string name="title_recherche_usager_fragment">Rechercher d\'un usager</string>
+    <string name="title_depot_liste_fragment">Liste de Dépôts</string>
+    <string name="title_decheterie_fragment">Déchèteries</string>
+    <string name="title_loading_fragment">Chargements des données</string>
+
 
     <!--Container Activity-->
     <string name="nfc_availability1">NFC available on this device</string>

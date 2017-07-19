@@ -375,7 +375,7 @@
     <dimen name="dialog_flux_layout_quantite_decompte_textView_layout_width">0dp</dimen>
     <dimen name="dialog_flux_layout_quantite_decompte_textView_layout_marginStart">110dp</dimen>
     <dimen name="dialog_flux_layout_quantite_decompte_editText_layout_width">0dp</dimen>
-    <dimen name="dialog_flux_layout_quantite_decompte_editText_layout_marginEnd">15dp</dimen>
+    <dimen name="dialog_flux_layout_quantite_decompte_editText_layout_marginEnd">3dp</dimen>
     <dimen name="dialog_flux_layout_unite_line2_textView_layout_width">0dp</dimen>
     <dimen name="dialog_flux_layout_line3_linearlayout_layout_marginBottom">10dp</dimen>
     <dimen name="dialog_flux_layout_line3_textView_layout_marginStart">110dp</dimen>

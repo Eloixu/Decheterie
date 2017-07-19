@@ -22,8 +22,17 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
  * Created by Remi on 01/12/2015.
  */
 public class TabletteFragment extends Fragment {
+    ContainerActivity parentActivity;
     private ViewGroup tablette_vg;
     private EditText numTabletteEdittxt;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        parentActivity = (ContainerActivity ) getActivity();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +63,10 @@ public class TabletteFragment extends Fragment {
     Init Views
      */
     public void initViews() {
+        parentActivity.setTitleToolbar(getResources().getString(R.string.title_tablette_fragment));
+        ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        parentActivity.hideHamburgerButton();
+
         numTabletteEdittxt = (EditText) tablette_vg.findViewById(R.id.tablette_edittxt);
 
         // Affichage du Switch
