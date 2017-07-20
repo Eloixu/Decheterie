@@ -127,7 +127,7 @@ public class LoginFragment extends Fragment {
             String mdp = mdpEditText.getText().toString();
             String mdpSHA1 = encryptPassword(mdp);
             if(mdpCompare != null && mdpCompare.equals(mdpSHA1)){
-                // Save IdUser and go to ModulesFragment
+                // Save IdUser and go to AccueilFragment
                 Configuration.saveIdUser(Integer.parseInt(user.getIdUser()));
                 Configuration.saveNameUser(identifiantEditText.getText().toString());
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {

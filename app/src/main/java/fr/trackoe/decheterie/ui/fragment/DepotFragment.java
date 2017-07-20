@@ -501,7 +501,6 @@ public class DepotFragment extends Fragment {
                     builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            //设置你的操作事项
                             DchFluxDB dchFluxDB = new DchFluxDB(getContext());
                             dchFluxDB.open();
                             DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
@@ -1885,6 +1884,10 @@ public class DepotFragment extends Fragment {
         return lineVisibility;
     }
 
+    /*
+    set the visibility of each line in the dialog of flux
+    show the qty in the editText if it existes in the DB
+    */
     public void setVisibilityOfEachLine(CustomDialogFlux.Builder builder, boolean[] lineVisbility, Flux flux){
         if(lineVisbility[0]) builder.setVisibilityLine1(true);
         if(lineVisbility[1]) builder.setVisibilityLine2(true);
@@ -1905,6 +1908,9 @@ public class DepotFragment extends Fragment {
         if(lineVisbility[3]) builder.setUniteApporteDecompte(nomUniteDecompte);
     }
 
+    /*
+    show the datas in the navigation drawer
+    */
     public void initViewsNavigationDrawer(LayoutInflater inflater, ViewGroup container){
         ndLinearLayoutLine1     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line1);
         ndLinearLayoutLine2     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line2);
@@ -2277,36 +2283,6 @@ public class DepotFragment extends Fragment {
     }
 
 
-    /*public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
-        try {
-            //send Depot(without signature) to server
-            Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
-                @Override
-                public void dataLoaded(ContenantBean data) {
-                    if (!data.ismSuccess()) {
-                        data.getmError();
-                    }
-                    else{
-                        depot.setSent(true);
-
-                        try {
-                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                            dchDepotDB.open();
-
-                            dchDepotDB.updateDepot(depot);
-
-                            dchDepotDB.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }, d, a, listAF);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }*/
-
     private void addTextChangedListener(final EditText editText){
         TextWatcher listener3 = new TextWatcher() {
             @Override
@@ -2343,7 +2319,9 @@ public class DepotFragment extends Fragment {
         editText.addTextChangedListener(listener3);
     }
 
-    //keyBoard open/close listener
+    /*
+    keyBoard open/close listener
+    */
     public void addKeyBoardListener(){
         keyboardListener = new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
@@ -2374,6 +2352,9 @@ public class DepotFragment extends Fragment {
         softKeyboardStateWatcher.addSoftKeyboardStateListener(keyboardListener);
     }
 
+    /*
+    close the keyboard
+    */
     public void closeKeyBoard(){
 
         editTextVolumeTotal.clearFocus();
@@ -2386,6 +2367,9 @@ public class DepotFragment extends Fragment {
 
     }
 
+    /*
+    show the message retour
+     */
     public void showReturnAccueilDialog(){
         AccountSetting a = accountSetting;
         ComptePrepaye  c;
@@ -2494,30 +2478,6 @@ public class DepotFragment extends Fragment {
     public void setComeFromSettingFragment(boolean isComeFromSettingFragment) {
         this.isComeFromSettingFragment = isComeFromSettingFragment;
     }
-
-    /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
-    private DchAccountSettingDB dchAccountSettingDB;
-    private DchApportFluxDB dchApportFluxDB;
-    private DchCarteActiveDB dchCarteActiveDB;
-    private DchCarteDB dchCarteDB;
-    private DchCarteEtatRaisonDB dchCarteEtatRaisonDB;
-    private DchChoixDecompteTotalDB dchChoixDecompteTotalDB;
-    private DchComptePrepayeDB dchComptePrepayeDB;
-    private DchDecheterieFluxDB dchDecheterieFluxDB;
-    private DchDepotDB dchDepotDB;
-    private DchFluxDB dchFluxDB;
-    private DchTypeCarteDB dchTypeCarteDB;
-    private DchUniteDB dchUniteDB;
-    private DecheterieDB decheterieDB;
-    private HabitatDB habitatDB;
-    private IconDB iconDB;
-    private LocalDB localDB;
-    private MenageDB menageDB;
-    private ModulesDB modulesDB;
-    private UsagerDB usagerDB;
-    private UsagerHabitatDB usagerHabitatDB;
-    private UsagerMenageDB usagerMenageDB;
-    private TypeHabitatDB typeHabitatDB;*/
 
     public void initAllDB(){
         dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
