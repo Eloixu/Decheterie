@@ -112,7 +112,6 @@ public class AccueilFragment extends Fragment {
                     builder.setPositiveButton(R.string.pop_up_depot_incompleted_positive_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            //设置你的操作事项
                             //turn to the page DepotFragment according to the depot
                             if (getActivity() != null && getActivity() instanceof ContainerActivity) {
                                 //set a flag
@@ -196,7 +195,7 @@ public class AccueilFragment extends Fragment {
             }
         });
 
-        //set listener for button "Rechercher d'un usager sans carte"
+        //set listener for button "Liste des apports effectués"
         accueil_vg.findViewById(R.id.btn_liste).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

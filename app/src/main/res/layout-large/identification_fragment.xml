@@ -35,6 +35,7 @@
             android:singleLine="true"
             android:ems="10"
             android:layout_marginStart="@dimen/identification_fragment_barcode_editText_layout_marginStart"
+            android:paddingLeft="10dp"
             android:background="@drawable/edit_bg" />
 
         <ImageView

@@ -147,7 +147,7 @@
 
                 <TextView
                     android:id="@+id/dialog_flux_layout_quantite_apporte_decompte_textView"
-                    android:text="Quantité apportée/décomptée:"
+                    android:text="@string/dialog_flux_layout_quantite_apporte_decompte_textView_text"
                     style="@style/text_16_666666"
                     android:layout_width="@dimen/dialog_flux_layout_quantite_decompte_textView_layout_width"
                     android:layout_height="match_parent"

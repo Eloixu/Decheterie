@@ -63,6 +63,14 @@ public class UsagerDB extends MyDb {
         return cursorToUsager(cursor);
     }
 
+    public ArrayList<Usager> getAllUsager() {
+        ArrayList<Usager> usagerList;
+        String query = "SELECT * FROM " + DecheterieDatabase.TableUsager.TABLE_NAME  + ";";
+        Cursor cursor = db.rawQuery(query, null);
+        usagerList = cursorToListeUsager(cursor);
+        return usagerList;
+    }
+
     public ArrayList<Usager> getUsagerListByName(String nom) {
         ArrayList<Usager> usagerList;
         String query = "SELECT * FROM " + DecheterieDatabase.TableUsager.TABLE_NAME + " WHERE " + DecheterieDatabase.TableUsager.NOM + " LIKE " + "'%" + nom + "%'" +  ";";

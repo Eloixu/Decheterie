@@ -69,6 +69,9 @@ import android.widget.Toast;
 public class RechercherUsagerFragment extends Fragment {
     private ViewGroup RU_vg;
     ContainerActivity parentActivity;
+
+    //the list of all the usager in the DB
+    private ArrayList<Usager> allUsagerList;
     //spinner
     private Spinner spinner;
     private List<String> data_list;
@@ -81,44 +84,22 @@ public class RechercherUsagerFragment extends Fragment {
     //listView
     private ListView listView;
     private ArrayList<Usager> usagerListFinal;
-    //DB
-    private DchAccountFluxSettingDB dchAccountFluxSettingDB;
-    private DchAccountSettingDB dchAccountSettingDB;
-    private DchApportFluxDB dchApportFluxDB;
-    private DchCarteActiveDB dchCarteActiveDB;
-    private DchCarteDB dchCarteDB;
-    private DchCarteEtatRaisonDB dchCarteEtatRaisonDB;
-    private DchChoixDecompteTotalDB dchChoixDecompteTotalDB;
-    private DchComptePrepayeDB dchComptePrepayeDB;
-    private DchDecheterieFluxDB dchDecheterieFluxDB;
-    private DchDepotDB dchDepotDB;
-    private DchFluxDB dchFluxDB;
-    private DchTypeCarteDB dchTypeCarteDB;
-    private DchUniteDB dchUniteDB;
-    private DecheterieDB decheterieDB;
-    private HabitatDB habitatDB;
-    private IconDB iconDB;
-    private LocalDB localDB;
-    private MenageDB menageDB;
-    private ModulesDB modulesDB;
-    private UsagerDB usagerDB;
-    private UsagerHabitatDB usagerHabitatDB;
-    private UsagerMenageDB usagerMenageDB;
-    private TypeHabitatDB typeHabitatDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         parentActivity = (ContainerActivity ) getActivity();
+        /*UsagerDB usagerDB = new UsagerDB(getContext());
+        usagerDB.open();
+        allUsagerList = usagerDB.getAllUsager();
+        usagerDB.close();*/
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("RechercherUsager-->onCreateView()");
-        initAllDB();
-        openAllDB();
 
         RU_vg = (ViewGroup) inflater.inflate(R.layout.rechercher_usager_fragment, container, false);
         editTextNom = (EditText) RU_vg.findViewById(R.id.rechercher_usager_fragment_filtre1_editText);
@@ -136,8 +117,6 @@ public class RechercherUsagerFragment extends Fragment {
         // Init des listeners
         initListeners();
 
-        closeAllDB();
-
         return RU_vg;
     }
 
@@ -145,9 +124,6 @@ public class RechercherUsagerFragment extends Fragment {
     public void onResume() {
         System.out.println("RechercherUsagerFragment-->onResume()");
         super.onResume();
-
-
-
     }
 
     /*
@@ -166,20 +142,25 @@ public class RechercherUsagerFragment extends Fragment {
         parentActivity.setTitleToolbar(getResources().getString(R.string.title_recherche_usager_fragment));
         ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         parentActivity.hideHamburgerButton();
+
+        //hide the button "rechercher"
         RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).setVisibility(View.GONE);
 
         //set spinner data
         data_list = new ArrayList<String>();
+            DchTypeCarteDB dchTypeCarteDB = new DchTypeCarteDB(getContext());
+            dchTypeCarteDB.open();
         ArrayList<TypeCarte> listTypeCarte = dchTypeCarteDB.getAllTypeCarte();
+            dchTypeCarteDB.close();
         for(TypeCarte typeCarte: listTypeCarte){
             data_list.add(typeCarte.getNom());
         }
 
-        //适配器 adapter
+        //adapter
         arr_adapter= new ArrayAdapter<String>(getContext(), R.layout.spinner_item, data_list);
-        //设置样式 set style
+        //set style
         arr_adapter.setDropDownViewResource(R.layout.spinner_item);
-        //加载适配器 load the adapter
+        //load the adapter
         spinner.setAdapter(arr_adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -208,18 +189,18 @@ public class RechercherUsagerFragment extends Fragment {
         RU_vg.findViewById(R.id.rechercher_usager_fragment_rechercher_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAllDB();
                 if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
                     String nom = editTextNom.getText().toString();
                     String adresse = editTextAdresse.getText().toString();
                     String typeCarte = spinner.getSelectedItem().toString();
 
                     //usager list filtered by name "usagerList1"
-                    //ArrayList<Usager> usagerList1 = usagerDB.getUsagerListByName(nom);
                     ArrayList<Usager> usagerList1 = new ArrayList();
                     ArrayList<Integer> usagerIdList = new ArrayList();
                     String nameList[] = nom.split(" ");
                     int count = 1;
+                        UsagerDB usagerDB = new UsagerDB(getContext());
+                        usagerDB.open();
                     for(String name: nameList){
                         ArrayList<Usager> ul = usagerDB.getUsagerListByName(name);
                         ArrayList<Integer> usagerIdListCopy = new ArrayList();
@@ -240,17 +221,29 @@ public class RechercherUsagerFragment extends Fragment {
                     }
                     //usager list filtered by typeCarte "usagerList2"
                     ArrayList<Usager> usagerList2 = new ArrayList();
+                        DchCarteDB dchCarteDB = new DchCarteDB(getContext());
+                        dchCarteDB.open();
+                        DchTypeCarteDB dchTypeCarteDB = new DchTypeCarteDB(getContext());
+                        dchTypeCarteDB.open();
                     ArrayList<Carte> listCarte = dchCarteDB.getCarteListByTypeCarteId(dchTypeCarteDB.getTypeCarteByName(typeCarte).getId());
+                        dchCarteDB.close();
+                        dchTypeCarteDB.close();
                     ArrayList<CarteActive> listCarteActive = new ArrayList();
+                        DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(getContext());
+                        dchCarteActiveDB.open();
                     for(Carte carte: listCarte){
                         if(dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId()) != null){
                             listCarteActive.add(dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId()));
                         }
                     }
+                        dchCarteActiveDB.close();
                     ArrayList<ComptePrepaye> listComptePrepaye = new ArrayList();
+                        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+                        dchComptePrepayeDB.open();
                     for(CarteActive carteActive: listCarteActive ){
                         listComptePrepaye.add(dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId()));
                     }
+                        dchComptePrepayeDB.close();
                     for(ComptePrepaye comptePrepaye: listComptePrepaye){
                         usagerList2.add(usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId()));
                     }
@@ -264,6 +257,14 @@ public class RechercherUsagerFragment extends Fragment {
                             habitatActiveList.add(habitat);
                         }
                     }
+                        UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(getContext());
+                        usagerHabitatDB.open();
+                        LocalDB localDB = new LocalDB(getContext());
+                        localDB.open();
+                        MenageDB menageDB = new MenageDB(getContext());
+                        menageDB.open();
+                        UsagerMenageDB usagerMenageDB = new UsagerMenageDB(getContext());
+                        usagerMenageDB.open();
                     for(Habitat habitat: habitatActiveList){
                         //case 1: usager---usager_habitat---habitat
                         //since the habitat is active, if we can find the usager_habitat by habitatId, it will and must be the only usager_habitat in the table
@@ -290,6 +291,10 @@ public class RechercherUsagerFragment extends Fragment {
                         }
 
                     }
+                        usagerHabitatDB.close();
+                        localDB.close();
+                        menageDB.close();
+                        usagerMenageDB.close();
 
                     //transfer the 3 list to arrayList<int>
                     ArrayList<Integer> usagerIdListA = new ArrayList();
@@ -318,6 +323,7 @@ public class RechercherUsagerFragment extends Fragment {
                     for(int usagerId: usagerIdListABCCommon){
                         usagerListFinal.add(usagerDB.getUsagerFromID(usagerId));
                     }
+                        usagerDB.close();
                     if(usagerListFinal.size() == 0){
                         /*Toast.makeText(getContext(), "Aucun usager trouvé.",
                                 Toast.LENGTH_SHORT).show();*/
@@ -350,15 +356,19 @@ public class RechercherUsagerFragment extends Fragment {
                                 view = convertView;
                             }
 
-                            openAllDB();
-
                             final Usager usager = usagerListFinal.get(position);
                             final TextView textViewUsagerName = (TextView)view.findViewById(R.id.rechercher_usager_fragment_listview_item_usager_name_textView);
                             final TextView textViewUsagerId = (TextView) view.findViewById(R.id.rechercher_usager_fragment_listview_item_usager_id_textView);
                             Habitat habitat = null;
                             String adresse = null;
+                                UsagerHabitatDB usagerHabitatDB = new UsagerHabitatDB(getContext());
+                                usagerHabitatDB.open();
+                                UsagerMenageDB usagerMenageDB = new UsagerMenageDB(getContext());
+                                usagerMenageDB.open();
                             if(usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId()).size() != 0){
                                 ArrayList<UsagerHabitat> usagerHabitatList = usagerHabitatDB.getListUsagerHabitatByUsagerId(usager.getId());
+                                    HabitatDB habitatDB = new HabitatDB(getContext());
+                                    habitatDB.open();
                                 for(UsagerHabitat usagerHabitat: usagerHabitatList){
                                     Habitat h = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
                                     if(h.isActif()){
@@ -367,18 +377,28 @@ public class RechercherUsagerFragment extends Fragment {
                                                 + (habitat.getCp() == null ? "" : habitat.getCp() + ", ") + (habitat.getVille() == null ? "" : habitat.getVille());
                                     }
                                 }
+                                    habitatDB.close();
                             }
                             else if(usagerMenageDB.getListUsagerMenageByUsagerId(usager.getId()).size() != 0){
                                 ArrayList<UsagerMenage> usagerMenageList = usagerMenageDB.getListUsagerMenageByUsagerId(usager.getId());
                                 Menage menage = null;
+                                    MenageDB menageDB = new MenageDB(getContext());
+                                    menageDB.open();
                                 for(UsagerMenage usagerMenage: usagerMenageList){
                                     Menage m = menageDB.getMenageById(usagerMenage.getMenageId());
                                     if(m.isActif()) menage = m;
                                 }
+                                    menageDB.close();
                                 Local local = null;
+                                    LocalDB localDB = new LocalDB(getContext());
+                                    localDB.open();
                                 if(menage != null) local = localDB.getLocalById(menage.getLocalId());
+                                    localDB.close();
                                 Habitat h = null;
+                                    HabitatDB habitatDB = new HabitatDB(getContext());
+                                    habitatDB.open();
                                 if(local != null) h = habitatDB.getHabitatFromID(local.getHabitatId());
+                                    habitatDB.close();
                                 if(h != null){
                                     if(h.isActif()) habitat = h;
                                     adresse = (habitat.getNumero() == null ? "" : habitat.getNumero() + " ") + (habitat.getComplement() == null ? "" : habitat.getComplement() + " ") + (habitat.getAdresse() == null ? "" : habitat.getAdresse() + ", ")
@@ -386,6 +406,8 @@ public class RechercherUsagerFragment extends Fragment {
                                 }
 
                             }
+                                usagerHabitatDB.close();
+                                usagerMenageDB.close();
 
                             textViewUsagerName.setText(Html.fromHtml("<font color='#000000'><big>" + usager.getNom() + "</big></font><br> " + (adresse==null? "" : "\n" + adresse)));
                             textViewUsagerId.setText(usager.getId() + "");
@@ -393,22 +415,33 @@ public class RechercherUsagerFragment extends Fragment {
 
                                 @Override
                                 public void onClick(View v) {
-                                    openAllDB();
                                     String usagerName = usager.getNom();
                                     String typeCarte = spinner.getSelectedItem().toString();
+                                        DchTypeCarteDB dchTypeCarteDB = new DchTypeCarteDB(getContext());
+                                        dchTypeCarteDB.open();
                                     int typeCarteId = dchTypeCarteDB.getTypeCarteByName(typeCarte).getId();
+                                        dchTypeCarteDB.close();
                                     //detect if the is_active of the usager's carteActives
                                     int accountId = -1;
-
+                                        DchComptePrepayeDB dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
+                                        dchComptePrepayeDB.open();
                                     ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usager.getId());
+                                        dchComptePrepayeDB.close();
+                                        DchCarteActiveDB dchCarteActiveDB = new DchCarteActiveDB(getContext());
+                                        dchCarteActiveDB.open();
                                     ArrayList<CarteActive> carteActiveList = dchCarteActiveDB.getCarteActiveListByComptePrepayeId(comptePrepaye.getId());
+                                        dchCarteActiveDB.close();
+                                        DchCarteDB dchCarteDB = new DchCarteDB(getContext());
+                                        dchCarteDB.open();
                                     for(CarteActive ca: carteActiveList){
                                         if(ca.isActive()){
                                             Carte carte = dchCarteDB.getCarteFromID(ca.getDchCarteId());
                                             accountId = carte.getDchAccountId();
                                             break;
                                         }
-                                    }          if(accountId == -1){
+                                    }
+                                        dchCarteDB.close();
+                                    if(accountId == -1){
                                         //pop-up
                                         /*Toast.makeText(getContext(), "Cet usager n'a aucune carte qui est active",
                                                 Toast.LENGTH_SHORT).show();*/
@@ -419,17 +452,14 @@ public class RechercherUsagerFragment extends Fragment {
                                             ((ContainerActivity) getActivity()).changeMainFragment(depotFragment, true);
                                         }
                                     }
-                                    closeAllDB();
                                 }
                             });
 
 
-                            closeAllDB();
                             return view;
                         }
                     });
                 }
-            closeAllDB();
             }
         });
 
@@ -504,6 +534,8 @@ public class RechercherUsagerFragment extends Fragment {
         ArrayList<Integer> habitatIdList = new ArrayList<>();
         String adresses[] = adresseTotal.split(" ");
         Integer count = 1;
+            HabitatDB habitatDB = new HabitatDB(getContext());
+            habitatDB.open();
         for(String adresse: adresses){
             ArrayList<Integer> hl =new ArrayList<>();
 
@@ -538,92 +570,9 @@ public class RechercherUsagerFragment extends Fragment {
             habitatList.add(habitatDB.getHabitatFromID(habitatId));
         }
 
+            habitatDB.close();
+
         return habitatList;
-    }
-
-    //take the usagerList,
-    public void initAllLists(){
-
-    }
-
-    public void initAllDB(){
-        dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
-        dchAccountSettingDB = new DchAccountSettingDB(getContext());
-        dchApportFluxDB = new DchApportFluxDB(getContext());
-        dchCarteActiveDB = new DchCarteActiveDB(getContext());
-        dchCarteDB = new DchCarteDB(getContext());
-        dchCarteEtatRaisonDB = new DchCarteEtatRaisonDB(getContext());
-        dchChoixDecompteTotalDB = new DchChoixDecompteTotalDB(getContext());
-        dchComptePrepayeDB = new DchComptePrepayeDB(getContext());
-        dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
-        dchDepotDB = new DchDepotDB(getContext());
-        dchFluxDB = new DchFluxDB(getContext());
-        dchTypeCarteDB = new DchTypeCarteDB(getContext());
-        dchUniteDB = new DchUniteDB(getContext());
-        decheterieDB = new DecheterieDB(getContext());
-        habitatDB = new HabitatDB(getContext());
-        iconDB = new IconDB(getContext());
-        localDB = new LocalDB(getContext());
-        menageDB = new MenageDB(getContext());
-        modulesDB = new ModulesDB(getContext());
-        usagerDB = new UsagerDB(getContext());
-        usagerHabitatDB = new UsagerHabitatDB(getContext());
-        usagerMenageDB = new UsagerMenageDB(getContext());
-        typeHabitatDB = new TypeHabitatDB(getContext());
-    }
-
-    public void openAllDB(){
-        dchAccountFluxSettingDB.open();
-        dchAccountSettingDB.open();
-        dchApportFluxDB.open();
-        dchCarteActiveDB.open();
-        dchCarteDB.open();
-        dchCarteEtatRaisonDB.open();
-        dchChoixDecompteTotalDB.open();
-        dchComptePrepayeDB.open();
-        dchDecheterieFluxDB.open();
-        dchDepotDB.open();
-        dchFluxDB.open();
-        dchTypeCarteDB.open();
-        dchUniteDB.open();
-        decheterieDB.open();
-        habitatDB.open();
-        iconDB.open();
-        localDB.open();
-        menageDB.open();
-        modulesDB.open();
-        typeHabitatDB.open();
-        usagerDB.open();
-        usagerHabitatDB.open();
-        usagerMenageDB.open();
-
-    }
-
-    public void closeAllDB(){
-        dchAccountFluxSettingDB.close();
-        dchAccountSettingDB.close();
-        dchApportFluxDB.close();
-        dchCarteActiveDB.close();
-        dchCarteDB.close();
-        dchCarteEtatRaisonDB.close();
-        dchChoixDecompteTotalDB.close();
-        dchComptePrepayeDB.close();
-        dchDecheterieFluxDB.close();
-        dchDepotDB.close();
-        dchFluxDB.close();
-        dchTypeCarteDB.close();
-        dchUniteDB.close();
-        decheterieDB.close();
-        habitatDB.close();
-        iconDB.close();
-        localDB.close();
-        menageDB.close();
-        modulesDB.close();
-        typeHabitatDB.close();
-        usagerDB.close();
-        usagerHabitatDB.close();
-        usagerMenageDB.close();
-
     }
 
 

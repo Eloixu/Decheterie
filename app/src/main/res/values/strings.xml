@@ -138,6 +138,9 @@
 
     <string name="form_toast_envoi_depot">Dépôt envoyé.</string>
 
+    <string name="depot_liste_content_btn_afficher_depot_non_synchro_text">Non synchro</string>
+    <string name="depot_liste_content_btn_synchro_text">Synchronisation</string>
+
     <!--Dialog Flux-->
     <string name="dialog_flux_layout_title_text">Information</string>
     <string name="dialog_normal_layout_positive_button_text">Oui</string>
@@ -150,6 +153,7 @@
     <string name="dialog_flux_layout_unite_line1_textView_text">unite</string>
     <string name="dialog_flux_layout_quantite_decompte_textView_text">Quantité décomptée:   </string>
     <string name="dialog_flux_layout_unite_line2_textView_text">unite</string>
+    <string name="dialog_flux_layout_quantite_apporte_decompte_textView_text">Quantité apportée/décomptée:</string>
     <string name="dialog_flux_layout_line3_textView_text">La quantité décomptée est</string>
     <string name="dialog_flux_layout_qty_calcul_textView_text">0.0</string>
     <string name="dialog_flux_layout_unite_line3_textView_text">   unite</string>

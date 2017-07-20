@@ -440,7 +440,7 @@ public class DepotFragment extends Fragment {
         textViewUniteVolumeTotal.setText(nomUniteDecompte);
 
 
-        //the list of icons which associate with the actual decheterie
+        //the list of icons which associates with the actual decheterie
         ArrayList<Flux> fluxList = new ArrayList<>();
 
         if(Configuration.getNameDecheterie().isEmpty()||Configuration.getNameDecheterie()==null){

@@ -234,6 +234,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
         parametres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!(getCurrentFragment() instanceof SettingsFragment))//can't click it in itself
                     changeMainFragment(new SettingsFragment(), true);
             }
         });
