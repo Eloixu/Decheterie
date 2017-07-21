@@ -7,9 +7,11 @@ import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
 
+import fr.trackoe.decheterie.Utils;
 import fr.trackoe.decheterie.model.bean.global.Module;
 import fr.trackoe.decheterie.model.bean.global.Modules;
 import fr.trackoe.decheterie.model.bean.usager.Usager;
+import fr.trackoe.decheterie.model.bean.usager.UsagerFilter;
 
 /**
  * Created by Remi on 05/04/2017.
@@ -158,6 +160,73 @@ public class UsagerDB extends MyDb {
 
     public void clearUsager() {
         db.execSQL("delete from " + DecheterieDatabase.TableUsager.TABLE_NAME);
+    }
+
+    // TODO Réécrire requête
+    public ArrayList<UsagerFilter> filterResult(String nomUsager, int idTypeCarte, String adresse) {
+        ArrayList<UsagerFilter> results;
+        String query = "SELECT usa.id_usager, usa.nom, c.dch_type_carte_id, hab.numero as h1_numero, hab.complement as h1_complement, hab.adresse as h1_adresse, hab.cp as h1_cp, hab.ville as h1_ville, hab1.numero as h2_numero, hab1.complement as h2_complement, hab1.adresse as h2_adresse, hab1.cp as h2_cp, hab1.ville as h2_ville FROM usager AS usa " +
+                "LEFT JOIN dch_compte_prepaye AS cp ON usa.id_usager = cp.dch_usager_id LEFT JOIN dch_carte_active AS ca ON cp.id = ca.dch_compte_prepaye_id LEFT JOIN dch_carte AS c ON ca.dch_carte_id = c.id " +
+                "LEFT JOIN usager_habitat AS guh ON usa.id_usager = guh.id_usager LEFT JOIN habitat AS hab ON  guh.id_habitat = hab.id_habitat " +
+                "LEFT JOIN usager_menage AS gum ON usa.id_usager = gum.id_usager LEFT JOIN menage AS mena ON gum.id_menage = mena.id_menage LEFT JOIN local AS loc ON mena.local_id = loc.id_local LEFT JOIN habitat AS hab1 ON loc.habitat_id = hab1.id_habitat " +
+                "WHERE usa.is_actif AND ca.is_active = 1 AND (hab.is_actif = 1 OR hab1.is_actif = 1) AND usa.nom LIKE '%" + nomUsager + "%' AND c.dch_type_carte_id = " + idTypeCarte;
+
+        if(!Utils.isStringEmpty(adresse) && adresse.length() > 0) {
+            query += " AND ";
+
+            String ad[] = adresse.split(" ");
+            for (int i = 0; i < ad.length; i++) {
+                if(i >0) {
+                    query += " AND ";
+                }
+                query += "((hab.numero LIKE '%" + ad[i] + "%' OR hab1.numero LIKE '%" + ad[i] + "%') OR " +
+                        "(hab.complement LIKE '%" + ad[i] + "%' OR hab1.complement LIKE '%" + ad[i] + "%') OR " +
+                        "(hab.adresse LIKE '%" + ad[i] + "%' OR hab1.adresse LIKE '%" + ad[i] + "%') OR " +
+                        "(hab.cp LIKE '%" + ad[i] + "%' OR hab1.cp LIKE '%" + ad[i] + "%') OR " +
+                        "(hab.ville LIKE '%" + ad[i] + "%' OR hab1.ville LIKE '%" + ad[i] + "%'))";
+            }
+
+            query += " ";
+        }
+
+        Cursor cursor = db.rawQuery(query, null);
+        results = cursorToListeFilterUsager(cursor);
+        return results;
+    }
+
+    private ArrayList<UsagerFilter> cursorToListeFilterUsager(Cursor c) {
+        ArrayList<UsagerFilter> ul = new ArrayList<>();
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    UsagerFilter u = new UsagerFilter();
+
+                    u.setId(c.getInt(0));
+                    u.setNom(c.getString(1));
+                    u.setIdTypeCarte(c.getInt(2));
+
+                    u.setH1Numero(c.getString(3));
+                    u.setH1Complement(c.getString(4));
+                    u.setH1Adresse(c.getString(5));
+                    u.setH1Cp(c.getString(6));
+                    u.setH1Ville(c.getString(7));
+
+                    u.setH2Numero(c.getString(8));
+                    u.setH2Complement(c.getString(9));
+                    u.setH2Adresse(c.getString(10));
+                    u.setH2Cp(c.getString(11));
+                    u.setH2Ville(c.getString(12));
+
+                    ul.add(u);
+                } while (c.moveToNext());
+
+                c.close();
+            }
+            return ul;
+        }
+        catch(Exception e){
+            return ul;
+        }
     }
 
 }
