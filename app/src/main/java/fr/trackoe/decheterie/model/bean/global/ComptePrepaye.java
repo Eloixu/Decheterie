@@ -7,7 +7,7 @@ package fr.trackoe.decheterie.model.bean.global;
 public class ComptePrepaye {
     private long id;
     private int dchUsagerId;
-    private float qtyPoint;
+    private double qtyPoint;
     private int nbDepotRestant;
 
     public ComptePrepaye() {
@@ -37,11 +37,11 @@ public class ComptePrepaye {
         this.dchUsagerId = dchUsagerId;
     }
 
-    public float getQtyPoint() {
+    public double getQtyPoint() {
         return qtyPoint;
     }
 
-    public void setQtyPoint(float qtyPoint) {
+    public void setQtyPoint(double qtyPoint) {
         this.qtyPoint = qtyPoint;
     }
 
