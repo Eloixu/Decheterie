@@ -108,7 +108,6 @@ public class ApportProFragment extends Fragment {
 
         linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.apport_pro_fragment_signature_linearLayout);
 
-
         // Init Actionbar
         //initActionBar();
 
@@ -400,7 +399,7 @@ public class ApportProFragment extends Fragment {
     /*
     * get an instance of ApportProFragment
     */
-    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, double totalDecompte, int accountSettingId, long comptePrepayeId) {
+    public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId, long comptePrepayeId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong    (   "depotId",                  depotId                 );
@@ -410,7 +409,7 @@ public class ApportProFragment extends Fragment {
         args.putString  (   "numeroCarteInND",          numeroCarteInND         );
         args.putFloat   (   "apportRestantInND",        apportRestantInND       );
         args.putString  (   "uniteApportRestantInND",   uniteApportRestantInND  );
-        args.putDouble  (   "totalDecompte",            totalDecompte           );
+        args.putFloat   (   "totalDecompte",            totalDecompte           );
         args.putInt     (   "accountSettingId",         accountSettingId        );
         args.putLong    (   "comptePrepayeId",          comptePrepayeId         );
 
@@ -421,7 +420,7 @@ public class ApportProFragment extends Fragment {
     /*
     * get an instance of ApportProFragment
     */
-    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, double totalDecompte, int accountSettingId, long comptePrepayeId) {
+    public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId, long comptePrepayeId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
         args.putLong    (   "depotId",                                  depotId                                 );
@@ -435,7 +434,7 @@ public class ApportProFragment extends Fragment {
         //args.putString  (   "numeroCarteInND",          numeroCarteInND         );
         args.putFloat   (   "apportRestantInND",        apportRestantInND       );
         args.putString  (   "uniteApportRestantInND",   uniteApportRestantInND  );
-        args.putDouble  (   "totalDecompte",            totalDecompte           );
+        args.putFloat   (   "totalDecompte",            totalDecompte           );
         args.putInt     (   "accountSettingId",         accountSettingId        );
         args.putLong    (   "comptePrepayeId",          comptePrepayeId         );
         apportProFragment.setArguments(args);

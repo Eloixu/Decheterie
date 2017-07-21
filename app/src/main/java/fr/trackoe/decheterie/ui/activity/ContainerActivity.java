@@ -43,6 +43,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -2538,6 +2539,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                 String contents = data.getStringExtra("SCAN_RESULT");
                 ((EditText) findViewById(R.id.identification_fragment_barcode_editText)).setText(contents);
+                ((Button) findViewById(R.id.identification_fragment_suivant_button)).callOnClick();
             }
         }
     }
@@ -3079,6 +3081,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 idCard = idCardInformation[1];
 
                 ((EditText) findViewById(R.id.identification_fragment_barcode_editText)).setText(idCard.replace(" ", ""));
+                ((Button) findViewById(R.id.identification_fragment_suivant_button)).callOnClick();
 
             }
 

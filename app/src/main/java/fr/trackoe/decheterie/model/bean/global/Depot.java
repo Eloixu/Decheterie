@@ -12,7 +12,7 @@ public class Depot {
     private int decheterieId;
     private long carteActiveCarteId;
     private long comptePrepayeId;
-    private double qtyTotalUDD;
+    private float qtyTotalUDD;
     private int statut;
     private boolean isSent;
 
@@ -20,7 +20,7 @@ public class Depot {
 
     }
 
-    public Depot(long id, String nom, String dateHeure, byte[] signature, int decheterieId, long carteActiveCarteId, long comptePrepayeId, double qtyTotalUDD, int statut, boolean isSent) {
+    public Depot(long id, String nom, String dateHeure, byte[] signature, int decheterieId, long carteActiveCarteId, long comptePrepayeId, float qtyTotalUDD, int statut, boolean isSent) {
         this.id = id;
         this.nom = nom;
         this.dateHeure = dateHeure;
@@ -89,11 +89,11 @@ public class Depot {
         this.comptePrepayeId = comptePrepayeId;
     }
 
-    public double getQtyTotalUDD() {
+    public float getQtyTotalUDD() {
         return qtyTotalUDD;
     }
 
-    public void setQtyTotalUDD(double qtyTotalUDD) {
+    public void setQtyTotalUDD(float qtyTotalUDD) {
         this.qtyTotalUDD = qtyTotalUDD;
     }
 

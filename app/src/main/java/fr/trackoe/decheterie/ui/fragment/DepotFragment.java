@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class DepotFragment extends Fragment {
     private String  numeroCarteInND;
     private float   apportRestantInND;
     private String  uniteApportRestantInND;
-    private double   totalDecompte;
+    private float   totalDecompte;
 
 
     private boolean isComeFromSettingFragment           = false;
@@ -181,7 +182,7 @@ public class DepotFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("DepotFragment --> onCreate()");
-        parentActivity              = (ContainerActivity)   getActivity();
+        parentActivity = (ContainerActivity) getActivity();
 
         initAllIsComeFrom();
     }
@@ -327,9 +328,6 @@ public class DepotFragment extends Fragment {
         //show the dialog if dch_account_setting.pt_minimum >= 0 et dch_compte_prepaye.qty_point < dch_account_setting.pt_minimum
         showReturnAccueilDialog();
 
-        //show depot information
-        showDepotDetails();
-
         closeAllDB();
 
         /*// Init Actionbar
@@ -340,8 +338,6 @@ public class DepotFragment extends Fragment {
 
         // Init des listeners
         initListeners(container);
-
-
 
         return depot_vg;
     }
@@ -476,12 +472,9 @@ public class DepotFragment extends Fragment {
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,true);
-
                         }
                     });
-
                 }
             });
             galleryFlux.addView(view);
@@ -530,14 +523,15 @@ public class DepotFragment extends Fragment {
         setVisibilityViewOfVolumeTotal();
         if(depot.getQtyTotalUDD() == 0){
             //textViewVolumeTotal.setText(Html.fromHtml(INITIAL_VOLUME_TOTAL + nomUniteDecompte));
-            editTextVolumeTotal.setText("" + 0.0);
+            editTextVolumeTotal.setText("0.00");
             textViewUniteVolumeTotal.setText(nomUniteDecompte);
         }
         else{
             totalDecompte = depot.getQtyTotalUDD();
 
-            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + depot.getQtyTotalUDD() + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-            editTextVolumeTotal.setText("" + depot.getQtyTotalUDD());
+            BigDecimal num = new BigDecimal(depot.getQtyTotalUDD());
+            //only keep 2 decimal behind the dot
+            editTextVolumeTotal.setText(num.setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
             textViewUniteVolumeTotal.setText(nomUniteDecompte);
         }
 
@@ -683,14 +677,11 @@ public class DepotFragment extends Fragment {
 
     }
 
-
-
     /*
     Init Listeners
      */
     public void initListeners(ViewGroup container) {
         Button btnValider = (Button) depot_vg.findViewById(R.id.depot_fragment_valider_button);
-        parentActivity = (ContainerActivity ) getActivity();
 
         //set the listener of the button "valider"
         btnValider.setOnClickListener(new View.OnClickListener() {
@@ -837,7 +828,9 @@ public class DepotFragment extends Fragment {
         }
     }
 
-
+    /*
+    * determine the value of pageSiganture
+    */
     public void setPageSignature(){
         DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
         dchAccountSettingDB.open();
@@ -883,13 +876,15 @@ public class DepotFragment extends Fragment {
         dchAccountSettingDB.close();
     }
 
+    /*
+    * get and set the parameters sent from the RecherUsagerFragment
+    */
     public void setParametersFromRUF(){
         int       usagerId                              = getArguments().getInt     (   "usagerIdFromRechercherUsagerFragment"      );
         int       typeCarteId                           = getArguments().getInt     (   "typeCarteIdFromRechercherUsagerFragment"   );
 
         this.usagerIdFromRUF                        =    usagerId;
         this.typeCarteIdFromRUF                     =    typeCarteId;
-
     }
 
     public void showDepotDetails(){
@@ -1367,6 +1362,9 @@ public class DepotFragment extends Fragment {
 
     }
 
+    /*
+    * init all the values of isComeFrom...
+    */
     public void initAllIsComeFrom(){
         if (getArguments() != null && getArguments().getBoolean("isComeFromApportProFragment")){
             this.isComeFromApportProFragment        = true;
@@ -1384,6 +1382,7 @@ public class DepotFragment extends Fragment {
 
 
     private void addTextChangedListener(final EditText editText){
+        //eachtime the editText of volumeTotal changes, update the qtyTotalUDD of depot in the DB
         TextWatcher listener3 = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1438,7 +1437,9 @@ public class DepotFragment extends Fragment {
                             editTextVolumeTotal.setText(R.string.depot_fragment_init_volume_total_editText_text);
                         } else {
                             float vt = Float.parseFloat(editTextVolumeTotal.getText().toString());
-                            editTextVolumeTotal.setText(vt + "");
+                            BigDecimal num = new BigDecimal(vt);
+                            //only keep 2 decimal behind the dot
+                            editTextVolumeTotal.setText(num.setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
                         }
                         editTextVolumeTotal.clearFocus();
                     }
@@ -1649,9 +1650,9 @@ public class DepotFragment extends Fragment {
             dchApportFluxDB.open();
         ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
             dchApportFluxDB.close();
-        double qtyDecompteTotal = 0;
+        float qtyDecompteTotal = 0;
         for(ApportFlux af: listApportFlux){
-            double qty = af.getQtyUDD();
+            float qty = af.getQtyUDD();
             qtyDecompteTotal = qtyDecompteTotal + qty;
         }
         depot.setQtyTotalUDD(qtyDecompteTotal);
@@ -1661,9 +1662,9 @@ public class DepotFragment extends Fragment {
             dchDepotDB.close();
 
         totalDecompte = qtyDecompteTotal;
-        DecimalFormat df = new DecimalFormat("#");
-        df.setMaximumFractionDigits(0);
-        editTextVolumeTotal.setText(df.format(qtyDecompteTotal));
+        BigDecimal num = new BigDecimal(qtyDecompteTotal);
+        //only keep 2 decimal behind the dot
+        editTextVolumeTotal.setText(num.setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
         textViewUniteVolumeTotal.setText(nomUniteDecompte);
     }
 
@@ -1729,6 +1730,9 @@ public class DepotFragment extends Fragment {
         return depotId;
     }
 
+    /*
+    * init all the isComeFrom to default value false
+    */
     public void reInitializeAllIsComeFrom(){
         isComeFromPopUp                  = false;
         isComeFromApportProFragment      = false;
