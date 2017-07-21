@@ -115,7 +115,7 @@
     <string name="depot_fragment_volume_total_textView_text">Volume total : </string>
     <string name="depot_fragment_valider_button_text">valider</string>
     <string name="depot_fragment_flux_item_textView_text">fluxNom</string>
-    <string name="depot_fragment_init_volume_total_editText_text">0.0</string>
+    <string name="depot_fragment_init_volume_total_editText_text">0.00</string>
     <string name="depot_fragment_signature_information_text_1">Fait à la déchèterie de&#160;</string>
     <string name="depot_fragment_signature_information_text_2">, le &#160;</string>
     <string name="depot_fragment_signature_information_text_3">\nSignature</string>
@@ -155,7 +155,7 @@
     <string name="dialog_flux_layout_unite_line2_textView_text">unite</string>
     <string name="dialog_flux_layout_quantite_apporte_decompte_textView_text">Quantité apportée/décomptée:</string>
     <string name="dialog_flux_layout_line3_textView_text">La quantité décomptée est</string>
-    <string name="dialog_flux_layout_qty_calcul_textView_text">0.0</string>
+    <string name="dialog_flux_layout_qty_calcul_textView_text">0.00</string>
     <string name="dialog_flux_layout_unite_line3_textView_text">   unite</string>
     <string name="dialog_flux_layout_point_line3_textView_text">.</string>
     <string name="dialog_flux_layout_positive_button_text">ok</string>

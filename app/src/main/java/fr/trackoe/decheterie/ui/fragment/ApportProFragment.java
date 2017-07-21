@@ -83,15 +83,15 @@ public class ApportProFragment extends Fragment {
 
 
     //parameters in NavagationDrawer(totalDecompte,accountSettingId in DepotFragment) from DepotFragment
-    private String nomInND;
+    private String  nomInND;
     private boolean isUsagerMenageInND;
-    private String adresseInND;
-    private String numeroCarteInND;
-    private float apportRestantInND;
-    private String uniteApportRestantInND;
-    private float totalDecompte;
-    private int accountSettingId;
-    private long comptePrepayeId;
+    private String  adresseInND;
+    private String  numeroCarteInND;
+    private float   apportRestantInND;
+    private String  uniteApportRestantInND;
+    private float   totalDecompte;
+    private int     accountSettingId;
+    private long    comptePrepayeId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,9 +106,7 @@ public class ApportProFragment extends Fragment {
         System.out.println("ApportProFragment-->onCreateView()");
         apf_vg = (ViewGroup) inflater.inflate(R.layout.apport_pro_fragment, container, false);
 
-        //FrameLayout frameLayout = (FrameLayout) accueil_vg.findViewById(R.id.frameLayout_bottom_right_down);
         linearLayoutSignature = (LinearLayout) apf_vg.findViewById(R.id.apport_pro_fragment_signature_linearLayout);
-
 
         // Init Actionbar
         //initActionBar();
@@ -150,6 +148,7 @@ public class ApportProFragment extends Fragment {
         DecheterieDB decheterieDB = new DecheterieDB(getContext());
         decheterieDB.open();
 
+        //all views in the apportProFragment
         apportProFragmentTopUpLine1TitleTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line1_title_textView           );
         apportProFragmentTopUpLine2TitleTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line2_title_textView           );
         apportProFragmentTopUpLine3TitleTextView        = (TextView) apf_vg.findViewById(R.id.apport_pro_fragment_top_up_line3_title_textView           );
@@ -284,6 +283,9 @@ public class ApportProFragment extends Fragment {
         return mView;
     }
 
+    /*
+    * inner class PaintView
+    */
     class PaintView extends View implements Serializable {
         private Paint paint;
         private Canvas cacheCanvas;
@@ -394,7 +396,9 @@ public class ApportProFragment extends Fragment {
         }
     }
 
-
+    /*
+    * get an instance of ApportProFragment
+    */
     public static ApportProFragment newInstance(long depotId, String nomInND, boolean isUsagerMenageInND, String adresseInND, String numeroCarteInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId, long comptePrepayeId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
@@ -413,6 +417,9 @@ public class ApportProFragment extends Fragment {
         return apportProFragment;
     }
 
+    /*
+    * get an instance of ApportProFragment
+    */
     public static ApportProFragment newInstance(long depotId, int usagerIdFromRechercherUsagerFragment, int typeCarteIdFromRechercherUsagerFragment, boolean isComeFromRechercherUsagerFragment, String nomInND, boolean isUsagerMenageInND, String adresseInND, float apportRestantInND, String uniteApportRestantInND, float totalDecompte, int accountSettingId, long comptePrepayeId) {
         ApportProFragment apportProFragment = new ApportProFragment();
         Bundle args = new Bundle();
@@ -441,6 +448,9 @@ public class ApportProFragment extends Fragment {
          return bd;
         }
 
+    /*
+    * get the current dateTime as String in the format of yyyyMMddHHmmss
+    */
     public String getDateHeure(){
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat(getString(R.string.db_date_format));
@@ -449,6 +459,9 @@ public class ApportProFragment extends Fragment {
         return dateHeure;
     }
 
+    /*
+    * get the current dateTime as String in the format of dd/MM/yyyy
+    */
     public String getCurrentDate(){
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat(getString(R.string.signature_date_format));
@@ -457,6 +470,9 @@ public class ApportProFragment extends Fragment {
         return date;
     }
 
+    /*
+    * send the depot as well as the image signature
+    */
     public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
         try {
             //send Depot(without signature) to server

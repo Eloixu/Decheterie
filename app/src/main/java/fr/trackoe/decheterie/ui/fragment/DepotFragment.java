@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,6 +85,7 @@ public class DepotFragment extends Fragment {
     private Carte carte;
     private AccountSetting  accountSetting;
     private ComptePrepaye   comptePrepaye;
+    //pageSignature is true means the depot has a page signature
     private boolean pageSignature = false;
 
     private LinearLayout    linearLayoutVolumeTotal;
@@ -179,7 +182,7 @@ public class DepotFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("DepotFragment --> onCreate()");
-        parentActivity              = (ContainerActivity)   getActivity();
+        parentActivity = (ContainerActivity) getActivity();
 
         initAllIsComeFrom();
     }
@@ -325,9 +328,6 @@ public class DepotFragment extends Fragment {
         //show the dialog if dch_account_setting.pt_minimum >= 0 et dch_compte_prepaye.qty_point < dch_account_setting.pt_minimum
         showReturnAccueilDialog();
 
-        //show depot information
-        showDepotDetails();
-
         closeAllDB();
 
         /*// Init Actionbar
@@ -338,8 +338,6 @@ public class DepotFragment extends Fragment {
 
         // Init des listeners
         initListeners(container);
-
-
 
         return depot_vg;
     }
@@ -416,8 +414,6 @@ public class DepotFragment extends Fragment {
         galleryFlux = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_linearLayout);
         galleryFluxChoisi = (LinearLayout) depot_vg.findViewById(R.id.depot_fragment_gallery_flux_choisi_linearLayout);
 
-        final long depotId = this.depotId;
-
         //open the DBB
         IconDB iconDB = new IconDB(getContext());
         iconDB.open();
@@ -427,10 +423,6 @@ public class DepotFragment extends Fragment {
         dchFluxDB.open();
         final DchDecheterieFluxDB dchDecheterieFluxDB = new DchDecheterieFluxDB(getContext());
         dchDecheterieFluxDB.open();
-        DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-        dchApportFluxDB.open();
-        final DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-        dchDepotDB.open();
         DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
         dchAccountFluxSettingDB.open();
 
@@ -475,315 +467,14 @@ public class DepotFragment extends Fragment {
                     galleryFlux.removeView(view);
                     galleryFluxChoisi.addView(viewCopy);
 
-                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                    dchApportFluxDB.open();
-                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                    dchFluxDB.open();
-                    DchUniteDB dchUniteDB = new DchUniteDB(getContext());
-                    dchUniteDB.open();
-
-                    //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-
-                    final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
-                    builder.setTitle(flux.getNom());
-                    builder.setIconName(iconName);
-                    if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
-                    String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
-                    if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
-                    builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
-
-                    //show lines from line1 line2 line3 line4
-                    final boolean[] lineVisbility = checkAFS(flux.getId());
-                    setVisibilityOfEachLine(builder,lineVisbility, flux);
-
-
-                    builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            //设置你的操作事项
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                            dchDepotDB.open();
-
-
-                            //save the qty into BDD
-                            int fluxId = flux.getId();
-                            EditText editTextQuantiteApporte     = builder.getEditTextQuantiteApporte();
-                            EditText editTextQuantiteDecompte    = builder.getEditTextQuantiteDecompte();
-                            EditText editTextQuantiteApporteDecompte    = builder.getEditTextQuantiteApporteDecompte();
-                            TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                            float qtyApporte = -1;
-                            float qtyDecompte = -1;
-                            if(lineVisbility[0]){
-                                if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""||editTextQuantiteApporte.getText().toString().equals(".")){
-                                    qtyApporte = 0;
-                                }
-                                else {
-                                    qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[1]){
-                                if(editTextQuantiteDecompte.getText().toString().isEmpty()||editTextQuantiteDecompte.getText().toString() ==""||editTextQuantiteDecompte.getText().toString().equals(".")){
-                                    qtyDecompte = 0;
-                                }
-                                else {
-                                    qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[2]) {
-                                if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
-                                    qtyDecompte = 0;
-                                } else {
-                                    qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[3]){
-                                if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
-                                    qtyApporte  = 0;
-                                    qtyDecompte = 0;
-                                }
-                                else {
-                                    qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                    qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                }
-                            }
-                            ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte,false);
-                            dchApportFluxDB.insertApportFlux(apportFlux);
-
-
-                            //refresh the qtyTotal of this depot
-                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                            float qtyDecompteTotal = 0;
-                            for(ApportFlux af: listApportFlux){
-                                float qty = af.getQtyUDD();
-                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                            }
-                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                            dchDepotDB.updateDepot(depot);
-
-                            totalDecompte = qtyDecompteTotal;
-                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                            dchFluxDB.close();
-                            dchApportFluxDB.close();
-                            dchDepotDB.close();
-
-                            closeKeyBoard();
-
-
-                        }
-                    });
-
-                    builder.setNegativeButton("",
-                            new android.content.DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                    dchFluxDB.open();
-                                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                    dchApportFluxDB.open();
-                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                    dchDepotDB.open();
-
-
-
-                                    dialog.dismiss();
-                                    galleryFluxChoisi.removeView(viewCopy);
-                                    galleryFlux.addView(view);
-                                    dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
-
-                                    //refresh the volume total
-                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                    float qtyDecompteTotal = 0;
-                                    for(ApportFlux af: listApportFlux){
-                                        float qty = af.getQtyUDD();
-                                        qtyDecompteTotal = qtyDecompteTotal + qty;
-                                    }
-                                    depot.setQtyTotalUDD(qtyDecompteTotal);
-                                    dchDepotDB.updateDepot(depot);
-
-                                    totalDecompte = qtyDecompteTotal;
-                                    //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                    editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                    textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                    dchFluxDB.close();
-                                    dchApportFluxDB.close();
-                                    dchDepotDB.close();
-
-                                }
-                            });
-
-                    builder.create().show();
-
+                    configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,true);
 
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchUniteDB dchUniteDB = new DchUniteDB(getContext());
-                            dchUniteDB.open();
-
-
-                            //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-                            final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
-                            builder.setTitle(flux.getNom());
-                            builder.setIconName(iconName);
-                            if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
-                            String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
-                            if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
-                            builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
-
-                            //show lines from line1 line2 line3 line4
-                            final boolean[] lineVisbility = checkAFS(flux.getId());
-                            setVisibilityOfEachLine(builder,lineVisbility, flux);
-
-                            builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    //设置你的操作事项
-                                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                    dchApportFluxDB.open();
-                                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                    dchFluxDB.open();
-                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                    dchDepotDB.open();
-
-                                    int fluxId = flux.getId();
-                                    EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
-                                    EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
-                                    EditText editTextQuantiteApporteDecompte    = builder.getEditTextQuantiteApporteDecompte();
-                                    TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                                    float qtyApporte = -1;
-                                    float qtyDecompte = -1;
-
-                                    if(lineVisbility[0]){
-                                        if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""||editTextQuantiteApporte.getText().toString().equals(".")){
-                                            qtyApporte = 0;
-                                        }
-                                        else {
-                                            qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[1]) {
-                                        if (editTextQuantiteDecompte.getText().toString().isEmpty() || editTextQuantiteDecompte.getText().toString() == ""||editTextQuantiteDecompte.getText().toString().equals(".")) {
-                                            qtyDecompte = 0;
-                                        } else {
-                                            qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[2]) {
-                                        if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
-                                            qtyDecompte = 0;
-                                        } else {
-                                            qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[3]){
-                                        if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
-                                            qtyApporte  = 0;
-                                            qtyDecompte = 0;
-                                        }
-                                        else {
-                                            qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                            qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                        }
-                                    }
-
-                                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) == null){
-                                        //save the qty into BDD
-                                        ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
-                                        dchApportFluxDB.insertApportFlux(apportFlux);
-                                    }
-                                    else{
-                                        //update the data in BDD
-                                        ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
-                                        dchApportFluxDB.updateApportFlux(apportFlux);
-                                    }
-
-                                    //refresh the qtyTotal of this depot
-                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                    float qtyDecompteTotal = 0;
-                                    for(ApportFlux af: listApportFlux){
-                                        float qty = af.getQtyUDD();
-                                        qtyDecompteTotal = qtyDecompteTotal + qty;
-                                    }
-                                    depot.setQtyTotalUDD(qtyDecompteTotal);
-                                    dchDepotDB.updateDepot(depot);
-
-                                    totalDecompte = qtyDecompteTotal;
-                                    //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                    editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                    textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-
-                                    dchApportFluxDB.close();
-                                    dchFluxDB.close();
-                                    dchDepotDB.close();
-
-                                    closeKeyBoard();
-
-                                }
-                            });
-
-                            builder.setNegativeButton("",
-                                    new android.content.DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                            dchFluxDB.open();
-                                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                            dchApportFluxDB.open();
-                                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                            dchDepotDB.open();
-
-                                            dialog.dismiss();
-                                            galleryFluxChoisi.removeView(viewCopy);
-                                            galleryFlux.addView(view);
-                                            dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
-
-                                            //refresh the volume total
-                                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                            float qtyDecompteTotal = 0;
-                                            for(ApportFlux af: listApportFlux){
-                                                float qty = af.getQtyUDD();
-                                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                                            }
-                                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                                            dchDepotDB.updateDepot(depot);
-
-                                            totalDecompte = qtyDecompteTotal;
-                                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                            dchFluxDB.close();
-                                            dchApportFluxDB.close();
-                                            dchDepotDB.close();
-                                        }
-                                    });
-
-                            builder.create().show();
-
-                            dchApportFluxDB.close();
-                            dchFluxDB.close();
-                            dchUniteDB.close();
-
+                            configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,true);
                         }
                     });
-
-                    dchApportFluxDB.close();
-                    dchFluxDB.close();
-                    dchUniteDB.close();
                 }
             });
             galleryFlux.addView(view);
@@ -794,8 +485,6 @@ public class DepotFragment extends Fragment {
         decheterieDB.close();
         dchFluxDB.close();
         dchDecheterieFluxDB.close();
-        dchApportFluxDB.close();
-        dchDepotDB.close();
         dchAccountFluxSettingDB.close();
 
         parentActivity.openDrawerWithDelay();
@@ -827,8 +516,6 @@ public class DepotFragment extends Fragment {
         dchDecheterieFluxDB.open();
         DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
         dchApportFluxDB.open();
-        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-        dchDepotDB.open();
         DchAccountFluxSettingDB dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());
         dchAccountFluxSettingDB.open();
 
@@ -836,14 +523,15 @@ public class DepotFragment extends Fragment {
         setVisibilityViewOfVolumeTotal();
         if(depot.getQtyTotalUDD() == 0){
             //textViewVolumeTotal.setText(Html.fromHtml(INITIAL_VOLUME_TOTAL + nomUniteDecompte));
-            editTextVolumeTotal.setText("" + 0.0);
+            editTextVolumeTotal.setText("0.00");
             textViewUniteVolumeTotal.setText(nomUniteDecompte);
         }
         else{
             totalDecompte = depot.getQtyTotalUDD();
 
-            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + depot.getQtyTotalUDD() + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-            editTextVolumeTotal.setText("" + depot.getQtyTotalUDD());
+            BigDecimal num = new BigDecimal(depot.getQtyTotalUDD());
+            //only keep 2 decimal behind the dot
+            editTextVolumeTotal.setText(num.setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
             textViewUniteVolumeTotal.setText(nomUniteDecompte);
         }
 
@@ -909,319 +597,22 @@ public class DepotFragment extends Fragment {
             txt.    setText(flux.getNom());
             txtCopy.setText(flux.getNom());
 
+            //set the listener of flux in top scroll
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     galleryFlux.removeView(view);
                     galleryFluxChoisi.addView(viewCopy);
 
-                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                    dchApportFluxDB.open();
-                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                    dchFluxDB.open();
-                    DchUniteDB dchUniteDB = new DchUniteDB(getContext());
-                    dchUniteDB.open();
-
-                    //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-
-                    final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
-                    builder.setTitle(flux.getNom());
-                    builder.setIconName(iconName);
-                    String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
-                    if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
-                    if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
-                    builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
-
-                    //show lines from line1 line2 line3 line4
-                    final boolean[] lineVisbility = checkAFS(flux.getId());
-                    setVisibilityOfEachLine(builder,lineVisbility, flux);
-
-                    builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            //设置你的操作事项
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                            dchDepotDB.open();
-
-                            //save the qty into BDD
-                            int fluxId = flux.getId();
-                            EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
-                            EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
-                            EditText editTextQuantiteApporteDecompte    = builder.getEditTextQuantiteApporteDecompte();
-                            TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                            float qtyApporte = -1;
-                            float qtyDecompte = -1;
-                            if(lineVisbility[0]){
-                                if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""){
-                                    qtyApporte = 0;
-                                }
-                                else {
-                                    qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[1]){
-                                if(editTextQuantiteDecompte.getText().toString().isEmpty()||editTextQuantiteDecompte.getText().toString() ==""){
-                                    qtyDecompte = 0;
-                                }
-                                else {
-                                    qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[2]) {
-                                if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
-                                    qtyDecompte = 0;
-                                } else {
-                                    qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[3]){
-                                if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
-                                    qtyApporte  = 0;
-                                    qtyDecompte = 0;
-                                }
-                                else {
-                                    qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                    qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                }
-                            }
-
-                            ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte,false);
-                            dchApportFluxDB.insertApportFlux(apportFlux);
-
-                            //refresh the qtyTotal of this depot
-                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                            float qtyDecompteTotal = 0;
-                            for(ApportFlux af: listApportFlux){
-                                float qty = af.getQtyUDD();
-                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                            }
-                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                            dchDepotDB.updateDepot(depot);
-
-                            totalDecompte = qtyDecompteTotal;
-
-                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                            dchFluxDB.close();
-                            dchApportFluxDB.close();
-                            dchDepotDB.close();
-
-                            closeKeyBoard();
-
-                        }
-                    });
-
-                    builder.setNegativeButton("",
-                            new android.content.DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                    dchFluxDB.open();
-                                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                    dchApportFluxDB.open();
-                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                    dchDepotDB.open();
-
-                                    dialog.dismiss();
-                                    galleryFluxChoisi.removeView(viewCopy);
-                                    galleryFlux.addView(view);
-                                    dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
-
-                                    //refresh the qtyTotal of this depot
-                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                    float qtyDecompteTotal = 0;
-                                    for(ApportFlux af: listApportFlux){
-                                        float qty = af.getQtyUDD();
-                                        qtyDecompteTotal = qtyDecompteTotal + qty;
-                                    }
-                                    depot.setQtyTotalUDD(qtyDecompteTotal);
-                                    dchDepotDB.updateDepot(depot);
-
-                                    totalDecompte = qtyDecompteTotal;
-
-                                    //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                    editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                    textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                    dchFluxDB.close();
-                                    dchApportFluxDB.close();
-                                    dchDepotDB.close();
-                                }
-                            });
-
-                    builder.create().show();
-
+                    configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,true);
 
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchUniteDB dchUniteDB = new DchUniteDB(getContext());
-                            dchUniteDB.open();
-
-
-                            //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-                            final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
-                            builder.setTitle(flux.getNom());
-                            builder.setIconName(iconName);
-                            if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
-                            String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
-                            if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
-                            builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
-
-                            //show lines from line1 line2 line3 line4
-                            final boolean[] lineVisbility = checkAFS(flux.getId());
-                            setVisibilityOfEachLine(builder,lineVisbility, flux);
-
-                            builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    //设置你的操作事项
-                                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                    dchApportFluxDB.open();
-                                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                    dchFluxDB.open();
-                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                    dchDepotDB.open();
-
-                                    int fluxId = flux.getId();
-                                    EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
-                                    EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
-                                    EditText editTextQuantiteApporteDecompte = builder.getEditTextQuantiteApporteDecompte();
-                                    TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                                    float qtyApporte = -1;
-                                    float qtyDecompte = -1;
-
-                                    if(lineVisbility[0]){
-                                        if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""){
-                                            qtyApporte = 0;
-                                        }
-                                        else {
-                                            qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[1]) {
-                                        if (editTextQuantiteDecompte.getText().toString().isEmpty() || editTextQuantiteDecompte.getText().toString() == "") {
-                                            qtyDecompte = 0;
-                                        } else {
-                                            qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[2]) {
-                                        if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
-                                            qtyDecompte = 0;
-                                        } else {
-                                            qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[3]){
-                                        if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
-                                            qtyApporte  = 0;
-                                            qtyDecompte = 0;
-                                        }
-                                        else {
-                                            qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                            qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                        }
-                                    }
-
-                                    if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) == null){
-                                        //save the qty into BDD
-                                        ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
-                                        dchApportFluxDB.insertApportFlux(apportFlux);
-                                    }
-                                    else{
-                                        //update the data in BDD
-                                        ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
-                                        dchApportFluxDB.updateApportFlux(apportFlux);
-                                    }
-
-                                    //refresh the qtyTotal of this depot
-                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                    float qtyDecompteTotal = 0;
-                                    for(ApportFlux af: listApportFlux){
-                                        float qty = af.getQtyUDD();
-                                        qtyDecompteTotal = qtyDecompteTotal + qty;
-                                    }
-                                    depot.setQtyTotalUDD(qtyDecompteTotal);
-                                    dchDepotDB.updateDepot(depot);
-
-                                    totalDecompte = qtyDecompteTotal;
-
-                                    //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                    editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                    textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                    dchApportFluxDB.close();
-                                    dchFluxDB.close();
-                                    dchDepotDB.close();
-
-                                    closeKeyBoard();
-
-
-                                }
-                            });
-
-                            builder.setNegativeButton("",
-                                    new android.content.DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                            dchFluxDB.open();
-                                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                            dchApportFluxDB.open();
-                                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                            dchDepotDB.open();
-
-                                            dialog.dismiss();
-                                            galleryFluxChoisi.removeView(viewCopy);
-                                            galleryFlux.addView(view);
-                                            dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
-
-                                            //refresh the qtyTotal of this depot
-                                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                            float qtyDecompteTotal = 0;
-                                            for(ApportFlux af: listApportFlux){
-                                                float qty = af.getQtyUDD();
-                                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                                            }
-                                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                                            dchDepotDB.updateDepot(depot);
-
-                                            totalDecompte = qtyDecompteTotal;
-
-                                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                            dchFluxDB.close();
-                                            dchApportFluxDB.close();
-                                            dchDepotDB.close();
-                                        }
-                                    });
-
-                            builder.create().show();
-
-                            dchApportFluxDB.close();
-                            dchFluxDB.close();
-                            dchUniteDB.close();
-
+                            configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,true);
                         }
                     });
 
-                    dchApportFluxDB.close();
-                    dchFluxDB.close();
-                    dchUniteDB.close();
                 }
             });
             galleryFlux.addView(view);
@@ -1246,319 +637,22 @@ public class DepotFragment extends Fragment {
             txt.    setText(flux.getNom());
             txtCopy.setText(flux.getNom());
 
+            //set the listener of flux in bottom scroll
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                    dchApportFluxDB.open();
-                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                    dchFluxDB.open();
-                    DchUniteDB dchUniteDB = new DchUniteDB(getContext());
-                    dchUniteDB.open();
-
-
-                    final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                    builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
-                    builder.setTitle(flux.getNom());
-                    builder.setIconName(iconName);
-                    if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
-                    String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
-                    if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
-                    builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
-
-                    //show lines from line1 line2 line3 line4
-                    final boolean[] lineVisbility = checkAFS(flux.getId());
-                    setVisibilityOfEachLine(builder,lineVisbility, flux);
-
-                    builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            //设置你的操作事项
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                            dchDepotDB.open();
-
-                            int fluxId = flux.getId();
-                            EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
-                            EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
-                            EditText editTextQuantiteApporteDecompte = builder.getEditTextQuantiteApporteDecompte();
-                            TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                            float qtyApporte  = -1;
-                            float qtyDecompte = -1;
-
-                            if(lineVisbility[0]){
-                                if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""){
-                                    qtyApporte = 0;
-                                }
-                                else {
-                                    qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[1]) {
-                                if (editTextQuantiteDecompte.getText().toString().isEmpty() || editTextQuantiteDecompte.getText().toString() == "") {
-                                    qtyDecompte = 0;
-                                } else {
-                                    qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[2]) {
-                                if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
-                                    qtyDecompte = 0;
-                                } else {
-                                    qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
-                                }
-                            }
-                            if(lineVisbility[3]){
-                                if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
-                                    qtyApporte  = 0;
-                                    qtyDecompte = 0;
-                                }
-                                else {
-                                    qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                    qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                }
-                            }
-
-
-                            if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) == null){
-                                //save the qty into BDD
-                                ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
-                                dchApportFluxDB.insertApportFlux(apportFlux);
-                            }
-                            else{
-                                //update the data in BDD
-                                ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
-                                dchApportFluxDB.updateApportFlux(apportFlux);
-                            }
-
-                            //refresh the qtyTotal of this depot
-                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                            float qtyDecompteTotal = 0;
-                            for(ApportFlux af: listApportFlux){
-                                float qty = af.getQtyUDD();
-                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                            }
-                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                            dchDepotDB.updateDepot(depot);
-
-                            totalDecompte = qtyDecompteTotal;
-
-                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                            dchApportFluxDB.close();
-                            dchFluxDB.close();
-                            dchDepotDB.close();
-
-                            closeKeyBoard();
-
-                        }
-                    });
-
-                    builder.setNegativeButton("", new android.content.DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                            dchDepotDB.open();
-
-                            dialog.dismiss();
-                            galleryFluxChoisi.removeView(view);
-                            galleryFlux.addView(viewCopy);
-                            dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
-
-                            //refresh the qtyTotal of this depot
-                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                            float qtyDecompteTotal = 0;
-                            for(ApportFlux af: listApportFlux){
-                                float qty = af.getQtyUDD();
-                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                            }
-                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                            dchDepotDB.updateDepot(depot);
-
-                            totalDecompte = qtyDecompteTotal;
-
-                            //textViewVolumeTotal.setText(Html.fromHtml(PREFIX_VOLUME_TOTAL + qtyDecompteTotal + POSTFIX_VOLUME_TOTAL + nomUniteDecompte));
-                            editTextVolumeTotal.     setText("" + qtyDecompteTotal);
-                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                            dchFluxDB.close();
-                            dchApportFluxDB.close();
-                            dchDepotDB.close();
-                        }
-                    });
-
-                    builder.create().show();
-
-
-
+                    configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,false);
 
                     imgCopy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                            dchApportFluxDB.open();
-                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                            dchFluxDB.open();
-                            DchUniteDB dchUniteDB = new DchUniteDB(getContext());
-                            dchUniteDB.open();
-
                             galleryFlux.removeView(viewCopy);
                             galleryFluxChoisi.addView(view);
 
-                            //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
-                            final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
-                            builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
-                            builder.setTitle(flux.getNom());
-                            builder.setIconName(iconName);
-                            if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
-                            String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
-                            if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
-                            builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
-
-                            //show lines from line1 line2 line3 line4
-                            final boolean[] lineVisbility = checkAFS(flux.getId());
-                            setVisibilityOfEachLine(builder,lineVisbility, flux);
-
-                            builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    //设置你的操作事项
-                                    DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                    dchApportFluxDB.open();
-                                    DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                    dchFluxDB.open();
-                                    DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                    dchDepotDB.open();
-
-                                    int fluxId = flux.getId();
-                                    EditText editTextQuantiteApporte = builder.getEditTextQuantiteApporte();
-                                    EditText editTextQuantiteDecompte = builder.getEditTextQuantiteDecompte();
-                                    EditText editTextQuantiteApporteDecompte = builder.getEditTextQuantiteApporteDecompte();
-                                    TextView textViewQuantiteCalculLine3 = builder.getTextViewQuantiteCalculLine3();
-                                    float qtyApporte = -1;
-                                    float qtyDecompte = -1;
-                                    if(lineVisbility[0]){
-                                        if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""){
-                                            qtyApporte = 0;
-                                        }
-                                        else {
-                                            qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[1]){
-                                        if(editTextQuantiteDecompte.getText().toString().isEmpty()||editTextQuantiteDecompte.getText().toString() ==""){
-                                            qtyDecompte = 0;
-                                        }
-                                        else {
-                                            qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[2]) {
-                                        if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
-                                            qtyDecompte = 0;
-                                        } else {
-                                            qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
-                                        }
-                                    }
-                                    if(lineVisbility[3]){
-                                        if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
-                                            qtyApporte  = 0;
-                                            qtyDecompte = 0;
-                                        }
-                                        else {
-                                            qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                            qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
-                                        }
-                                    }
-                                    ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte,false);
-                                    dchApportFluxDB.insertApportFlux(apportFlux);
-
-                                    //refresh the qtyTotal of this depot
-                                    ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                    float qtyDecompteTotal = 0;
-                                    for(ApportFlux af: listApportFlux){
-                                        float qty = af.getQtyUDD();
-                                        qtyDecompteTotal = qtyDecompteTotal + qty;
-                                    }
-                                    depot.setQtyTotalUDD(qtyDecompteTotal);
-                                    dchDepotDB.updateDepot(depot);
-
-                                    totalDecompte = qtyDecompteTotal;
-
-                                    editTextVolumeTotal.     setText("" + qtyDecompteTotal);
-                                    textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                    dchApportFluxDB.close();
-                                    dchFluxDB.close();
-                                    dchDepotDB.close();
-
-                                    closeKeyBoard();
-
-
-                                }
-                            });
-
-                            builder.setNegativeButton("",
-                                    new android.content.DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            DchFluxDB dchFluxDB = new DchFluxDB(getContext());
-                                            dchFluxDB.open();
-                                            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
-                                            dchApportFluxDB.open();
-                                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                                            dchDepotDB.open();
-
-                                            dialog.dismiss();
-                                            galleryFluxChoisi.removeView(view);
-                                            galleryFlux.addView(viewCopy);
-                                            dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
-
-                                            //refresh the qtyTotal of this depot
-                                            ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
-                                            float qtyDecompteTotal = 0;
-                                            for(ApportFlux af: listApportFlux){
-                                                float qty = af.getQtyUDD();
-                                                qtyDecompteTotal = qtyDecompteTotal + qty;
-                                            }
-                                            depot.setQtyTotalUDD(qtyDecompteTotal);
-                                            dchDepotDB.updateDepot(depot);
-
-                                            totalDecompte = qtyDecompteTotal;
-
-                                            editTextVolumeTotal.setText("" + qtyDecompteTotal);
-                                            textViewUniteVolumeTotal.setText(nomUniteDecompte);
-
-                                            dchFluxDB.close();
-                                            dchApportFluxDB.close();
-                                            dchDepotDB.close();
-                                        }
-                                    });
-
-                            builder.create().show();
-
-
-                            dchApportFluxDB.close();
-                            dchFluxDB.close();
-                            dchUniteDB.close();
-
+                            configAndShowDialogFlux(flux,iconName,accountFluxSetting,view,viewCopy,false);
                         }
                     });
-
-
-                    dchApportFluxDB.close();
-                    dchFluxDB.close();
-                    dchUniteDB.close();
-
 
                 }
 
@@ -1577,21 +671,17 @@ public class DepotFragment extends Fragment {
         dchFluxDB.close();
         dchDecheterieFluxDB.close();
         dchApportFluxDB.close();
-        dchDepotDB.close();
         dchAccountFluxSettingDB.close();
 
         parentActivity.openDrawerWithDelay();
 
     }
 
-
-
     /*
     Init Listeners
      */
     public void initListeners(ViewGroup container) {
         Button btnValider = (Button) depot_vg.findViewById(R.id.depot_fragment_valider_button);
-        parentActivity = (ContainerActivity ) getActivity();
 
         //set the listener of the button "valider"
         btnValider.setOnClickListener(new View.OnClickListener() {
@@ -1738,7 +828,9 @@ public class DepotFragment extends Fragment {
         }
     }
 
-
+    /*
+    * determine the value of pageSiganture
+    */
     public void setPageSignature(){
         DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
         dchAccountSettingDB.open();
@@ -1784,13 +876,15 @@ public class DepotFragment extends Fragment {
         dchAccountSettingDB.close();
     }
 
+    /*
+    * get and set the parameters sent from the RecherUsagerFragment
+    */
     public void setParametersFromRUF(){
         int       usagerId                              = getArguments().getInt     (   "usagerIdFromRechercherUsagerFragment"      );
         int       typeCarteId                           = getArguments().getInt     (   "typeCarteIdFromRechercherUsagerFragment"   );
 
         this.usagerIdFromRUF                        =    usagerId;
         this.typeCarteIdFromRUF                     =    typeCarteId;
-
     }
 
     public void showDepotDetails(){
@@ -1885,6 +979,10 @@ public class DepotFragment extends Fragment {
         return lineVisibility;
     }
 
+    /*
+    set the visibility of each line in the dialog of flux
+    show the qty in the editText if it existes in the DB
+    */
     public void setVisibilityOfEachLine(CustomDialogFlux.Builder builder, boolean[] lineVisbility, Flux flux){
         if(lineVisbility[0]) builder.setVisibilityLine1(true);
         if(lineVisbility[1]) builder.setVisibilityLine2(true);
@@ -1905,6 +1003,9 @@ public class DepotFragment extends Fragment {
         if(lineVisbility[3]) builder.setUniteApporteDecompte(nomUniteDecompte);
     }
 
+    /*
+    show the datas in the navigation drawer
+    */
     public void initViewsNavigationDrawer(LayoutInflater inflater, ViewGroup container){
         ndLinearLayoutLine1     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line1);
         ndLinearLayoutLine2     = (LinearLayout)    parentActivity.findViewById(R.id.linearLayout_line2);
@@ -1985,7 +1086,7 @@ public class DepotFragment extends Fragment {
                     if (accountSetting.isDecompteUDD()) {
                         ndTextViewLine7Title.setText(R.string.text_apport_restant);
                         String unitePoint = accountSetting.getUnitePoint();
-                        apportRestantInND = comptePrepaye.getQtyPoint();
+                        apportRestantInND = (float)comptePrepaye.getQtyPoint();
                         uniteApportRestantInND = unitePoint;
                         ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                     } else {
@@ -2057,7 +1158,7 @@ public class DepotFragment extends Fragment {
                         if (accountSetting.isDecompteUDD()) {
                             ndTextViewLine7Title.setText(R.string.text_apport_restant);
                             String unitePoint = accountSetting.getUnitePoint();
-                            apportRestantInND = comptePrepaye.getQtyPoint();
+                            apportRestantInND = (float)comptePrepaye.getQtyPoint();
                             uniteApportRestantInND = unitePoint;
                             ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                         } else {
@@ -2153,7 +1254,7 @@ public class DepotFragment extends Fragment {
                     if (accountSetting.isDecompteUDD()) {
                         ndTextViewLine7Title.setText(R.string.text_apport_restant);
                         String unitePoint = accountSetting.getUnitePoint();
-                        apportRestantInND = comptePrepaye.getQtyPoint();
+                        apportRestantInND = (float)comptePrepaye.getQtyPoint();
                         uniteApportRestantInND = unitePoint;
                         ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                     } else {
@@ -2236,7 +1337,7 @@ public class DepotFragment extends Fragment {
                         if (accountSetting.isDecompteUDD()) {
                             ndTextViewLine7Title.setText(R.string.text_apport_restant);
                             String unitePoint = accountSetting.getUnitePoint();
-                            apportRestantInND = comptePrepaye.getQtyPoint();
+                            apportRestantInND = (float)comptePrepaye.getQtyPoint();
                             uniteApportRestantInND = unitePoint;
                             ndTextViewLine7Value.setText(comptePrepaye.getQtyPoint() + "" + ((unitePoint == null || unitePoint.isEmpty()) ? " -" : " " + unitePoint));
                         } else {
@@ -2261,6 +1362,9 @@ public class DepotFragment extends Fragment {
 
     }
 
+    /*
+    * init all the values of isComeFrom...
+    */
     public void initAllIsComeFrom(){
         if (getArguments() != null && getArguments().getBoolean("isComeFromApportProFragment")){
             this.isComeFromApportProFragment        = true;
@@ -2277,37 +1381,8 @@ public class DepotFragment extends Fragment {
     }
 
 
-    /*public void sendDepot(Depot d, AccountSetting a, ArrayList<ApportFlux> listAF){
-        try {
-            //send Depot(without signature) to server
-            Datas.uploadDepot(getContext(), new DataCallback<ContenantBean>() {
-                @Override
-                public void dataLoaded(ContenantBean data) {
-                    if (!data.ismSuccess()) {
-                        data.getmError();
-                    }
-                    else{
-                        depot.setSent(true);
-
-                        try {
-                            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
-                            dchDepotDB.open();
-
-                            dchDepotDB.updateDepot(depot);
-
-                            dchDepotDB.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }, d, a, listAF);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }*/
-
     private void addTextChangedListener(final EditText editText){
+        //eachtime the editText of volumeTotal changes, update the qtyTotalUDD of depot in the DB
         TextWatcher listener3 = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -2343,7 +1418,9 @@ public class DepotFragment extends Fragment {
         editText.addTextChangedListener(listener3);
     }
 
-    //keyBoard open/close listener
+    /*
+    keyBoard open/close listener
+    */
     public void addKeyBoardListener(){
         keyboardListener = new SoftKeyboardStateWatcher.SoftKeyboardStateListener() {
             @Override
@@ -2360,7 +1437,9 @@ public class DepotFragment extends Fragment {
                             editTextVolumeTotal.setText(R.string.depot_fragment_init_volume_total_editText_text);
                         } else {
                             float vt = Float.parseFloat(editTextVolumeTotal.getText().toString());
-                            editTextVolumeTotal.setText(vt + "");
+                            BigDecimal num = new BigDecimal(vt);
+                            //only keep 2 decimal behind the dot
+                            editTextVolumeTotal.setText(num.setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
                         }
                         editTextVolumeTotal.clearFocus();
                     }
@@ -2374,6 +1453,9 @@ public class DepotFragment extends Fragment {
         softKeyboardStateWatcher.addSoftKeyboardStateListener(keyboardListener);
     }
 
+    /*
+    close the keyboard and clear the focus on the editText of volume total
+    */
     public void closeKeyBoard(){
 
         editTextVolumeTotal.clearFocus();
@@ -2386,6 +1468,9 @@ public class DepotFragment extends Fragment {
 
     }
 
+    /*
+    show the message retour
+     */
     public void showReturnAccueilDialog(){
         AccountSetting a = accountSetting;
         ComptePrepaye  c;
@@ -2465,6 +1550,87 @@ public class DepotFragment extends Fragment {
         }
     }
 
+    public void configAndShowDialogFlux(final Flux flux,String iconName,AccountFluxSetting accountFluxSetting,final View view,final View viewCopy,final Boolean flag){
+        DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+        dchApportFluxDB.open();
+        DchFluxDB dchFluxDB = new DchFluxDB(getContext());
+        dchFluxDB.open();
+        DchUniteDB dchUniteDB = new DchUniteDB(getContext());
+        dchUniteDB.open();
+
+        //imgInDialog.setBackgroundResource(getResources().getIdentifier(iconName, "drawable", getContext().getPackageName()));
+
+        final CustomDialogFlux.Builder builder = new CustomDialogFlux.Builder(getContext());
+        builder.setMessage(getResources().getString(R.string.pop_up_message1) + flux.getNom());
+        builder.setTitle(flux.getNom());
+        builder.setIconName(iconName);
+        if(nomUniteDecompte != null) builder.setUniteDecompte(nomUniteDecompte);
+        String nomUniteApporte = dchUniteDB.getUniteFromID(flux.getUniteComptageId()).getNom();
+        if(nomUniteApporte != null) builder.setUniteApporte(nomUniteApporte);
+        builder.setCCPU(accountFluxSetting.getConvertComptagePrUDD());
+
+        //show lines from line1 line2 line3 line4
+        final boolean[] lineVisbility = checkAFS(flux.getId());
+        setVisibilityOfEachLine(builder,lineVisbility, flux);
+
+
+        builder.setPositiveButton(R.string.flux_positive_button, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                //save the qty into BDD
+                saveQtyIntoBD(flux,builder,lineVisbility);
+
+                //refresh the volume total
+                refreshVolumeTotal();
+
+                closeKeyBoard();
+
+
+            }
+        });
+
+        builder.setNegativeButton("",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DchFluxDB dchFluxDB = new DchFluxDB(getContext());
+                        dchFluxDB.open();
+                        DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+                        dchApportFluxDB.open();
+                        DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+                        dchDepotDB.open();
+
+
+
+                        dialog.dismiss();
+                        if(flag) {
+                            galleryFluxChoisi.removeView(viewCopy);
+                            galleryFlux.addView(view);
+                        }
+                        else{
+                            galleryFluxChoisi.removeView(view);
+                            galleryFlux.addView(viewCopy);
+                        }
+                        dchApportFluxDB.deleteApportFluxByDepotIdAndFluxId(depotId, flux.getId());
+
+                        //refresh the volume total
+                        refreshVolumeTotal();
+
+                        dchFluxDB.close();
+                        dchApportFluxDB.close();
+                        dchDepotDB.close();
+
+                    }
+                });
+
+        builder.create().show();
+
+
+        dchApportFluxDB.close();
+        dchFluxDB.close();
+        dchUniteDB.close();
+    }
+
     public void setVisibilityViewOfVolumeTotal(){
         boolean volumeTotalVisibility = accountSetting.isDecompteUDD();
         if(volumeTotalVisibility){
@@ -2475,11 +1641,98 @@ public class DepotFragment extends Fragment {
         }
     }
 
+    /*
+    * update the depot with its qtyTotal in the DB
+    * refresh the editText of volume total
+    */
+    public void refreshVolumeTotal(){
+            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+            dchApportFluxDB.open();
+        ArrayList<ApportFlux> listApportFlux = dchApportFluxDB.getListeApportFluxByDepotId(depotId);
+            dchApportFluxDB.close();
+        float qtyDecompteTotal = 0;
+        for(ApportFlux af: listApportFlux){
+            float qty = af.getQtyUDD();
+            qtyDecompteTotal = qtyDecompteTotal + qty;
+        }
+        depot.setQtyTotalUDD(qtyDecompteTotal);
+            DchDepotDB dchDepotDB = new DchDepotDB(getContext());
+            dchDepotDB.open();
+        dchDepotDB.updateDepot(depot);
+            dchDepotDB.close();
+
+        totalDecompte = qtyDecompteTotal;
+        BigDecimal num = new BigDecimal(qtyDecompteTotal);
+        //only keep 2 decimal behind the dot
+        editTextVolumeTotal.setText(num.setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        textViewUniteVolumeTotal.setText(nomUniteDecompte);
+    }
+
+    public void saveQtyIntoBD(Flux flux, CustomDialogFlux.Builder builder,boolean[] lineVisbility ){
+        int fluxId = flux.getId();
+        EditText editTextQuantiteApporte            = builder.getEditTextQuantiteApporte();
+        EditText editTextQuantiteDecompte           = builder.getEditTextQuantiteDecompte();
+        EditText editTextQuantiteApporteDecompte    = builder.getEditTextQuantiteApporteDecompte();
+        TextView textViewQuantiteCalculLine3        = builder.getTextViewQuantiteCalculLine3();
+        float qtyApporte = -1;
+        float qtyDecompte = -1;
+        if(lineVisbility[0]){
+            if(editTextQuantiteApporte.getText().toString().isEmpty()||editTextQuantiteApporte.getText().toString() ==""||editTextQuantiteApporte.getText().toString().equals(".")){
+                qtyApporte = 0;
+            }
+            else {
+                qtyApporte = Float.parseFloat(editTextQuantiteApporte.getText().toString());
+            }
+        }
+        if(lineVisbility[1]){
+            if(editTextQuantiteDecompte.getText().toString().isEmpty()||editTextQuantiteDecompte.getText().toString() ==""||editTextQuantiteDecompte.getText().toString().equals(".")){
+                qtyDecompte = 0;
+            }
+            else {
+                qtyDecompte = Float.parseFloat(editTextQuantiteDecompte.getText().toString());
+            }
+        }
+        if(lineVisbility[2]) {
+            if (textViewQuantiteCalculLine3.getText().toString().isEmpty() || textViewQuantiteCalculLine3.getText().toString() == "") {
+                qtyDecompte = 0;
+            } else {
+                qtyDecompte = Float.parseFloat(textViewQuantiteCalculLine3.getText().toString());
+            }
+        }
+        if(lineVisbility[3]){
+            if(editTextQuantiteApporteDecompte.getText().toString().isEmpty()||editTextQuantiteApporteDecompte.getText().toString() ==""||editTextQuantiteApporteDecompte.getText().toString().equals(".")){
+                qtyApporte  = 0;
+                qtyDecompte = 0;
+            }
+            else {
+                qtyApporte  = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
+                qtyDecompte = Float.parseFloat(editTextQuantiteApporteDecompte.getText().toString());
+            }
+        }
+
+            DchApportFluxDB dchApportFluxDB = new DchApportFluxDB(getContext());
+            dchApportFluxDB.open();
+        if(dchApportFluxDB.getApportFluxByDepotIdAndFluxId(depotId, flux.getId()) == null){
+            //save the qty into BDD
+            ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
+            dchApportFluxDB.insertApportFlux(apportFlux);
+        }
+        else{
+            //update the data in BDD
+            ApportFlux apportFlux = new ApportFlux(depotId,fluxId,qtyApporte,qtyDecompte);
+            dchApportFluxDB.updateApportFlux(apportFlux);
+        }
+            dchApportFluxDB.close();
+    }
+
 
     public long getDepotId() {
         return depotId;
     }
 
+    /*
+    * init all the isComeFrom to default value false
+    */
     public void reInitializeAllIsComeFrom(){
         isComeFromPopUp                  = false;
         isComeFromApportProFragment      = false;
@@ -2494,30 +1747,6 @@ public class DepotFragment extends Fragment {
     public void setComeFromSettingFragment(boolean isComeFromSettingFragment) {
         this.isComeFromSettingFragment = isComeFromSettingFragment;
     }
-
-    /*private DchAccountFluxSettingDB dchAccountFluxSettingDB;
-    private DchAccountSettingDB dchAccountSettingDB;
-    private DchApportFluxDB dchApportFluxDB;
-    private DchCarteActiveDB dchCarteActiveDB;
-    private DchCarteDB dchCarteDB;
-    private DchCarteEtatRaisonDB dchCarteEtatRaisonDB;
-    private DchChoixDecompteTotalDB dchChoixDecompteTotalDB;
-    private DchComptePrepayeDB dchComptePrepayeDB;
-    private DchDecheterieFluxDB dchDecheterieFluxDB;
-    private DchDepotDB dchDepotDB;
-    private DchFluxDB dchFluxDB;
-    private DchTypeCarteDB dchTypeCarteDB;
-    private DchUniteDB dchUniteDB;
-    private DecheterieDB decheterieDB;
-    private HabitatDB habitatDB;
-    private IconDB iconDB;
-    private LocalDB localDB;
-    private MenageDB menageDB;
-    private ModulesDB modulesDB;
-    private UsagerDB usagerDB;
-    private UsagerHabitatDB usagerHabitatDB;
-    private UsagerMenageDB usagerMenageDB;
-    private TypeHabitatDB typeHabitatDB;*/
 
     public void initAllDB(){
         dchAccountFluxSettingDB = new DchAccountFluxSettingDB(getContext());

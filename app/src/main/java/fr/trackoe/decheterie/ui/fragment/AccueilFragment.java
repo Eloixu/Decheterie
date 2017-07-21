@@ -236,6 +236,9 @@ public class AccueilFragment extends Fragment {
 
     }
 
+    /*
+    * delete all the depot whose statut is statut_annuler : 0
+    */
     public void deleteDepotStatutAnnuler(){
         DchDepotDB dchDepotDB = new DchDepotDB(getContext());
         dchDepotDB.open();

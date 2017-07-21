@@ -207,7 +207,7 @@ public class IdentificationFragment extends Fragment {
                         builder.setPositiveButton(R.string.pop_up_card_unregisted_positive_button, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                //设置你的操作事项
+
 
                             }
                         });
@@ -229,7 +229,6 @@ public class IdentificationFragment extends Fragment {
                             builder.setPositiveButton(R.string.pop_up_card_not_associate_usager_positive_button, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    //设置你的操作事项
 
                                 }
                             });
@@ -255,7 +254,6 @@ public class IdentificationFragment extends Fragment {
                                 builder.setPositiveButton(null, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        //设置你的操作事项
 
                                     }
                                 });
@@ -288,21 +286,6 @@ public class IdentificationFragment extends Fragment {
                     }
                 }
 
-/*
-                CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
-                ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
-                Usager usager = usagerDB.getUsagerFromID(comptePrepaye.getDchUsagerId());
-                UsagerHabitat usagerHabitat = usagerHabitatDB.getUsagerHabitatByUsagerId(usager.getId());
-                if(usagerHabitat != null){
-                    Habitat habitat = habitatDB.getHabitatFromID(usagerHabitat.getHabitatId());
-                }
-                else {
-                    UsagerMenage usagerMenage = usagerMenageDB.getUsagerMenageByUsagerId(usager.getId());
-                    Menage menage = menageDB.getMenageById(usagerMenage.getMenageId());
-                    //Local local = localDB.getLocalById();
-                }
-                Toast.makeText(getContext(), "NomUsager: " + usager.getNom(),
-                        Toast.LENGTH_SHORT).show();*/
 
                 dchCarteDB.close();
                 dchCarteActiveDB.close();
@@ -414,6 +397,9 @@ public class IdentificationFragment extends Fragment {
         mSeriport.close();
     }
 
+    /*
+    * raise the components of barcode when then keyboard shows
+    */
     public void addLayoutListener(final View main, final View scroll) {
         main.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
