@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -205,7 +206,7 @@ public class ApportProFragment extends Fragment {
 
         //set values
         if(isUsagerMenageInND) {
-            apportProFragmentTopUpLine1TitleTextView    .setText(   R.string.apport_pro_fragment_top_up_line1_title_textView_text1      );
+            apportProFragmentTopUpLine1TitleTextView    .setText(   R.string.apport_pro_fragment_top_up_line1_title_textView_text1                 );
         }
         else{
             apportProFragmentTopUpLine1TitleTextView    .setText(   R.string.apport_pro_fragment_top_up_line1_title_textView_text2      );
@@ -214,8 +215,8 @@ public class ApportProFragment extends Fragment {
         apportProFragmentTopUpLine2ValueTextView        .setText(   adresseInND                                                         );
         apportProFragmentTopUpLine3ValueTextView        .setText(   numeroCarteInND                                                     );
         apportProFragmentBottomLeftUpLine1ValueTextView .setText(   apportRestantInND + " " + uniteApportRestantInND                    );
-        apportProFragmentBottomLeftUpLine2ValueTextView .setText(   totalDecompte + " " + uniteApportRestantInND                        );
-        apportProFragmentBottomLeftUpLine3ValueTextView .setText(   (apportRestantInND - totalDecompte) + " " + uniteApportRestantInND  );
+        apportProFragmentBottomLeftUpLine2ValueTextView .setText(   (new BigDecimal(totalDecompte)).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString() + uniteApportRestantInND                        );
+        apportProFragmentBottomLeftUpLine3ValueTextView .setText(   (new BigDecimal(apportRestantInND - totalDecompte)).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString() + uniteApportRestantInND    );
         apportProFragmentSignatureInformationTextView   .setText(   getResources().getText(R.string.depot_fragment_signature_information_text_1) + decheterieDB.getDecheterieByIdentifiant(depot.getDecheterieId()).getNom() + getResources().getText(R.string.depot_fragment_signature_information_text_2) + getCurrentDate() + getResources().getText(R.string.depot_fragment_signature_information_text_3) );
 
         decheterieDB.close();

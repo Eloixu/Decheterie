@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SerialPortServiceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -112,6 +113,11 @@ public class IdentificationFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onResume() {
         try {
             initBarCodeScaner();
@@ -119,6 +125,10 @@ public class IdentificationFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //clear the editText of the code bar each time enter in this fragment
+        editText_barcode.setText("");
+
         super.onResume();
     }
 

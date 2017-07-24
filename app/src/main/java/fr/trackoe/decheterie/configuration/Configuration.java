@@ -669,7 +669,12 @@ public abstract class Configuration {
                 apportFluxList = apportFluxList + "&idFlux=" + af.getFluxId() + "&qtyComptage=" + af.getQtyComptage() + "&qtyUDD=" + af.getQtyUDD();
             }
         }
-        return getWebServiceContenantHost(ctx) + "wsAllDepot?" + "nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList + "&nomImage=signature" + depot.getDateHeure() + ".PNG";
+        if(accountSetting.isPageSignature()){//return the url with signature
+            return getWebServiceContenantHost(ctx) + "wsAllDepot?" + "nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList + "&nomImage=signature" + depot.getDateHeure() + ".PNG";
+        }
+        else{//return the url without signature
+            return getWebServiceContenantHost(ctx) + "wsAllDepot?" + "nom=" + depot.getNom() + "&dateHeure=" + dateHeureStr + "&decheterieId=" + depot.getDecheterieId() + "&carteActiveCarteId=" + depot.getCarteActiveCarteId() + "&comptePrepayeId=" + depot.getComptePrepayeId() + "&qtyTotalUDD=" + depot.getQtyTotalUDD() +"&accountSettingId=" + accountSetting.getId() + "&apportFluxList=" + apportFluxList;
+        }
     }
 
     public String getEncodedParam(String param) {

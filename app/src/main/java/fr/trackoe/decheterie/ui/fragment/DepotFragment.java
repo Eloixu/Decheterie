@@ -818,8 +818,8 @@ public class DepotFragment extends Fragment {
 
             String numCarte = getArguments().getString("numCarte");
             if(numCarte != null) {
-                Toast.makeText(getContext(), "numCarte: " + numCarte,
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getContext(), "numCarte: " + numCarte,
+                        Toast.LENGTH_SHORT).show();*/
                 carte = dchCarteDB.getCarteByNumCarteAndAccountId(numCarte, Configuration.getIdAccount());
                 setPageSignature();
             }
