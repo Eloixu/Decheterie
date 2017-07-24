@@ -829,7 +829,7 @@ public class DepotFragment extends Fragment {
     }
 
     /*
-    * determine the value of pageSiganture
+    * determine the value of pageSiganture which decides if the depot has a page signature or not
     */
     public void setPageSignature(){
         DchAccountSettingDB dchAccountSettingDB = new DchAccountSettingDB(getContext());
@@ -1029,7 +1029,7 @@ public class DepotFragment extends Fragment {
         ndTextViewLine6Value    = (TextView)        parentActivity.findViewById(R.id.textView_line6_value);
         ndTextViewLine7Value    = (TextView)        parentActivity.findViewById(R.id.textView_line7_value);
 
-
+        //All of the ways to enter the DepotFragment except RUF ---> DepotFragment
         if(carte != null){
             CarteActive carteActive = dchCarteActiveDB.getCarteActiveFromDchCarteId(carte.getId());
             ComptePrepaye comptePrepaye = dchComptePrepayeDB.getComptePrepayeFromID(carteActive.getDchComptePrepayeId());
@@ -1052,12 +1052,8 @@ public class DepotFragment extends Fragment {
                     }
                 }
                 if(habitat.isActif()) {
-                    ndLinearLayoutLine2.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine3.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine4.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine5.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                    showAllLinesOfND();
+
                     ndTextViewLine1Title.setText(R.string.text_nom);
                     String nom = usager.getNom();
                     nomInND = nom;
@@ -1117,12 +1113,8 @@ public class DepotFragment extends Fragment {
 
                     }
                     if(menage.isActif()) {
-                        ndLinearLayoutLine2.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine3.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine4.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine5.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                        showAllLinesOfND();
+
                         ndTextViewLine1Title.setText(R.string.text_nom);
                         String nom = usager.getNom();
                         nomInND = nom;
@@ -1168,12 +1160,8 @@ public class DepotFragment extends Fragment {
                 }
                 //case 3
                 else{
-                    ndLinearLayoutLine2.setVisibility(View.GONE);
-                    ndLinearLayoutLine3.setVisibility(View.GONE);
-                    ndLinearLayoutLine4.setVisibility(View.GONE);
-                    ndLinearLayoutLine5.setVisibility(View.GONE);
-                    ndLinearLayoutLine6.setVisibility(View.GONE);
-                    ndLinearLayoutLine7.setVisibility(View.GONE);
+                    hideAllLinesOfND();
+
                     ndTextViewLine1Title.setText(R.string.text_nom);
                     ndTextViewLine1Value.setText(usager.getNom());
                 }
@@ -1181,12 +1169,7 @@ public class DepotFragment extends Fragment {
         }
         //RechercherUsagerFragment ---> DepotFragment
         else{
-            ndLinearLayoutLine2.setVisibility(View.VISIBLE);
-            ndLinearLayoutLine3.setVisibility(View.VISIBLE);
-            ndLinearLayoutLine4.setVisibility(View.VISIBLE);
-            ndLinearLayoutLine5.setVisibility(View.VISIBLE);
-            ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-            ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+            showAllLinesOfND();
 
             //get the latest ComptePrepaye of the usager
             ComptePrepaye               comptePrepaye       = dchComptePrepayeDB.getComptePrepayeFromUsagerId(usagerIdFromRUF);
@@ -1209,12 +1192,8 @@ public class DepotFragment extends Fragment {
                     }
                 }
                 if(habitat.isActif()) {
-                    ndLinearLayoutLine2.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine3.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine4.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine5.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-                    ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                    showAllLinesOfND();
+
                     ndTextViewLine1Title.setText(R.string.text_nom);
                     String nom = usager.getNom();
                     nomInND = nom;
@@ -1285,12 +1264,8 @@ public class DepotFragment extends Fragment {
 
                     }
                     if(menage.isActif()) {
-                        ndLinearLayoutLine2.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine3.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine4.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine5.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine6.setVisibility(View.VISIBLE);
-                        ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+                        showAllLinesOfND();
+
                         ndTextViewLine1Title.setText(R.string.text_nom);
                         String nom = usager.getNom();
                         nomInND = nom;
@@ -1347,12 +1322,8 @@ public class DepotFragment extends Fragment {
                 }
                 //case 3
                 else{
-                    ndLinearLayoutLine2.setVisibility(View.GONE);
-                    ndLinearLayoutLine3.setVisibility(View.GONE);
-                    ndLinearLayoutLine4.setVisibility(View.GONE);
-                    ndLinearLayoutLine5.setVisibility(View.GONE);
-                    ndLinearLayoutLine6.setVisibility(View.GONE);
-                    ndLinearLayoutLine7.setVisibility(View.GONE);
+                    hideAllLinesOfND();
+
                     ndTextViewLine1Title.setText(R.string.text_nom);
                     ndTextViewLine1Value.setText(usager.getNom());
                 }
@@ -1360,6 +1331,30 @@ public class DepotFragment extends Fragment {
         }
 
 
+    }
+
+    /*
+    * show all lines in the navigation drawer including Prénom, Adresse... except le Nom
+    */
+    public void showAllLinesOfND(){
+        ndLinearLayoutLine2.setVisibility(View.VISIBLE);
+        ndLinearLayoutLine3.setVisibility(View.VISIBLE);
+        ndLinearLayoutLine4.setVisibility(View.VISIBLE);
+        ndLinearLayoutLine5.setVisibility(View.VISIBLE);
+        ndLinearLayoutLine6.setVisibility(View.VISIBLE);
+        ndLinearLayoutLine7.setVisibility(View.VISIBLE);
+    }
+
+    /*
+    * hide all lines in the navigation drawer including Prénom, Adresse... except le Nom
+    */
+    public void hideAllLinesOfND(){
+        ndLinearLayoutLine2.setVisibility(View.GONE);
+        ndLinearLayoutLine3.setVisibility(View.GONE);
+        ndLinearLayoutLine4.setVisibility(View.GONE);
+        ndLinearLayoutLine5.setVisibility(View.GONE);
+        ndLinearLayoutLine6.setVisibility(View.GONE);
+        ndLinearLayoutLine7.setVisibility(View.GONE);
     }
 
     /*

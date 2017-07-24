@@ -367,10 +367,6 @@ public class CustomDialogFlux extends Dialog {
             });
 
 
-
-
-
-
             dialog.setContentView(layout);
             dialog.setCanceledOnTouchOutside(false);
             return dialog;
