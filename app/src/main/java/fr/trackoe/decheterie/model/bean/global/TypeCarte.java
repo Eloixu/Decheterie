@@ -32,4 +32,9 @@ public class TypeCarte {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    @Override
+    public String toString() {
+        return this.nom;
+    }
 }

@@ -137,27 +137,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/rechercher_usager_fragment_top_right_linearLayout"
-            android:orientation="vertical"
-            android:layout_width="@dimen/rechercher_usager_fragment_top_right_linearLayout_layout_width"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:layout_weight="0.2">
-            <Button
-                android:id="@+id/rechercher_usager_fragment_rechercher_button"
-                android:text="rechercher"
-                android:textSize="@dimen/accueil_fragment_btn_identification_textSize"
-                android:layout_width="@dimen/rechercher_usager_fragment_rechercher_button_layout_width"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:background="@drawable/button"
-                android:layout_gravity="left|center"
-                android:visibility="gone"/>
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
