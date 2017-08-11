@@ -26,6 +26,13 @@ public class DchUniteDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchUnite.TABLE_NAME, null, values);
     }
 
+    public void updateUnite(Unite unite) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchUnite.ID, unite.getId());
+        values.put(DecheterieDatabase.TableDchUnite.NOM, unite.getNom());
+        db.update(DecheterieDatabase.TableDchUnite.TABLE_NAME, values,DecheterieDatabase.TableDchUnite.ID + "=" + unite.getId(),null);
+    }
+
     public Unite getUniteFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchUnite.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchUnite.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -37,8 +44,11 @@ public class DchUniteDB extends MyDb {
         if(c.moveToFirst()) {
             u.setId(c.getInt(DecheterieDatabase.TableDchUnite.NUM_ID));
             u.setNom(c.getString(DecheterieDatabase.TableDchUnite.NUM_NOM));
+            return u;
         }
-        return u;
+        else{
+            return null;
+        }
     }
 
     /*

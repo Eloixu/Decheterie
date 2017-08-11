@@ -29,6 +29,14 @@ public class DchTypeCarteDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchTypeCarte.TABLE_NAME, null, values);
     }
 
+    public void updateTypeCarte(TypeCarte typeCarte) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchTypeCarte.ID, typeCarte.getId());
+        values.put(DecheterieDatabase.TableDchTypeCarte.NOM, typeCarte.getNom());
+
+        db.update(DecheterieDatabase.TableDchTypeCarte.TABLE_NAME, values,DecheterieDatabase.TableDchTypeCarte.ID + "=" + typeCarte.getId(),null);
+    }
+
     public TypeCarte getTypeCarteFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchTypeCarte.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchTypeCarte.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -56,8 +64,12 @@ public class DchTypeCarteDB extends MyDb {
                 t.setId(c.getInt(DecheterieDatabase.TableDchTypeCarte.NUM_ID));
                 t.setNom(c.getString(DecheterieDatabase.TableDchTypeCarte.NUM_NOM));
                 c.close();
+                return t;
             }
-            return t;
+            else{
+                return null;
+            }
+
         }catch(Exception e){
             return t;
         }

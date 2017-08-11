@@ -34,8 +34,17 @@ public class MenageDB extends MyDb {
     }
 
     public void updateMenage(Menage menage) {
-        deleteMenageByIdentifiant(menage.getId());
-        insertMenage(menage);
+        ContentValues values = new ContentValues();
+
+        values.put(DecheterieDatabase.TableMenage.ID_MENAGE, menage.getId());
+        values.put(DecheterieDatabase.TableMenage.NB_HABITANTS, menage.getNbHabitants());
+        values.put(DecheterieDatabase.TableMenage.ACTIF, menage.isActif()? 1 : 0);
+        values.put(DecheterieDatabase.TableMenage.LOCAL_ID, menage.getLocalId());
+        values.put(DecheterieDatabase.TableMenage.DATE_DEBUT, menage.getDateDebut());
+        values.put(DecheterieDatabase.TableMenage.DATE_FIN, menage.getDateFin());
+        values.put(DecheterieDatabase.TableMenage.IS_PROPRIETAIRE, menage.isProprietaire() ? 1 : 0);
+
+        db.update(DecheterieDatabase.TableMenage.TABLE_NAME, values,DecheterieDatabase.TableMenage.ID_MENAGE + "=" + menage.getId(),null);
     }
 
     public void deleteMenageByIdentifiant(int id){

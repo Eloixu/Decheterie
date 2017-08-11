@@ -3,12 +3,21 @@ package fr.trackoe.decheterie.ui.fragment;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.Utils;
@@ -22,19 +31,23 @@ import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 public class SettingsFragment extends Fragment {
     ContainerActivity parentActivity;
     private ViewGroup settings_vg;
+    private EditText majInterval;
+    private MAJTimer majTimer;
+    private MAJTimer defaultMAJTimer;
     private boolean isFirstLaunch = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parentActivity = (ContainerActivity ) getActivity();
+        parentActivity = (ContainerActivity) getActivity();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         settings_vg = (ViewGroup) inflater.inflate(R.layout.settings_fragment, container, false);
+        majInterval = (EditText) settings_vg.findViewById(R.id.settings_db_refresh_editText);
 
         if (getArguments() != null && getArguments().containsKey(Const.IS_FIRST_LAUNCH)) {
             isFirstLaunch = getArguments().getBoolean(Const.IS_FIRST_LAUNCH);
@@ -124,6 +137,14 @@ public class SettingsFragment extends Fragment {
         if(Configuration.getIsApkReadyToInstall()) {
             settings_vg.findViewById(R.id.settings_version_btn).setVisibility(View.VISIBLE);
         }
+
+        //set editText MAJ interval
+        if(Configuration.getMAJInterval().isEmpty()){
+            majInterval.setText(Configuration.getDefaultMAJInterval());
+        }
+        else{
+            majInterval.setText(Configuration.getMAJInterval());
+        }
     }
 
     /*
@@ -140,11 +161,12 @@ public class SettingsFragment extends Fragment {
                     // Récupération des infos liées à la tablette
                     getInfos(numTablette);
 
-                    // Récupération des utilisateurs
-                    getUtilisateurs(numTablette);
-
                     // Maj Apk
                     loadApkUpdate();
+
+                    //Maj tables
+                    parentActivity.MAJData();
+
 
                 } else {
                     // Afficher Popup d'erreur "Veuillez vous connecter à internet"
@@ -160,6 +182,47 @@ public class SettingsFragment extends Fragment {
                 ((ContainerActivity) getActivity()).displayDialogInstallNewApk();
             }
         });
+
+        TextWatcher listener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //stop the default maj timer
+                if(!parentActivity.isDefaultMAJTimerStopped()){
+                    parentActivity.stopDefaultMAJ();
+                }
+
+                int interval;
+                try{
+                    interval = Integer.parseInt(s.toString());
+                    Configuration.saveMAJInterval(s.toString());
+                }
+                catch (Exception e){
+                    interval = Integer.parseInt(Configuration.getDefaultMAJInterval()) ;
+                }
+
+                if(majTimer == null){
+                    majTimer = new MAJTimer();
+                    majTimer.doMAJ(interval);
+                }
+                else{
+                    majTimer.stopMAJ();
+                    majTimer.doMAJ(interval);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        majInterval.addTextChangedListener(listener);
+
     }
 
     public void getInfos(String num_tablette){
@@ -168,9 +231,9 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public void getUtilisateurs(String num_tablette){
+    public void getUtilisateurs(int idAccount){
         if(getActivity() != null && getActivity() instanceof ContainerActivity){
-            ((ContainerActivity) getActivity()).loadUsers(num_tablette);
+            ((ContainerActivity) getActivity()).loadUsers(idAccount);
         }
     }
 
@@ -254,5 +317,32 @@ public class SettingsFragment extends Fragment {
         String macHash = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         return String.valueOf(macHash.hashCode()).substring(6);
     }
+
+    public class MAJTimer{
+        Handler handler;
+        Runnable runnable;
+
+        public MAJTimer(){
+            handler = new Handler();
+        }
+
+        public void doMAJ(int interval){
+            final int inter = interval *60 * 1000;
+
+            runnable = new Runnable(){
+                @Override
+                public void run() {
+                    parentActivity.MAJData();
+                    handler.postDelayed(this, inter);
+                }
+            };
+            handler.postDelayed(runnable, inter);
+        }
+
+        public void stopMAJ(){
+            handler.removeCallbacks(runnable);
+        }
+    }
+
 
 }

@@ -28,6 +28,14 @@ public class TypeHabitatDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableTypeHabitat.TABLE_NAME, null, values);
     }
 
+    public void updateTypeHabitat(TypeHabitat typeHabitat) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableTypeHabitat.ID, typeHabitat.getId());
+        values.put(DecheterieDatabase.TableTypeHabitat.TYPE, typeHabitat.getType());
+
+        db.update(DecheterieDatabase.TableTypeHabitat.TABLE_NAME, values,DecheterieDatabase.TableDchDecheterie.ID + "=" + typeHabitat.getId(),null);
+    }
+
     public TypeHabitat getTypeHabitatFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableTypeHabitat.TABLE_NAME + " WHERE " + DecheterieDatabase.TableTypeHabitat.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -39,8 +47,12 @@ public class TypeHabitatDB extends MyDb {
         if(c.moveToFirst()) {
             t.setId(c.getInt(DecheterieDatabase.TableTypeHabitat.NUM_ID));
             t.setType(c.getString(DecheterieDatabase.TableTypeHabitat.NUM_TYPE));
+            return t;
         }
-        return t;
+        else{
+            return null;
+        }
+
     }
 
     /*

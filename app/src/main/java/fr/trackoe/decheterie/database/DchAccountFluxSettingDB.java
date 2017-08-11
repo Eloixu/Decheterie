@@ -30,6 +30,18 @@ public class DchAccountFluxSettingDB extends MyDb {
 
         return db.insertOrThrow(DecheterieDatabase.TableDchAccountFluxSetting.TABLE_NAME, null, values);
     }
+
+    public void updateAccountFluxSetting(AccountFluxSetting accountFluxSetting) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID, accountFluxSetting.getDchAccountSettingId());
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.DCH_FLUX_ID, accountFluxSetting.getDchFluxId());
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.CONVERT_COMPTAGE_PR_UDD, accountFluxSetting.getConvertComptagePrUDD());
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.DECOMPTE_UDD, accountFluxSetting.isDecompteUDD()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.DECOMPTE_COMPTAGE, accountFluxSetting.isDecompteComptage()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchAccountFluxSetting.COUT_UC_PR_POINT, accountFluxSetting.getCoutUCPrPoint());
+
+        db.update(DecheterieDatabase.TableDchAccountFluxSetting.TABLE_NAME, values,DecheterieDatabase.TableDchAccountFluxSetting.DCH_ACCOUNT_SETTING_ID + "=" + accountFluxSetting.getDchAccountSettingId() + " AND " + DecheterieDatabase.TableDchAccountFluxSetting.DCH_FLUX_ID + "=" + accountFluxSetting.getDchFluxId(),null);
+    }
 /*
     public AccountFluxSetting getAccountFluxSettingFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchAccountSetting.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchAccountSetting.ID + " = " + id;

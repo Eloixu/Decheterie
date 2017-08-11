@@ -292,6 +292,8 @@
     <string name="settings_maj_btn">Forcer la synchronisation serveur</string>
     <string name="settings_reseau_ok">OK</string>
     <string name="settings_reseau_nok">Aucune connexion réseau</string>
+    <string name="settings_db_refresh_tv1">Synchronisation automatique au portail toutes les</string>
+    <string name="settings_db_refresh_tv2">minutes.</string>
 
     <!--Ecran Tablette-->
     <string name="modules_inter_bac">Intervention BAC</string>

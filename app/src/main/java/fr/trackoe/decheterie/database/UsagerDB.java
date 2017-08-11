@@ -51,8 +51,28 @@ public class UsagerDB extends MyDb {
     }
 
     public void updateUsager(Usager usager) {
-        deleteUsagerByIdentifiant(usager.getId());
-        insertUsager(usager);
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableUsager.ID_USAGER, usager.getId());
+        values.put(DecheterieDatabase.TableUsager.ID_ACCOUNT, usager.getIdAccount());
+        values.put(DecheterieDatabase.TableUsager.NOM, usager.getNom());
+        values.put(DecheterieDatabase.TableUsager.DATE_MAJ, usager.getDateMaj());
+        values.put(DecheterieDatabase.TableUsager.PRENOM, usager.getPrenom());
+        values.put(DecheterieDatabase.TableUsager.EMAIL, usager.getEmail());
+        values.put(DecheterieDatabase.TableUsager.CIVILITE, usager.getCivilite());
+        values.put(DecheterieDatabase.TableUsager.REFERENCE, usager.getReference());
+        values.put(DecheterieDatabase.TableUsager.RAISON_SOCIALE, usager.getRaisonSociale());
+        values.put(DecheterieDatabase.TableUsager.ACTIVITE, usager.getActivite());
+        values.put(DecheterieDatabase.TableUsager.TELEPHONE1, usager.getTelephone1());
+        values.put(DecheterieDatabase.TableUsager.TELEPHONE2, usager.getTelephone2());
+        values.put(DecheterieDatabase.TableUsager.PASSWORD, usager.getPassword());
+        values.put(DecheterieDatabase.TableUsager.COMMENTAIRE, usager.getCommentaire());
+        values.put(DecheterieDatabase.TableUsager.IS_ACTIF, usager.isActif() ? 1 : 0);
+        values.put(DecheterieDatabase.TableUsager.SIREN, usager.getSiren());
+        values.put(DecheterieDatabase.TableUsager.SIRET, usager.getSiret());
+        values.put(DecheterieDatabase.TableUsager.CODE_APE, usager.getCodeApe());
+        values.put(DecheterieDatabase.TableUsager.SOUMIS_RS, usager.getSoumisRS());
+
+        db.update(DecheterieDatabase.TableUsager.TABLE_NAME, values,DecheterieDatabase.TableUsager.ID_USAGER + "=" + usager.getId(),null);
     }
 
     public void deleteUsagerByIdentifiant(int id){

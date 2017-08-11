@@ -47,8 +47,30 @@ public class HabitatDB extends MyDb {
     }
 
     public void updateHabitat(Habitat habitat) {
-        deleteHabitatByIdentifiant(habitat.getIdHabitat());
-        insertHabitat(habitat);
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableHabitat.ID_HABITAT, habitat.getIdHabitat());
+        values.put(DecheterieDatabase.TableHabitat.ADRESSE, habitat.getAdresse());
+        values.put(DecheterieDatabase.TableHabitat.CP, habitat.getCp());
+        values.put(DecheterieDatabase.TableHabitat.VILLE, habitat.getVille());
+        values.put(DecheterieDatabase.TableHabitat.NB_LGT, habitat.getNbLgt());
+        values.put(DecheterieDatabase.TableHabitat.NB_HABITANT, habitat.getNbHabitant());
+//        values.put(DecheterieDatabase.TableHabitat.NOM, habitat.getNom());
+        values.put(DecheterieDatabase.TableHabitat.REFERENCE, habitat.getReference());
+        values.put(DecheterieDatabase.TableHabitat.COORDONNEES_X, habitat.getCoordonneesX());
+        values.put(DecheterieDatabase.TableHabitat.COORDONNEES_Y, habitat.getCoordonneesY());
+        values.put(DecheterieDatabase.TableHabitat.COMPLEMENT, habitat.getComplement());
+        values.put(DecheterieDatabase.TableHabitat.DERNIER_MAJ, habitat.getDernierMaj());
+        values.put(DecheterieDatabase.TableHabitat.NUMERO, habitat.getNumero());
+        values.put(DecheterieDatabase.TableHabitat.IS_ACTIF, habitat.isActif());
+//        values.put(DecheterieDatabase.TableHabitat.ACTIVITES, habitat.getActivites());
+        values.put(DecheterieDatabase.TableHabitat.ADRESSE_2, habitat.getAdresse2());
+        values.put(DecheterieDatabase.TableHabitat.REMARQUE, habitat.getRemarque());
+        values.put(DecheterieDatabase.TableHabitat.ID_TYPE_HABITAT, habitat.getIdTypeHabitat());
+        values.put(DecheterieDatabase.TableHabitat.ID_ACCOUNT, habitat.getIdAccount());
+        values.put(DecheterieDatabase.TableHabitat.DATE_DEBUT, habitat.getDateDebut());
+        values.put(DecheterieDatabase.TableHabitat.DATE_FIN, habitat.getDateFin());
+
+        db.update(DecheterieDatabase.TableHabitat.TABLE_NAME, values,DecheterieDatabase.TableHabitat.ID_HABITAT + "=" + habitat.getIdHabitat(),null);
     }
 
     public void deleteHabitatByIdentifiant(int id){

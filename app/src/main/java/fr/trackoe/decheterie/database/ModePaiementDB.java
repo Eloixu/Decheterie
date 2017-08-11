@@ -29,6 +29,15 @@ public class ModePaiementDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableModePaiement.TABLE_NAME, null, values);
     }
 
+    public void updateModePaiement(ModePaiement modePaiement) {
+        ContentValues values = new ContentValues();
+
+        values.put(DecheterieDatabase.TableModePaiement.ID, modePaiement.getId());
+        values.put(DecheterieDatabase.TableModePaiement.MODE, modePaiement.getMode());
+
+        db.update(DecheterieDatabase.TableModePaiement.TABLE_NAME, values,DecheterieDatabase.TableModePaiement.ID + "=" + modePaiement.getId(),null);
+    }
+
     /*
     Vider la table
      */
@@ -48,17 +57,18 @@ public class ModePaiementDB extends MyDb {
 
 
     private ModePaiement cursorToModePaiement(Cursor c){
-        if(c.getCount() == 0) {
+        if(c.moveToFirst()) {
+            ModePaiement m = new ModePaiement();
+            m.setId(c.getInt(DecheterieDatabase.TableModePaiement.NUM_ID));
+            m.setMode(c.getString(DecheterieDatabase.TableModePaiement.NUM_MODE));
+
+            c.close();
+
+            return m;
+        }
+        else{
             return null;
         }
-        c.moveToFirst();
-        ModePaiement m = new ModePaiement();
-        m.setId(c.getInt(DecheterieDatabase.TableModePaiement.NUM_ID));
-        m.setMode(c.getString(DecheterieDatabase.TableModePaiement.NUM_MODE));
-
-        c.close();
-
-        return m;
     }
 
 }

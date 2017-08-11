@@ -45,8 +45,13 @@ public class DchComptePrepayeDB extends MyDb {
     }
 
     public void updateComptePrepaye(ComptePrepaye comptePrepaye){
-        deleteComptePrepayeByIdentifiant(comptePrepaye.getId());
-        insertComptePrepaye(comptePrepaye);
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchComptePrepaye.ID, comptePrepaye.getId());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.DCH_USAGER_ID, comptePrepaye.getDchUsagerId());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.QTY_POINT, comptePrepaye.getQtyPoint());
+        values.put(DecheterieDatabase.TableDchComptePrepaye.NB_DEPOT_RESTANT, comptePrepaye.getNbDepotRestant());
+
+        db.update(DecheterieDatabase.TableDchComptePrepaye.TABLE_DCH_COMPTE_PREPAYE, values,DecheterieDatabase.TableDchComptePrepaye.ID + "=" +  comptePrepaye.getId(),null);
     }
 
 

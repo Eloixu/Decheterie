@@ -24,6 +24,8 @@ public class Const {
     public static final String CHECKSUM_VILLE = "CHECKSUM_VILLE";
     public static final String CHECKSUM_RUE = "CHECKSUM_RUE";
     public static final String DATE_MAJ = "DATE_MAJ";
+    public static final String MAJ_INTERVAL = "MAJ_INTERVAL";
+    public static final String DEFAULT_MAJ_INTERVAL = "60";
 
     public static final String IS_WS_INFOS_TABLETTE_SUCCESS = "IS_WS_INFOS_TABLETTE_SUCCESS";
     public static final String IS_WS_INFOS_TABLETTE_LOADED = "IS_WS_INFOS_TABLETTE_LOADED";

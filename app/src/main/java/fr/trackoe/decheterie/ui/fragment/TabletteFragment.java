@@ -104,8 +104,6 @@ public class TabletteFragment extends Fragment {
                                 // Récupération des infos liées à la tablette
                                 getInfos(numTablette);
 
-                                // Récupération des utilisateurs
-                                getUtilisateurs(numTablette);
 
                             } else {
                                 showSimpleAlertDialog(rep.getmError());
@@ -137,9 +135,9 @@ public class TabletteFragment extends Fragment {
         }
     }
 
-    public void getUtilisateurs(String numTablette){
+    public void getUtilisateurs(int idAccount){
         if(getActivity() != null && getActivity() instanceof ContainerActivity){
-            ((ContainerActivity) getActivity()).loadUsers(numTablette);
+            ((ContainerActivity) getActivity()).loadUsers(idAccount);
         }
     }
 

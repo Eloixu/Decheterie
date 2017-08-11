@@ -28,7 +28,9 @@ import fr.trackoe.decheterie.R;
 import fr.trackoe.decheterie.configuration.Configuration;
 import fr.trackoe.decheterie.database.DchDepotDB;
 import fr.trackoe.decheterie.database.DecheterieDB;
+import fr.trackoe.decheterie.database.UsagerDB;
 import fr.trackoe.decheterie.model.bean.global.Depot;
+import fr.trackoe.decheterie.model.bean.usager.Usager;
 import fr.trackoe.decheterie.ui.activity.ContainerActivity;
 import fr.trackoe.decheterie.ui.dialog.CustomDialogNormal;
 
@@ -220,17 +222,9 @@ public class AccueilFragment extends Fragment {
             @Override
             public boolean onLongClick(View v) {
                 copyDatabaseToSDCard(getContext());
-                return true;
-            }
-        });
 
-        //button for refreshing the data
-        accueil_vg.findViewById(R.id.btn_data_maj).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getActivity() != null && getActivity() instanceof  ContainerActivity) {
-                    ((ContainerActivity) getActivity()).MAJData();
-                }
+                parentActivity.MAJData();
+                return true;
             }
         });
 

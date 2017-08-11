@@ -34,12 +34,12 @@ public class UsersParser extends JSONParser<Users> {
                     login = ((JSONObject) listeUsers.get(i)).getString("login");
                     password = ((JSONObject) listeUsers.get(i)).getString("password");
                     nom = ((JSONObject) listeUsers.get(i)).getString("nom");
-                    prenom = ((JSONObject) listeUsers.get(i)).getString("prenom");
+                    //prenom = ((JSONObject) listeUsers.get(i)).getString("prenom");
                     if(((JSONObject) listeUsers.get(i)).has("autorisation_chgt_inter")) {
                         isAutorisationChgtInter = ((JSONObject) listeUsers.get(i)).getBoolean("autorisation_chgt_inter");
                     }
 
-                    users.addUser(idUser, login, password, nom, prenom, isAutorisationChgtInter);
+                    users.addUser(idUser, login, password, nom, null, isAutorisationChgtInter);
                 }
             }
         }

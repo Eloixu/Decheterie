@@ -33,8 +33,15 @@ public class DchCarteActiveDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE, null, values);
     }
     public void updateCarteActive(CarteActive carteActive) {
-        deleteCarteActiveById(carteActive.getDchCarteId());
-        insertCarteActive(carteActive);
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ID, carteActive.getDchCarteId());
+        values.put(DecheterieDatabase.TableDchCarteActive.DATE_ACTIVATION, carteActive.getDateActivation());
+        values.put(DecheterieDatabase.TableDchCarteActive.DATE_DERNIER_MOTIF, carteActive.getDateDernierMotif());
+        values.put(DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ETAT_RAISON_ID, carteActive.getDchCarteEtatRaisonId());
+        values.put(DecheterieDatabase.TableDchCarteActive.IS_ACTIVE, carteActive.isActive()? 1 : 0);
+        values.put(DecheterieDatabase.TableDchCarteActive.DCH_COMPTE_PREPAYE_ID, carteActive.getDchComptePrepayeId());
+
+        db.update(DecheterieDatabase.TableDchCarteActive.TABLE_DCH_CARTE_ACTIVE, values,DecheterieDatabase.TableDchCarteActive.DCH_CARTE_ID + "=" + carteActive.getDchCarteId(),null);
     }
 
     public void deleteCarteActiveById(long carteId){

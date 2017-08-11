@@ -81,6 +81,18 @@ public abstract class Configuration {
         return params.getString(Const.LAST_NUM_CARD, "");
     }
 
+    public static void saveMAJInterval(String majInterval) {
+        params.edit().putString(Const.MAJ_INTERVAL, majInterval).commit();
+    }
+
+    public static String getMAJInterval() {
+        return params.getString(Const.MAJ_INTERVAL, "");
+    }
+
+    public static String getDefaultMAJInterval() {
+        return Const.DEFAULT_MAJ_INTERVAL;
+    }
+
     public static Boolean getIsOuiClicked() {
         return params.getBoolean(Const.IS_OUI_CLICKED, false);
     }
@@ -176,7 +188,7 @@ public abstract class Configuration {
 
     public static String getDateMAJ() {
         //return params.getString(Const.DATE_MAJ_SERVEUR, "");
-        return "20170101000000";
+        return "20100101000000";
     }
 
     public static void saveDateMAJ(String dateMAJ) {
@@ -305,15 +317,16 @@ public abstract class Configuration {
     }
 
     public String getWebServiceContenantHost(Context ctx) {
-//        return(isProd()? "" : "http://192.168.1.39:8080/ws/" ) ;
+        return(isProd()? "" : "http://192.168.1.68:8080/ws/" ) ;
 //        return(isProd()? "" : "http://172.20.10.13:8080/ws/" ) ;
 //        return(isProd()? "" : "http://localhost:8080/dev/ws/" ) ;
 //        return(isProd()? "" : "http://contenant.trackoe.fr/demo/ws/") ;
-        return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
+        //return (isProd() || getIsProdEnvWS()) ? "http://contenant.trackoe.fr/prod/ws/" : "http://contenant.trackoe.fr/dev/ws/";
     }
 
     //    Récupération des users
-    public String getUsersUrl(Context ctx, String numTablette) {
+    public String getUsersUrl(Context ctx, int idAccount) {
+        /*
         if (numTablette == null) {
             numTablette = "";
         }
@@ -325,8 +338,10 @@ public abstract class Configuration {
             mac = URLEncoder.encode(mac, "utf-8");
         } catch (UnsupportedEncodingException e) {
         }
+        */
 
-        return getWebServiceHost(ctx) + "ws_load_users_from_id_account.php?code_tablette=" + numTablette + "&token=" + mac;
+        //return getWebServiceHost(ctx) + "ws_load_users_from_id_account.php?code_tablette=" + numTablette + "&token=" + mac;
+        return getWebServiceContenantHost(ctx) + "wsLoadUsers.action?idAccount="+idAccount;
     }
 
     //    Récupération de l'abonnement via le code tablette
@@ -340,7 +355,7 @@ public abstract class Configuration {
         } catch (UnsupportedEncodingException e) {
         }
 
-        return getWebServiceHost(ctx) + "ws_check_decheterie_abonnement.php?code_tablette=" + numTablette + "&token=" + mac;
+        return getWebServiceContenantHost(ctx) + "wsLoadDecheterieAbonnement.action?numTablette=" + numTablette + "&adresseMac=" + mac;
     }
 
     //    Récupération des villes
@@ -405,7 +420,9 @@ public abstract class Configuration {
         } catch (UnsupportedEncodingException e) {
         }
 
-        return getWebServiceHost(ctx) + "ws_load_infos.php?code_tablette=" + numTablette + "&token=" + mac;
+        //return getWebServiceHost(ctx) + "ws_load_infos.php?code_tablette=" + numTablette + "&token=" + mac;         //call php services
+
+        return getWebServiceContenantHost(ctx) + "wsLoadInfo.action?numTablette=" + numTablette + "&adresseMac=" + mac;  //call webservices
     }
 
     //    Récupération des modules

@@ -93,14 +93,6 @@
             android:textSize="@dimen/accueil_fragment_btn_liste_textSize"
             android:background="@drawable/button_blue_shallow" />
 
-        <Button
-            android:id="@+id/btn_data_maj"
-            android:text="Mise à jour data"
-            android:layout_width="100dp"
-            android:layout_height="@dimen/accueil_fragment_btn_liste_layout_height"
-            android:textColor="@color/white"
-            android:textSize="@dimen/accueil_fragment_btn_liste_textSize"
-            android:layout_margin="10dp" />
     </LinearLayout>
 
 

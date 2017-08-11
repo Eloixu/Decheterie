@@ -42,6 +42,7 @@
     <dimen name="settings_colg_ws_width">250dp</dimen>
     <dimen name="settings_txtview_margin">10dp</dimen>
     <dimen name="settings_txtview_margin_env">20dp</dimen>
+    <dimen name="settings_layout_margin_top">15dp</dimen>
     <dimen name="settings_layout_margin_left">20dp</dimen>
     <dimen name="settings_maj_height">70dp</dimen>
     <dimen name="settings_layout_margin_bottom">8dp</dimen>
@@ -49,6 +50,8 @@
     <dimen name="settings_ws_img_size">40dp</dimen>
     <dimen name="settings_ws_progressbar_padding">4dp</dimen>
     <dimen name="settings_btn_padding">30dp</dimen>
+    <dimen name="settings_db_refresh_editText_layout_width">100dp</dimen>
+    <dimen name="settings_db_refresh_editText_layout_height">40dp</dimen>
 
     <!--Ecran Login-->
     <dimen name="login_tv_size">160dp</dimen>

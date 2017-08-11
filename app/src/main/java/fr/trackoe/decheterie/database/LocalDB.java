@@ -36,8 +36,17 @@ public class LocalDB extends MyDb {
     }
 
     public void updateLocal(Local local) {
-        deleteLocalByIdentifiant(local.getIdLocal());
-        insertLocal(local);
+        ContentValues values = new ContentValues();
+
+        values.put(DecheterieDatabase.TableLocal.ID_LOCAL, local.getIdLocal());
+        values.put(DecheterieDatabase.TableLocal.HABITAT_ID, local.getHabitatId());
+        values.put(DecheterieDatabase.TableLocal.LOT, local.getLot());
+        values.put(DecheterieDatabase.TableLocal.INVARIANT_DFIP, local.getInvariantDfip());
+        values.put(DecheterieDatabase.TableLocal.IDENTIFIANT_INTERNE, local.getIdentifiantInterne());
+        values.put(DecheterieDatabase.TableLocal.BATIMENT, local.getBatiment());
+        values.put(DecheterieDatabase.TableLocal.ETAGE_PORTE, local.getEtagePorte());
+
+        db.update(DecheterieDatabase.TableLocal.TABLE_NAME, values,DecheterieDatabase.TableLocal.ID_LOCAL + "=" +local.getIdLocal(),null);
     }
 
     public void deleteLocalByIdentifiant(int id){

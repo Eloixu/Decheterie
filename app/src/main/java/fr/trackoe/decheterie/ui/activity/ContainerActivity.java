@@ -137,6 +137,7 @@ import fr.trackoe.decheterie.model.bean.global.TypeHabitat;
 import fr.trackoe.decheterie.model.bean.global.TypeHabitats;
 import fr.trackoe.decheterie.model.bean.global.Unite;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMAJs;
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenages;
 import fr.trackoe.decheterie.model.bean.usager.Usagers;
 import fr.trackoe.decheterie.model.bean.global.Users;
@@ -170,6 +171,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
     private static final String DOWNLOAD = "/download/";
     private static final int PERMISSION_CAMERA = 998756485;
     private Context activity;
+
+    private SettingsFragment.MAJTimer defaultMAJTimer;
+    private boolean isDefaultMAJTimerStopped = false;
 
     private AlertDialog.Builder errorDialogBuilder;
     private AlertDialog errorDialog;
@@ -256,6 +260,11 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
         } else {
             changeMainFragment(new LoginFragment(), false, false, 0, 0, 0, 0);
+            //each time we open the application(except the first time), we refresh the datas
+            MAJData();
+
+            startDefaultMAJ();
+
         }
 
 //        changeMainFragment(new AccueilFragment(), false, false, 0, 0, 0, 0);
@@ -323,7 +332,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
     // Récupération des informations
     // Récupération des utilisateurs
-    public void loadUsers(String numTablette) {
+    public void loadUsers(int idAccount) {
         if (activity != null && Utils.isInternetConnected(activity)) {
             displayUsersLoader(false);
             Datas.loadUsers(activity, new DataCallback<Users>() {
@@ -343,7 +352,7 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                         }
                     }
                 }
-            }, numTablette);
+            }, idAccount);
         }
     }
 
@@ -423,6 +432,9 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             Configuration.saveIsInfosTabletteSuccess(false);
                             displayTabletteLoader(true);
                         }
+
+                        // Récupération des utilisateurs
+                        loadUsers(Configuration.getIdAccount());
                     }
                 }
             }, numTablette);
@@ -454,9 +466,16 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             try {
                                 TypeHabitatDB thdb = new TypeHabitatDB(activity);
                                 thdb.open();
-                                thdb.clearTypeHabitat();
+                                if (getCurrentFragment() instanceof LoadingFragment) {
+                                    thdb.clearTypeHabitat();
+                                }
                                 for (TypeHabitat th : data.getListTypeHabitat()) {
-                                    thdb.insertTypeHabitat(th);
+                                    if (thdb.getTypeHabitatFromID(th.getId()) == null) {
+                                        thdb.insertTypeHabitat(th);
+                                    }
+                                    else{
+                                        thdb.updateTypeHabitat(th);
+                                    }
                                 }
                                 thdb.close();
                             } catch (Exception e) {
@@ -820,8 +839,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DecheterieDB ddb = new DecheterieDB(activity);
                         ddb.open();
-                        ddb.clearDecheterie();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            ddb.clearDecheterie();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListDecheterie().size());
                         }
                         ddb.close();
@@ -831,15 +850,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 ddb.open();
                                 for(int i = 0; i < data.getListDecheterie().size(); i++) {
-                                    ddb.insertDecheterie(data.getListDecheterie().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (ddb.getDecheterieFromID(data.getListDecheterie().get(i).getId()) == null) {
+                                        ddb.insertDecheterie(data.getListDecheterie().get(i));
+
+                                        if(getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        ddb.updateDecheterie(data.getListDecheterie().get(i));
                                     }
                                 }
                                 ddb.close();
@@ -876,8 +900,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchTypeCarteDB tcdb = new DchTypeCarteDB(activity);
                         tcdb.open();
-                        tcdb.clearTypeCarte();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            tcdb.clearTypeCarte();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListTypeCarte().size());
                         }
                         tcdb.close();
@@ -887,15 +911,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 tcdb.open();
                                 for(int i = 0; i < data.getListTypeCarte().size(); i++) {
-                                    tcdb.insertTypeCarte(data.getListTypeCarte().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (tcdb.getTypeCarteFromID(data.getListTypeCarte().get(i).getId()) == null) {
+                                        tcdb.insertTypeCarte(data.getListTypeCarte().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        tcdb.updateTypeCarte(data.getListTypeCarte().get(i));
                                     }
                                 }
                                 tcdb.close();
@@ -923,27 +952,34 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                 public void dataLoaded(final Cartes data) {
                     try {
                         final DchCarteDB cdb = new DchCarteDB(activity);
-                        cdb.open();
-                        cdb.clearCarte();
+
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            cdb.open();
+                            cdb.clearCarte();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListCarte().size());
+                            cdb.close();
                         }
-                        cdb.close();
+
 
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 cdb.open();
                                 for(int i = 0; i < data.getListCarte().size(); i++) {
-                                    cdb.insertCarte(data.getListCarte().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (cdb.getCarteFromID(data.getListCarte().get(i).getId()) == null) {
+                                        cdb.insertCarte(data.getListCarte().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        cdb.updateCarte(data.getListCarte().get(i));
                                     }
                                 }
                                 cdb.close();
@@ -980,8 +1016,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchCarteEtatRaisonDB cerdb = new DchCarteEtatRaisonDB(activity);
                         cerdb.open();
-                        cerdb.clearCarteEtatRaison();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            cerdb.clearCarteEtatRaison();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListCarteEtatRaison().size());
                         }
                         cerdb.close();
@@ -991,15 +1027,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 cerdb.open();
                                 for(int i = 0; i < data.getListCarteEtatRaison().size(); i++) {
-                                    cerdb.insertCarteEtatRaison(data.getListCarteEtatRaison().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (cerdb.getCarteEtatRaisonFromID(data.getListCarteEtatRaison().get(i).getId()) == null) {
+                                        cerdb.insertCarteEtatRaison(data.getListCarteEtatRaison().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        cerdb.updateCarteEtatRaison(data.getListCarteEtatRaison().get(i));
                                     }
                                 }
                                 cerdb.close();
@@ -1140,8 +1181,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchFluxDB fdb = new DchFluxDB(activity);
                         fdb.open();
-                        fdb.clearFlux();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            fdb.clearFlux();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListFlux().size());
                         }
                         fdb.close();
@@ -1151,15 +1192,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 fdb.open();
                                 for(int i = 0; i < data.getListFlux().size(); i++) {
-                                    fdb.insertFlux(data.getListFlux().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (fdb.getFluxFromID(data.getListFlux().get(i).getId()) == null) {
+                                        fdb.insertFlux(data.getListFlux().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        fdb.updateFlux(data.getListFlux().get(i));
                                     }
                                 }
                                 fdb.close();
@@ -1252,8 +1298,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchUniteDB udb = new DchUniteDB(activity);
                         udb.open();
-                        udb.clearUnite();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            udb.clearUnite();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListUnite().size());
                         }
                         udb.close();
@@ -1263,15 +1309,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 udb.open();
                                 for(int i = 0; i < data.getListUnite().size(); i++) {
-                                    udb.insertUnite(data.getListUnite().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (udb.getUniteFromID(data.getListUnite().get(i).getId()) == null) {
+                                        udb.insertUnite(data.getListUnite().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        udb.updateUnite(data.getListUnite().get(i));
                                     }
                                 }
                                 udb.close();
@@ -1308,8 +1359,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchAccountSettingDB asdb = new DchAccountSettingDB(activity);
                         asdb.open();
-                        asdb.clearAccountSetting();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            asdb.clearAccountSetting();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListAccountSetting().size());
                         }
                         asdb.close();
@@ -1319,15 +1370,21 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 asdb.open();
                                 for(int i = 0; i < data.getListAccountSetting().size(); i++) {
-                                    asdb.insertAccountSetting(data.getListAccountSetting().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if(getCurrentFragment() instanceof AccueilFragment)((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (asdb.getAccountSettingFromID(data.getListAccountSetting().get(i).getId()) == null) {
+                                        asdb.insertAccountSetting(data.getListAccountSetting().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (getCurrentFragment() instanceof AccueilFragment)
+                                                        ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        asdb.updateAccountSetting(data.getListAccountSetting().get(i));
                                     }
                                 }
                                 asdb.close();
@@ -1356,8 +1413,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchChoixDecompteTotalDB cdtdb = new DchChoixDecompteTotalDB(activity);
                         cdtdb.open();
-                        cdtdb.clearChoixDecompteTotal();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            cdtdb.clearChoixDecompteTotal();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListChoixDecompteTotal().size());
                         }
                         cdtdb.close();
@@ -1367,15 +1424,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 cdtdb.open();
                                 for(int i = 0; i < data.getListChoixDecompteTotal().size(); i++) {
-                                    cdtdb.insertChoixDecompteTotal(data.getListChoixDecompteTotal().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (cdtdb.getChoixDecompteTotalFromID(data.getListChoixDecompteTotal().get(i).getId()) == null) {
+                                        cdtdb.insertChoixDecompteTotal(data.getListChoixDecompteTotal().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        cdtdb.updateChoixDecompteTotal(data.getListChoixDecompteTotal().get(i));
                                     }
                                 }
                                 cdtdb.close();
@@ -1412,8 +1474,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchAccountFluxSettingDB afsdb = new DchAccountFluxSettingDB(activity);
                         afsdb.open();
-                        afsdb.clearAccountFluxSetting();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            afsdb.clearAccountFluxSetting();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListAccountFluxSetting().size());
                         }
                         afsdb.close();
@@ -1423,15 +1485,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 afsdb.open();
                                 for(int i = 0; i < data.getListAccountFluxSetting().size(); i++) {
-                                    afsdb.insertAccountFluxSetting(data.getListAccountFluxSetting().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (afsdb.getAccountFluxSettingByAccountSettingIdAndFluxId(data.getListAccountFluxSetting().get(i).getDchAccountSettingId(),data.getListAccountFluxSetting().get(i).getDchFluxId()) == null) {
+                                        afsdb.insertAccountFluxSetting(data.getListAccountFluxSetting().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        afsdb.updateAccountFluxSetting(data.getListAccountFluxSetting().get(i));
                                     }
                                 }
                                 afsdb.close();
@@ -1469,8 +1536,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final DchPrepaiementDB pdb = new DchPrepaiementDB(activity);
                         pdb.open();
-                        pdb.clearPrepaiement();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            pdb.clearPrepaiement();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListPrepaiement().size());
                         }
                         pdb.close();
@@ -1480,15 +1547,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 pdb.open();
                                 for(int i = 0; i < data.getListPrepaiement().size(); i++) {
-                                    pdb.insertPrepaiement(data.getListPrepaiement().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (pdb.getPrepaiementByIdentifiant(data.getListPrepaiement().get(i).getId()) == null) {
+                                        pdb.insertPrepaiement(data.getListPrepaiement().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        pdb.updatePrepaiement(data.getListPrepaiement().get(i));
                                     }
                                 }
                                 pdb.close();
@@ -1517,8 +1589,8 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     try {
                         final ModePaiementDB mpdb = new ModePaiementDB(activity);
                         mpdb.open();
-                        mpdb.clearModePaiement();
                         if(getCurrentFragment() instanceof LoadingFragment) {
+                            mpdb.clearModePaiement();
                             ((LoadingFragment) getCurrentFragment()).getProgressBar().setMax(data.getListModePaiement().size());
                         }
                         mpdb.close();
@@ -1528,15 +1600,20 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                             public void run() {
                                 mpdb.open();
                                 for(int i = 0; i < data.getListModePaiement().size(); i++) {
-                                    mpdb.insertModePaiement(data.getListModePaiement().get(i));
-                                    if(getCurrentFragment() instanceof LoadingFragment) {
-                                        final int finalI = i;
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
-                                            }
-                                        });
+                                    if (mpdb.getModePaiementByIdentifiant(data.getListModePaiement().get(i).getId()) == null) {
+                                        mpdb.insertModePaiement(data.getListModePaiement().get(i));
+                                        if (getCurrentFragment() instanceof LoadingFragment) {
+                                            final int finalI = i;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ((LoadingFragment) getCurrentFragment()).getProgressBar().setProgress(finalI);
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else{
+                                        mpdb.updateModePaiement(data.getListModePaiement().get(i));
                                     }
                                 }
                                 mpdb.close();
@@ -1593,55 +1670,165 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
     public void loadMAJUsager(int idAccount, String dateMAJ) {
         if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJUsager(activity, new DataAndErrorCallback<Usagers>() {
+            Datas.loadMAJUsager(activity, new DataAndErrorCallback<UsagerMAJs>() {
                 @Override
                 public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
 
                 }
 
                 @Override
-                public void dataLoaded(final Usagers data) {
+                public void dataLoaded(final UsagerMAJs data) {
                     try {
                         final UsagerDB udb = new UsagerDB(activity);
+                        final UsagerHabitatDB uhdb = new UsagerHabitatDB(activity);
+                        final UsagerMenageDB umdb = new UsagerMenageDB(activity);
+                        final MenageDB mdb = new MenageDB(activity);
+                        final LocalDB ldb = new LocalDB(activity);
+                        final HabitatDB hdb = new HabitatDB(activity);
+                        final DchComptePrepayeDB cpdb = new DchComptePrepayeDB(activity);
+                        final DchCarteActiveDB cadb = new DchCarteActiveDB(activity);
+
 
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                if(!data.getListUsager().isEmpty()) {
-                                    udb.open();
-                                    for (int i = 0; i < data.getListUsager().size(); i++) {
-                                        if (udb.getUsagerFromID(data.getListUsager().get(i).getId()) == null) {
-                                            udb.insertUsager(data.getListUsager().get(i));
+                                if(!data.getUsagers().getListUsager().isEmpty()) {
+                                    //update usager
+                                    for (int i = 0; i < data.getUsagers().getListUsager().size(); i++) {
+                                        udb.open();
+                                        if (udb.getUsagerFromID(data.getUsagers().getListUsager().get(i).getId()) == null) {
+                                            udb.insertUsager(data.getUsagers().getListUsager().get(i));
                                         } else {
-                                            udb.updateUsager(data.getListUsager().get(i));
+                                            udb.updateUsager(data.getUsagers().getListUsager().get(i));
+                                        }
+                                        udb.close();
+                                    }
+                                }
+
+                                //update usager habitat
+                                if(!data.getUsagerHabitats().getListUsagerHabitat().isEmpty()) {
+                                    uhdb.open();
+
+                                    int usagerId = 0;
+                                    //delete all the usagerHabitat according to the usagerId
+                                    for(UsagerHabitat uh : data.getUsagerHabitats().getListUsagerHabitat()){
+                                        if(uh.getDchUsagerId() != usagerId){
+                                            usagerId = uh.getDchUsagerId();
+                                            uhdb.deleteAllUsagerHabitatByUsagerId(usagerId);
                                         }
                                     }
-                                    udb.close();
-                                    runOnUiThread(//return to the principal thread
-                                            new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    loadMAJUsagerHabitat(data);
-                                                }
-                                            });
-                                    runOnUiThread(//return to the principal thread
-                                            new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    loadMAJUsagerMenage(data);
-                                                }
-                                            });
-                                    runOnUiThread(//return to the principal thread
-                                            new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    loadMAJComptePrepaye(data);
-                                                }
-                                            });
+                                    //insert the data
+                                    for (int i = 0; i < data.getUsagerHabitats().getListUsagerHabitat().size(); i++) {
+                                        uhdb.insertUsagerHabitat(data.getUsagerHabitats().getListUsagerHabitat().get(i));
+                                    }
+                                    uhdb.close();
+                                }
+                                else{
+                                    //delete all the usagerHabitat according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
+                                }
 
-                                    Configuration.saveDateMAJ(Utils.changeDateToString(new Date()));
+                                //update usager menage
+                                if(!data.getUsagerMenages().getListUsagerMenage().isEmpty()) {
+                                    umdb.open();
+
+                                    int usagerId = 0;
+                                    //delete all the usagerHabitat according to the usagerId
+                                    for(UsagerMenage um : data.getUsagerMenages().getListUsagerMenage()){
+                                        if(um.getDchUsagerId() != usagerId){
+                                            usagerId = um.getDchUsagerId();
+                                            umdb.deleteAllUsagerMenageByUsagerId(usagerId);
+                                        }
+                                    }
+                                    //insert the data
+                                    for (int i = 0; i < data.getUsagerMenages().getListUsagerMenage().size(); i++) {
+                                        umdb.insertUsagerMenage(data.getUsagerMenages().getListUsagerMenage().get(i));
+                                    }
+
+                                    umdb.close();
+                                }
+                                else{
+                                    //delete all the usagerMenage according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
+                                }
+
+                                //update menage
+                                if(!data.getMenages().getListMenage().isEmpty()) {
+                                    mdb.open();
+
+                                    for (int i = 0; i < data.getMenages().getListMenage().size(); i++) {
+                                        if (mdb.getMenageById(data.getMenages().getListMenage().get(i).getId()) == null) {
+                                            mdb.insertMenage(data.getMenages().getListMenage().get(i));
+                                        } else {
+                                            mdb.updateMenage(data.getMenages().getListMenage().get(i));
+                                        }
+
+                                    }
+                                    mdb.close();
+                                }
+
+                                //update local
+
+                                if(!data.getLocaux().getListLocal().isEmpty()) {
+                                    ldb.open();
+
+                                    for (int i = 0; i < data.getLocaux().getListLocal().size(); i++) {
+                                        if (ldb.getLocalById(data.getLocaux().getListLocal().get(i).getIdLocal()) == null) {
+                                            ldb.insertLocal(data.getLocaux().getListLocal().get(i));
+                                        } else {
+                                            ldb.updateLocal(data.getLocaux().getListLocal().get(i));
+                                        }
+                                    }
+
+                                    ldb.close();
+                                }
+
+
+                                //update habitat
+                                if(!data.getHabitats().getListHabitat().isEmpty()) {
+
+                                    hdb.open();
+                                    for (int i = 0; i < data.getHabitats().getListHabitat().size(); i++) {
+                                        if (hdb.getHabitatFromID(data.getHabitats().getListHabitat().get(i).getIdHabitat()) == null) {
+                                            hdb.insertHabitat(data.getHabitats().getListHabitat().get(i));
+                                        } else {
+                                            hdb.updateHabitat(data.getHabitats().getListHabitat().get(i));
+                                        }
+                                    }
+                                    hdb.close();
 
                                 }
+
+                                //update comptePrepaye
+                                if(!data.getComptePrepayes().getListComptePrepaye().isEmpty()) {
+                                    cpdb.open();
+                                    for(int i = 0; i < data.getComptePrepayes().getListComptePrepaye().size(); i++) {
+                                        if(cpdb.getComptePrepayeFromID(data.getComptePrepayes().getListComptePrepaye().get(i).getId()) == null){
+                                            cpdb.insertComptePrepaye(data.getComptePrepayes().getListComptePrepaye().get(i));
+                                        }
+                                        else{
+                                            cpdb.updateComptePrepaye(data.getComptePrepayes().getListComptePrepaye().get(i));
+                                        }
+
+                                    }
+                                    cpdb.close();
+                                }
+
+                                //update carte active
+                                if(!data.getCarteActives().getListCarteActive().isEmpty()) {
+                                    cadb.open();
+                                    for (int i = 0; i < data.getCarteActives().getListCarteActive().size(); i++) {
+                                        if (cadb.getCarteActiveFromDchCarteId(data.getCarteActives().getListCarteActive().get(i).getDchCarteId()) == null) {
+                                            cadb.insertCarteActive(data.getCarteActives().getListCarteActive().get(i));
+                                        } else {
+                                            cadb.updateCarteActive(data.getCarteActives().getListCarteActive().get(i));
+                                        }
+
+                                    }
+                                    cadb.close();
+                                }
+
+
+
+                                Configuration.saveDateMAJ(Utils.changeDateToString(new Date()));
                             }
                         }).start();
                     } catch (Exception e) {
@@ -1649,382 +1836,6 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
                     }
                 }
             }, idAccount, dateMAJ);
-        }
-    }
-
-    public void loadMAJUsagerHabitat(Usagers usagers) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJUsagerHabitat(activity, new DataAndErrorCallback<UsagerHabitats>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final UsagerHabitats data) {
-                    try {
-                        final UsagerHabitatDB udb = new UsagerHabitatDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                udb.open();
-                                if(!data.getListUsagerHabitat().isEmpty()) {
-                                    int usagerId = 0;
-                                    //delete all the usagerHabitat according to the usagerId
-                                    for(UsagerHabitat uh : data.getListUsagerHabitat()){
-                                        if(uh.getDchUsagerId() != usagerId){
-                                            usagerId = uh.getDchUsagerId();
-                                            udb.deleteAllUsagerHabitatByUsagerId(usagerId);
-                                        }
-                                    }
-                                    //insert the data
-                                    for (int i = 0; i < data.getListUsagerHabitat().size(); i++) {
-                                        udb.insertUsagerHabitat(data.getListUsagerHabitat().get(i));
-                                    }
-
-
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMAJHabitat(data);
-                                        }
-                                    });
-                                }
-                                else{
-                                    //delete all the usagerHabitat according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
-                                }
-                                udb.close();
-
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagers);
-        }
-    }
-
-    public void loadMAJHabitat(UsagerHabitats usagerHabitats) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJHabitat(activity, new DataAndErrorCallback<Habitats>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final Habitats data) {
-                    try {
-                        final HabitatDB hdb = new HabitatDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if(!data.getListHabitat().isEmpty()) {
-                                        hdb.open();
-                                        for(int i = 0; i < data.getListHabitat().size(); i++) {
-                                            if(hdb.getHabitatFromID(data.getListHabitat().get(i).getIdHabitat()) == null){
-                                                hdb.insertHabitat(data.getListHabitat().get(i));
-                                            }
-                                            else{
-                                                hdb.updateHabitat(data.getListHabitat().get(i));
-                                            }
-
-                                        }
-                                        hdb.close();
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagerHabitats);
-        }
-    }
-
-    public void loadMAJUsagerMenage(Usagers usagers) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJUsagerMenage(activity, new DataAndErrorCallback<UsagerMenages>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final UsagerMenages data) {
-                    try {
-                        final UsagerMenageDB udb = new UsagerMenageDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                udb.open();
-                                if(!data.getListUsagerMenage().isEmpty()) {
-                                    int usagerId = 0;
-                                    //delete all the usagerHabitat according to the usagerId
-                                    for(UsagerMenage um : data.getListUsagerMenage()){
-                                        if(um.getDchUsagerId() != usagerId){
-                                            usagerId = um.getDchUsagerId();
-                                            udb.deleteAllUsagerMenageByUsagerId(usagerId);
-                                        }
-                                    }
-                                    //insert the data
-                                    for (int i = 0; i < data.getListUsagerMenage().size(); i++) {
-                                        udb.insertUsagerMenage(data.getListUsagerMenage().get(i));
-                                    }
-
-
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadMAJMenage(data);
-                                        }
-                                    });
-                                }
-                                else{
-                                    //delete all the usagerMenage according to the usagerId(mais on supprime jamais un usager, juste le met non-actif)
-                                }
-                                udb.close();
-
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagers);
-        }
-    }
-
-    public void loadMAJMenage(UsagerMenages usagerMenages) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJMenage(activity, new DataAndErrorCallback<Menages>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final Menages data) {
-                    try {
-                        final MenageDB hdb = new MenageDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if(!data.getListMenage().isEmpty()) {
-                                        hdb.open();
-                                        for(int i = 0; i < data.getListMenage().size(); i++) {
-                                            if(hdb.getMenageById(data.getListMenage().get(i).getId()) == null){
-                                                hdb.insertMenage(data.getListMenage().get(i));
-                                            }
-                                            else{
-                                                hdb.updateMenage(data.getListMenage().get(i));
-                                            }
-
-                                        }
-                                        hdb.close();
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                loadMAJLocal(data);
-                                            }
-                                        });
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagerMenages);
-        }
-    }
-
-    public void loadMAJLocal(Menages menages) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJLocal(activity, new DataAndErrorCallback<Locaux>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final Locaux data) {
-                    try {
-                        final LocalDB ldb = new LocalDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ldb.open();
-                                for(int i = 0; i < data.getListLocal().size(); i++) {
-                                    if(ldb.getLocalById(data.getListLocal().get(i).getIdLocal()) == null) {
-                                        ldb.insertLocal(data.getListLocal().get(i));
-                                    }else{
-                                        ldb.updateLocal(data.getListLocal().get(i));
-                                    }
-                                }
-                                ldb.close();
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        loadMAJHabitat(data);
-                                    }
-                                });
-
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, menages);
-
-        }
-    }
-
-    public void loadMAJHabitat(Locaux locaux) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJHabitat(activity, new DataAndErrorCallback<Habitats>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final Habitats data) {
-                    try {
-                        final HabitatDB hdb = new HabitatDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if(!data.getListHabitat().isEmpty()) {
-                                        hdb.open();
-                                        for(int i = 0; i < data.getListHabitat().size(); i++) {
-                                            if(hdb.getHabitatFromID(data.getListHabitat().get(i).getIdHabitat()) == null){
-                                                hdb.insertHabitat(data.getListHabitat().get(i));
-                                            }
-                                            else{
-                                                hdb.updateHabitat(data.getListHabitat().get(i));
-                                            }
-
-                                        }
-                                        hdb.close();
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }).start();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, locaux);
-        }
-    }
-
-    public void loadMAJComptePrepaye(Usagers usagers) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJComptePrepaye(activity, new DataAndErrorCallback<ComptePrepayes>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final ComptePrepayes data) {
-                    try {
-                        final DchComptePrepayeDB cpdb = new DchComptePrepayeDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cpdb.open();
-                                for(int i = 0; i < data.getListComptePrepaye().size(); i++) {
-                                    if(cpdb.getComptePrepayeFromID(data.getListComptePrepaye().get(i).getId()) == null){
-                                        cpdb.insertComptePrepaye(data.getListComptePrepaye().get(i));
-                                    }
-                                    else{
-                                        cpdb.updateComptePrepaye(data.getListComptePrepaye().get(i));
-                                    }
-
-                                }
-                                cpdb.close();
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        loadMAJCarteActive(data);
-                                    }
-                                });
-
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, usagers);
-        }
-    }
-
-    public void loadMAJCarteActive(ComptePrepayes comptePrepayes) {
-        if (activity != null && Utils.isInternetConnected(activity)) {
-            Datas.loadMAJCarteActive(activity, new DataAndErrorCallback<CarteActives>() {
-                @Override
-                public void dataLoadingFailed(boolean isInternetConnected, String errorMessage) {
-
-                }
-
-                @Override
-                public void dataLoaded(final CarteActives data) {
-                    try {
-                        final DchCarteActiveDB cadb = new DchCarteActiveDB(activity);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                cadb.open();
-                                for(int i = 0; i < data.getListCarteActive().size(); i++) {
-                                    if(cadb.getCarteActiveFromDchCarteId(data.getListCarteActive().get(i).getDchCarteId()) == null){
-                                        cadb.insertCarteActive(data.getListCarteActive().get(i));
-                                    }else{
-                                        cadb.updateCarteActive(data.getListCarteActive().get(i));
-                                    }
-
-                                }
-                                cadb.close();
-
-                            }
-                        }).start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, comptePrepayes);
         }
     }
 
@@ -3396,6 +3207,38 @@ public class ContainerActivity extends AppCompatActivity implements DrawerLocker
 
     public void setTitleToolbar(String title){
         getSupportActionBar().setTitle(title);
+    }
+
+    /*
+    * start the default maj whose interval is 60 minutes
+    * OR if the interval has already been set,then start the maj whose interval is the memorised interval
+    */
+    public void startDefaultMAJ(){
+        defaultMAJTimer = (new SettingsFragment()).new MAJTimer();
+        if(Configuration.getMAJInterval().isEmpty()) {
+            defaultMAJTimer.doMAJ(Integer.parseInt(Configuration.getDefaultMAJInterval()));
+        }
+        else{
+            defaultMAJTimer.doMAJ(Integer.parseInt(Configuration.getMAJInterval()));
+        }
+    }
+
+    //stop the default maj timer
+    public void stopDefaultMAJ(){
+        try {
+            defaultMAJTimer.stopMAJ();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isDefaultMAJTimerStopped() {
+        return isDefaultMAJTimerStopped;
+    }
+
+    public void setDefaultMAJTimerStopped(boolean defaultMAJTimerStopped) {
+        isDefaultMAJTimerStopped = defaultMAJTimerStopped;
     }
 
     /* private int getPictureId(String pictureName){

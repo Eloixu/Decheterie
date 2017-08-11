@@ -43,6 +43,7 @@ import fr.trackoe.decheterie.model.bean.usager.Habitats;
 import fr.trackoe.decheterie.model.bean.usager.Locaux;
 import fr.trackoe.decheterie.model.bean.usager.Menages;
 import fr.trackoe.decheterie.model.bean.usager.UsagerHabitats;
+import fr.trackoe.decheterie.model.bean.usager.UsagerMAJs;
 import fr.trackoe.decheterie.model.bean.usager.UsagerMenages;
 import fr.trackoe.decheterie.model.bean.usager.Usagers;
 import fr.trackoe.decheterie.service.cache.CacheConst;
@@ -73,6 +74,7 @@ import fr.trackoe.decheterie.service.parser.TypeCarteParser;
 import fr.trackoe.decheterie.service.parser.TypeHabitatParser;
 import fr.trackoe.decheterie.service.parser.UniteParser;
 import fr.trackoe.decheterie.service.parser.UsagerHabitatParser;
+import fr.trackoe.decheterie.service.parser.UsagerMAJParser;
 import fr.trackoe.decheterie.service.parser.UsagerMenageParser;
 import fr.trackoe.decheterie.service.parser.UsagerParser;
 import fr.trackoe.decheterie.service.parser.UsersParser;
@@ -87,8 +89,8 @@ public class Datas {
     }
 
     // Récupération des users
-    public static void loadUsers(Context ctx, DataCallback<Users> callback, String numTablette) {
-        String url = Configuration.getInstance(ctx).getUsersUrl(ctx, numTablette);
+    public static void loadUsers(Context ctx, DataCallback<Users> callback, int idAccount) {
+        String url = Configuration.getInstance(ctx).getUsersUrl(ctx, idAccount);
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsersParser());
     }
 
@@ -268,58 +270,10 @@ public class Datas {
         URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new DateMAJCarteParser());
     }
 
-    // Récupération des usagers MAJ
-    public static void loadMAJUsager(Context ctx, DataAndErrorCallback<Usagers> callback, int idAccount,String dateMAJ) {
+    // Récupération des tables MAJ à partir d'usager
+    public static void loadMAJUsager(Context ctx, DataAndErrorCallback<UsagerMAJs> callback, int idAccount, String dateMAJ) {
         String url = Configuration.getInstance(ctx).getMAJUsagerUrl(ctx, idAccount, dateMAJ);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerParser());
-    }
-
-    // Récupération de la liaison usager habitat MAJ
-    public static void loadMAJUsagerHabitat(Context ctx, DataAndErrorCallback<UsagerHabitats> callback,Usagers usagers) {
-        String url = Configuration.getInstance(ctx).getMAJUsagerHabitatUrl(ctx, usagers);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerHabitatParser());
-    }
-
-    // Récupération des habitats MAJ de usagerHabitat
-    public static void loadMAJHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, UsagerHabitats usagerHabitats) {
-        String url = Configuration.getInstance(ctx).getMAJHabitatUrl(ctx, usagerHabitats);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatParser());
-    }
-
-    // Récupération des habitats MAJ de local
-    public static void loadMAJHabitat(Context ctx, DataAndErrorCallback<Habitats> callback, Locaux locaux) {
-        String url = Configuration.getInstance(ctx).getMAJHabitatUrl(ctx, locaux);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new HabitatParser());
-    }
-
-    // Récupération de la liaison usager menage MAJ
-    public static void loadMAJUsagerMenage(Context ctx, DataAndErrorCallback<UsagerMenages> callback,Usagers usagers) {
-        String url = Configuration.getInstance(ctx).getMAJUsagerMenageUrl(ctx, usagers);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerMenageParser());
-    }
-
-    // Récupération des menages MAJ
-    public static void loadMAJMenage(Context ctx, DataAndErrorCallback<Menages> callback, UsagerMenages usagerMenages) {
-        String url = Configuration.getInstance(ctx).getMAJMenageUrl(ctx, usagerMenages);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new MenageParser());
-    }
-
-    // Récupération des locaux MAJ
-    public static void loadMAJLocal(Context ctx, DataAndErrorCallback<Locaux> callback, Menages menages) {
-        String url = Configuration.getInstance(ctx).getMAJLocalUrl(ctx, menages);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new LocalParser());
-    }
-
-    // Récupération des compte prépayés MAJ
-    public static void loadMAJComptePrepaye(Context ctx, DataAndErrorCallback<ComptePrepayes> callback, Usagers usagers) {
-        String url = Configuration.getInstance(ctx).getMAJComptePrepayeUrl(ctx, usagers);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new ComptePrepayeParser());
-    }
-
-    // Récupération des carteActives MAJ
-    public static void loadMAJCarteActive(Context ctx, DataAndErrorCallback<CarteActives> callback, ComptePrepayes comptePrepayes) {
-        String url = Configuration.getInstance(ctx).getMAJCarteActiveUrl(ctx, comptePrepayes);
-        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new CarteActiveParser());
+        URCache.getFlux(ctx, url, CacheConst.CACHE_HOME_TIMEOUT, callback, new UsagerMAJParser());
     }
 
     // Envoi de Depot

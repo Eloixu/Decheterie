@@ -44,6 +44,29 @@ public class DchAccountSettingDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchAccountSetting.TABLE_NAME, null, values);
     }
 
+    public void updateAccountSetting(AccountSetting accountSetting) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchAccountSetting.ID, accountSetting.getId());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DCH_ACCOUNT_ID, accountSetting.getDchAccountId());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DCH_TYPE_CARTE_ID, accountSetting.getDchTypeCarteId());
+        values.put(DecheterieDatabase.TableDchAccountSetting.UNITE_DEPOT_DECHETERIE_ID, accountSetting.getUniteDepotDecheterieId());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DECOMPTE_DEPOT, accountSetting.isDecompteDepot());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DECOMPTE_UDD, accountSetting.isDecompteUDD());
+        values.put(DecheterieDatabase.TableDchAccountSetting.PAGE_SIGNATURE, accountSetting.isPageSignature());
+        values.put(DecheterieDatabase.TableDchAccountSetting.COUT_UDD_PR_POINT, accountSetting.getCoutUDDPrPoint());
+        values.put(DecheterieDatabase.TableDchAccountSetting.COUT_POINT, accountSetting.getCoutPoint());
+        values.put(DecheterieDatabase.TableDchAccountSetting.UNITE_POINT, accountSetting.getUnitePoint());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DATE_DEBUT_PARAM, accountSetting.getDateDebutParam());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DATE_FIN_PARAM, accountSetting.getDateFinParam());
+        values.put(DecheterieDatabase.TableDchAccountSetting.DCH_CHOIX_DECOMPTE_TOTAL_ID, accountSetting.getDchChoixDecompteTotalId());
+        values.put(DecheterieDatabase.TableDchAccountSetting.NB_DEPOT_RESTANT, accountSetting.getNbDepotRestant());
+        values.put(DecheterieDatabase.TableDchAccountSetting.COMPTE_TOTAL, accountSetting.isCompteTotal());
+        values.put(DecheterieDatabase.TableDchAccountSetting.POINT_MINIMUM, accountSetting.getPointMinimum());
+        values.put(DecheterieDatabase.TableDchAccountSetting.NB_DEPOT_MINIMUM, accountSetting.getNbDepotMinimum());
+
+        db.update(DecheterieDatabase.TableDchAccountSetting.TABLE_NAME, values,DecheterieDatabase.TableDchAccountSetting.ID + "=" + accountSetting.getId(),null);
+    }
+
     public AccountSetting getAccountSettingFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchAccountSetting.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchAccountSetting.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -79,8 +102,12 @@ public class DchAccountSettingDB extends MyDb {
             a.setCompteTotal(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_COMPTE_TOTAL) == 1);
             a.setPointMinimum(c.getFloat(DecheterieDatabase.TableDchAccountSetting.NUM_POINT_MINIMUM));
             a.setNbDepotMinimum(c.getInt(DecheterieDatabase.TableDchAccountSetting.NUM_NB_DEPOT_MINIMUM));
+            return a;
         }
-        return a;
+        else{
+            return null;
+        }
+
     }
 
     private ArrayList<AccountSetting> cursorToListeAccountSetting(Cursor c) {

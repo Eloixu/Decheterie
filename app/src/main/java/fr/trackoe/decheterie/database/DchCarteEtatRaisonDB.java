@@ -21,10 +21,18 @@ public class DchCarteEtatRaisonDB extends MyDb{
      */
     public long insertCarteEtatRaison(CarteEtatRaison carteEtatRaison) {
         ContentValues values = new ContentValues();
-        //values.put(DecheterieDatabase.TableDchCarteEtatRaison.ID, carteEtatRaison.getId());
+        values.put(DecheterieDatabase.TableDchCarteEtatRaison.ID, carteEtatRaison.getId());
         values.put(DecheterieDatabase.TableDchCarteEtatRaison.RAISON, carteEtatRaison.getRaison());
 
         return db.insertOrThrow(DecheterieDatabase.TableDchCarteEtatRaison.TABLE_NAME, null, values);
+    }
+
+    public void updateCarteEtatRaison(CarteEtatRaison carteEtatRaison) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchCarteEtatRaison.ID, carteEtatRaison.getId());
+        values.put(DecheterieDatabase.TableDchCarteEtatRaison.RAISON, carteEtatRaison.getRaison());
+
+        db.update(DecheterieDatabase.TableDchCarteEtatRaison.TABLE_NAME, values,DecheterieDatabase.TableDchCarteEtatRaison.ID + "=" + carteEtatRaison.getId(),null);
     }
 
     public CarteEtatRaison getCarteEtatRaisonFromID(int id) {
@@ -38,8 +46,13 @@ public class DchCarteEtatRaisonDB extends MyDb{
         if(c.moveToFirst()) {
             cer.setId(c.getInt(DecheterieDatabase.TableDchCarteEtatRaison.NUM_ID));
             cer.setRaison(c.getString(DecheterieDatabase.TableDchCarteEtatRaison.NUM_RAISON));
+            c.close();
+            return cer;
         }
-        return cer;
+        else{
+            c.close();
+            return null;
+        }
     }
 
     /*

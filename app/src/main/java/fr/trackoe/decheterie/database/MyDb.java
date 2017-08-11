@@ -1,5 +1,6 @@
 package fr.trackoe.decheterie.database;
 
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import fr.trackoe.decheterie.Logger;
@@ -19,7 +20,9 @@ public abstract class MyDb {
     public void open() {
         try {
             db = mydb.getWritableDatabase();
-        } catch (Exception e) {}
+        } catch (SQLException s) {
+            new Exception("Error with DB Open");
+        }
 //        db = SQLiteDatabase.openDatabase("/data/data/fr.trackoe.formulaires/databases/contenants.db", null, SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
     }
 

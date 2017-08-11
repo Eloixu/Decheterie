@@ -322,6 +322,7 @@ public class LoadingFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 launchLoginFragment();
                 Configuration.saveDateMAJ(Utils.changeDateToString(new Date()));
+                Configuration.saveDateMAJCarte(Utils.changeDateToString(new Date()));
                 //((ContainerActivity) getActivity()).copyDatabaseToSDCard(getContext());
             }
         }

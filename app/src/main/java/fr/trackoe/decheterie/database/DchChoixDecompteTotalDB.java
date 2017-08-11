@@ -26,6 +26,14 @@ public class DchChoixDecompteTotalDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchChoixDecompteTotal.TABLE_NAME, null, values);
     }
 
+    public void updateChoixDecompteTotal(ChoixDecompteTotal choixDecompteTotal) {
+        ContentValues values = new ContentValues();
+        values.put(DecheterieDatabase.TableDchChoixDecompteTotal.ID, choixDecompteTotal.getId());
+        values.put(DecheterieDatabase.TableDchChoixDecompteTotal.NOM, choixDecompteTotal.getNom());
+
+        db.update(DecheterieDatabase.TableDchChoixDecompteTotal.TABLE_NAME, values,DecheterieDatabase.TableDchChoixDecompteTotal.ID + "=" + choixDecompteTotal.getId(),null);
+    }
+
     public ChoixDecompteTotal getChoixDecompteTotalFromID(int id) {
         String query = "SELECT * FROM " + DecheterieDatabase.TableDchChoixDecompteTotal.TABLE_NAME + " WHERE " + DecheterieDatabase.TableDchChoixDecompteTotal.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -37,8 +45,12 @@ public class DchChoixDecompteTotalDB extends MyDb {
         if(c.moveToFirst()) {
             choixDecompteTotal.setId(c.getInt(DecheterieDatabase.TableDchChoixDecompteTotal.NUM_ID));
             choixDecompteTotal.setNom(c.getString(DecheterieDatabase.TableDchChoixDecompteTotal.NUM_NOM));
+            return choixDecompteTotal;
         }
-        return choixDecompteTotal;
+        else{
+            return null;
+        }
+
     }
 
     /*

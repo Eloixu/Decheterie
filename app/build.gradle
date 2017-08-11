@@ -16,14 +16,14 @@ repositories {
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '25.0.0'
 
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
 
     defaultConfig {
         applicationId "fr.trackoe.decheterie"
-        minSdkVersion 18
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"

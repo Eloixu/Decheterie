@@ -37,6 +37,22 @@ public class DchPrepaiementDB extends MyDb {
         return db.insertOrThrow(DecheterieDatabase.TableDchPrepaiement.TABLE_NAME, null, values);
     }
 
+    public void updatePrepaiement(Prepaiement prepaiement) {
+        ContentValues values = new ContentValues();
+
+        values.put(DecheterieDatabase.TableDchPrepaiement.ID, prepaiement.getId());
+        values.put(DecheterieDatabase.TableDchPrepaiement.DATE, prepaiement.getDate());
+        values.put(DecheterieDatabase.TableDchPrepaiement.QTY_POINT_PREPAYE, prepaiement.getQtyPointPrepaye());
+        values.put(DecheterieDatabase.TableDchPrepaiement.COUTS_HT, prepaiement.getCoutsHT());
+        values.put(DecheterieDatabase.TableDchPrepaiement.COUTS_TVA, prepaiement.getCoutsTVA());
+        values.put(DecheterieDatabase.TableDchPrepaiement.COUTS_TTC, prepaiement.getCoutsTTC());
+        values.put(DecheterieDatabase.TableDchPrepaiement.ID_MODE_PAIEMENT, prepaiement.getIdModePaiement());
+        values.put(DecheterieDatabase.TableDchPrepaiement.ID_COMPTE_PREPAYE, prepaiement.getIdComptePrepaye());
+
+
+        db.update(DecheterieDatabase.TableDchPrepaiement.TABLE_NAME, values,DecheterieDatabase.TableDchPrepaiement.ID + "=" + prepaiement.getId(),null);
+    }
+
     /*
     Vider la table
      */
@@ -56,23 +72,24 @@ public class DchPrepaiementDB extends MyDb {
 
 
     private Prepaiement cursorToPrepaiemnt(Cursor c){
-        if(c.getCount() == 0) {
+        if(c.moveToFirst()) {
+            Prepaiement p = new Prepaiement();
+            p.setId(c.getInt(DecheterieDatabase.TableDchPrepaiement.NUM_ID));
+            p.setDate(c.getString(DecheterieDatabase.TableDchPrepaiement.NUM_DATE));
+            p.setQtyPointPrepaye(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_QTY_POINT_PREPAYE));
+            p.setCoutsHT(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_COUTS_HT));
+            p.setCoutsTVA(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_COUTS_TVA));
+            p.setCoutsTTC(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_COUTS_TTC));
+            p.setIdModePaiement(c.getInt(DecheterieDatabase.TableDchPrepaiement.NUM_ID_MODE_PAIEMENT));
+            p.setIdComptePrepaye(c.getInt(DecheterieDatabase.TableDchPrepaiement.NUM_ID_COMPTE_PREPAYE));
+
+            c.close();
+
+            return p;
+        }
+        else{
             return null;
         }
-        c.moveToFirst();
-        Prepaiement p = new Prepaiement();
-        p.setId(c.getInt(DecheterieDatabase.TableDchPrepaiement.NUM_ID));
-        p.setDate(c.getString(DecheterieDatabase.TableDchPrepaiement.NUM_DATE));
-        p.setQtyPointPrepaye(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_QTY_POINT_PREPAYE));
-        p.setCoutsHT(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_COUTS_HT));
-        p.setCoutsTVA(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_COUTS_TVA));
-        p.setCoutsTTC(c.getFloat(DecheterieDatabase.TableDchPrepaiement.NUM_COUTS_TTC));
-        p.setIdModePaiement(c.getInt(DecheterieDatabase.TableDchPrepaiement.NUM_ID_MODE_PAIEMENT));
-        p.setIdComptePrepaye(c.getInt(DecheterieDatabase.TableDchPrepaiement.NUM_ID_COMPTE_PREPAYE));
-
-        c.close();
-
-        return p;
     }
 
     private ArrayList<Prepaiement> cursorToListePrepaiemnt(Cursor c) {
