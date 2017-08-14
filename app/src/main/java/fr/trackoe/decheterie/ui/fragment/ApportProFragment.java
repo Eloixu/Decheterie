@@ -215,8 +215,8 @@ public class ApportProFragment extends Fragment {
         apportProFragmentTopUpLine2ValueTextView        .setText(   adresseInND                                                         );
         apportProFragmentTopUpLine3ValueTextView        .setText(   numeroCarteInND                                                     );
         apportProFragmentBottomLeftUpLine1ValueTextView .setText(   apportRestantInND + " " + uniteApportRestantInND                    );
-        apportProFragmentBottomLeftUpLine2ValueTextView .setText(   (new BigDecimal(totalDecompte)).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString() + uniteApportRestantInND                        );
-        apportProFragmentBottomLeftUpLine3ValueTextView .setText(   (new BigDecimal(apportRestantInND - totalDecompte)).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString() + uniteApportRestantInND    );
+        apportProFragmentBottomLeftUpLine2ValueTextView .setText(   (new BigDecimal(totalDecompte)).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString() + " " + uniteApportRestantInND                        );
+        apportProFragmentBottomLeftUpLine3ValueTextView .setText(   (new BigDecimal(apportRestantInND - totalDecompte)).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString() + " " + uniteApportRestantInND    );
         apportProFragmentSignatureInformationTextView   .setText(   getResources().getText(R.string.depot_fragment_signature_information_text_1) + decheterieDB.getDecheterieByIdentifiant(depot.getDecheterieId()).getNom() + getResources().getText(R.string.depot_fragment_signature_information_text_2) + getCurrentDate() + getResources().getText(R.string.depot_fragment_signature_information_text_3) );
 
         decheterieDB.close();

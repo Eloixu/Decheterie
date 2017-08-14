@@ -332,8 +332,13 @@ public class SettingsFragment extends Fragment {
             runnable = new Runnable(){
                 @Override
                 public void run() {
-                    parentActivity.MAJData();
-                    handler.postDelayed(this, inter);
+                    try {
+                        parentActivity.MAJData();
+                        handler.postDelayed(this, inter);
+                    }
+                    catch(Exception e){
+
+                    }
                 }
             };
             handler.postDelayed(runnable, inter);
